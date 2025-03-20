@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "edu.mike.frontend.taskapp"
+    namespace = "oportunia.maps.frontend.taskapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "edu.mike.frontend.taskapp"
+        applicationId = "oportunia.maps.frontend.taskapp"
         minSdk = 32
         targetSdk = 35
         versionCode = 1
@@ -51,6 +51,12 @@ android {
 }
 
 dependencies {
+
+    //Maps
+    implementation(libs.maps.compose)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
