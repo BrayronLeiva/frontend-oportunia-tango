@@ -1,7 +1,16 @@
 package oportunia.maps.frontend.taskapp.data.datasource.model
 
+/**
+ * This class represents the Dto of a Question.
+ * @property id The unique identifier of the question.
+ * @property question The interrogative of the question.
+ * @property answer The answer of the question.
+ * @property company The company of the question.
+ */
+
 data class QuestionDto(
     var id: Long,
     var question: String,
-    var answer: String
+    var answer: String,
+    var company: CompanyDto
 )
