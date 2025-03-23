@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskListScreen
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
@@ -32,6 +33,10 @@ fun NavGraph(
     paddingValues: PaddingValues
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.TaskList.ROUTE) {
+        composable(NavRoutes.TaskList.ROUTE) {
+            MainRegister(navController)
+        }
+
         // TaskList screen - Entry point of the application
         // Displays all available tasks in a scrollable list with options to select individual tasks
         composable(NavRoutes.TaskList.ROUTE) {

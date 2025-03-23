@@ -6,6 +6,10 @@ package oportunia.maps.frontend.taskapp.presentation.navigation
  * Using a sealed class with objects ensures type safety and prevents errors from misspelled route strings.
  */
 sealed class NavRoutes {
+    data object MainRegister : NavRoutes(){
+        const val ROUTE = "mainRegister"
+    }
+
     data object TaskList : NavRoutes() {
         const val ROUTE = "taskList"
     }
@@ -16,4 +20,5 @@ sealed class NavRoutes {
 
         fun createRoute(taskId: Long) = "taskDetail/$taskId"
     }
+
 }
