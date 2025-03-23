@@ -1,7 +1,5 @@
 package oportunia.maps.frontend.taskapp.data.datasource.model
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.TypeUser
-
 /**
  * This class represents the Dto of a RatingCompanyStudentDto.
  * @property id The unique identifier of the rating.
@@ -14,10 +12,10 @@ import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.TypeUse
 
 
 data class RatingCompanyStudentDto(
-    var id: Long,
-    var rating: Double,
-    var type: TypeUser,
-    var comment: String,
-    var student: StudentDto,
-    var company: CompanyDto
+    val id: Long,
+    val rating: Double,
+    val type: String,
+    val comment: String,
+    val student: StudentDto,
+    val company: CompanyDto
 )

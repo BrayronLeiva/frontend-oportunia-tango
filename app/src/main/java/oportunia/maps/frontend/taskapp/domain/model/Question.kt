@@ -9,8 +9,8 @@ package oportunia.maps.frontend.taskapp.domain.model
  */
 
 data class Question(
-    var id: Long,
-    var question: String,
-    var answer: String,
-    var company: Company
+    val id: Long,
+    val question: String,
+    val answer: String,
+    val company: Company
 )

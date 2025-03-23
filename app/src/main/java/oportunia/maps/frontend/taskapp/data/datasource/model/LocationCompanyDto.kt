@@ -11,6 +11,8 @@ package oportunia.maps.frontend.taskapp.data.datasource.model
 data class LocationCompanyDto(
     val id: Long,
     val email: String,
+    val latitude: Double,
+    val longitude: Double,
     val contact: Int,
     val company: CompanyDto
 

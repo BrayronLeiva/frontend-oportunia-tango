@@ -8,7 +8,7 @@ package oportunia.maps.frontend.taskapp.domain.model
  */
 
 data class Internship(
-    var id: Long,
-    var details: String,
+    val id: Long,
+    val details: String,
     val location: LocationCompany
 )

@@ -14,10 +14,10 @@ import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.TypeUse
 
 
 data class RatingCompanyStudent(
-    var id: Long,
-    var rating: Double,
-    var type: TypeUser,
-    var comment: String,
-    var student: Student,
-    var company: Company
+    val id: Long,
+    val rating: Double,
+    val type: TypeUser,
+    val comment: String,
+    val student: Student,
+    val company: Company
 )

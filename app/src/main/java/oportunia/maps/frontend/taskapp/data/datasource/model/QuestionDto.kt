@@ -9,8 +9,8 @@ package oportunia.maps.frontend.taskapp.data.datasource.model
  */
 
 data class QuestionDto(
-    var id: Long,
-    var question: String,
-    var answer: String,
-    var company: CompanyDto
+    val id: Long,
+    val question: String,
+    val answer: String,
+    val company: CompanyDto
 )

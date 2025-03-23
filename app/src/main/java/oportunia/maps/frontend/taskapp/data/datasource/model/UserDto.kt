@@ -8,7 +8,7 @@ package oportunia.maps.frontend.taskapp.data.datasource.model
  */
 
 data class UserDto(
-    var id: Long,
-    var email: String,
-    var password: String
+    val id: Long,
+    val email: String,
+    val password: String
 )

@@ -9,8 +9,8 @@ package oportunia.maps.frontend.taskapp.domain.model
  */
 
 data class Qualification(
-    var id: Long,
-    var name: String,
-    var area: String,
-    var student: Student
+    val id: Long,
+    val name: String,
+    val area: String,
+    val student: Student
 )
