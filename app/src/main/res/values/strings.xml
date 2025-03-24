@@ -6,4 +6,11 @@
     <string name="no_task_available">No task available - Click to refresh</string>
     <string name="error_message">Error: %1$s</string>
     <string name="no_tasks_available">No tasks available</string>
+    <string name="title_welcome">Welcome to Oportunia</string>
+    <string name="main_register_subtitle">Create an account</string>
+    <string name="main_register_subtitle_sub">Fill the following filds</string>
+    <string name="email_field">Email</string>
+    <string name="password_field">Password</string>
+    <string name="confirm_password_field">Confirm Password</string>
+    <string name="main_register">Register</string>
 </resources>

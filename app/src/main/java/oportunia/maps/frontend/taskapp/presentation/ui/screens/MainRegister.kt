@@ -3,20 +3,10 @@ package oportunia.maps.frontend.taskapp.presentation.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,14 +17,22 @@ import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterTextField
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
+import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
+import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
+import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 
 
 @Composable
-fun MainRegister(navController: NavController) {
+fun MainRegister(
+    navController: NavController,
+    taskViewModel: TaskViewModel,
+    paddingValues: PaddingValues
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
@@ -42,22 +40,18 @@ fun MainRegister(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(paddingValues),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // 🔹 Sección de títulos (arriba)
-        Spacer(modifier = Modifier.height(40.dp)) // Agrega espacio desde arriba
-        Text("Oportunia", style = MaterialTheme.typography.h4, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(40.dp))
-        Text("Crea una cuenta", style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold))
-        Text("Ingrese los datos solicitados", style = MaterialTheme.typography.subtitle1)
-        Spacer(modifier = Modifier.height(16.dp)) // Espacio antes de los TextFields
 
-        // 🔹 Sección de campos de texto (centrado)
+        TitleSection(stringResource(id = R.string.title_welcome))
+
+        SubtitleSection(stringResource(id = R.string.main_register_subtitle), stringResource( id = R.string.main_register_subtitle_sub))
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(1f), // Ocupa el espacio restante para centrar los campos
+                .weight(1f),
             contentAlignment = Alignment.Center
         ) {
             Column(
@@ -65,21 +59,15 @@ fun MainRegister(navController: NavController) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                RegisterTextField(value = email, onValueChange = { email = it }, label = "Email")
-                RegisterTextField(value = password, onValueChange = { password = it }, label = "Password")
-                RegisterTextField(value = confirmPassword, onValueChange = { confirmPassword = it }, label = "Confirm Password", singleLine = false)
+                RegisterTextField(value = email, onValueChange = { email = it }, label = stringResource(id = R.string.email_field))
+                RegisterTextField(value = password, onValueChange = { password = it }, label = stringResource(id = R.string.password_field))
+                RegisterTextField(value = confirmPassword, onValueChange = { confirmPassword = it }, stringResource(id = R.string.confirm_password_field))
+
+                NextButtom(stringResource(id = R.string.main_register))
             }
+
         }
 
-        // 🔹 Botón en la parte inferior
-        Button(
-            onClick = { navController.navigate("siguiente_pantalla") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
-        ) {
-            Text("Registrar")
-        }
     }
 }
 
@@ -91,5 +79,5 @@ fun PreviewRegistroScreen() {
     // Simula el NavController para la vista previa
     val navController = rememberNavController()
 
-    MainRegister(navController = navController)
+    //MainRegister(navController = navController)
 }

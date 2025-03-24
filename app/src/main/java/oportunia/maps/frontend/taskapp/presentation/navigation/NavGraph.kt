@@ -32,9 +32,9 @@ fun NavGraph(
     taskViewModel: TaskViewModel,
     paddingValues: PaddingValues
 ) {
-    NavHost(navController = navController, startDestination = NavRoutes.TaskList.ROUTE) {
-        composable(NavRoutes.TaskList.ROUTE) {
-            MainRegister(navController)
+    NavHost(navController = navController, startDestination = NavRoutes.MainRegister.ROUTE) {
+        composable(NavRoutes.MainRegister.ROUTE) {
+            MainRegister(navController, taskViewModel, paddingValues)
         }
 
         // TaskList screen - Entry point of the application
