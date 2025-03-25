@@ -7,8 +7,16 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.CompanyMapScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.HomeScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.LocationCompanyDetailScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentMapScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskListScreen
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 
 /**
@@ -52,6 +60,61 @@ fun NavGraph(
                 taskId = taskId,
                 taskViewModel = taskViewModel,
                 navController = navController,
+                paddingValues = paddingValues
+            )
+        }
+    }
+}
+
+@Composable
+fun NavGraph(
+    navController: NavHostController,
+    locationCompanyViewModel: LocationCompanyViewModel,
+    internshipLocationViewModel: InternshipLocationViewModel,
+    paddingValues: PaddingValues
+) {
+    NavHost(navController = navController, startDestination = NavRoutes.Home.ROUTE) {
+        composable(NavRoutes.Home.ROUTE) {
+            HomeScreen(navController, paddingValues)
+        }
+        composable(NavRoutes.StudentMap.ROUTE) {
+            StudentMapScreen(navController, paddingValues)
+        }
+        composable(NavRoutes.CompanyMap.ROUTE) {
+            CompanyMapScreen(navController, paddingValues)
+        }
+
+        composable(
+            route = NavRoutes.LocationCompanyDetail.ROUTE,
+            arguments = listOf(navArgument(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val locationCompanyId =
+                backStackEntry.arguments?.getLong(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID)
+                    ?: 0L
+            LocationCompanyDetailScreen(
+                locationCompanyId = locationCompanyId,
+                locationCompanyViewModel = locationCompanyViewModel,
+                navController = navController,
+                paddingValues = paddingValues
+            )
+        }
+
+        composable(
+            route = NavRoutes.InternshipList.ROUTE,
+            arguments = listOf(navArgument(NavRoutes.InternshipList.ARG_LOCATION_COMPANY_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val locationCompanyId =
+                backStackEntry.arguments?.getLong(NavRoutes.InternshipList.ARG_LOCATION_COMPANY_ID)
+                    ?: 0L
+            InternshipListScreen(
+                locationCompanyId = locationCompanyId,
+                navController = navController,
+                locationCompanyViewModel = locationCompanyViewModel,
+                internshipLocationViewModel = internshipLocationViewModel,
                 paddingValues = paddingValues
             )
         }

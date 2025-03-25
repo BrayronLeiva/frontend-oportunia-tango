@@ -17,5 +17,4 @@ data class LocationCompany(
     val location: LatLng,
     val contact: Int,
     val company: Company
-
 )
