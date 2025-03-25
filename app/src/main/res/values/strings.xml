@@ -13,4 +13,12 @@
     <string name="password_field">Password</string>
     <string name="confirm_password_field">Confirm Password</string>
     <string name="main_register">Register</string>
+
+    <string name="preparing_text">¡Preparing everything!</string>
+    <string name="name_field">Introduce your name</string>
+    <string name="id_field">Introduce your id card</string>
+    <string name="personal_info_field">Tell about yourself</string>
+    <string name="experience_field">Describe your experience</string>
+    <string name="interests_field">What are your interests</string>
+    <string name="next_button">Next</string>
 </resources>

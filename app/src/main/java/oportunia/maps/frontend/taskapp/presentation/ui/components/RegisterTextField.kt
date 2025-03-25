@@ -10,12 +10,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -23,13 +21,14 @@ fun RegisterTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    singleLine: Boolean = true
+    singleLine: Boolean = true,
+    height: Dp = 56.dp
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = label,
             style = MaterialTheme.typography.body2,
-            color = Color.Gray,
+            color = Color.Black,
             modifier = Modifier.padding(start = 4.dp, bottom = 6.dp) // Espacio entre label y TextField
         )
         OutlinedTextField(
@@ -38,7 +37,7 @@ fun RegisterTextField(
             placeholder = { Text(label, color = Color.LightGray) }, // Placeholder más sutil
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp), // Altura más grande para mejor diseño
+                .height(height), // Altura más grande para mejor diseño
             singleLine = singleLine,
             shape = RoundedCornerShape(12.dp) // Bordes redondeados
         )

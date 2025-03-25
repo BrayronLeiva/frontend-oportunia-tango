@@ -10,6 +10,10 @@ sealed class NavRoutes {
         const val ROUTE = "mainRegister"
     }
 
+    data object RegisterStudentFirst : NavRoutes(){
+        const val ROUTE = "registerStudentFirst"
+    }
+
     data object TaskList : NavRoutes() {
         const val ROUTE = "taskList"
     }

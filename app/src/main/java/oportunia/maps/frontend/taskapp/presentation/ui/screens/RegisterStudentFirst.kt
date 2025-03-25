@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -24,20 +26,23 @@ import androidx.navigation.compose.rememberNavController
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
+import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterLineTextField
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 
 
 @Composable
-fun MainRegister(
+fun RegisterStudentFirst(
     navController: NavController,
     taskViewModel: TaskViewModel,
     paddingValues: PaddingValues
 ) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
+    var idCard by remember { mutableStateOf("") }
+    var personalInfo by remember { mutableStateOf("") }
+    var experience by remember { mutableStateOf("") }
+    var interests by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -46,9 +51,8 @@ fun MainRegister(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        TitleSection(stringResource(id = R.string.title_welcome))
-
-        SubtitleSection(stringResource(id = R.string.main_register_subtitle), stringResource( id = R.string.main_register_subtitle_sub))
+        Spacer(modifier = Modifier.height(32.dp))
+        SubtitleSection(stringResource(id = R.string.preparing_text))
 
         Box(
             modifier = Modifier
@@ -61,26 +65,19 @@ fun MainRegister(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                RegisterTextField(value = email, onValueChange = { email = it }, label = stringResource(id = R.string.email_field))
-                RegisterTextField(value = password, onValueChange = { password = it }, label = stringResource(id = R.string.password_field))
-                RegisterTextField(value = confirmPassword, onValueChange = { confirmPassword = it }, stringResource(id = R.string.confirm_password_field))
+                RegisterLineTextField(value = name, onValueChange = { name = it }, label = stringResource(id = R.string.name_field), true, 56.dp)
+                RegisterLineTextField(value = idCard, onValueChange = { idCard = it }, label = stringResource(id = R.string.id_field), true, 56.dp)
+                RegisterTextField(value = personalInfo, onValueChange = { personalInfo = it }, stringResource(id = R.string.personal_info_field), false, 94.dp)
+                RegisterTextField(value = experience, onValueChange = { experience = it }, label = stringResource(id = R.string.experience_field), false, 94.dp)
 
-                NextButtom(stringResource(id = R.string.next_button), onClick = {navController.navigate(
-                    NavRoutes.RegisterStudentFirst.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
+
+
             }
 
+
+
         }
+        NextButtom(stringResource(id = R.string.next_button), onClick = {navController.navigate(NavRoutes.MainRegister.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
 
     }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewRegistroScreen() {
-    // Simula el NavController para la vista previa
-    val navController = rememberNavController()
-
-    //MainRegister(navController = navController)
 }
