@@ -1,7 +1,9 @@
-package oportunia.maps.frontend.taskapp.data.datasource.model
+package oportunia.maps.frontend.taskapp.domain.model
+
+import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.InternshipType
 
 /**
- * This class represents the Dto of a Company.
+ * This class represents a Company.
  * @property id The unique identifier of the company.
  * @property name The label of the company.
  * @property description The description of the company
@@ -15,7 +17,7 @@ package oportunia.maps.frontend.taskapp.data.datasource.model
  * @property user The user related to the company
  */
 
-data class CompanyDto(
+data class Company(
     val id: Long,
     val name: String,
     val description: String,
@@ -25,6 +27,6 @@ data class CompanyDto(
     val corporateCultur: String,
     val contact: Int,
     val rating: Double,
-    val internshipType: String,
-    val user: UserDto
+    val internshipType: InternshipType,
+    val user: User
 )
