@@ -29,11 +29,18 @@ sealed class NavRoutes {
         fun createRoute(locationCompanyId: Long) = "locationCompanyDetail/$locationCompanyId"
     }
 
-    data object InternshipList : NavRoutes() {
-        const val ROUTE = "internships/{locationCompanyId}"
+    data object InternshipListStudent : NavRoutes() {
+        const val ROUTE = "internshipStudent/{locationCompanyId}"
         const val ARG_LOCATION_COMPANY_ID = "locationCompanyId" // Changed to uppercase with underscores
 
-        fun createRoute(locationCompanyId: Long) = "internships/$locationCompanyId"
+        fun createRoute(locationCompanyId: Long) = "internshipStudent/$locationCompanyId"
+    }
+
+    data object InternshipListCompany : NavRoutes() {
+        const val ROUTE = "internshipCompany/{locationCompanyId}"
+        const val ARG_LOCATION_COMPANY_ID = "locationCompanyId" // Changed to uppercase with underscores
+
+        fun createRoute(locationCompanyId: Long) = "internshipCompany/$locationCompanyId"
     }
 
     data object TaskDetail : NavRoutes() {

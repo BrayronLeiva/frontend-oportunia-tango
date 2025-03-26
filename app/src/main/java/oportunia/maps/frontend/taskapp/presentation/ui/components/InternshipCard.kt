@@ -15,6 +15,11 @@ fun InternshipCard(internship: Internship) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = internship.details, style = MaterialTheme.typography.labelMedium)
+            CustomButton(
+                text = "Request",
+                onClick = { /* Handle apply button click */ },
+                modifier = Modifier.padding(top = 8.dp)
+            )
         }
     }
 }

@@ -59,7 +59,7 @@ fun LocationCompanyDetailScreen(
             Spacer(modifier = Modifier.width(8.dp))
             CustomButton(
                 text = "Internships",
-                onClick = { navController.navigate(NavRoutes.InternshipList.createRoute(locationCompanyId)) },
+                onClick = { navController.navigate(NavRoutes.InternshipListStudent.createRoute(locationCompanyId)) },
                 modifier = Modifier.weight(0.5f)
             )
         }

@@ -18,7 +18,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipState
 
 @Composable
-fun InternshipListScreen(
+fun InternshipListStudentScreen(
     locationCompanyId: Long,
     navController: NavController,
     locationCompanyViewModel: LocationCompanyViewModel,
@@ -34,8 +34,8 @@ fun InternshipListScreen(
     val locationCompany by locationCompanyViewModel.selectedLocation.collectAsState()
     val internshipState by internshipLocationViewModel.internships.collectAsState()
 
-    Log.d("InternshipListScreen", "Location company: $locationCompany")
-    Log.d("InternshipListScreen", "Internships state: $internshipState")
+    Log.d("InternshipListStudentScreen", "Location company: $locationCompany")
+    Log.d("InternshipListStudentScreen", "Internships state: $internshipState")
 
     Box(
         modifier = Modifier
@@ -46,7 +46,6 @@ fun InternshipListScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                LocationCompanyCard(locationCompany = it)
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -117,11 +116,6 @@ fun InternshipListScreen(
                 modifier = Modifier.weight(0.5f)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            CustomButton(
-                text = "Back to Locations",
-                onClick = { navController.popBackStack() },
-                modifier = Modifier.weight(0.5f)
-            )
         }
     }
 }
