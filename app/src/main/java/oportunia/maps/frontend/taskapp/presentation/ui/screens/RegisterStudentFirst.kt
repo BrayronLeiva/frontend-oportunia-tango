@@ -77,7 +77,7 @@ fun RegisterStudentFirst(
 
 
         }
-        NextButtom(stringResource(id = R.string.next_button), onClick = {navController.navigate(NavRoutes.MainRegister.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
+        NextButtom(stringResource(id = R.string.next_button), onClick = {navController.navigate(NavRoutes.RegisterStudentSecond.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
 
     }
 }

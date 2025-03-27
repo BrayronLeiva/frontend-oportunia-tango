@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskListScreen
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
@@ -40,6 +41,10 @@ fun NavGraph(
 
         composable(NavRoutes.RegisterStudentFirst.ROUTE) {
             RegisterStudentFirst(navController, taskViewModel, paddingValues)
+        }
+
+        composable(NavRoutes.RegisterStudentSecond.ROUTE) {
+            RegisterStudentSecond(navController, taskViewModel, paddingValues)
         }
 
         // TaskList screen - Entry point of the application
