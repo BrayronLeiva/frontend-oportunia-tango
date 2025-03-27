@@ -3,8 +3,6 @@ package oportunia.maps.frontend.taskapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -55,8 +53,8 @@ class MapActivity : ComponentActivity() {
         val internshipLocationViewModelFactory = InternshipLocationViewModelFactory(locationCompanyRepository, internshipLocationRepository)
 
         // Manually initialize ViewModels with the factory
-        locationCompanyViewModel = ViewModelProvider(this, locationCompanyViewModelFactory).get(LocationCompanyViewModel::class.java)
-        internshipLocationViewModel = ViewModelProvider(this, internshipLocationViewModelFactory).get(InternshipLocationViewModel::class.java)
+        locationCompanyViewModel = ViewModelProvider(this, locationCompanyViewModelFactory)[LocationCompanyViewModel::class.java]
+        internshipLocationViewModel = ViewModelProvider(this, internshipLocationViewModelFactory)[InternshipLocationViewModel::class.java]
 
         setContent {
             TaskAppTheme {
@@ -69,7 +67,6 @@ class MapActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     locationCompanyViewModel: LocationCompanyViewModel,
