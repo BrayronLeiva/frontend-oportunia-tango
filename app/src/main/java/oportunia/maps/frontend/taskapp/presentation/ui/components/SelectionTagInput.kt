@@ -27,9 +27,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import oportunia.maps.frontend.taskapp.R
 
 @Composable
 fun SelectionTagInput(habilidades: List<String>) {
@@ -40,10 +42,10 @@ fun SelectionTagInput(habilidades: List<String>) {
     Column(modifier = Modifier.padding(16.dp)) {
 
         Text(
-            text = "Choose your Skills",
+            text = stringResource(id = R.string.chosee_skills_field),
             style = MaterialTheme.typography.body2,
             color = Color.Black,
-            modifier = Modifier.padding(start = 4.dp, bottom = 6.dp) // Espacio entre label y TextField
+            modifier = Modifier.padding(start = 4.dp, bottom = 6.dp)
         )
 
         Row(modifier = Modifier.padding(16.dp)) {
@@ -72,7 +74,7 @@ fun SelectionTagInput(habilidades: List<String>) {
                 habilidadesSeleccionadas = habilidadesSeleccionadas,
                 onHabilidadAgregada = { habilidad ->
                     habilidadesSeleccionadas = habilidadesSeleccionadas + habilidad
-                    selectedHabilidad = "" // Limpiar la selección
+                    selectedHabilidad = ""
                 }
             )
 
@@ -193,7 +195,7 @@ fun TagBox(
                         }
                     }
                 }
-                rowItems = mutableListOf() // Reiniciar la fila
+                rowItems = mutableListOf()
             }
         }
     }

@@ -13,6 +13,20 @@ import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
 
 
 
+sealed class QualificationState {
+    /** Indicates an ongoing qualification operation */
+    data object Loading : QualificationState()
+
+    /** Contains the successfully retrieved qualification */
+    data class Success(val task: Task) : QualificationState()
+
+    /** Indicates no qualification is available */
+    data object Empty : QualificationState()
+
+    /** Contains an error message if the qualification operation fails */
+    data class Error(val message: String) : QualificationState()
+}
+
 /**
  * ViewModel responsible for managing task-related UI state and business logic.
  *

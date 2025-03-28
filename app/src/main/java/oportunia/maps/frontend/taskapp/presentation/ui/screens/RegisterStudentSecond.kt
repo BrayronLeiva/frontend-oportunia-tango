@@ -81,14 +81,14 @@ fun RegisterStudentSecond(
             ) {
 
                 RegisterTextField(value = interests, onValueChange = { interests = it },
-                    stringResource(id = R.string.interests_field), false, 94.dp)
+                    stringResource(id = R.string.interests_field), false, 124.dp)
+
+                Spacer(modifier = Modifier.height(42.dp))
+
 
                 SelectionTagInput(habilidades)
 
             }
-
-
-
 
 
         }

@@ -21,4 +21,6 @@
     <string name="experience_field">Describe your experience</string>
     <string name="interests_field">What are your interests</string>
     <string name="next_button">Next</string>
+
+    <string name="chosee_skills_field">Choose Your Skills</string>
 </resources>
