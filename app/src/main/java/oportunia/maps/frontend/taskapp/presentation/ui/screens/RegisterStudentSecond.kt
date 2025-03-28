@@ -31,6 +31,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterTextField
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SelectionTagInput
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
+import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 
@@ -66,8 +67,7 @@ fun RegisterStudentSecond(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Spacer(modifier = Modifier.height(32.dp))
-        SubtitleSection(stringResource(id = R.string.preparing_text))
+        TitleSection(stringResource(id = R.string.preparing_text))
 
         Box(
             modifier = Modifier

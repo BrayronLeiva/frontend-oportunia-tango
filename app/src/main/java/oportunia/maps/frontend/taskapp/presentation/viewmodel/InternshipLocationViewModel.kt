@@ -10,6 +10,8 @@ import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyReposito
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
+import oportunia.maps.frontend.taskapp.domain.model.Task
 
 /**
  * Sealed class representing the various states of an internship operation.
@@ -44,6 +46,9 @@ class InternshipLocationViewModel(
 
     private val _internships = MutableStateFlow<InternshipState>(InternshipState.Empty)
     val internships: StateFlow<InternshipState> = _internships
+
+    private val _internshipsLocationList = MutableStateFlow<List<InternshipLocation>>(emptyList())
+    val internshipsLocationList: StateFlow<List<InternshipLocation>> = _internshipsLocationList
 
     /**
      * Finds a location by its ID and updates the [location] state.
@@ -82,6 +87,19 @@ class InternshipLocationViewModel(
                 .onFailure { exception ->
                     _internships.value = InternshipState.Error("Failed to fetch internships: ${exception.message}")
                     Log.e("InternshipLocationViewModel", "Error fetching internships: ${exception.message}")
+                }
+        }
+    }
+
+    fun findAllInternShipsLocations() {
+        viewModelScope.launch {
+            internshipLocationRepository.findAllInternshipLocations()
+                .onSuccess { interLocations ->
+                    Log.d("TaskViewModel", "Total Interships: ${interLocations.size}")
+                    _internshipsLocationList.value = interLocations
+                }
+                .onFailure { exception ->
+                    Log.e("TaskViewModel", "Failed to fetch tasks: ${exception.message}")
                 }
         }
     }

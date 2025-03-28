@@ -12,9 +12,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
+import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 
 @Composable
 fun HomeScreen(navController: NavHostController, paddingValues: PaddingValues) {
@@ -25,12 +28,10 @@ fun HomeScreen(navController: NavHostController, paddingValues: PaddingValues) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = { navController.navigate(NavRoutes.StudentMap.ROUTE) }) {
-            Text("Go to Student Map")
-        }
+
+        CustomButton(stringResource(id = R.string.go_student_screen_label),onClick = { navController.navigate(NavRoutes.StudentMap.ROUTE)})
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navController.navigate(NavRoutes.CompanyMap.ROUTE) }) {
-            Text("Go to Company Map")
-        }
+        CustomButton(stringResource(id = R.string.go_company_screen_label), onClick = { navController.navigate(NavRoutes.CompanyMap.ROUTE)})
+
     }
 }

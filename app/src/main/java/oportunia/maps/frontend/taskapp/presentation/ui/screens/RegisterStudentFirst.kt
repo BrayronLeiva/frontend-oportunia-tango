@@ -51,8 +51,7 @@ fun RegisterStudentFirst(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Spacer(modifier = Modifier.height(32.dp))
-        SubtitleSection(stringResource(id = R.string.preparing_text))
+        TitleSection(stringResource(id = R.string.preparing_text))
 
         Box(
             modifier = Modifier

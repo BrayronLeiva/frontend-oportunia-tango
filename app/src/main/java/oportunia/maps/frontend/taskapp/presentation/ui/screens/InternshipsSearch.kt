@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +30,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,25 +39,41 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
+import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipItem
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 
 
 @Composable
-fun InternshipSearch() {
+fun InternshipSearch(
+    internshipLocationViewModel: InternshipLocationViewModel,
+    paddingValues: PaddingValues
+) {
     var searchQuery by remember { mutableStateOf("") }
-    //var selectedRating by remember { mutableStateOf(0) }
-    val ratings = listOf(1, 2, 3, 4, 5)
+    val ratings = listOf(1.0f, 2.0f, 3.0f, 4.0f, 5.0f)
 
+    // Obtener las pasantías con las empresas y sus calificaciones
+    val internships = internshipLocationViewModel.internshipsLocationList.collectAsState().value
+
+    LaunchedEffect(Unit) {
+        internshipLocationViewModel.findAllInternShipsLocations()
+    }
 
     var expanded by remember { mutableStateOf(false) }
-    var selectedRating by remember { mutableStateOf<Int?>(null) }
+    var selectedRating by remember { mutableStateOf<Float?>(null) }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         // Título
-        Text("Búsqueda de Pasantías", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(stringResource(id = R.string.internships_search_label), fontSize = 20.sp, fontWeight = FontWeight.Bold)
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -62,26 +81,25 @@ fun InternshipSearch() {
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            label = { Text("Buscar compañía") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Buscar") },
+            label = { stringResource(id = R.string.search_company_label) },
+            leadingIcon = { Icon(Icons.Default.Search, contentDescription = stringResource(id = R.string.search_label)) },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // Filtro por rating
-        // Filtro por rating usando OutlinedButton
-        Row (
+        Row(
             verticalAlignment = Alignment.CenterVertically, // Alinea verticalmente
             horizontalArrangement = Arrangement.spacedBy(8.dp) // Espacio entre elementos
-        ){
-            Text("Filtrar por calificación", fontWeight = FontWeight.Bold)
+        ) {
+            Text(stringResource(id = R.string.filter_rating_label), fontWeight = FontWeight.Bold)
             Box {
                 OutlinedButton(
                     onClick = { expanded = true },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.width(200.dp)
                 ) {
-                    Text(text = selectedRating?.let { "$it ★" } ?: "Seleccionar calificación")
+                    Text(text = selectedRating?.let { "$it ★" } ?: stringResource(id = R.string.choose_rating_label))
                 }
 
                 DropdownMenu(
@@ -103,18 +121,13 @@ fun InternshipSearch() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Resultados (mock data)
-        val internships = listOf(
-            Internship("Google", 5),
-            Internship("Microsoft", 4),
-            Internship("Facebook", 3),
-            Internship("Amazon", 4),
-            Internship("Netflix", 5)
-        )
-
+        // Filtrar las pasantías por nombre de compañía y calificación
         val filteredInternships = internships.filter {
-            (searchQuery.isEmpty() || it.company.contains(searchQuery, ignoreCase = true)) &&
-                    (selectedRating == null || it.rating == selectedRating) // Si `selectedRating` es null, no filtra por rating
+            val companyName = it.location?.company?.name ?: ""
+            val rating = it.location?.company?.rating ?: 0f
+
+            (searchQuery.isEmpty() || companyName.contains(searchQuery, ignoreCase = true)) &&
+                    (selectedRating == null || selectedRating == rating)
         }
 
         LazyColumn {
@@ -125,26 +138,10 @@ fun InternshipSearch() {
     }
 }
 
-@Composable
-fun InternshipItem(internship: Internship) {
-    Card (
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-    ) {
-        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.LocationOn, contentDescription = "Compañía", modifier = Modifier.size(40.dp))
-            Spacer(modifier = Modifier.width(16.dp))
-            Column {
-                Text(internship.company, fontWeight = FontWeight.Bold)
-                Text("${internship.rating} ★", color = Color.Gray)
-            }
-        }
-    }
-}
 
-data class Internship(val company: String, val rating: Int)
 
 @Composable
 @Preview
 fun InternshipSearchPreview(){
-    InternshipSearch()
+    //InternshipSearch()
 }

@@ -32,4 +32,11 @@
     <string name="map">Map</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
+    <string name="choose_rating_label">Choose Rating</string>
+    <string name="internships_search_label">Internship Search</string>
+    <string name="search_company_label">Search Company</string>
+    <string name="filter_rating_label">Filter by rating</string>
+    <string name="search_label">Search</string>
+    <string name="go_student_screen_label">Go to Student Screen</string>
+    <string name="go_company_screen_label">Go to Company Screen</string>
 </resources>

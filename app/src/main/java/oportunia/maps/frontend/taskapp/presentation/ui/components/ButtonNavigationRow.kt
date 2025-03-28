@@ -13,6 +13,7 @@ import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
+import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 
 @Composable
@@ -23,12 +24,12 @@ fun BottomNavigationRow(navController: NavHostController) {
     ) {
         BottomNavigationItem(
             selected = false, // Aquí puedes usar el estado para indicar cuál está seleccionado
-            onClick = {  }, // Navegar a la pantalla correspondiente
+            onClick = {  navController.navigate(NavRoutes.StudentMap.ROUTE) }, // Navegar a la pantalla correspondiente
             icon = { Icon(Icons.Default.Home, contentDescription = "Home") }
         )
         BottomNavigationItem(
             selected = false,
-            onClick = {  },
+            onClick = { navController.navigate(NavRoutes.InternshipsSearch.ROUTE) },
             icon = { Icon(Icons.Default.Search, contentDescription = "Search") }
         )
         BottomNavigationItem(
