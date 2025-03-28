@@ -142,7 +142,7 @@ fun RegisterText(navController: NavController) {
                     tag = "REGISTER", start = 0, end = annotatedString.length
                 ).firstOrNull()
                 if (registerAnnotation != null) {
-                    /*navController.navigate(TODO: NavRoutes.Register.ROUTE)*/
+                    navController.navigate(NavRoutes.MainRegister.ROUTE)
                 }
             },
         style = androidx.compose.ui.text.TextStyle(color = Black)

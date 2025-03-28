@@ -78,12 +78,12 @@ fun MainScreen(
         locationCompanyViewModel.findAllLocations()
     }
 
-    Scaffold { paddingValues ->
-        NavGraph(
-            navController = navController,
-            locationCompanyViewModel = locationCompanyViewModel,
-            internshipLocationViewModel = internshipLocationViewModel,
-            paddingValues = paddingValues
-        )
-    }
+    //Scaffold { paddingValues ->
+        //NavGraph(
+            //navController = navController,
+            //locationCompanyViewModel = locationCompanyViewModel,
+            //internshipLocationViewModel = internshipLocationViewModel,
+            //paddingValues = paddingValues
+        //)
+   // }
 }

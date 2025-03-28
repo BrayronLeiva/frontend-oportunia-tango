@@ -18,6 +18,7 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
+
 
 @Composable
 fun SelectionTagInput(habilidades: List<String>) {
@@ -148,6 +151,7 @@ fun AddButton(
             }
         },
         enabled = selectedHabilidad.isNotEmpty()
+
     ) {
         Text("+")
     }
@@ -179,7 +183,7 @@ fun TagBox(
                     rowItems.forEach { item ->
                         Card(
                             shape = RoundedCornerShape(8.dp),
-                            backgroundColor = Color.LightGray,
+                            backgroundColor = DarkCyan,
                             modifier = Modifier
                                 .padding(4.dp)
                                 .clickable {

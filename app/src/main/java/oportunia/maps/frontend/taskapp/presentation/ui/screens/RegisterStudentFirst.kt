@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
+import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterLineTextField
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
@@ -35,7 +36,6 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 @Composable
 fun RegisterStudentFirst(
     navController: NavController,
-    taskViewModel: TaskViewModel,
     paddingValues: PaddingValues
 ) {
     var name by remember { mutableStateOf("") }
@@ -69,15 +69,10 @@ fun RegisterStudentFirst(
                 RegisterLineTextField(value = idCard, onValueChange = { idCard = it }, label = stringResource(id = R.string.id_field), true, 56.dp)
                 RegisterTextField(value = personalInfo, onValueChange = { personalInfo = it }, stringResource(id = R.string.personal_info_field), false, 94.dp)
                 RegisterTextField(value = experience, onValueChange = { experience = it }, label = stringResource(id = R.string.experience_field), false, 94.dp)
-
-
-
             }
 
-
-
         }
-        NextButtom(stringResource(id = R.string.next_button), onClick = {navController.navigate(NavRoutes.RegisterStudentSecond.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
+        CustomButton(stringResource(id = R.string.next_button), onClick = {navController.navigate(NavRoutes.RegisterStudentSecond.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
 
     }
 }

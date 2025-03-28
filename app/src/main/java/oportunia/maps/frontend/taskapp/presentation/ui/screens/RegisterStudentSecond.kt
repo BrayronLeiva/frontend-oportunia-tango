@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
+import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterTextField
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SelectionTagInput
@@ -92,8 +93,8 @@ fun RegisterStudentSecond(
 
 
         }
-        NextButtom(stringResource(id = R.string.next_button), onClick = {navController.navigate(
-            NavRoutes.MainRegister.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
+        CustomButton(stringResource(id = R.string.next_button), onClick = {navController.navigate(
+            NavRoutes.Home.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
 
     }
 }

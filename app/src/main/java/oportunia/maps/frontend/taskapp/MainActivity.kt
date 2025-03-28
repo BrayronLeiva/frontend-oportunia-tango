@@ -19,17 +19,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import oportunia.maps.frontend.taskapp.data.datasource.QualificationDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.datasource.TaskDataSourceImpl
+import oportunia.maps.frontend.taskapp.data.datasource.internshiplocation.InternshipLocationDataSourceImpl
+import oportunia.maps.frontend.taskapp.data.datasource.locationcompany.LocationCompanyDataSourceImpl
+import oportunia.maps.frontend.taskapp.data.mapper.CompanyMapper
+import oportunia.maps.frontend.taskapp.data.mapper.InternshipLocationMapper
+import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
+import oportunia.maps.frontend.taskapp.data.mapper.LocationCompanyMapper
 import oportunia.maps.frontend.taskapp.data.mapper.PriorityMapper
 import oportunia.maps.frontend.taskapp.data.mapper.QualificationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.StatusMapper
 import oportunia.maps.frontend.taskapp.data.mapper.TaskMapper
+import oportunia.maps.frontend.taskapp.data.mapper.UserMapper
+import oportunia.maps.frontend.taskapp.data.repository.InternshipLocationRepositoryImpl
+import oportunia.maps.frontend.taskapp.data.repository.LocationCompanyRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.QualificationRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.TaskRepositoryImpl
+import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
 import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
+import oportunia.maps.frontend.taskapp.presentation.factory.InternshipLocationViewModelFactory
+import oportunia.maps.frontend.taskapp.presentation.factory.LocationCompanyViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.factory.QualificationViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.factory.TaskViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 
@@ -52,8 +66,17 @@ class MainActivity : ComponentActivity() {
         TaskViewModelFactory(taskRepository)
     }
 
-    private val qualificationViewModel: QualificationViewModel by viewModels {
+    private val locationCompanyRepository: LocationCompanyRepository by lazy {
+        val userMapper = UserMapper()
+        val companyMapper = CompanyMapper(userMapper)
+        val locationCompanyMapper = LocationCompanyMapper(companyMapper)
 
+        val locationCompanyDataSource = LocationCompanyDataSourceImpl(locationCompanyMapper)
+
+        LocationCompanyRepositoryImpl(locationCompanyDataSource, locationCompanyMapper)
+    }
+
+    private val qualificationViewModel: QualificationViewModel by viewModels {
 
         val qualificationMapper = QualificationMapper(null)
 
@@ -64,12 +87,35 @@ class MainActivity : ComponentActivity() {
         QualificationViewModelFactory(qualificationRepository)
     }
 
+    private val locationCompanyViewModel: LocationCompanyViewModel by viewModels {
+        LocationCompanyViewModelFactory(locationCompanyRepository)
+    }
+
+    private val internshipLocationViewModelFactory: InternshipLocationViewModel by viewModels {
+        val userMapper = UserMapper()
+        val internshipMapper = InternshipMapper()
+        val companyMapper = CompanyMapper(userMapper)
+        val locationCompanyMapper = LocationCompanyMapper(companyMapper)
+        val internshipLocationMapper = InternshipLocationMapper(locationCompanyMapper, internshipMapper)
+
+        val internshipLocationDataSource = InternshipLocationDataSourceImpl(internshipLocationMapper, internshipMapper)
+
+        val internshipLocationRepository = InternshipLocationRepositoryImpl(internshipLocationDataSource, internshipLocationMapper, internshipMapper)
+
+        InternshipLocationViewModelFactory(locationCompanyRepository, internshipLocationRepository)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             TaskAppTheme {
-                MainScreen(taskViewModel, qualificationViewModel)
+                MainScreen(
+                    taskViewModel,
+                    qualificationViewModel,
+                    locationCompanyViewModel,
+                    internshipLocationViewModelFactory
+                )
             }
         }
     }
@@ -83,31 +129,25 @@ class MainActivity : ComponentActivity() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(taskViewModel: TaskViewModel, qualificationViewModel: QualificationViewModel) {
+fun MainScreen(
+    taskViewModel: TaskViewModel,
+    qualificationViewModel: QualificationViewModel,
+    locationCompanyViewModel: LocationCompanyViewModel,
+    internshipLocationViewModel: InternshipLocationViewModel
+) {
     val navController = rememberNavController()
 
     LaunchedEffect(Unit) {
         taskViewModel.findAllTasks()
+        locationCompanyViewModel.findAllLocations()
     }
 
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(id = R.string.app_name),
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            )
-        }) { paddingValues ->
+    Scaffold { paddingValues ->
         NavGraph(
             navController = navController,
-            taskViewModel = taskViewModel,
             qualificationViewModel = qualificationViewModel,
+            locationCompanyViewModel = locationCompanyViewModel,
+            internshipLocationViewModel = internshipLocationViewModel,
             paddingValues = paddingValues
         )
     }

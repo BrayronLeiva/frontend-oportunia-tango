@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
+import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
@@ -32,7 +33,6 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 @Composable
 fun MainRegister(
     navController: NavController,
-    taskViewModel: TaskViewModel,
     paddingValues: PaddingValues
 ) {
     var email by remember { mutableStateOf("") }
@@ -65,7 +65,7 @@ fun MainRegister(
                 RegisterTextField(value = password, onValueChange = { password = it }, label = stringResource(id = R.string.password_field))
                 RegisterTextField(value = confirmPassword, onValueChange = { confirmPassword = it }, stringResource(id = R.string.confirm_password_field))
 
-                NextButtom(stringResource(id = R.string.next_button), onClick = {navController.navigate(
+                CustomButton(stringResource(id = R.string.next_button), onClick = {navController.navigate(
                     NavRoutes.RegisterStudentFirst.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
             }
 

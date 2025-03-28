@@ -47,11 +47,11 @@ fun NavGraph(
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.MainRegister.ROUTE) {
         composable(NavRoutes.MainRegister.ROUTE) {
-            MainRegister(navController, taskViewModel, paddingValues)
+            MainRegister(navController, paddingValues)
         }
 
         composable(NavRoutes.RegisterStudentFirst.ROUTE) {
-            RegisterStudentFirst(navController, taskViewModel, paddingValues)
+            RegisterStudentFirst(navController, paddingValues)
         }
 
         composable(NavRoutes.RegisterStudentSecond.ROUTE) {
@@ -89,9 +89,23 @@ fun NavGraph(
     navController: NavHostController,
     locationCompanyViewModel: LocationCompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
+    qualificationViewModel: QualificationViewModel,
     paddingValues: PaddingValues
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.Login.ROUTE) {
+
+        composable(NavRoutes.MainRegister.ROUTE) {
+            MainRegister(navController, paddingValues)
+        }
+
+        composable(NavRoutes.RegisterStudentFirst.ROUTE) {
+            RegisterStudentFirst(navController, paddingValues)
+        }
+
+        composable(NavRoutes.RegisterStudentSecond.ROUTE) {
+            RegisterStudentSecond(navController, qualificationViewModel, paddingValues)
+        }
+
         composable(NavRoutes.Home.ROUTE) {
             HomeScreen(navController, paddingValues)
         }
