@@ -43,7 +43,6 @@ fun RegisterTextField(
                 .fillMaxWidth()
                 .height(height), // Altura más grande para mejor diseño
             singleLine = singleLine,
-            shape = RoundedCornerShape(12.dp) // Bordes redondeados
             shape = RoundedCornerShape(12.dp), // Bordes redondeados
             keyboardOptions = keyboardOptions,
             visualTransformation = visualTransformation

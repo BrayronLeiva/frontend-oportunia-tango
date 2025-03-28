@@ -32,7 +32,7 @@ import oportunia.maps.frontend.taskapp.data.datasource.userrole.UserRoleProvider
 import oportunia.maps.frontend.taskapp.domain.model.User
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
-import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButton
+import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.lightBlue
 

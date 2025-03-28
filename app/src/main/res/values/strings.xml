@@ -21,6 +21,7 @@
     <string name="id_field">Introduce your id card</string>
     <string name="personal_info_field">Tell about yourself</string>
     <string name="experience_field">Describe your experience</string>
+    <string name="main_login_subtitle">Login with your account</string>
     <string name="interests_field">What are your interests</string>
     <string name="next_button">Next</string>
 
