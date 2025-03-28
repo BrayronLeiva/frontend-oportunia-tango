@@ -3,11 +3,12 @@ package oportunia.maps.frontend.taskapp.data.datasource.model
 /**
  * This class represents the Dto of a Internship.
  * @property id The unique identifier of the certification.
- * @property details The details of the Internship.
  * @property location The location of the Internship.
+ * @property internship The Internship at the specific location.
  */
 
-data class InternshipDto(
+data class InternshipLocationDto (
     val id: Long,
-    val details: String,
+    val location: LocationCompanyDto,
+    val internship: InternshipDto
 )

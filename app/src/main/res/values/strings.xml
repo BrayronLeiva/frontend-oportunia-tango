@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Task App</string>
     <string name="app_title">MVVM Simple Sample</string>
+    <string name="student_map">Student Map</string>
+    <string name="company_map">Company Map</string>
     <string name="task_title">Title:</string>
     <string name="task_notes">Notes:</string>
     <string name="no_task_available">No task available - Click to refresh</string>
@@ -23,4 +25,10 @@
     <string name="next_button">Next</string>
 
     <string name="chosee_skills_field">Choose Your Skills</string>
+    <string name="main_login">Login</string>
+    <string name="no_account">No account?</string>
+    <string name="register_here">Register here</string>
+    <string name="map">Map</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
 </resources>

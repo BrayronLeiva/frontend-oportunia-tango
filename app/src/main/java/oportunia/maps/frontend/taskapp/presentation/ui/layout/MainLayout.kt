@@ -39,7 +39,7 @@ fun MainLayout(
         color = MaterialTheme.colorScheme.background
     ) {
         Column {
-            // App header section with primary branding
+            // App header section
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.primary
@@ -56,7 +56,7 @@ fun MainLayout(
                 )
             }
 
-            // App subtitle section
+            // Subtitle section
             Text(
                 text = stringResource(id = R.string.app_title),
                 style = MaterialTheme.typography.titleMedium,
@@ -68,7 +68,7 @@ fun MainLayout(
                     .padding(bottom = 16.dp)
             )
 
-            // Screen-specific content
+            // Content
             content()
         }
     }

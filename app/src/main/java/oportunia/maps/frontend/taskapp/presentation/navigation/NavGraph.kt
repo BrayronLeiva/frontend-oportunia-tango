@@ -10,9 +10,18 @@ import androidx.navigation.navArgument
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.CompanyMapScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.HomeScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListCompanyScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListStudentScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.LocationCompanyDetailScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.LoginScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentMapScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskListScreen
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 
 /**
@@ -72,5 +81,84 @@ fun NavGraph(
                 paddingValues = paddingValues
             )
         }
+    }
+}
+
+@Composable
+fun NavGraph(
+    navController: NavHostController,
+    locationCompanyViewModel: LocationCompanyViewModel,
+    internshipLocationViewModel: InternshipLocationViewModel,
+    paddingValues: PaddingValues
+) {
+    NavHost(navController = navController, startDestination = NavRoutes.Login.ROUTE) {
+        composable(NavRoutes.Home.ROUTE) {
+            HomeScreen(navController, paddingValues)
+        }
+        composable(NavRoutes.StudentMap.ROUTE) {
+            StudentMapScreen(navController, paddingValues)
+        }
+        composable(NavRoutes.CompanyMap.ROUTE) {
+            CompanyMapScreen(navController, paddingValues)
+        }
+
+        composable(
+            route = NavRoutes.LocationCompanyDetail.ROUTE,
+            arguments = listOf(navArgument(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val locationCompanyId =
+                backStackEntry.arguments?.getLong(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID)
+                    ?: 0L
+            LocationCompanyDetailScreen(
+                locationCompanyId = locationCompanyId,
+                locationCompanyViewModel = locationCompanyViewModel,
+                navController = navController,
+                paddingValues = paddingValues
+            )
+        }
+
+        composable(
+            route = NavRoutes.InternshipListStudent.ROUTE,
+            arguments = listOf(navArgument(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val locationCompanyId =
+                backStackEntry.arguments?.getLong(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID)
+                    ?: 0L
+            InternshipListStudentScreen(
+                locationCompanyId = locationCompanyId,
+                navController = navController,
+                locationCompanyViewModel = locationCompanyViewModel,
+                internshipLocationViewModel = internshipLocationViewModel,
+                paddingValues = paddingValues
+            )
+        }
+
+        composable(
+            route = NavRoutes.InternshipListCompany.ROUTE,
+            arguments = listOf(navArgument(NavRoutes.InternshipListCompany.ARG_LOCATION_COMPANY_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val locationCompanyId =
+                backStackEntry.arguments?.getLong(NavRoutes.InternshipListCompany.ARG_LOCATION_COMPANY_ID)
+                    ?: 0L
+            InternshipListCompanyScreen(
+                locationCompanyId = locationCompanyId,
+                navController = navController,
+                locationCompanyViewModel = locationCompanyViewModel,
+                internshipLocationViewModel = internshipLocationViewModel,
+                paddingValues = paddingValues
+            )
+        }
+
+        composable(NavRoutes.Login.ROUTE) {
+            LoginScreen(navController, paddingValues)
+
+        }
+
     }
 }

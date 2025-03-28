@@ -6,7 +6,7 @@ import oportunia.maps.frontend.taskapp.domain.model.Internship
 /**
  * Mapper class for converting between Internship domain entities and InternshipDto data objects
  */
-class InternshipMapper(private val locationCompanyMapper: LocationCompanyMapper) {
+class InternshipMapper {
 
     /**
      * Maps an InternshipDto to a domain Internship entity
@@ -16,7 +16,6 @@ class InternshipMapper(private val locationCompanyMapper: LocationCompanyMapper)
     fun mapToDomain(dto: InternshipDto): Internship = Internship(
         id = dto.id,
         details = dto.details,
-        location = locationCompanyMapper.mapToDomain(dto.location)
     )
 
     /**
@@ -27,6 +26,5 @@ class InternshipMapper(private val locationCompanyMapper: LocationCompanyMapper)
     fun mapToDto(domain: Internship): InternshipDto = InternshipDto(
         id = domain.id,
         details = domain.details,
-        location = locationCompanyMapper.mapToDto(domain.location)
     )
 }

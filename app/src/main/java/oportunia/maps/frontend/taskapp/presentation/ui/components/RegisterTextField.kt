@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -22,8 +24,10 @@ fun RegisterTextField(
     onValueChange: (String) -> Unit,
     label: String,
     singleLine: Boolean = true,
-    height: Dp = 56.dp
-) {
+    height: Dp = 56.dp,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None
+    ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = label,
@@ -40,6 +44,9 @@ fun RegisterTextField(
                 .height(height), // Altura más grande para mejor diseño
             singleLine = singleLine,
             shape = RoundedCornerShape(12.dp) // Bordes redondeados
+            shape = RoundedCornerShape(12.dp), // Bordes redondeados
+            keyboardOptions = keyboardOptions,
+            visualTransformation = visualTransformation
         )
         Spacer(modifier = Modifier.height(16.dp)) // Espacio entre los campos
     }
