@@ -7,6 +7,10 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import oportunia.maps.frontend.taskapp.data.datasource.userrole.UserRoleProvider
+import oportunia.maps.frontend.taskapp.domain.model.Student
+import oportunia.maps.frontend.taskapp.domain.model.User
+import oportunia.maps.frontend.taskapp.presentation.screens.StudentProfileScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
@@ -73,6 +77,10 @@ fun NavGraph(
         }
         composable(NavRoutes.InternshipsSearch.ROUTE) {
             InternshipSearch(internshipLocationViewModel, paddingValues)
+        }
+
+        composable(NavRoutes.StudentProfile.ROUTE) {
+            StudentProfileScreen(navController, Student(1, "Rodney", 402640339, "I love Android Studio", "Kotlin Developer", 4.5, User(3, "rodney@est.una.ac.cr", "123")) ) //Estudiante temporal
         }
 
 

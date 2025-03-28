@@ -19,6 +19,7 @@ import com.google.maps.android.compose.*
 import oportunia.maps.frontend.taskapp.data.datasource.locationcompany.LocationCompanyProvider
 import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
+import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 
 @Composable
 fun CompanyMapScreen(navController: NavHostController, paddingValues: PaddingValues) {
@@ -69,6 +70,15 @@ fun CompanyMapScreen(navController: NavHostController, paddingValues: PaddingVal
         ) {
             Icon(imageVector = Icons.Default.Add, contentDescription = "Add Marker")
         }
+
+        CustomButton(
+            onClick = { navController.navigate(NavRoutes.Login.ROUTE) },
+            text = "Logout",
+            modifier = Modifier
+                .width(160.dp)
+                .align(Alignment.BottomCenter)
+                .padding(16.dp)
+        )
 
         // Info text when adding markers
         if (isAddingMarker) {

@@ -38,8 +38,8 @@ sealed class NavRoutes {
         const val ROUTE = "login"
     }
 
-    data object Profile : NavRoutes() {
-        const val ROUTE = "profile"
+    data object StudentProfile : NavRoutes() {
+        const val ROUTE = "studentProfile"
     }
 
     data object InternshipsSearch : NavRoutes() {

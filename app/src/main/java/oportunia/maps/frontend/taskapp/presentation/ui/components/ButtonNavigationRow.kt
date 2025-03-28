@@ -34,7 +34,7 @@ fun BottomNavigationRow(navController: NavHostController) {
         )
         BottomNavigationItem(
             selected = false,
-            onClick = {  },
+            onClick = { navController.navigate(NavRoutes.StudentProfile.ROUTE) },
             icon = { Icon(Icons.Default.Person, contentDescription = "Profile") }
         )
     }

@@ -94,28 +94,29 @@ fun InternshipListStudentScreen(
                     }
                 }
             }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentAlignment = Alignment.BottomStart
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    CustomButton(
+                        text = "Back",
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier.weight(0.5f)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+            }
+
         } ?: Text(
             text = "Location details not available.",
             style = MaterialTheme.typography.bodyMedium
         )
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.BottomStart
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start
-        ) {
-            CustomButton(
-                text = "Back",
-                onClick = { navController.popBackStack() },
-                modifier = Modifier.weight(0.5f)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-        }
     }
 }

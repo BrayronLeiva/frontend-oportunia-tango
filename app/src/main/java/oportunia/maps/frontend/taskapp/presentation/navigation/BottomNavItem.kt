@@ -43,7 +43,7 @@ sealed class BottomNavItem(
         )
 
         data object Profile : BottomNavItem(
-            NavRoutes.Profile.ROUTE,
+            NavRoutes.StudentProfile.ROUTE,
             R.string.profile,
             Icons.Filled.Person
         )
