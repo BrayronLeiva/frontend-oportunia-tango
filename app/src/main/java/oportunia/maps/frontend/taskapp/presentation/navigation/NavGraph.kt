@@ -36,7 +36,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
  *                     Controls the navigation flow and back stack behavior.
  * @param taskViewModel The ViewModel instance used to observe and manipulate task data across screens.
  * @param paddingValues Provides padding values to account for UI elements like the app bar or bottom navigation,
- *                     ensuring content doesn't get hidden behind system UI elements.
+ *                     ensuring content doesn't get hidden behind system UI the elements.
  */
 
 @Composable
