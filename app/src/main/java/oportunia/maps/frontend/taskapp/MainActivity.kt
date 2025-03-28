@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -13,6 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +48,7 @@ import oportunia.maps.frontend.taskapp.presentation.factory.LocationCompanyViewM
 import oportunia.maps.frontend.taskapp.presentation.factory.QualificationViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.factory.TaskViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
+import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationRow
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
@@ -142,7 +150,40 @@ fun MainScreen(
         locationCompanyViewModel.findAllLocations()
     }
 
-    Scaffold { paddingValues ->
+    // Mantener el estado de la ruta actual
+    var currentDestination by remember { mutableStateOf<String?>(null) }
+
+    // Monitorear cambios en la ruta de navegación
+    LaunchedEffect(navController) {
+        navController.currentBackStackEntryFlow.collect { entry ->
+            currentDestination = entry.destination.route
+        }
+    }
+
+
+    Scaffold (
+        bottomBar = {
+            if (
+                currentDestination != null &&
+                currentDestination != "login"
+                &&
+                currentDestination != "mainRegister"
+                &&
+                currentDestination != "registerStudentFirst"
+                &&
+                currentDestination != "registerStudentSecond"
+                &&
+                currentDestination != "home"
+                &&
+                currentDestination != "companyMap"
+                &&
+                !currentDestination!!.startsWith("internshipCompany/")
+                ) {
+                BottomNavigationRow(navController = navController)
+            }
+        }
+
+    ) { paddingValues ->
         NavGraph(
             navController = navController,
             qualificationViewModel = qualificationViewModel,
