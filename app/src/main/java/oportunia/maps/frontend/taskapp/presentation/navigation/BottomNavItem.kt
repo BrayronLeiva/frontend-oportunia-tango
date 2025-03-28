@@ -2,51 +2,50 @@ package oportunia.maps.frontend.taskapp.presentation.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.TypeUser
+import oportunia.maps.frontend.taskapp.data.datasource.userrole.UserRoleProvider
 
-/**
- * BottomNavItem references these routes for the bottom navigation
- * BottomNavItem is a sealed class that represents the items in the bottom navigation bar.
- *
- * Each item in the bottom navigation bar has a unique route for navigation,
- * a string resource for the displayed text, and an icon for visual representation.
- *
- * @property route The route path used for navigation.
- * @property title The string resource ID for the displayed title.
- * @property icon The vector icon to display in the navigation bar.
- */
 sealed class BottomNavItem(
     val route: String,
     @StringRes val title: Int,
     val icon: ImageVector
 ) {
-    /**
-     * TaskList represents the navigation item for the task list screen.
-     * This is the main screen where all tasks are displayed in a list format.
-     */
-    data object Map : BottomNavItem(
-        NavRoutes.CompanyMap.ROUTE,
-        R.string.student_map,
-        Icons.AutoMirrored.Filled.List
-    )
-
-    /**
-     * Settings represents the navigation item for the settings screen.
-     * This screen allows users to configure application preferences.
-     */
-    /*data object Settings : BottomNavItem(
-        NavRoutes.Settings.ROUTE,
-        R.string.settings,
-        Icons.Filled.Settings
-    )*/
-
     companion object {
-        /**
-         * Returns a list of all bottom navigation items to be displayed in the navigation bar.
-         */
-        //fun items() = listOf(TaskList, Settings)
-        fun items() = listOf(Map)
+        fun items(email: String) = listOf(
+            Map(email), Search, Profile
+        )
+
+        private fun getMapRoute(email: String): String {
+            val userRole: TypeUser? = UserRoleProvider.getUserRoleByEmail(email)
+
+            return when (userRole) {
+                TypeUser.STU -> NavRoutes.StudentMap.ROUTE
+                TypeUser.COM -> NavRoutes.CompanyMap.ROUTE
+                else -> NavRoutes.Login.ROUTE // Fallback route
+            }
+        }
+
+        data class Map(val email: String) : BottomNavItem(
+            getMapRoute(email), // Dynamic route based on email
+            R.string.map,
+            Icons.Filled.Place
+        )
+
+        data object Search : BottomNavItem(
+            "search", // Placeholder for now
+            R.string.search,
+            Icons.Filled.Search
+        )
+
+        data object Profile : BottomNavItem(
+            NavRoutes.Profile.ROUTE,
+            R.string.profile,
+            Icons.Filled.Person
+        )
     }
 }

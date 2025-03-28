@@ -15,6 +15,7 @@ import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCard
+import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCardCompany
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipState
@@ -70,7 +71,7 @@ fun InternshipListCompanyScreen(
                                 modifier = Modifier.fillMaxWidth().padding(16.dp)
                             ) {
                                 items(state.internships) { internship ->
-                                    InternshipCard(internship = internship)
+                                    InternshipCardCompany(internship = internship)
                                 }
                             }
                         } else {

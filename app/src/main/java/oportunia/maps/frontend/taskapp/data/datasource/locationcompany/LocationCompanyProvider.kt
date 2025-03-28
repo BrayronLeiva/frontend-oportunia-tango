@@ -34,7 +34,7 @@ class LocationCompanyProvider {
             LocationCompany(
                 id = 2,
                 email = "location2@example.com",
-                location = LatLng(10.0167, -84.2100),  // Example LatLng for Los Angeles
+                location = LatLng(10.0167, -84.2100),
                 contact = 98765432,
                 company = Company(
                     id = 2,

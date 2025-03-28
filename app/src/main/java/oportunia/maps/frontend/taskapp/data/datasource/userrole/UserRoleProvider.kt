@@ -55,6 +55,10 @@ class UserRoleProvider {
             return userRoleList.find { it.user.id == userId }
         }
 
+        fun findUserRoleByEmail(email: String): UserRole? {
+            return userRoleList.find { it.user.email == email }
+        }
+
         fun findAllUserRoles(): List<UserRole> {
             return userRoleList
         }

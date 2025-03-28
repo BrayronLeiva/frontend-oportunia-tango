@@ -7,6 +7,7 @@ import oportunia.maps.frontend.taskapp.domain.model.User
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
 import oportunia.maps.frontend.taskapp.domain.repository.UserRoleRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import oportunia.maps.frontend.taskapp.data.mapper.UserMapper
 import java.io.IOException
 
@@ -56,6 +57,20 @@ class UserRoleRepositoryImpl(
         }
     }
 
+    override suspend fun getUserRoleByEmail(email: String): Result<UserRole?> = runCatching {
+        val userRoleDto = dataSource.getUserRoleByEmail(email).firstOrNull()
+        userRoleDto?.let {
+            userRoleMapper.mapToDomain(it)
+        }
+    }.recoverCatching { throwable ->
+        when (throwable) {
+            is IOException -> throw DomainError.NetworkError("Failed to fetch user role by email")
+            is IllegalArgumentException -> throw DomainError.MappingError("Error mapping user role")
+            is DomainError -> throw throwable
+            else -> throw DomainError.UnknownError
+        }
+    }
+
     override suspend fun saveUserRole(userRole: UserRole): Result<Unit> = runCatching {
         dataSource.insertUserRole(userRoleMapper.mapToDto(userRole))
     }.recoverCatching { throwable ->
@@ -65,6 +80,8 @@ class UserRoleRepositoryImpl(
             else -> throw DomainError.TaskError("Failed to save user role: ${throwable.message}")
         }
     }
+
+
 
     override suspend fun deleteUserRole(id: Long): Result<Unit> = runCatching {
         val userRole = dataSource.getUserRoleById(id)

@@ -28,6 +28,11 @@ class UserRoleDataSourceImpl(
         return flow { emit(emptyList()) }
     }
 
+    override suspend fun getUserRoleByEmail(email: String): Flow<UserRoleDto?> = flow {
+        val userRole = UserRoleProvider.findUserRoleByEmail(email)
+        emit(userRole?.let { userRoleMapper.mapToDto(it) })
+    }
+
     override suspend fun insertUserRole(userRoleDto: UserRoleDto) {
         val userRole = userRoleMapper.mapToDomain(userRoleDto)
         UserRoleProvider.addUserRole(userRole)
