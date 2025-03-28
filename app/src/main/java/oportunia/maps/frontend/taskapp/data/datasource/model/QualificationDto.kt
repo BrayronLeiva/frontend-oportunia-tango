@@ -12,5 +12,5 @@ data class QualificationDto(
     val id: Long,
     val name: String,
     val area: String,
-    val student: StudentDto
+    val student: StudentDto?
 )

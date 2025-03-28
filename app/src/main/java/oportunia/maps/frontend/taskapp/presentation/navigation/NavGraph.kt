@@ -12,6 +12,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFi
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskListScreen
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 
 /**
@@ -32,6 +33,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 fun NavGraph(
     navController: NavHostController,
     taskViewModel: TaskViewModel,
+    qualificationViewModel: QualificationViewModel,
     paddingValues: PaddingValues
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.MainRegister.ROUTE) {
@@ -44,7 +46,7 @@ fun NavGraph(
         }
 
         composable(NavRoutes.RegisterStudentSecond.ROUTE) {
-            RegisterStudentSecond(navController, taskViewModel, paddingValues)
+            RegisterStudentSecond(navController, qualificationViewModel, paddingValues)
         }
 
         // TaskList screen - Entry point of the application

@@ -17,14 +17,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import oportunia.maps.frontend.taskapp.data.datasource.QualificationDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.datasource.TaskDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.mapper.PriorityMapper
+import oportunia.maps.frontend.taskapp.data.mapper.QualificationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.StatusMapper
 import oportunia.maps.frontend.taskapp.data.mapper.TaskMapper
+import oportunia.maps.frontend.taskapp.data.repository.QualificationRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.TaskRepositoryImpl
+import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
+import oportunia.maps.frontend.taskapp.presentation.factory.QualificationViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.factory.TaskViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 
 /**
@@ -37,7 +43,6 @@ class MainActivity : ComponentActivity() {
         val priorityMapper = PriorityMapper()
         val statusMapper = StatusMapper()
         val taskMapper = TaskMapper(priorityMapper, statusMapper)
-
         // Create data source with mapper
         val dataSource = TaskDataSourceImpl(taskMapper)
 
@@ -47,12 +52,24 @@ class MainActivity : ComponentActivity() {
         TaskViewModelFactory(taskRepository)
     }
 
+    private val qualificationViewModel: QualificationViewModel by viewModels {
+
+
+        val qualificationMapper = QualificationMapper(null)
+
+        val dataQualificationSource = QualificationDataSourceImpl(qualificationMapper)
+
+        val qualificationRepository = QualificationRepositoryImpl(dataQualificationSource, qualificationMapper)
+
+        QualificationViewModelFactory(qualificationRepository)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             TaskAppTheme {
-                MainScreen(taskViewModel)
+                MainScreen(taskViewModel, qualificationViewModel)
             }
         }
     }
@@ -66,7 +83,7 @@ class MainActivity : ComponentActivity() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(taskViewModel: TaskViewModel) {
+fun MainScreen(taskViewModel: TaskViewModel, qualificationViewModel: QualificationViewModel) {
     val navController = rememberNavController()
 
     LaunchedEffect(Unit) {
@@ -90,6 +107,7 @@ fun MainScreen(taskViewModel: TaskViewModel) {
         NavGraph(
             navController = navController,
             taskViewModel = taskViewModel,
+            qualificationViewModel = qualificationViewModel,
             paddingValues = paddingValues
         )
     }

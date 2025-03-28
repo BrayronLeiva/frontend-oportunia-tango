@@ -6,7 +6,7 @@ import oportunia.maps.frontend.taskapp.domain.model.Qualification
 /**
  * Mapper class for converting between Qualification domain entities and QualificationDto data objects
  */
-class QualificationMapper(private val studentMapper: StudentMapper) {
+class QualificationMapper(private val studentMapper: StudentMapper?) {
 
     /**
      * Maps a QualificationDto to a domain Qualification entity
@@ -17,7 +17,7 @@ class QualificationMapper(private val studentMapper: StudentMapper) {
         id = dto.id,
         name = dto.name,
         area = dto.area,
-        student = studentMapper.mapToDomain(dto.student)
+        student = null
     )
 
     /**
@@ -29,6 +29,6 @@ class QualificationMapper(private val studentMapper: StudentMapper) {
         id = domain.id,
         name = domain.name,
         area = domain.area,
-        student = studentMapper.mapToDto(domain.student)
+        student = null
     )
 }
