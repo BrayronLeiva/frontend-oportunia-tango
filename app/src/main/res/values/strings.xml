@@ -1,9 +1,42 @@
 <resources>
     <string name="app_name">Task App</string>
     <string name="app_title">MVVM Simple Sample</string>
+    <string name="student_map">Student Map</string>
+    <string name="company_map">Company Map</string>
     <string name="task_title">Title:</string>
     <string name="task_notes">Notes:</string>
     <string name="no_task_available">No task available - Click to refresh</string>
     <string name="error_message">Error: %1$s</string>
     <string name="no_tasks_available">No tasks available</string>
+    <string name="title_welcome">Welcome to Oportunia</string>
+    <string name="main_register_subtitle">Create an account</string>
+    <string name="main_register_subtitle_sub">Fill the following filds</string>
+    <string name="email_field">Email</string>
+    <string name="password_field">Password</string>
+    <string name="confirm_password_field">Confirm Password</string>
+    <string name="main_register">Register</string>
+
+    <string name="preparing_text">¡Preparing everything!</string>
+    <string name="name_field">Introduce your name</string>
+    <string name="id_field">Introduce your id card</string>
+    <string name="personal_info_field">Tell about yourself</string>
+    <string name="experience_field">Describe your experience</string>
+    <string name="main_login_subtitle">Login with your account</string>
+    <string name="interests_field">What are your interests</string>
+    <string name="next_button">Next</string>
+
+    <string name="chosee_skills_field">Choose Your Skills</string>
+    <string name="main_login">Login</string>
+    <string name="no_account">No account?</string>
+    <string name="register_here">Register here</string>
+    <string name="map">Map</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
+    <string name="choose_rating_label">Choose Rating</string>
+    <string name="internships_search_label">Internship Search</string>
+    <string name="search_company_label">Search Company</string>
+    <string name="filter_rating_label">Filter by rating</string>
+    <string name="search_label">Search</string>
+    <string name="go_student_screen_label">Go to Student Screen</string>
+    <string name="go_company_screen_label">Go to Company Screen</string>
 </resources>

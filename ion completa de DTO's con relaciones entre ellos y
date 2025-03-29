@@ -1,0 +1,42 @@
+[33mcommit 61f9557babd3a766fbe5aa7de9985b243c96ca7a[m[33m ([m[1;36mHEAD -> [m[1;32mCreatDTOs[m[33m)[m
+Author: BrayronLeiva <brayronleivas.com>
+Date:   Thu Mar 20 18:19:31 2025 -0600
+
+    Agregación completa de DTOs
+    
+    Se agrega una version completa de DTO's con relaciones entre ellos y
+    comentarios.
+    
+    Closes #4
+
+[33mcommit 14e45e18396bfd046b000fafa09562cfff627c39[m
+Author: BrayronLeiva <brayronleivas.com>
+Date:   Thu Mar 20 17:03:35 2025 -0600
+
+    Primer agregación de DTOs
+    
+    Se agrega una version inicial de DTO's sin relaciones entre ellos
+
+[33mcommit f2dfd2c387c55c72aad1447ea7fbe99c65e17921[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: rodney1400 <rodney.morera.scott@est.una.ac.cr>
+Date:   Wed Mar 19 19:39:06 2025 -0600
+
+    - Refactor and Google Maps dependencies
+
+[33mcommit c99e6906efd4eaca94fd68cb1772480888475481[m
+Author: rodney1400 <rodney.morera.scott@est.una.ac.cr>
+Date:   Wed Mar 19 13:14:47 2025 -0600
+
+    Clean Architecture
+
+[33mcommit 32c42286f9db4a98e6da43913acf636da38a45bf[m
+Author: github-classroom[bot] <66690702+github-classroom[bot]@users.noreply.github.com>
+Date:   Wed Mar 19 00:15:39 2025 +0000
+
+    Setting up GitHub Classroom Feedback
+
+[33mcommit 7277fd3bdc0361b4de7d677165102955d293b09c[m
+Author: github-classroom[bot] <66690702+github-classroom[bot]@users.noreply.github.com>
+Date:   Wed Mar 19 00:15:38 2025 +0000
+
+    GitHub Classroom Feedback
