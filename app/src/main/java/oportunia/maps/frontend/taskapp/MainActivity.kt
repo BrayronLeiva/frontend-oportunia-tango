@@ -1,7 +1,6 @@
 package oportunia.maps.frontend.taskapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -14,18 +13,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import oportunia.maps.frontend.taskapp.data.datasource.QualificationDataSourceImpl
-import oportunia.maps.frontend.taskapp.data.datasource.TaskDataSourceImpl
+import dagger.hilt.android.AndroidEntryPoint
+import oportunia.maps.frontend.taskapp.data.datasource.qualification.QualificationDataSourceImpl
+import oportunia.maps.frontend.taskapp.data.datasource.task.TaskDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.datasource.internshiplocation.InternshipLocationDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.datasource.locationcompany.LocationCompanyDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.mapper.CompanyMapper
@@ -42,7 +40,6 @@ import oportunia.maps.frontend.taskapp.data.repository.LocationCompanyRepository
 import oportunia.maps.frontend.taskapp.data.repository.QualificationRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.TaskRepositoryImpl
 import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
-import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
 import oportunia.maps.frontend.taskapp.presentation.factory.InternshipLocationViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.factory.LocationCompanyViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.factory.QualificationViewModelFactory
@@ -59,6 +56,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
  * Main activity that serves as the entry point for the application.
  * Initializes the TaskViewModel and sets up the Compose UI with the main screen.
  */
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val taskViewModel: TaskViewModel by viewModels {
         // Create mappers
@@ -74,7 +72,7 @@ class MainActivity : ComponentActivity() {
         TaskViewModelFactory(taskRepository)
     }
 
-    private val locationCompanyRepository: LocationCompanyRepository by lazy {
+    /*private val locationCompanyRepository: LocationCompanyRepository by lazy {
         val userMapper = UserMapper()
         val companyMapper = CompanyMapper(userMapper)
         val locationCompanyMapper = LocationCompanyMapper(companyMapper)
@@ -82,7 +80,7 @@ class MainActivity : ComponentActivity() {
         val locationCompanyDataSource = LocationCompanyDataSourceImpl(locationCompanyMapper)
 
         LocationCompanyRepositoryImpl(locationCompanyDataSource, locationCompanyMapper)
-    }
+    }*/
 
     private val qualificationViewModel: QualificationViewModel by viewModels {
 
@@ -95,11 +93,11 @@ class MainActivity : ComponentActivity() {
         QualificationViewModelFactory(qualificationRepository)
     }
 
-    private val locationCompanyViewModel: LocationCompanyViewModel by viewModels {
-        LocationCompanyViewModelFactory(locationCompanyRepository)
-    }
+    private val locationCompanyViewModel: LocationCompanyViewModel by viewModels()
 
-    private val internshipLocationViewModelFactory: InternshipLocationViewModel by viewModels {
+    //private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
+
+    /*private val internshipLocationViewModelFactory: InternshipLocationViewModel by viewModels {
         val userMapper = UserMapper()
         val internshipMapper = InternshipMapper()
         val companyMapper = CompanyMapper(userMapper)
@@ -111,7 +109,7 @@ class MainActivity : ComponentActivity() {
         val internshipLocationRepository = InternshipLocationRepositoryImpl(internshipLocationDataSource, internshipLocationMapper, internshipMapper)
 
         InternshipLocationViewModelFactory(locationCompanyRepository, internshipLocationRepository)
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,7 +120,7 @@ class MainActivity : ComponentActivity() {
                     taskViewModel,
                     qualificationViewModel,
                     locationCompanyViewModel,
-                    internshipLocationViewModelFactory
+                    //internshipLocationViewModel
                 )
             }
         }
@@ -135,7 +133,6 @@ class MainActivity : ComponentActivity() {
  *
  * @param taskViewModel The ViewModel that provides access to task data and business logic
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     taskViewModel: TaskViewModel,
@@ -188,7 +185,7 @@ fun MainScreen(
             navController = navController,
             qualificationViewModel = qualificationViewModel,
             locationCompanyViewModel = locationCompanyViewModel,
-            internshipLocationViewModel = internshipLocationViewModel,
+            //internshipLocationViewModel = internshipLocationViewModel,
             paddingValues = paddingValues
         )
     }
@@ -236,6 +233,62 @@ private fun PreviewMainScreen() {
         Text(
             text = "Preview: Navigation Content",
             modifier = Modifier.padding(paddingValues)
+        )
+    }
+}
+
+@Composable
+fun MainScreen(
+    taskViewModel: TaskViewModel,
+    qualificationViewModel: QualificationViewModel,
+    locationCompanyViewModel: LocationCompanyViewModel,
+) {
+    val navController = rememberNavController()
+
+    LaunchedEffect(Unit) {
+        taskViewModel.findAllTasks()
+        locationCompanyViewModel.findAllLocations()
+    }
+
+    // Mantener el estado de la ruta actual
+    var currentDestination by remember { mutableStateOf<String?>(null) }
+
+    // Monitorear cambios en la ruta de navegación
+    LaunchedEffect(navController) {
+        navController.currentBackStackEntryFlow.collect { entry ->
+            currentDestination = entry.destination.route
+        }
+    }
+
+
+    Scaffold (
+        bottomBar = {
+            if (
+                currentDestination != null &&
+                currentDestination != "login"
+                &&
+                currentDestination != "mainRegister"
+                &&
+                currentDestination != "registerStudentFirst"
+                &&
+                currentDestination != "registerStudentSecond"
+                &&
+                currentDestination != "home"
+                &&
+                currentDestination != "companyMap"
+                &&
+                !currentDestination!!.startsWith("internshipCompany/")
+            ) {
+                BottomNavigationRow(navController = navController)
+            }
+        }
+
+    ) { paddingValues ->
+        NavGraph(
+            navController = navController,
+            locationCompanyViewModel = locationCompanyViewModel,
+            qualificationViewModel = qualificationViewModel,
+            paddingValues = paddingValues
         )
     }
 }

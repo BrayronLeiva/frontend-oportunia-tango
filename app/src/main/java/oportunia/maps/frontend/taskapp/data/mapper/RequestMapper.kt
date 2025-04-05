@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.RequestDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
 import oportunia.maps.frontend.taskapp.domain.model.Request
 
 /**
@@ -28,10 +28,11 @@ class RequestMapper(
      * @param domain The domain layer request object to convert
      * @return RequestDto object for data layer
      */
-    fun mapToDto(domain: Request): RequestDto = RequestDto(
-        id = domain.id,
-        student = studentMapper.mapToDto(domain.student),
-        company = companyMapper.mapToDto(domain.company),
-        state = domain.state
-    )
+    fun mapToDto(domain: Request): RequestDto =
+        RequestDto(
+            id = domain.id,
+            student = studentMapper.mapToDto(domain.student),
+            company = companyMapper.mapToDto(domain.company),
+            state = domain.state
+        )
 }

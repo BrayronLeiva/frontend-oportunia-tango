@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.domain.model
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.TypeUser
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 
 /**
  * This class represents a Role.

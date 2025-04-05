@@ -196,12 +196,12 @@ private fun TaskListContent(
     ) {
         items(
             items = taskList,
-            key = { task -> task.id ?: 0 }
+            key = { task -> task.id }
         ) { task ->
             TaskItem(
                 task = task,
                 onClick = {
-                    task.id?.let { id ->
+                    task.id.let { id ->
                         navController.navigate(NavRoutes.TaskDetail.createRoute(id))
                     }
                 }

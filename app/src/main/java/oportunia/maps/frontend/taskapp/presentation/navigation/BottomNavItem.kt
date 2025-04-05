@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import oportunia.maps.frontend.taskapp.R
-import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.TypeUser
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 import oportunia.maps.frontend.taskapp.data.datasource.userrole.UserRoleProvider
 
 sealed class BottomNavItem(

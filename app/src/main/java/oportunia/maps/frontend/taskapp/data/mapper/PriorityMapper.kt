@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.PriorityDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.PriorityDto
 import oportunia.maps.frontend.taskapp.domain.model.Priority
 
 /**
@@ -22,8 +22,9 @@ class PriorityMapper {
      * @param domain The domain layer priority object to convert
      * @return PriorityDto object for data layer
      */
-    fun mapToDto(domain: Priority): PriorityDto = PriorityDto(
-        id = domain.id,
-        label = domain.label
-    )
+    fun mapToDto(domain: Priority): PriorityDto =
+        PriorityDto(
+            id = domain.id,
+            label = domain.label
+        )
 }

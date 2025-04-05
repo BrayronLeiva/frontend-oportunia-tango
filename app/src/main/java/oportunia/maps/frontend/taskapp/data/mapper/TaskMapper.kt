@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.TaskDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.TaskDto
 import oportunia.maps.frontend.taskapp.domain.model.Task
 
 /**
@@ -30,13 +30,14 @@ class TaskMapper(
      * @param domain The domain layer task object to convert
      * @return TaskDto object for data layer
      */
-    fun mapToDto(domain: Task): TaskDto = TaskDto(
-        id = domain.id,
-        title = domain.title,
-        notes = domain.notes,
-        createdDate = domain.createdDate,
-        dueDate = domain.dueDate,
-        priority = priorityMapper.mapToDto(domain.priority),
-        status = statusMapper.mapToDto(domain.status)
-    )
+    fun mapToDto(domain: Task): TaskDto =
+        TaskDto(
+            id = domain.id,
+            title = domain.title,
+            notes = domain.notes,
+            createdDate = domain.createdDate,
+            dueDate = domain.dueDate,
+            priority = priorityMapper.mapToDto(domain.priority),
+            status = statusMapper.mapToDto(domain.status)
+        )
 }

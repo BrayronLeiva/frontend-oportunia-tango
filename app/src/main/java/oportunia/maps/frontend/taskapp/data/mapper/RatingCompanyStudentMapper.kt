@@ -1,7 +1,7 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.RatingCompanyStudentDto
-import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.TypeUser
+import oportunia.maps.frontend.taskapp.data.remote.dto.RatingCompanyStudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 import oportunia.maps.frontend.taskapp.domain.model.RatingCompanyStudent
 
 /**
@@ -20,7 +20,7 @@ class RatingCompanyStudentMapper(
     fun mapToDomain(dto: RatingCompanyStudentDto): RatingCompanyStudent = RatingCompanyStudent(
         id = dto.id,
         rating = dto.rating,
-        type = TypeUser.valueOf(dto.type),
+        type = oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser.valueOf(dto.type),
         comment = dto.comment,
         student = studentMapper.mapToDomain(dto.student),
         company = companyMapper.mapToDomain(dto.company)
@@ -31,12 +31,13 @@ class RatingCompanyStudentMapper(
      * @param domain The domain layer rating object to convert
      * @return RatingCompanyStudentDto object for data layer
      */
-    fun mapToDto(domain: RatingCompanyStudent): RatingCompanyStudentDto = RatingCompanyStudentDto(
-        id = domain.id,
-        rating = domain.rating,
-        type = domain.type.name,
-        comment = domain.comment,
-        student = studentMapper.mapToDto(domain.student),
-        company = companyMapper.mapToDto(domain.company)
-    )
+    fun mapToDto(domain: RatingCompanyStudent): RatingCompanyStudentDto =
+        RatingCompanyStudentDto(
+            id = domain.id,
+            rating = domain.rating,
+            type = domain.type.name,
+            comment = domain.comment,
+            student = studentMapper.mapToDto(domain.student),
+            company = companyMapper.mapToDto(domain.company)
+        )
 }

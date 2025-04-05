@@ -1,12 +1,13 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.UserDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
 import oportunia.maps.frontend.taskapp.domain.model.User
+import javax.inject.Inject
 
 /**
  * Mapper class for converting between User domain entities and UserDto data objects
  */
-class UserMapper {
+class UserMapper @Inject constructor() {
 
     /**
      * Maps a UserDto to a domain User entity
@@ -24,9 +25,10 @@ class UserMapper {
      * @param domain The domain layer user object to convert
      * @return UserDto object for data layer
      */
-    fun mapToDto(domain: User): UserDto = UserDto(
-        id = domain.id,
-        email = domain.email,
-        password = domain.password
-    )
+    fun mapToDto(domain: User): UserDto =
+        UserDto(
+            id = domain.id,
+            email = domain.email,
+            password = domain.password
+        )
 }

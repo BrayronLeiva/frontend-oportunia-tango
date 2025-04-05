@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng
 import oportunia.maps.frontend.taskapp.domain.model.Company
 import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import oportunia.maps.frontend.taskapp.domain.model.User
-import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.InternshipType
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.InternshipType
 
 /**
  * This class simulates the interaction with LocationCompany data.

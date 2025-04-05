@@ -2,8 +2,8 @@ package oportunia.maps.frontend.taskapp.data.datasource.internshiplocation
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import oportunia.maps.frontend.taskapp.data.datasource.model.InternshipDto
-import oportunia.maps.frontend.taskapp.data.datasource.model.InternshipLocationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipLocationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
 

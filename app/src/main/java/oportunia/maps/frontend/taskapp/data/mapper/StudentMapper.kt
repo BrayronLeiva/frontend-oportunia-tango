@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.StudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.domain.model.Student
 
 /**
@@ -28,13 +28,14 @@ class StudentMapper(private val userMapper: UserMapper) {
      * @param domain The domain layer student object to convert
      * @return StudentDto object for data layer
      */
-    fun mapToDto(domain: Student): StudentDto = StudentDto(
-        id = domain.id,
-        name = domain.name,
-        identification = domain.identification,
-        personalInfo = domain.personalInfo,
-        experience = domain.experience,
-        rating = domain.rating,
-        user = userMapper.mapToDto(domain.user)
-    )
+    fun mapToDto(domain: Student): StudentDto =
+        StudentDto(
+            id = domain.id,
+            name = domain.name,
+            identification = domain.identification,
+            personalInfo = domain.personalInfo,
+            experience = domain.experience,
+            rating = domain.rating,
+            user = userMapper.mapToDto(domain.user)
+        )
 }

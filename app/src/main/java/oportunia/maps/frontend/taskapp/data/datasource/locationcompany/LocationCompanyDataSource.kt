@@ -1,7 +1,7 @@
 package oportunia.maps.frontend.taskapp.data.datasource.locationcompany
 
 import kotlinx.coroutines.flow.Flow
-import oportunia.maps.frontend.taskapp.data.datasource.model.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 
 /**
  * This interface represents the LocationCompanyRepository.

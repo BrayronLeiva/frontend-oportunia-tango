@@ -24,10 +24,10 @@ import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 @Composable
 fun InternshipItem(internship: InternshipLocation) {
     // Obtener los datos de la compañía y la calificación
-    val company = internship.location?.company
+    val company = internship.location.company
     val internshipDetail = internship.internship.details
-    val companyName = company?.name ?: "Compañía desconocida"
-    val companyRating = company?.rating ?: 0
+    val companyName = company.name
+    val companyRating = company.rating
 
     Card(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {

@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.CertificationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.CertificationDto
 import oportunia.maps.frontend.taskapp.domain.model.Certification
 
 /**
@@ -25,10 +25,11 @@ class CertificationMapper(private val studentMapper: StudentMapper) {
      * @param domain The domain layer certification object to convert
      * @return CertificationDto object for data layer
      */
-    fun mapToDto(domain: Certification): CertificationDto = CertificationDto(
-        id = domain.id,
-        name = domain.name,
-        provider = domain.provider,
-        student = studentMapper.mapToDto(domain.student)
-    )
+    fun mapToDto(domain: Certification): CertificationDto =
+        CertificationDto(
+            id = domain.id,
+            name = domain.name,
+            provider = domain.provider,
+            student = studentMapper.mapToDto(domain.student)
+        )
 }

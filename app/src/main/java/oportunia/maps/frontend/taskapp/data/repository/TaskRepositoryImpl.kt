@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
-import oportunia.maps.frontend.taskapp.data.datasource.TaskDataSource
+import oportunia.maps.frontend.taskapp.data.datasource.task.TaskDataSource
 import oportunia.maps.frontend.taskapp.data.mapper.TaskMapper
 import oportunia.maps.frontend.taskapp.domain.error.DomainError
 import oportunia.maps.frontend.taskapp.domain.model.Task

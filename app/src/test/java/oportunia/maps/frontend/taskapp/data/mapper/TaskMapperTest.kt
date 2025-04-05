@@ -1,8 +1,8 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.PriorityDto
-import oportunia.maps.frontend.taskapp.data.datasource.model.StatusDto
-import oportunia.maps.frontend.taskapp.data.datasource.model.TaskDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.PriorityDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StatusDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.TaskDto
 import oportunia.maps.frontend.taskapp.domain.model.Priority
 import oportunia.maps.frontend.taskapp.domain.model.Status
 import oportunia.maps.frontend.taskapp.domain.model.Task
@@ -43,8 +43,14 @@ class TaskMapperTest {
             notes = "Test Notes",
             createdDate = dateFormat.parse("2023-10-01")!!,
             dueDate = dateFormat.parse("2023-10-10")!!,
-            priority = PriorityDto(id = 1, label = "High"),
-            status = StatusDto(id = 1, label = "Open")
+            priority = PriorityDto(
+                id = 1,
+                label = "High"
+            ),
+            status = StatusDto(
+                id = 1,
+                label = "Open"
+            )
         )
 
         val task = taskMapper.mapToDomain(taskDto)

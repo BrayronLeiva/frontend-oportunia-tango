@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.QualificationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.domain.model.Qualification
 
 /**
@@ -25,10 +25,11 @@ class QualificationMapper(private val studentMapper: StudentMapper?) {
      * @param domain The domain layer qualification object to convert
      * @return QualificationDto object for data layer
      */
-    fun mapToDto(domain: Qualification): QualificationDto = QualificationDto(
-        id = domain.id,
-        name = domain.name,
-        area = domain.area,
-        student = null
-    )
+    fun mapToDto(domain: Qualification): QualificationDto =
+        QualificationDto(
+            id = domain.id,
+            name = domain.name,
+            area = domain.area,
+            student = null
+        )
 }

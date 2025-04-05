@@ -2,7 +2,7 @@ package oportunia.maps.frontend.taskapp.data.datasource.userrole
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import oportunia.maps.frontend.taskapp.data.datasource.model.UserRoleDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import oportunia.maps.frontend.taskapp.data.mapper.UserRoleMapper
 
 /**
@@ -22,7 +22,7 @@ class UserRoleDataSourceImpl(
         UserRoleProvider.findUserRoleByUserId(userId)?.let { userRoleMapper.mapToDto(it) }
 
     override suspend fun getUsersByRole(role: String): Flow<List<UserRoleDto>> {
-        UserRoleProvider.findUsersByRole(role)?.let { users ->
+        UserRoleProvider.findUsersByRole(role).let { users ->
             return flow { emit(users.map { userRoleMapper.mapToDto(it) }) }
         }
         return flow { emit(emptyList()) }

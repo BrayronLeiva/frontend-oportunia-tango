@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.domain.model
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.InternshipType
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.InternshipType
 
 /**
  * This class represents a Company.

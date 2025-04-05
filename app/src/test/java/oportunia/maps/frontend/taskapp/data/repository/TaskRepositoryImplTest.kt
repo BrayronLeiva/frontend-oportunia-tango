@@ -1,9 +1,9 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
-import oportunia.maps.frontend.taskapp.data.datasource.TaskDataSource
-import oportunia.maps.frontend.taskapp.data.datasource.model.PriorityDto
-import oportunia.maps.frontend.taskapp.data.datasource.model.StatusDto
-import oportunia.maps.frontend.taskapp.data.datasource.model.TaskDto
+import oportunia.maps.frontend.taskapp.data.datasource.task.TaskDataSource
+import oportunia.maps.frontend.taskapp.data.remote.dto.PriorityDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StatusDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.TaskDto
 import oportunia.maps.frontend.taskapp.data.mapper.TaskMapper
 import oportunia.maps.frontend.taskapp.domain.error.DomainError
 import oportunia.maps.frontend.taskapp.domain.model.Priority
@@ -35,8 +35,10 @@ class TaskRepositoryImplTest {
 
     private lateinit var repository: TaskRepositoryImpl
 
-    private val mockPriorityDto = PriorityDto(1L, "High")
-    private val mockStatusDto = StatusDto(1L, "Todo")
+    private val mockPriorityDto =
+        PriorityDto(1L, "High")
+    private val mockStatusDto =
+        StatusDto(1L, "Todo")
     private val mockPriority = Priority(1L, "High")
     private val mockStatus = Status(1L, "Todo")
     private val currentDate = Date()

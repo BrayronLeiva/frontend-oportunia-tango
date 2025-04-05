@@ -4,7 +4,7 @@ import android.util.Log
 import oportunia.maps.frontend.taskapp.domain.model.User
 import oportunia.maps.frontend.taskapp.domain.model.Role
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
-import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.TypeUser
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 
 /**
  * This class simulates the interaction with UserRole data.
@@ -63,7 +63,7 @@ class UserRoleProvider {
             return userRoleList
         }
 
-        fun findUsersByRole(role: String): List<UserRole>? {
+        fun findUsersByRole(role: String): List<UserRole> {
             return userRoleList.filter { it.role.name.name == role }
         }
 

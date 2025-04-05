@@ -1,13 +1,10 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
 
-import oportunia.maps.frontend.taskapp.data.datasource.TaskDataSource
-import oportunia.maps.frontend.taskapp.data.mapper.TaskMapper
 import oportunia.maps.frontend.taskapp.domain.error.DomainError
-import oportunia.maps.frontend.taskapp.domain.model.Task
 import oportunia.maps.frontend.taskapp.domain.repository.TaskRepository
 import kotlinx.coroutines.flow.first
-import oportunia.maps.frontend.taskapp.data.datasource.QualificationDataSource
+import oportunia.maps.frontend.taskapp.data.datasource.qualification.QualificationDataSource
 import oportunia.maps.frontend.taskapp.data.mapper.QualificationMapper
 import oportunia.maps.frontend.taskapp.domain.model.Qualification
 import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository

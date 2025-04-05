@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.StatusDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StatusDto
 import oportunia.maps.frontend.taskapp.domain.model.Status
 
 /**
@@ -21,7 +21,8 @@ class StatusMapper {
      * @param domain The domain layer status object to convert
      * @return StatusDto object for data layer
      */
-    fun mapToDto(domain: Status): StatusDto = StatusDto(
-        id = domain.id, label = domain.label
-    )
+    fun mapToDto(domain: Status): StatusDto =
+        StatusDto(
+            id = domain.id, label = domain.label
+        )
 }

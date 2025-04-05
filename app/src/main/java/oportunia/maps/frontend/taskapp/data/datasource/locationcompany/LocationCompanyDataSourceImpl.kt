@@ -2,7 +2,7 @@ package oportunia.maps.frontend.taskapp.data.datasource.locationcompany
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import oportunia.maps.frontend.taskapp.data.datasource.model.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.mapper.LocationCompanyMapper
 
 /**

@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.RecommendationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RecommendationDto
 import oportunia.maps.frontend.taskapp.domain.model.Recommendation
 
 /**
@@ -28,10 +28,11 @@ class RecommendationMapper(
      * @param domain The domain layer recommendation object to convert
      * @return RecommendationDto object for data layer
      */
-    fun mapToDto(domain: Recommendation): RecommendationDto = RecommendationDto(
-        id = domain.id,
-        details = domain.details,
-        student = studentMapper.mapToDto(domain.student),
-        company = companyMapper.mapToDto(domain.company)
-    )
+    fun mapToDto(domain: Recommendation): RecommendationDto =
+        RecommendationDto(
+            id = domain.id,
+            details = domain.details,
+            student = studentMapper.mapToDto(domain.student),
+            company = companyMapper.mapToDto(domain.company)
+        )
 }

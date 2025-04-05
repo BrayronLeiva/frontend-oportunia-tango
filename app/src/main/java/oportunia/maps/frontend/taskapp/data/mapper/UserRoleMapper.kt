@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.UserRoleDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
 
 /**
@@ -26,8 +26,9 @@ class UserRoleMapper(
      * @param domain The domain layer user role object to convert.
      * @return UserRoleDto object for data layer.
      */
-    fun mapToDto(domain: UserRole): UserRoleDto = UserRoleDto(
-        user = userMapper.mapToDto(domain.user),
-        role = roleMapper.mapToDto(domain.role)
-    )
+    fun mapToDto(domain: UserRole): UserRoleDto =
+        UserRoleDto(
+            user = userMapper.mapToDto(domain.user),
+            role = roleMapper.mapToDto(domain.role)
+        )
 }

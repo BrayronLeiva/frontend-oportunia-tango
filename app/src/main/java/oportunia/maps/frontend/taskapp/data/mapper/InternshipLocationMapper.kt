@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.InternshipLocationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 
 /**
@@ -27,9 +27,10 @@ class InternshipLocationMapper(
      * @param domain The domain layer internship location object to convert
      * @return InternshipLocationDto object for data layer
      */
-    fun mapToDto(domain: InternshipLocation): InternshipLocationDto = InternshipLocationDto(
-        id = domain.id,
-        location = locationCompanyMapper.mapToDto(domain.location),
-        internship = internshipMapper.mapToDto(domain.internship)
-    )
+    fun mapToDto(domain: InternshipLocation): InternshipLocationDto =
+        InternshipLocationDto(
+            id = domain.id,
+            location = locationCompanyMapper.mapToDto(domain.location),
+            internship = internshipMapper.mapToDto(domain.internship)
+        )
 }

@@ -1,6 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.QuestionDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.QuestionDto
 import oportunia.maps.frontend.taskapp.domain.model.Question
 
 /**
@@ -25,10 +25,11 @@ class QuestionMapper(private val companyMapper: CompanyMapper) {
      * @param domain The domain layer question object to convert
      * @return QuestionDto object for data layer
      */
-    fun mapToDto(domain: Question): QuestionDto = QuestionDto(
-        id = domain.id,
-        question = domain.question,
-        answer = domain.answer,
-        company = companyMapper.mapToDto(domain.company)
-    )
+    fun mapToDto(domain: Question): QuestionDto =
+        QuestionDto(
+            id = domain.id,
+            question = domain.question,
+            answer = domain.answer,
+            company = companyMapper.mapToDto(domain.company)
+        )
 }

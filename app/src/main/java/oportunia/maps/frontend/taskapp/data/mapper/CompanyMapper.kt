@@ -1,13 +1,16 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.datasource.model.enumClasses.InternshipType
-import oportunia.maps.frontend.taskapp.data.datasource.model.CompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.InternshipType
+import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.flat.LocationCompanyFlatDto
 import oportunia.maps.frontend.taskapp.domain.model.Company
+import javax.inject.Inject
 
 /**
  * Mapper class for converting between Company domain entities and CompanyDto data objects
  */
-class CompanyMapper(
+class CompanyMapper @Inject constructor(
     private val userMapper: UserMapper
 ) {
 
@@ -35,17 +38,34 @@ class CompanyMapper(
      * @param domain The domain layer company object to convert
      * @return CompanyDto object for data layer
      */
-    fun mapToDto(domain: Company): CompanyDto = CompanyDto(
-        id = domain.id,
-        name = domain.name,
-        description = domain.description,
-        history = domain.history,
-        mision = domain.mision,
-        vision = domain.vision,
-        corporateCultur = domain.corporateCultur,
-        contact = domain.contact,
-        rating = domain.rating,
-        internshipType = domain.internshipType.name,  // Converts Enum to String
-        user = userMapper.mapToDto(domain.user)
-    )
+    fun mapToDto(domain: Company): CompanyDto =
+        CompanyDto(
+            id = domain.id,
+            name = domain.name,
+            description = domain.description,
+            history = domain.history,
+            mision = domain.mision,
+            vision = domain.vision,
+            corporateCultur = domain.corporateCultur,
+            contact = domain.contact,
+            rating = domain.rating,
+            internshipType = domain.internshipType.name,  // Converts Enum to String
+            user = userMapper.mapToDto(domain.user)
+        )
+    fun toDomainFromFlat(flat: LocationCompanyFlatDto): Company {
+        return Company(
+            id = flat.idCompany,
+            name = flat.name,
+            description = flat.description,
+            history = flat.history,
+            mision = flat.mision,
+            vision = flat.vision,
+            corporateCultur = flat.corporateCultur,
+            contact = flat.contactCompany,
+            rating = flat.rating,
+            internshipType = InternshipType.valueOf(flat.internshipType),
+            user = userMapper.mapToDomain(UserDto(flat.idUser, flat.emailUser, flat.password))
+        )
+    }
+
 }
