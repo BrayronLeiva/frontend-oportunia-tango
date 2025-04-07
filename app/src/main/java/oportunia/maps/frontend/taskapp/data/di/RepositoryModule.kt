@@ -5,7 +5,9 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import oportunia.maps.frontend.taskapp.data.repository.LocationCompanyRepositoryImpl
+import oportunia.maps.frontend.taskapp.data.repository.QualificationRepositoryImpl
 import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
+import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
 import javax.inject.Singleton
 
 /**
@@ -31,4 +33,16 @@ abstract class RepositoryModule {
     abstract fun bindTaskRepository(
         locationCompanyRepositoryImpl: LocationCompanyRepositoryImpl
     ): LocationCompanyRepository
+
+    /**
+     * Binds the concrete implementation [LocationCompanyRepositoryImpl] to the [LocationCompanyRepository] interface.
+     *
+     * @param QualificationRepositoryImpl The implementation instance to be provided when [QualificationRepository] is requested
+     * @return The bound [QualificationRepository] interface
+     */
+    @Binds
+    @Singleton
+    abstract fun bindQualificationRepository(
+        qualificationRepositoryImpl: QualificationRepositoryImpl
+    ): QualificationRepository
 }

@@ -10,8 +10,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.interceptor.ResponseInterceptor
+import oportunia.maps.frontend.taskapp.data.remote.serializer.QualificationDeserializer
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -31,7 +34,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = "https://67f041dd2a80b06b8897643d.mockapi.io/oportunia/maps/"
+    private const val BASE_URL = "https://67f44737cbef97f40d2de1c8.mockapi.io/aportunia/mapas/"
     private const val DATE_FORMAT = "yyyy-MM-dd"
 
     /**
@@ -43,6 +46,7 @@ object NetworkModule {
     @Singleton
     fun provideGson(): Gson = GsonBuilder()
         .registerTypeAdapter(LocationCompanyDto::class.java, LocationCompanyDeserializer())
+        .registerTypeAdapter(QualificationDto::class.java, QualificationDeserializer())
         .setDateFormat(DATE_FORMAT)
         .create()
 
@@ -104,4 +108,17 @@ object NetworkModule {
     @Singleton
     fun provideTaskService(retrofit: Retrofit): LocationCompanyService =
         retrofit.create(LocationCompanyService::class.java)
+
+
+    /**
+     * Provides the Qualification implementation.
+     *
+     * @param retrofit The Retrofit instance
+     * @return Implementation of [QualificationService]
+     */
+    @Provides
+    @Singleton
+    fun provideQualificationService(retrofit: Retrofit): QualificationService =
+        retrofit.create(QualificationService::class.java)
+
 }

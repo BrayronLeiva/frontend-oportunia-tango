@@ -2,11 +2,12 @@ package oportunia.maps.frontend.taskapp.data.mapper
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.domain.model.Student
+import javax.inject.Inject
 
 /**
  * Mapper class for converting between Student domain entities and StudentDto data objects
  */
-class StudentMapper(private val userMapper: UserMapper) {
+class StudentMapper @Inject constructor(private val userMapper: UserMapper) {
 
     /**
      * Maps a StudentDto to a domain Student entity

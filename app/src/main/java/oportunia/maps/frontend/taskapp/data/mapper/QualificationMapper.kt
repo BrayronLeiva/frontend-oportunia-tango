@@ -2,11 +2,12 @@ package oportunia.maps.frontend.taskapp.data.mapper
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.domain.model.Qualification
+import javax.inject.Inject
 
 /**
  * Mapper class for converting between Qualification domain entities and QualificationDto data objects
  */
-class QualificationMapper(private val studentMapper: StudentMapper?) {
+class QualificationMapper @Inject constructor(private val studentMapper: StudentMapper?) {
 
     /**
      * Maps a QualificationDto to a domain Qualification entity

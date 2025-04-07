@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
         val locationCompanyDataSource = LocationCompanyDataSourceImpl(locationCompanyMapper)
 
         LocationCompanyRepositoryImpl(locationCompanyDataSource, locationCompanyMapper)
-    }*/
+    }
 
     private val qualificationViewModel: QualificationViewModel by viewModels {
 
@@ -92,8 +92,11 @@ class MainActivity : ComponentActivity() {
 
         QualificationViewModelFactory(qualificationRepository)
     }
+    */
 
     private val locationCompanyViewModel: LocationCompanyViewModel by viewModels()
+
+    private val qualificationViewModel: QualificationViewModel by viewModels()
 
     //private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
 

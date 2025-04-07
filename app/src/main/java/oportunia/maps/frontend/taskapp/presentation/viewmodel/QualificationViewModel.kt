@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import oportunia.maps.frontend.taskapp.domain.model.Task
 import oportunia.maps.frontend.taskapp.domain.repository.TaskRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.domain.model.Qualification
 import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
-
+import javax.inject.Inject
 
 
 sealed class QualificationState {
@@ -32,7 +33,8 @@ sealed class QualificationState {
  *
  * @property repository Repository interface for task operations
  */
-class QualificationViewModel(
+@HiltViewModel
+class QualificationViewModel @Inject constructor(
     private val repository: QualificationRepository
 ) : ViewModel() {
 
