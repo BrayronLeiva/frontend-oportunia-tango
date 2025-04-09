@@ -37,11 +37,6 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 
 
 
-
-
-
-
-
 @Composable
 fun RegisterStudentSecond(
     navController: NavController,

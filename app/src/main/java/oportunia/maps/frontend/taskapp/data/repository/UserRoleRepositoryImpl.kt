@@ -9,14 +9,49 @@ import oportunia.maps.frontend.taskapp.domain.repository.UserRoleRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import oportunia.maps.frontend.taskapp.data.mapper.UserMapper
+import oportunia.maps.frontend.taskapp.data.remote.UserRoleRemoteDataSource
+import oportunia.maps.frontend.taskapp.domain.model.Student
 import java.io.IOException
+import java.net.UnknownHostException
+import javax.inject.Inject
 
-class UserRoleRepositoryImpl(
-    private val dataSource: UserRoleDataSource,
+class UserRoleRepositoryImpl @Inject constructor(
+    private val dataSource: UserRoleRemoteDataSource,
     private val userRoleMapper: UserRoleMapper,
     private val userMapper: UserMapper
 ) : UserRoleRepository {
 
+
+    /**
+     * Retrieves all tasks from the data source.
+     *
+     * @return [Result] containing a list of qualifications if successful, or an error if the operation failed
+     */
+
+
+    override suspend fun findAllUserRoles(): Result<List<UserRole>> {
+        return try {
+            dataSource.getAll().map { dtos ->
+                dtos.map { userRoleMapper.mapToDomain(it) }
+            }
+        } catch (e: UnknownHostException) {
+            Result.failure(Exception("Network error: Please check your connection."))
+        } catch (e: Exception) {
+            Result.failure(Exception("Error fetching location companies: ${e.message}"))
+        }
+    }
+
+
+
+    override suspend fun saveUserRole(userRole: UserRole): Result<Unit> {
+        return dataSource.create(userRoleMapper.mapToDto(userRole)).map {
+            userRoleMapper.mapToDomain(it)
+        }
+    }
+
+
+
+    /*
     override suspend fun findAllUserRoles(): Result<List<UserRole>> = runCatching {
         dataSource.getUserRoles().first().map { userRoleDto ->
             userRoleMapper.mapToDomain(userRoleDto)
@@ -52,6 +87,20 @@ class UserRoleRepositoryImpl(
         when (throwable) {
             is IOException -> throw DomainError.NetworkError("Failed to fetch users for role")
             is IllegalArgumentException -> throw DomainError.MappingError("Error mapping users for role")
+            is DomainError -> throw throwable
+            else -> throw DomainError.UnknownError
+        }
+    }
+
+    override suspend fun postUserRole(email: String, password: String): Result<UserRole?> = runCatching {
+        val userRoleDto = dataSource.getUserRoleByEmail(email).firstOrNull()
+        userRoleDto?.let {
+            userRoleMapper.mapToDomain(it)
+        }
+    }.recoverCatching { throwable ->
+        when (throwable) {
+            is IOException -> throw DomainError.NetworkError("Failed to fetch user role by email")
+            is IllegalArgumentException -> throw DomainError.MappingError("Error mapping user role")
             is DomainError -> throw throwable
             else -> throw DomainError.UnknownError
         }
@@ -104,4 +153,6 @@ class UserRoleRepositoryImpl(
             else -> throw DomainError.TaskError("Failed to update user role: ${throwable.message}")
         }
     }
+
+     */
 }

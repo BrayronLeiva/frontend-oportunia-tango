@@ -2,11 +2,12 @@ package oportunia.maps.frontend.taskapp.data.mapper
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
+import javax.inject.Inject
 
 /**
  * Mapper class for converting between UserRole domain entities and UserRoleDto data objects.
  */
-class UserRoleMapper(
+class UserRoleMapper @Inject constructor(
     private val userMapper: UserMapper,
     private val roleMapper: RoleMapper
 ) {

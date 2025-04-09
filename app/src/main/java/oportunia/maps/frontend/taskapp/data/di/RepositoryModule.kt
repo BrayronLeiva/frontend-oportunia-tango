@@ -6,8 +6,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import oportunia.maps.frontend.taskapp.data.repository.LocationCompanyRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.QualificationRepositoryImpl
+import oportunia.maps.frontend.taskapp.data.repository.StudentRepositoryImpl
+import oportunia.maps.frontend.taskapp.data.repository.UserRoleRepositoryImpl
 import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
 import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
+import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
+import oportunia.maps.frontend.taskapp.domain.repository.UserRoleRepository
 import javax.inject.Singleton
 
 /**
@@ -35,7 +39,7 @@ abstract class RepositoryModule {
     ): LocationCompanyRepository
 
     /**
-     * Binds the concrete implementation [LocationCompanyRepositoryImpl] to the [LocationCompanyRepository] interface.
+     * Binds the concrete implementation [QualificationRepositoryImpl] to the [QualificationRepository] interface.
      *
      * @param QualificationRepositoryImpl The implementation instance to be provided when [QualificationRepository] is requested
      * @return The bound [QualificationRepository] interface
@@ -45,4 +49,29 @@ abstract class RepositoryModule {
     abstract fun bindQualificationRepository(
         qualificationRepositoryImpl: QualificationRepositoryImpl
     ): QualificationRepository
+
+    /**
+     * Binds the concrete implementation [studentRepositoryImpl] to the [StudentRepository] interface.
+     *
+     * @param studentRepositoryImpl The implementation instance to be provided when [StudentRepository] is requested
+     * @return The bound [StudentRepository] interface
+     */
+    @Binds
+    @Singleton
+    abstract fun bindStudentRepository(
+        studentRepositoryImpl: StudentRepositoryImpl
+    ): StudentRepository
+
+
+    /**
+     * Binds the concrete implementation [userRoleRepositoryImpl] to the [UserRoleRepository] interface.
+     *
+     * @param userRoleRepositoryImpl The implementation instance to be provided when [UserRoleRepository] is requested
+     * @return The bound [UserRoleRepository] interface
+     */
+    @Binds
+    @Singleton
+    abstract fun binduserRoleRepository(
+        userRoleRepositoryImpl: UserRoleRepositoryImpl
+    ): UserRoleRepository
 }

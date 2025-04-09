@@ -11,10 +11,16 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
+import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
+import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import oportunia.maps.frontend.taskapp.data.remote.interceptor.ResponseInterceptor
 import oportunia.maps.frontend.taskapp.data.remote.serializer.QualificationDeserializer
+import oportunia.maps.frontend.taskapp.data.remote.serializer.StudentDeserializer
+import oportunia.maps.frontend.taskapp.data.remote.serializer.UserRoleDeserializer
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -47,6 +53,8 @@ object NetworkModule {
     fun provideGson(): Gson = GsonBuilder()
         .registerTypeAdapter(LocationCompanyDto::class.java, LocationCompanyDeserializer())
         .registerTypeAdapter(QualificationDto::class.java, QualificationDeserializer())
+        .registerTypeAdapter(StudentDto::class.java, StudentDeserializer())
+        .registerTypeAdapter(UserRoleDto::class.java, UserRoleDeserializer())
         .setDateFormat(DATE_FORMAT)
         .create()
 
@@ -120,5 +128,27 @@ object NetworkModule {
     @Singleton
     fun provideQualificationService(retrofit: Retrofit): QualificationService =
         retrofit.create(QualificationService::class.java)
+
+    /**
+     * Provides the Student implementation.
+     *
+     * @param retrofit The Retrofit instance
+     * @return Implementation of [StudentService]
+     */
+    @Provides
+    @Singleton
+    fun provideStudentService(retrofit: Retrofit): StudentService =
+        retrofit.create(StudentService::class.java)
+
+    /**
+     * Provides the Student implementation.
+     *
+     * @param retrofit The Retrofit instance
+     * @return Implementation of [UserRoleService]
+     */
+    @Provides
+    @Singleton
+    fun provideUserRoleService(retrofit: Retrofit): UserRoleService =
+        retrofit.create(UserRoleService::class.java)
 
 }

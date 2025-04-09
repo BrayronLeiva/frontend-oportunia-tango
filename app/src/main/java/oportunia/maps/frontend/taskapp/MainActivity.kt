@@ -51,6 +51,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 /**
  * Main activity that serves as the entry point for the application.
@@ -98,6 +99,8 @@ class MainActivity : ComponentActivity() {
 
     private val qualificationViewModel: QualificationViewModel by viewModels()
 
+    private val userRoleViewModel: UserRoleViewModel by viewModels()
+
     //private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
 
     /*private val internshipLocationViewModelFactory: InternshipLocationViewModel by viewModels {
@@ -123,6 +126,7 @@ class MainActivity : ComponentActivity() {
                     taskViewModel,
                     qualificationViewModel,
                     locationCompanyViewModel,
+                    userRoleViewModel
                     //internshipLocationViewModel
                 )
             }
@@ -130,69 +134,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/**
- * Main screen composable that incorporates the top app bar and navigation system.
- * Sets up the application scaffold and initializes the navigation graph.
- *
- * @param taskViewModel The ViewModel that provides access to task data and business logic
- */
-@Composable
-fun MainScreen(
-    taskViewModel: TaskViewModel,
-    qualificationViewModel: QualificationViewModel,
-    locationCompanyViewModel: LocationCompanyViewModel,
-    internshipLocationViewModel: InternshipLocationViewModel
-) {
-    val navController = rememberNavController()
-
-    LaunchedEffect(Unit) {
-        taskViewModel.findAllTasks()
-        locationCompanyViewModel.findAllLocations()
-    }
-
-    // Mantener el estado de la ruta actual
-    var currentDestination by remember { mutableStateOf<String?>(null) }
-
-    // Monitorear cambios en la ruta de navegación
-    LaunchedEffect(navController) {
-        navController.currentBackStackEntryFlow.collect { entry ->
-            currentDestination = entry.destination.route
-        }
-    }
-
-
-    Scaffold (
-        bottomBar = {
-            if (
-                currentDestination != null &&
-                currentDestination != "login"
-                &&
-                currentDestination != "mainRegister"
-                &&
-                currentDestination != "registerStudentFirst"
-                &&
-                currentDestination != "registerStudentSecond"
-                &&
-                currentDestination != "home"
-                &&
-                currentDestination != "companyMap"
-                &&
-                !currentDestination!!.startsWith("internshipCompany/")
-                ) {
-                BottomNavigationRow(navController = navController)
-            }
-        }
-
-    ) { paddingValues ->
-        NavGraph(
-            navController = navController,
-            qualificationViewModel = qualificationViewModel,
-            locationCompanyViewModel = locationCompanyViewModel,
-            //internshipLocationViewModel = internshipLocationViewModel,
-            paddingValues = paddingValues
-        )
-    }
-}
 
 /**
  * Preview composable for the MainScreen.
@@ -245,6 +186,7 @@ fun MainScreen(
     taskViewModel: TaskViewModel,
     qualificationViewModel: QualificationViewModel,
     locationCompanyViewModel: LocationCompanyViewModel,
+    userRoleViewModel: UserRoleViewModel
 ) {
     val navController = rememberNavController()
 
@@ -291,6 +233,7 @@ fun MainScreen(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
             qualificationViewModel = qualificationViewModel,
+            userRoleViewModel = userRoleViewModel,
             paddingValues = paddingValues
         )
     }

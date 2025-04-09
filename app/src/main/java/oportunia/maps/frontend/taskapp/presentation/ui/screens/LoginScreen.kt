@@ -14,7 +14,9 @@ import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -27,15 +29,21 @@ import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.lightBlue
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 @Composable
 fun LoginScreen(
     navController: NavController,
+    userRoleViewModel: UserRoleViewModel,
     paddingValues: PaddingValues
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
+
+    // Observamos el estado de userRole desde el ViewModel
+    val userRoleState by userRoleViewModel.userRole.collectAsState()
 
     Box(
         modifier = Modifier
@@ -82,11 +90,16 @@ fun LoginScreen(
                 Text(errorMessage)
             }
 
-            CustomButton(
-                text = stringResource(id = R.string.main_login),
-                onClick = {
-                    if (UserRoleProvider.verifyUserCredentials(email, password)) {
-                        val userRole = UserRoleProvider.getUserRoleByEmail(email)
+            // Verificamos el estado de carga y el error
+            when (userRoleState) {
+                is UserRoleState.Loading -> {
+                    CircularProgressIndicator() // Muestra un spinner mientras se hace la operación
+                }
+                is UserRoleState.Success -> {
+                    val loggedInUser = (userRoleState as UserRoleState.Success).userRole
+                    // Si el login es exitoso, navegamos a la pantalla correspondiente
+                    LaunchedEffect(loggedInUser) {
+                        val userRole = loggedInUser.role.name
                         when (userRole) {
                             TypeUser.STU -> {
                                 navController.navigate(NavRoutes.StudentMap.ROUTE)
@@ -94,13 +107,26 @@ fun LoginScreen(
                             TypeUser.COM -> {
                                 navController.navigate(NavRoutes.CompanyMap.ROUTE)
                             }
-                            null -> {
-                                errorMessage = "User role not found."
-                            }
                         }
-                    } else {
-                        errorMessage = "Invalid email or password."
                     }
+                }
+                is UserRoleState.Failure -> {
+                    Text("Invalid email or password.", color = Color.Red) // Mensaje de error si no se encuentra al usuario
+                }
+                is UserRoleState.Error -> {
+                    val errorMessage = (userRoleState as UserRoleState.Error).message
+                    Text(errorMessage, color = Color.Red) // Muestra el mensaje de error
+                }
+                is UserRoleState.Empty -> {
+                    //Text("Invalid email or password.", color = Color.Red) // Mensaje de error si no se encuentra al usuario
+                }
+            }
+
+            CustomButton(
+                text = stringResource(id = R.string.main_login),
+                onClick = {
+                    // Inicia el login llamando al método del ViewModel
+                    userRoleViewModel.loginUser(email, password)
                 }
             )
         }
