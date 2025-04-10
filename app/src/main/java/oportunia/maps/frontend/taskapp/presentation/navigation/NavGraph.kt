@@ -149,10 +149,9 @@ fun NavGraph(
         navController: NavHostController,
         locationCompanyViewModel: LocationCompanyViewModel,
         qualificationViewModel: QualificationViewModel,
-        userRoleViewModel: UserRoleViewModel,
         paddingValues: PaddingValues
     ) {
-        NavHost(navController = navController, startDestination = NavRoutes.Login.ROUTE) {
+        NavHost(navController = navController, startDestination = NavRoutes.Home.ROUTE) {
 
             composable(NavRoutes.MainRegister.ROUTE) {
                 MainRegister(navController, paddingValues)
@@ -248,10 +247,7 @@ fun NavGraph(
                 )*/
             }
 
-            composable(NavRoutes.Login.ROUTE) {
-                LoginScreen(navController, userRoleViewModel, paddingValues)
 
-            }
         }
 
 }

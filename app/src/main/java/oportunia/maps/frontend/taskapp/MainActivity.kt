@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
 
     private val qualificationViewModel: QualificationViewModel by viewModels()
 
-    private val userRoleViewModel: UserRoleViewModel by viewModels()
+    //private val userRoleViewModel: UserRoleViewModel by viewModels()
 
     //private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
 
@@ -125,8 +125,7 @@ class MainActivity : ComponentActivity() {
                 MainScreen(
                     taskViewModel,
                     qualificationViewModel,
-                    locationCompanyViewModel,
-                    userRoleViewModel
+                    locationCompanyViewModel
                     //internshipLocationViewModel
                 )
             }
@@ -185,8 +184,7 @@ private fun PreviewMainScreen() {
 fun MainScreen(
     taskViewModel: TaskViewModel,
     qualificationViewModel: QualificationViewModel,
-    locationCompanyViewModel: LocationCompanyViewModel,
-    userRoleViewModel: UserRoleViewModel
+    locationCompanyViewModel: LocationCompanyViewModel
 ) {
     val navController = rememberNavController()
 
@@ -233,7 +231,6 @@ fun MainScreen(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
             qualificationViewModel = qualificationViewModel,
-            userRoleViewModel = userRoleViewModel,
             paddingValues = paddingValues
         )
     }

@@ -34,9 +34,9 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
     userRoleViewModel: UserRoleViewModel,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    onLoginSuccess: (Int) -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -84,7 +84,7 @@ fun LoginScreen(
                 visualTransformation = PasswordVisualTransformation()
             )
 
-            RegisterText(navController)
+            //RegisterText(navController)
 
             if (errorMessage.isNotEmpty()) {
                 Text(errorMessage)
@@ -98,6 +98,10 @@ fun LoginScreen(
                 is UserRoleState.Success -> {
                     val loggedInUser = (userRoleState as UserRoleState.Success).userRole
                     // Si el login es exitoso, navegamos a la pantalla correspondiente
+                    LaunchedEffect(loggedInUser.user.id) {
+                        onLoginSuccess(loggedInUser.user.id.toInt())
+                    }
+                    /*
                     LaunchedEffect(loggedInUser) {
                         val userRole = loggedInUser.role.name
                         when (userRole) {
@@ -108,7 +112,7 @@ fun LoginScreen(
                                 navController.navigate(NavRoutes.CompanyMap.ROUTE)
                             }
                         }
-                    }
+                    }*/
                 }
                 is UserRoleState.Failure -> {
                     Text("Invalid email or password.", color = Color.Red) // Mensaje de error si no se encuentra al usuario
