@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -50,6 +51,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
@@ -99,6 +101,8 @@ class MainActivity : ComponentActivity() {
 
     private val qualificationViewModel: QualificationViewModel by viewModels()
 
+    private val studentViewModel: StudentViewModel by viewModels()
+
     //private val userRoleViewModel: UserRoleViewModel by viewModels()
 
     //private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
@@ -117,15 +121,22 @@ class MainActivity : ComponentActivity() {
         InternshipLocationViewModelFactory(locationCompanyRepository, internshipLocationRepository)
     }*/
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val userId = intent.getIntExtra("userId", -1).toLong()  // -1 es el valor por defecto
 
+        Log.d("MainActivity", "User ID recibido: $userId")
         setContent {
             TaskAppTheme {
                 MainScreen(
                     taskViewModel,
                     qualificationViewModel,
-                    locationCompanyViewModel
+                    locationCompanyViewModel,
+                    studentViewModel,
+                    userId
                     //internshipLocationViewModel
                 )
             }
@@ -184,7 +195,9 @@ private fun PreviewMainScreen() {
 fun MainScreen(
     taskViewModel: TaskViewModel,
     qualificationViewModel: QualificationViewModel,
-    locationCompanyViewModel: LocationCompanyViewModel
+    locationCompanyViewModel: LocationCompanyViewModel,
+    studentViewModel: StudentViewModel,
+    userId: Long
 ) {
     val navController = rememberNavController()
 
@@ -208,8 +221,7 @@ fun MainScreen(
         bottomBar = {
             if (
                 currentDestination != null &&
-                currentDestination != "login"
-                &&
+
                 currentDestination != "mainRegister"
                 &&
                 currentDestination != "registerStudentFirst"
@@ -231,7 +243,9 @@ fun MainScreen(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
             qualificationViewModel = qualificationViewModel,
-            paddingValues = paddingValues
+            studentViewModel = studentViewModel,
+            paddingValues = paddingValues,
+            userId = userId
         )
     }
 }

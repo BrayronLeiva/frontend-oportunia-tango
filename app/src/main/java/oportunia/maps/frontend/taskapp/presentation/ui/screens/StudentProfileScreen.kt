@@ -7,6 +7,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,9 +25,23 @@ import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
 @Composable
-fun StudentProfileScreen(navController: NavController, student: Student) {
+fun StudentProfileScreen(
+    navController: NavController,
+    studentViewModel: StudentViewModel,
+    userId: Long
+) {
+    val students by studentViewModel.studentList.collectAsState()
+
+    LaunchedEffect(Unit) {
+        studentViewModel.findAllStudents()
+    }
+
+
+    val selectedStudent = students.find { it.id == userId }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -46,18 +63,20 @@ fun StudentProfileScreen(navController: NavController, student: Student) {
         Spacer(modifier = Modifier.height(16.dp))
 
         // Student Name
-        Text(
-            text = student.name,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
-        )
+        selectedStudent?.let {
+            Text(
+                text = it.name,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         // Student Rating
         Text(
-            text = "⭐ ${student.rating}",
+            text = "⭐ ${selectedStudent?.rating}",
             fontSize = 18.sp,
             fontWeight = FontWeight.Medium,
             color = Color(0xFFFFA500) // Orange for rating
@@ -66,9 +85,9 @@ fun StudentProfileScreen(navController: NavController, student: Student) {
         Spacer(modifier = Modifier.height(16.dp))
 
         // Info Card
-        ProfileInfoCard(title = "Identification", value = student.identification.toString())
-        ProfileInfoCard(title = "Personal Info", value = student.personalInfo)
-        ProfileInfoCard(title = "Experience", value = student.experience)
+        ProfileInfoCard(title = "Identification", value = selectedStudent?.identification.toString())
+        selectedStudent?.let { ProfileInfoCard(title = "Personal Info", value = it.personalInfo) }
+        selectedStudent?.let { ProfileInfoCard(title = "Experience", value = it.experience) }
 
         Spacer(modifier = Modifier.height(32.dp))
 

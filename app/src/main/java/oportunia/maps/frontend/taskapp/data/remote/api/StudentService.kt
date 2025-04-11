@@ -19,7 +19,7 @@ interface StudentService {
      *
      * @return [Response] containing a list of [LocationCompanyDto] objects if successful
      */
-    @GET("qualification")
+    @GET("student")
     suspend fun getAllstudents(): Response<List<StudentDto>>
 
     /**
@@ -37,7 +37,7 @@ interface StudentService {
      * @param locationCompany The [LocationCompanyDto] object containing the data to create
      * @return [Response] containing the created [LocationCompanyDto] with server-assigned ID if successful
      */
-    @POST("qualification")
+    @POST("student")
     suspend fun createStudent(@Body qualification: StudentDto): Response<StudentDto>
 
     /**

@@ -23,7 +23,7 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
         val jsonObject = json.asJsonObject
 
 
-        val studentId = jsonObject.get("idStudent").asLong
+        val studentId = jsonObject.get("id").asLong
         val studentName = jsonObject.get("studentName").asString
         val identification = jsonObject.get("identification").asInt
         val personalInfo = jsonObject.get("personalInfo").asString

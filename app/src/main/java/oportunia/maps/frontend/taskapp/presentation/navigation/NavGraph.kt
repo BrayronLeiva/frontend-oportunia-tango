@@ -27,6 +27,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskListScreen
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
@@ -149,7 +150,9 @@ fun NavGraph(
         navController: NavHostController,
         locationCompanyViewModel: LocationCompanyViewModel,
         qualificationViewModel: QualificationViewModel,
-        paddingValues: PaddingValues
+        studentViewModel: StudentViewModel,
+        paddingValues: PaddingValues,
+        userId: Long
     ) {
         NavHost(navController = navController, startDestination = NavRoutes.Home.ROUTE) {
 
@@ -181,16 +184,9 @@ fun NavGraph(
             composable(NavRoutes.StudentProfile.ROUTE) {
                 StudentProfileScreen(
                     navController,
-                    Student(
-                        1,
-                        "Rodney",
-                        402640339,
-                        "I love Android Studio",
-                        "Kotlin Developer",
-                        4.5,
-                        User(3, "rodney@est.una.ac.cr", "123")
-                    )
-                ) //Estudiante temporal
+                    studentViewModel,
+                    userId
+                )
             }
 
 

@@ -35,6 +35,7 @@ import javax.inject.Singleton
  * - Retrofit service configuration
  * - API service interfaces
  *
+ *
  * @property BASE_URL The base URL for the API endpoints
  */
 @Module

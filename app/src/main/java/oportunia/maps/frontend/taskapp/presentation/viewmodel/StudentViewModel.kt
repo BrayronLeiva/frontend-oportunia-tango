@@ -61,6 +61,7 @@ class StudentViewModel @Inject constructor(
                     _selectedStudent.value = student
                 }
                 .onFailure { exception ->
+                    Log.e("StudentViewModel", "User $studentId")
                     Log.e("StudentViewModel", "Error fetching task by ID: ${exception.message}")
                 }
         }
