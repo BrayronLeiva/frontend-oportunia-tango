@@ -57,12 +57,8 @@ fun MainRegisterScreen(
 ) {
     val navController = rememberNavController()
 
-    LaunchedEffect(Unit) {
 
-    }
-    // Obtenemos el contexto
-    val context = LocalContext.current
-    val activity = context as? Activity
+
 
     // Mantener el estado de la ruta actual
     var currentDestination by remember { mutableStateOf<String?>(null) }
@@ -74,6 +70,9 @@ fun MainRegisterScreen(
         }
     }
 
+    // Obtenemos el contexto
+    val context = LocalContext.current
+    val activity = context as? Activity
     val onRegisterSuccess: (Int) -> Unit = { userId ->
         val intent = Intent(context, StudentActivity::class.java).apply {
             putExtra("userId", userId)

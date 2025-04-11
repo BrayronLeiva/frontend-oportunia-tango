@@ -182,13 +182,7 @@ fun NavGraph(
             //    InternshipSearch(internshipLocationViewModel, paddingValues)
             //}
 
-            composable(NavRoutes.StudentProfile.ROUTE) {
-                StudentProfileScreen(
-                    navController,
-                    studentViewModel,
-                    userId
-                )
-            }
+
 
 
             composable(
@@ -255,7 +249,8 @@ fun NavGraph(
     locationCompanyViewModel: LocationCompanyViewModel,
     studentViewModel: StudentViewModel,
     paddingValues: PaddingValues,
-    userId: Long
+    userId: Long,
+    onLogOut: () -> Unit
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.StudentMap.ROUTE) {
 
@@ -269,7 +264,8 @@ fun NavGraph(
             StudentProfileScreen(
                 navController,
                 studentViewModel,
-                userId
+                userId,
+                onLogOut
             )
         }
 
@@ -307,7 +303,6 @@ fun NavGraph(
                 paddingValues = paddingValues
             )*/
         }
-
 
 
 

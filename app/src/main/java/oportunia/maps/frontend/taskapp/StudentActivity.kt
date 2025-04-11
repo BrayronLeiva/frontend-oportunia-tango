@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -30,6 +31,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewM
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
+import androidx.compose.ui.platform.LocalContext
 
 @AndroidEntryPoint
 class StudentActivity : ComponentActivity() {
@@ -99,6 +101,13 @@ fun MainStudentScreen(
             currentDestination = entry.destination.route
         }
     }
+    val context = LocalContext.current
+    val activity = context as? Activity
+    val onLogOut: () -> Unit = {
+        val intent = Intent(context, LoginActivity::class.java)
+        context.startActivity(intent)
+        activity?.finish()
+    }
 
 
     Scaffold(
@@ -111,7 +120,8 @@ fun MainStudentScreen(
             locationCompanyViewModel = locationCompanyViewModel,
             studentViewModel = studentViewModel,
             paddingValues = paddingValues,
-            userId = userId
+            userId = userId,
+            onLogOut = onLogOut
         )
     }
 
