@@ -44,6 +44,9 @@ class UserRoleViewModel @Inject constructor(
     private val _userRole = MutableStateFlow<UserRoleState>(UserRoleState.Empty)
     val userRole: StateFlow<UserRoleState> = _userRole
 
+    private val _loggedInUser = MutableStateFlow<UserRole?>(null)
+    val loggedInUser: StateFlow<UserRole?> = _loggedInUser
+
     /**
      * Finds a user role by email and updates the [userRole] state.
      *
@@ -60,6 +63,7 @@ class UserRoleViewModel @Inject constructor(
                     val loggedInUser = userRoles.firstOrNull { it.user.email == email && it.user.password == password }
                     if (loggedInUser != null) {
                         _userRole.value = UserRoleState.Success(loggedInUser)
+                        _loggedInUser.value = loggedInUser
                     } else {
                         _userRole.value = UserRoleState.Failure
                     }

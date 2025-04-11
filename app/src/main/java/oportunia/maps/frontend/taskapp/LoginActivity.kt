@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp
 
 import android.app.Activity
+import android.content.Context
 import dagger.hilt.android.AndroidEntryPoint
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 import android.os.Bundle
@@ -56,7 +57,10 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewM
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 
 import android.content.Intent
+import android.widget.Toast
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 
 
 @AndroidEntryPoint
@@ -83,7 +87,7 @@ fun MainLoginScreen(
     userRoleViewModel: UserRoleViewModel
 ) {
     val navController = rememberNavController()
-
+    val loggedInUser by userRoleViewModel.loggedInUser.collectAsState()
     LaunchedEffect(Unit) {
 
     }
@@ -107,14 +111,46 @@ fun MainLoginScreen(
             userRoleViewModel = userRoleViewModel,
             onLoginSuccess = { userId ->
 
-                // Ir al MainActivity con el ID del usuario
-                val intent = Intent(context, MainActivity::class.java).apply {
-                    putExtra("userId", userId)
+                loggedInUser?.let { userRole ->
+                    when (userRole.role.name) {
+                        TypeUser.STU -> {
+                            val intent = Intent(context, StudentActivity::class.java).apply {
+                                putExtra("userId", userId)
+                            }
+                            context.startActivity(intent)
+                            activity?.finish()
+                        }
+                        TypeUser.COM -> {
+                            val intent = Intent(context, CompanyActivity::class.java).apply {
+                                putExtra("userId", userId)
+                            }
+                            context.startActivity(intent)
+                            activity?.finish()
+                        }
+                        else -> {
+                            Toast.makeText(context, "Rol de usuario desconocido", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
+            },
+            onRegisterClick = { context ->
+                val intent = Intent(context, RegisterActivity::class.java)
                 context.startActivity(intent)
                 activity?.finish()
             },
             paddingValues = paddingValues
         )
     }
+
+    fun navigateToStudentScreen(context: Context) {
+        val intent = Intent(context, StudentActivity::class.java)
+        context.startActivity(intent)
+    }
+
+    fun navigateToCompanyScreen(context: Context) {
+        val intent = Intent(context, CompanyActivity::class.java)
+        context.startActivity(intent)
+    }
+
+
 }

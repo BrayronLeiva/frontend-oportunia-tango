@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -36,8 +38,10 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 fun LoginScreen(
     userRoleViewModel: UserRoleViewModel,
     paddingValues: PaddingValues,
-    onLoginSuccess: (Int) -> Unit
+    onLoginSuccess: (Int) -> Unit,
+    onRegisterClick: (Context) -> Unit
 ) {
+    val context = LocalContext.current
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
@@ -84,7 +88,8 @@ fun LoginScreen(
                 visualTransformation = PasswordVisualTransformation()
             )
 
-            //RegisterText(navController)
+            //RegisterText(navController) ESTO ES EL QUE VA PARA REGISTRO
+            RegisterText(onRegisterClick = { onRegisterClick(context) })
 
             if (errorMessage.isNotEmpty()) {
                 Text(errorMessage)
@@ -138,7 +143,7 @@ fun LoginScreen(
 }
 
 @Composable
-fun RegisterText(navController: NavController) {
+fun RegisterText(onRegisterClick: () -> Unit) {
     val annotatedString = buildAnnotatedString {
         append(stringResource(id = R.string.no_account) + " ")
         addStyle(
@@ -159,14 +164,7 @@ fun RegisterText(navController: NavController) {
         text = annotatedString,
         modifier = Modifier
             .padding(top = 8.dp)
-            .clickable {
-                val registerAnnotation = annotatedString.getStringAnnotations(
-                    tag = "REGISTER", start = 0, end = annotatedString.length
-                ).firstOrNull()
-                if (registerAnnotation != null) {
-                    navController.navigate(NavRoutes.MainRegister.ROUTE)
-                }
-            },
+            .clickable (onClick = onRegisterClick),
         style = androidx.compose.ui.text.TextStyle(color = Black)
     )
 }

@@ -51,6 +51,23 @@
             android:theme="@style/Theme.TaskApp">
         </activity>
 
+        <activity android:name=".RegisterActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TaskApp">
+        </activity>
+
+        <activity android:name=".StudentActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TaskApp">
+        </activity>
+
+        <activity android:name=".CompanyActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TaskApp">
+        </activity>
     </application>
 
 </manifest>

@@ -88,8 +88,8 @@ fun RegisterStudentSecond(
 
 
         }
-        CustomButton(stringResource(id = R.string.next_button), onClick = {navController.navigate(
-            NavRoutes.Home.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
+        //CustomButton(stringResource(id = R.string.next_button), onClick = {navController.navigate(
+           // NavRoutes.Home.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
 
     }
 }
