@@ -27,12 +27,16 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 
 @Composable
 fun MainRegister(
     navController: NavController,
+    userRoleViewModel: UserRoleViewModel,
+    studentViewModel: StudentViewModel,
     paddingValues: PaddingValues
 ) {
     var email by remember { mutableStateOf("") }
@@ -65,8 +69,13 @@ fun MainRegister(
                 RegisterTextField(value = password, onValueChange = { password = it }, label = stringResource(id = R.string.password_field))
                 RegisterTextField(value = confirmPassword, onValueChange = { confirmPassword = it }, stringResource(id = R.string.confirm_password_field))
 
-                CustomButton(stringResource(id = R.string.next_button), onClick = {navController.navigate(
-                    NavRoutes.RegisterStudentFirst.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
+                CustomButton(stringResource(
+                    id = R.string.next_button),
+                    onClick = {
+                        studentViewModel.updateUser(email, password)
+                        navController.navigate(NavRoutes.RegisterStudentFirst.ROUTE)
+                              },
+                    modifier = Modifier.width(350.dp), 350.dp)
             }
 
         }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.domain.model.Task
+import oportunia.maps.frontend.taskapp.domain.model.User
 import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
 import oportunia.maps.frontend.taskapp.domain.repository.TaskRepository
 import javax.inject.Inject
@@ -49,6 +50,20 @@ class StudentViewModel @Inject constructor(
     private val _studentList = MutableStateFlow<List<Student>>(emptyList())
     val studentList: StateFlow<List<Student>> = _studentList
 
+    private val _studentDraft = MutableStateFlow(
+        Student(
+            id = 0L,
+            name = "",
+            identification = 0,
+            personalInfo = "",
+            experience = "",
+            rating = 0.0,
+            user = User(0L, "", "")
+        )
+    )
+    val studentDraft: StateFlow<Student> = _studentDraft
+
+
     /**
      * Finds a task by its ID and updates the [selectedTask] state.
      *
@@ -83,4 +98,33 @@ class StudentViewModel @Inject constructor(
                 }
         }
     }
+
+
+
+
+    fun updateName(name: String) {
+        _studentDraft.value = _studentDraft.value.copy(name = name)
+    }
+
+    fun updateIdentification(id: Int) {
+        _studentDraft.value = _studentDraft.value.copy(identification = id)
+    }
+
+    fun updatePersonalInfo(info: String) {
+        _studentDraft.value = _studentDraft.value.copy(personalInfo = info)
+    }
+
+    fun updateExperience(exp: String) {
+        _studentDraft.value = _studentDraft.value.copy(experience = exp)
+    }
+
+    fun updateRating(rating: Double) {
+        _studentDraft.value = _studentDraft.value.copy(rating = rating)
+    }
+
+    fun updateUser(email: String, password: String) {
+        val updatedUser = _studentDraft.value.user.copy(email = email, password = password)
+        _studentDraft.value = _studentDraft.value.copy(user = updatedUser)
+    }
+
 }

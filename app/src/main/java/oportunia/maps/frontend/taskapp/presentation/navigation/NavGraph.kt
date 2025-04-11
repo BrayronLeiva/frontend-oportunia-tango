@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import oportunia.maps.frontend.taskapp.data.datasource.userrole.UserRoleProvider
 import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.domain.model.User
+import oportunia.maps.frontend.taskapp.domain.model.UserRole
 import oportunia.maps.frontend.taskapp.presentation.screens.StudentProfileScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
@@ -156,17 +157,17 @@ fun NavGraph(
     ) {
         NavHost(navController = navController, startDestination = NavRoutes.Home.ROUTE) {
 
-            composable(NavRoutes.MainRegister.ROUTE) {
-                MainRegister(navController, paddingValues)
-            }
+            //composable(NavRoutes.MainRegister.ROUTE) {
+                //MainRegister(navController, paddingValues)
+            //}
 
-            composable(NavRoutes.RegisterStudentFirst.ROUTE) {
-                RegisterStudentFirst(navController, paddingValues)
-            }
+            //composable(NavRoutes.RegisterStudentFirst.ROUTE) {
+                //RegisterStudentFirst(navController, paddingValues)
+            //}
 
-            composable(NavRoutes.RegisterStudentSecond.ROUTE) {
-                RegisterStudentSecond(navController, qualificationViewModel, paddingValues)
-            }
+            //composable(NavRoutes.RegisterStudentSecond.ROUTE) {
+                //RegisterStudentSecond(navController, qualificationViewModel, paddingValues)
+            //}
 
             composable(NavRoutes.Home.ROUTE) {
                 HomeScreen(navController, paddingValues)
@@ -391,20 +392,21 @@ fun NavGraph(
     userRoleViewModel: UserRoleViewModel,
     studentViewModel: StudentViewModel,
     qualificationViewModel: QualificationViewModel,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    onRegisterSuccess: () -> Unit
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.MainRegister.ROUTE) {
 
         composable(NavRoutes.MainRegister.ROUTE) {
-            MainRegister(navController, paddingValues)
+            MainRegister(navController, userRoleViewModel, studentViewModel, paddingValues)
         }
 
         composable(NavRoutes.RegisterStudentFirst.ROUTE) {
-            RegisterStudentFirst(navController, paddingValues)
+            RegisterStudentFirst(navController, userRoleViewModel, studentViewModel,paddingValues)
         }
 
         composable(NavRoutes.RegisterStudentSecond.ROUTE) {
-            RegisterStudentSecond(navController, qualificationViewModel, paddingValues)
+            RegisterStudentSecond(navController, qualificationViewModel, userRoleViewModel, studentViewModel, paddingValues, onRegisterSuccess)
         }
 
 

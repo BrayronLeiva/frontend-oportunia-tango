@@ -33,14 +33,12 @@ fun StudentProfileScreen(
     studentViewModel: StudentViewModel,
     userId: Long
 ) {
-    val students by studentViewModel.studentList.collectAsState()
 
     LaunchedEffect(Unit) {
-        studentViewModel.findAllStudents()
+        studentViewModel.selectStudentById(userId)
     }
 
-
-    val selectedStudent = students.find { it.id == userId }
+    val selectedStudent by studentViewModel.selectedStudent.collectAsState()
 
     Column(
         modifier = Modifier

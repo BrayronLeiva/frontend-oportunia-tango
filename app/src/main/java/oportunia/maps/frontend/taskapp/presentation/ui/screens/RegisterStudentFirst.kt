@@ -30,12 +30,16 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterLineTextField
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 
 @Composable
 fun RegisterStudentFirst(
     navController: NavController,
+    userRoleViewModel: UserRoleViewModel,
+    studentViewModel: StudentViewModel,
     paddingValues: PaddingValues
 ) {
     var name by remember { mutableStateOf("") }
@@ -71,7 +75,17 @@ fun RegisterStudentFirst(
             }
 
         }
-        CustomButton(stringResource(id = R.string.next_button), onClick = {navController.navigate(NavRoutes.RegisterStudentSecond.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
+        CustomButton(stringResource(
+            id = R.string.next_button),
+            onClick = {
+                studentViewModel.updateName(name)
+                val idCardInt = idCard.toIntOrNull() ?: 0
+                studentViewModel.updateIdentification(idCardInt)
+                studentViewModel.updatePersonalInfo(personalInfo)
+                studentViewModel.updateExperience(experience)
+                navController.navigate(NavRoutes.RegisterStudentSecond.ROUTE)
+                      },
+            modifier = Modifier.width(350.dp), 350.dp)
 
     }
 }

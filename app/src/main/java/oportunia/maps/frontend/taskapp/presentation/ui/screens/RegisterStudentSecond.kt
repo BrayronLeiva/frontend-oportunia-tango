@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.domain.model.UserRole
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
@@ -33,15 +34,19 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.SelectionTagIn
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
-
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 
 @Composable
 fun RegisterStudentSecond(
     navController: NavController,
     qualificationViewModel: QualificationViewModel,
-    paddingValues: PaddingValues
+    userRoleViewModel: UserRoleViewModel,
+    studentViewModel: StudentViewModel,
+    paddingValues: PaddingValues,
+    onRegisterSuccess: () -> Unit
 ) {
 
 
@@ -88,8 +93,13 @@ fun RegisterStudentSecond(
 
 
         }
-        //CustomButton(stringResource(id = R.string.next_button), onClick = {navController.navigate(
-           // NavRoutes.Home.ROUTE)}, modifier = Modifier.width(350.dp), 350.dp)
+        studentViewModel.updateRating(0.0)
+        CustomButton(stringResource(
+            id = R.string.next_button),
+            onClick = {
+                    onRegisterSuccess()
+                      },
+            modifier = Modifier.width(350.dp), 350.dp)
 
     }
 }

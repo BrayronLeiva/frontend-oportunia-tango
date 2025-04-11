@@ -74,6 +74,11 @@ fun MainRegisterScreen(
         }
     }
 
+    val onRegisterSuccess: () -> Unit = {
+        val intent = Intent(context, MainActivity::class.java)
+        context.startActivity(intent)
+        activity?.finish()
+    }
 
     Scaffold { paddingValues ->
         NavGraph(
@@ -82,6 +87,7 @@ fun MainRegisterScreen(
             studentViewModel = studentViewModel,
             qualificationViewModel = qualificationViewModel,
             paddingValues = paddingValues,
+            onRegisterSuccess = onRegisterSuccess
         )
     }
 
