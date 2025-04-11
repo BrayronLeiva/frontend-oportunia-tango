@@ -61,7 +61,7 @@ class StudentRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveStudent(student: Student): Result<Unit> {
+    override suspend fun saveStudent(student: Student): Result<Student> {
         return dataSource.create(studentMapper.mapToDto(student)).map {
             studentMapper.mapToDomain(it)
         }

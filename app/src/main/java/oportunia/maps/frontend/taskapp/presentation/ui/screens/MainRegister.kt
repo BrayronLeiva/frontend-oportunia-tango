@@ -69,9 +69,11 @@ fun MainRegister(
                 RegisterTextField(value = password, onValueChange = { password = it }, label = stringResource(id = R.string.password_field))
                 RegisterTextField(value = confirmPassword, onValueChange = { confirmPassword = it }, stringResource(id = R.string.confirm_password_field))
 
+
                 CustomButton(stringResource(
                     id = R.string.next_button),
                     onClick = {
+                        userRoleViewModel.updateUser(email,password)
                         studentViewModel.updateUser(email, password)
                         navController.navigate(NavRoutes.RegisterStudentFirst.ROUTE)
                               },

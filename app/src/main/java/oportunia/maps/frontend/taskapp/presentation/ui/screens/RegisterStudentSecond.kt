@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -20,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,8 +36,10 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.SelectionTagIn
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 
@@ -46,12 +50,18 @@ fun RegisterStudentSecond(
     userRoleViewModel: UserRoleViewModel,
     studentViewModel: StudentViewModel,
     paddingValues: PaddingValues,
-    onRegisterSuccess: () -> Unit
+    onRegisterSuccess: (Int) -> Unit
 ) {
 
 
     // Obtener la lista de habilidades directamente del StateFlow
     val qualifications = qualificationViewModel.qualificationList.collectAsState().value
+    val userDraft = userRoleViewModel.userRoleDraft.collectAsState().value
+
+    val studentCreated = studentViewModel.registeredStudent.collectAsState().value
+
+    val studentState by studentViewModel.student.collectAsState()
+
     val habilidades = qualifications.map { it.name }
     // Llamamos al método para cargar las qualifications
     LaunchedEffect(Unit) {
@@ -93,13 +103,36 @@ fun RegisterStudentSecond(
 
 
         }
-        studentViewModel.updateRating(0.0)
-        CustomButton(stringResource(
-            id = R.string.next_button),
-            onClick = {
-                    onRegisterSuccess()
-                      },
-            modifier = Modifier.width(350.dp), 350.dp)
 
+        studentViewModel.updateRating(0.0)
+        // Observamos el estado del estudiante
+        when (studentState) {
+            is StudentState.Loading -> {
+                //CircularProgressIndicator()
+            }
+
+            is StudentState.Success -> {
+                val loggedInStudent = (studentState as StudentState.Success).student
+                LaunchedEffect(loggedInStudent.id) {
+                    onRegisterSuccess(loggedInStudent.id.toInt())
+                }
+            }
+
+            is StudentState.Error -> {
+                val errorMessage = (studentState as StudentState.Error).message
+                Text(text = errorMessage, color = Color.Red)
+            }
+
+            else -> {
+                // Mostrar el botón solo si no está cargando ni en éxito
+                CustomButton(
+                    text = stringResource(id = R.string.next_button),
+                    onClick = {
+                        studentViewModel.saveStudent()
+                    },
+                    modifier = Modifier.width(350.dp)
+                )
+            }
+        }
     }
 }

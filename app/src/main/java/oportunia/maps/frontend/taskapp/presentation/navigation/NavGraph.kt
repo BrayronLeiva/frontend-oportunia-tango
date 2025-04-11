@@ -393,7 +393,7 @@ fun NavGraph(
     studentViewModel: StudentViewModel,
     qualificationViewModel: QualificationViewModel,
     paddingValues: PaddingValues,
-    onRegisterSuccess: () -> Unit
+    onRegisterSuccess: (Int) -> Unit
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.MainRegister.ROUTE) {
 

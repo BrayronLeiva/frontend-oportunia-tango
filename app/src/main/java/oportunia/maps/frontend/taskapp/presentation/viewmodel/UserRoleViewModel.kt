@@ -9,6 +9,10 @@ import oportunia.maps.frontend.taskapp.domain.repository.UserRoleRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
+import oportunia.maps.frontend.taskapp.domain.model.Role
+import oportunia.maps.frontend.taskapp.domain.model.Student
+import oportunia.maps.frontend.taskapp.domain.model.User
 import javax.inject.Inject
 
 /**
@@ -52,6 +56,13 @@ class UserRoleViewModel @Inject constructor(
      *
      * @param email The email of the user whose role is to be fetched
      */
+    private val _userRoleDraft = MutableStateFlow(
+        UserRole(
+            User(0L,"",""),
+            Role(0L,TypeUser.STU)
+        )
+    )
+    val userRoleDraft: StateFlow<UserRole> = _userRoleDraft
 
 
     fun loginUser(email: String, password: String) {
@@ -92,4 +103,38 @@ class UserRoleViewModel @Inject constructor(
         }
     }
     */
+
+    fun saveUser() {
+        viewModelScope.launch {
+            val userRole = _userRoleDraft.value
+            userRoleRepository.saveUserRole(userRole)
+                .onSuccess { savedUserRole ->
+                    // _registeredStudent.value = student
+                    cleanStudentDraft()
+                    Log.e("UserRoleViewModel", "Saved succesfully user role")
+                }
+                .onFailure { exception ->
+                    Log.e("UserRoleViewModel", "Error saving user role")
+                }
+        }
+    }
+
+
+    private fun cleanStudentDraft(){
+        _userRoleDraft.value = UserRole(
+            User(0L,"",""),
+            Role(0L,TypeUser.STU)
+        )
+    }
+
+
+
+    fun updateUser(email: String, password: String) {
+        val user = User(0L, email, password)
+        _userRoleDraft.value = _userRoleDraft.value.copy(user = user)
+    }
+
+    //fun updateRole() {
+        //_userRoleDraft.value = _studentDraft.value.copy(rating = rating)
+    //}
 }

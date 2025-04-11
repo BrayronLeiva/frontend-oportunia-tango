@@ -74,8 +74,10 @@ fun MainRegisterScreen(
         }
     }
 
-    val onRegisterSuccess: () -> Unit = {
-        val intent = Intent(context, MainActivity::class.java)
+    val onRegisterSuccess: (Int) -> Unit = { userId ->
+        val intent = Intent(context, StudentActivity::class.java).apply {
+            putExtra("userId", userId)
+        }
         context.startActivity(intent)
         activity?.finish()
     }
