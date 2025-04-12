@@ -15,37 +15,37 @@ import retrofit2.http.Path
 interface StudentService {
 
     /**
-     * Retrieves all qualifications entries from the remote API.
+     * Retrieves all students entries from the remote API.
      *
-     * @return [Response] containing a list of [LocationCompanyDto] objects if successful
+     * @return [Response] containing a list of [StudentDto] objects if successful
      */
     @GET("student")
     suspend fun getAllstudents(): Response<List<StudentDto>>
 
     /**
-     * Retrieves a specific location-company by its unique identifier.
+     * Retrieves a specific student by its unique identifier.
      *
-     * @param id The unique identifier of the location to retrieve
-     * @return [Response] containing the requested [LocationCompanyDto] if successful
+     * @param id The unique identifier of the student to retrieve
+     * @return [Response] containing the requested [StudentDto] if successful
      */
     @GET("student/{id}")
     suspend fun getStudentById(@Path("id") id: Long): Response<StudentDto>
 
     /**
-     * Creates a new location-company entry in the remote API.
+     * Creates a new student entry in the remote API.
      *
-     * @param locationCompany The [LocationCompanyDto] object containing the data to create
-     * @return [Response] containing the created [LocationCompanyDto] with server-assigned ID if successful
+     * @param student The [StudentDto] object containing the data to create
+     * @return [Response] containing the created [StudentDto] with server-assigned ID if successful
      */
     @POST("student")
     suspend fun createStudent(@Body qualification: StudentDto): Response<StudentDto>
 
     /**
-     * Updates an existing location-company entry in the remote API.
+     * Updates an existing student entry in the remote API.
      *
-     * @param id The unique identifier of the location to update
-     * @param locationCompany The [LocationCompanyDto] object containing the updated data
-     * @return [Response] containing the updated [LocationCompanyDto] if successful
+     * @param id The unique identifier of the student to update
+     * @param student The [StudentDto] object containing the updated data
+     * @return [Response] containing the updated [StudentDto] if successful
      */
     @PUT("student/{id}")
     suspend fun updateStudent(
@@ -54,7 +54,7 @@ interface StudentService {
     ): Response<StudentDto>
 
     /**
-     * Deletes a location-company entry from the remote API.
+     * Deletes a student entry from the remote API.
      *
      * @param id The unique identifier of the location to delete
      * @return [Response] indicating the success of the operation

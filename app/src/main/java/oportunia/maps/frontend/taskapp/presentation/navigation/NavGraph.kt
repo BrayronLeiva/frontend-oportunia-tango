@@ -269,6 +269,10 @@ fun NavGraph(
             )
         }
 
+        //composable(NavRoutes.InternshipsSearch.ROUTE) {
+            //InternshipSearch(internshipLocationViewModel, paddingValues)
+        //}
+
         composable(
             route = NavRoutes.LocationCompanyDetail.ROUTE,
             arguments = listOf(navArgument(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID) {

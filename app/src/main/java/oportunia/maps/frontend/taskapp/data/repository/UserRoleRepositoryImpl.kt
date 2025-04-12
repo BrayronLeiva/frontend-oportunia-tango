@@ -23,9 +23,9 @@ class UserRoleRepositoryImpl @Inject constructor(
 
 
     /**
-     * Retrieves all tasks from the data source.
+     * Retrieves all user roles from the data source.
      *
-     * @return [Result] containing a list of qualifications if successful, or an error if the operation failed
+     * @return [Result] containing a list of user roles if successful, or an error if the operation failed
      */
 
 

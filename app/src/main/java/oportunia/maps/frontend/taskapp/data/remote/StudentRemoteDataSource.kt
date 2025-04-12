@@ -8,18 +8,18 @@ import retrofit2.Response
 import javax.inject.Inject
 
 /**
- * Remote data source for location company operations.
- * Handles all network operations related to location companies using [studentService].
+ * Remote data source for student company operations.
+ * Handles all network operations related to student using [studentService].
  *
- * @property studentService The service interface for location company API calls
+ * @property studentService The service interface for student company API calls
  */
 class StudentRemoteDataSource @Inject constructor(
     private val studentService: StudentService
 ) {
     /**
-     * Retrieves all location companies from the remote API.
+     * Retrieves all student from the remote API.
      *
-     * @return [Result] containing a list of [QualificationDto] if successful,
+     * @return [Result] containing a list of [StudentDto] if successful,
      * or an exception if the operation failed
      */
     suspend fun getAll(): Result<List<StudentDto>> = safeApiCall {
@@ -27,10 +27,10 @@ class StudentRemoteDataSource @Inject constructor(
     }
 
     /**
-     * Retrieves a specific location company by its ID.
+     * Retrieves a specific student company by its ID.
      *
      * @param id The unique identifier of the location company
-     * @return [Result] containing the [QualificationDto] if successful,
+     * @return [Result] containing the [StudentDto] if successful,
      * or an exception if the operation failed
      */
     suspend fun getById(id: Long): Result<StudentDto> = safeApiCall {
@@ -38,10 +38,10 @@ class StudentRemoteDataSource @Inject constructor(
     }
 
     /**
-     * Creates a new location company.
+     * Creates a new student.
      *
-     * @param dto The location company data to create
-     * @return [Result] containing the created [QualificationDto] if successful,
+     * @param dto The student data to create
+     * @return [Result] containing the created [StudentDto] if successful,
      * or an exception if the operation failed
      */
     suspend fun create(dto: StudentDto): Result<StudentDto> = safeApiCall {
@@ -51,9 +51,9 @@ class StudentRemoteDataSource @Inject constructor(
     /**
      * Updates an existing location company.
      *
-     * @param id The unique identifier of the location company to update
+     * @param id The unique identifier of the student to update
      * @param dto The updated location company data
-     * @return [Result] containing the updated [QualificationDto] if successful,
+     * @return [Result] containing the updated [StudentDto] if successful,
      * or an exception if the operation failed
      */
     suspend fun update(id: Long, dto: StudentDto): Result<StudentDto> = safeApiCall {
@@ -61,9 +61,9 @@ class StudentRemoteDataSource @Inject constructor(
     }
 
     /**
-     * Deletes a location company by its ID.
+     * Deletes a student by its ID.
      *
-     * @param id The unique identifier of the location company to delete
+     * @param id The unique identifier of the student to delete
      * @return [Result] with success or failure
      */
     suspend fun delete(id: Long): Result<Unit> = safeApiCall {

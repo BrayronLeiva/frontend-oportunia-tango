@@ -114,7 +114,7 @@ class StudentViewModel @Inject constructor(
                     Log.e("StudentViewModel", "Saved succesfully student: ${savedStudent.id}")
                 }
                 .onFailure { exception ->
-                    Log.e("StudentViewModel", "Error saving student")
+                    Log.e("StudentViewModel", "Error saving student" + exception.message)
                 }
         }
     }

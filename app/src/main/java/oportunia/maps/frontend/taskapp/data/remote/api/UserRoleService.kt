@@ -15,37 +15,37 @@ import retrofit2.http.Path
 interface UserRoleService {
 
     /**
-     * Retrieves all qualifications entries from the remote API.
+     * Retrieves all userRoles entries from the remote API.
      *
-     * @return [Response] containing a list of [LocationCompanyDto] objects if successful
+     * @return [Response] containing a list of [UserRoleDto] objects if successful
      */
     @GET("userRole")
     suspend fun getAlluserRoles(): Response<List<UserRoleDto>>
 
     /**
-     * Retrieves a specific location-company by its unique identifier.
+     * Retrieves a specific userRole by its unique identifier.
      *
      * @param id The unique identifier of the location to retrieve
-     * @return [Response] containing the requested [LocationCompanyDto] if successful
+     * @return [Response] containing the requested [UserRoleDto] if successful
      */
     @GET("userRole/{id}")
     suspend fun getUserRoleById(@Path("id") id: Long): Response<UserRoleDto>
 
     /**
-     * Creates a new location-company entry in the remote API.
+     * Creates a new userRole entry in the remote API.
      *
-     * @param locationCompany The [LocationCompanyDto] object containing the data to create
-     * @return [Response] containing the created [LocationCompanyDto] with server-assigned ID if successful
+     * @param userRole The [UserRoleDto] object containing the data to create
+     * @return [Response] containing the created [UserRoleDto] with server-assigned ID if successful
      */
     @POST("userRole")
     suspend fun createUserRole(@Body userRole: UserRoleDto): Response<UserRoleDto>
 
     /**
-     * Updates an existing location-company entry in the remote API.
+     * Updates an existing user-role entry in the remote API.
      *
      * @param id The unique identifier of the location to update
-     * @param locationCompany The [LocationCompanyDto] object containing the updated data
-     * @return [Response] containing the updated [LocationCompanyDto] if successful
+     * @param userRole The [UserRoleDto] object containing the updated data
+     * @return [Response] containing the updated [UserRoleDto] if successful
      */
     @PUT("userRole/{id}")
     suspend fun updateUserRole(
@@ -54,7 +54,7 @@ interface UserRoleService {
     ): Response<UserRoleDto>
 
     /**
-     * Deletes a location-company entry from the remote API.
+     * Deletes a userRole entry from the remote API.
      *
      * @param id The unique identifier of the location to delete
      * @return [Response] indicating the success of the operation

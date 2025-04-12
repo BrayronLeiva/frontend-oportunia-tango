@@ -8,10 +8,10 @@ import javax.inject.Inject
 
 
 /**
- * Remote data source for location company operations.
- * Handles all network operations related to location companies using [studentService].
+ * Remote data source for userRole operations.
+ * Handles all network operations related to userRoles using [userRoleService].
  *
- * @property studentService The service interface for location company API calls
+ * @property userRoleService The service interface for userRole API calls
  */
 class UserRoleRemoteDataSource @Inject constructor(
     private val userRoleService: UserRoleService
@@ -19,7 +19,7 @@ class UserRoleRemoteDataSource @Inject constructor(
     /**
      * Retrieves all location companies from the remote API.
      *
-     * @return [Result] containing a list of [QualificationDto] if successful,
+     * @return [Result] containing a list of [UserRoleDto] if successful,
      * or an exception if the operation failed
      */
     suspend fun getAll(): Result<List<UserRoleDto>> = safeApiCall {
@@ -27,10 +27,10 @@ class UserRoleRemoteDataSource @Inject constructor(
     }
 
     /**
-     * Retrieves a specific location company by its ID.
+     * Retrieves a specific userRole by its ID.
      *
      * @param id The unique identifier of the location company
-     * @return [Result] containing the [QualificationDto] if successful,
+     * @return [Result] containing the [UserRoleDto] if successful,
      * or an exception if the operation failed
      */
     suspend fun getById(id: Long): Result<UserRoleDto> = safeApiCall {
@@ -38,10 +38,10 @@ class UserRoleRemoteDataSource @Inject constructor(
     }
 
     /**
-     * Creates a new location company.
+     * Creates a new UserRole.
      *
-     * @param dto The location company data to create
-     * @return [Result] containing the created [QualificationDto] if successful,
+     * @param dto The UserRole data to create
+     * @return [Result] containing the created [UserRoleDto] if successful,
      * or an exception if the operation failed
      */
     suspend fun create(dto: UserRoleDto): Result<UserRoleDto> = safeApiCall {
@@ -49,11 +49,11 @@ class UserRoleRemoteDataSource @Inject constructor(
     }
 
     /**
-     * Updates an existing location company.
+     * Updates an existing UserRole.
      *
-     * @param id The unique identifier of the location company to update
+     * @param id The unique identifier of the UserRole to update
      * @param dto The updated location company data
-     * @return [Result] containing the updated [QualificationDto] if successful,
+     * @return [Result] containing the updated [UserRoleDto] if successful,
      * or an exception if the operation failed
      */
     suspend fun update(id: Long, dto: UserRoleDto): Result<UserRoleDto> = safeApiCall {
@@ -61,9 +61,9 @@ class UserRoleRemoteDataSource @Inject constructor(
     }
 
     /**
-     * Deletes a location company by its ID.
+     * Deletes a UserRole by its ID.
      *
-     * @param id The unique identifier of the location company to delete
+     * @param id The unique identifier of the UserRole to delete
      * @return [Result] with success or failure
      */
     suspend fun delete(id: Long): Result<Unit> = safeApiCall {

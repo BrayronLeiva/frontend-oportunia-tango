@@ -26,9 +26,9 @@ class StudentRepositoryImpl @Inject constructor(
 ) : StudentRepository {
 
     /**
-     * Retrieves all tasks from the data source.
+     * Retrieves all students from the data source.
      *
-     * @return [Result] containing a list of qualifications if successful, or an error if the operation failed
+     * @return [Result] containing a list of students if successful, or an error if the operation failed
      */
 
 
@@ -44,16 +44,16 @@ class StudentRepositoryImpl @Inject constructor(
         }
     }
     /**
-     * Finds a task by its ID.
+     * Finds a student by its ID.
      *
-     * @param studentId The ID of the qualification to find
-     * @return [Result] containing the qualification if found, or an error if the operation failed
+     * @param studentId The ID of the student to find
+     * @return [Result] containing the stundent if found, or an error if the operation failed
 
      */
 
 
     /**
-     * Retrieves a location company by its ID.
+     * Retrieves a student by its ID.
      */
     override suspend fun findStudentById(studentId: Long): Result<Student> {
         return dataSource.getById(studentId).map {
