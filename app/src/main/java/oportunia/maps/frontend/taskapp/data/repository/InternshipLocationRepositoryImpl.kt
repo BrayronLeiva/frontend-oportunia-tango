@@ -7,41 +7,73 @@ import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
 import kotlinx.coroutines.flow.first
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
+import oportunia.maps.frontend.taskapp.data.remote.InternshipLocationRemoteDataSource
 import oportunia.maps.frontend.taskapp.domain.model.Internship
+import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import java.io.IOException
+import java.net.UnknownHostException
+import javax.inject.Inject
 
-class InternshipLocationRepositoryImpl(
-    private val dataSource: InternshipLocationDataSource,
+class InternshipLocationRepositoryImpl  @Inject constructor(
+    private val remoteDataSource: InternshipLocationRemoteDataSource,
     private val internshipLocationMapper: InternshipLocationMapper,
     private val internshipMapper: InternshipMapper
 ) : InternshipLocationRepository {
 
-    override suspend fun findAllInternshipLocations(): Result<List<InternshipLocation>> = runCatching {
-        dataSource.getInternshipLocations().first().map { internshipLocationDto ->
-            internshipLocationMapper.mapToDomain(internshipLocationDto)
-        }
-    }.recoverCatching { throwable ->
-        when (throwable) {
-            is IOException -> throw DomainError.NetworkError("Failed to fetch internship locations")
-            is IllegalArgumentException -> throw DomainError.MappingError("Error mapping internship locations")
-            is DomainError -> throw throwable
-            else -> throw DomainError.UnknownError
+
+    override suspend fun findAllInternshipLocations(): Result<List<InternshipLocation>> {
+        return try {
+            remoteDataSource.getAll().map { dtos ->
+                dtos.map { internshipLocationMapper.mapToDomain(it) }
+            }
+        } catch (e: UnknownHostException) {
+            Result.failure(Exception("Network error: Please check your connection."))
+        } catch (e: Exception) {
+            Result.failure(Exception("Error fetching location companies: ${e.message}"))
         }
     }
 
-    override suspend fun findInternshipLocationById(id: Long): Result<InternshipLocation> = runCatching {
-        val internshipLocationDto =
-            dataSource.getInternshipLocationById(id) ?: throw DomainError.TaskError("Internship location not found")
-        internshipLocationMapper.mapToDomain(internshipLocationDto)
-    }.recoverCatching { throwable ->
-        when (throwable) {
-            is IOException -> throw DomainError.NetworkError("Failed to fetch internship location")
-            is IllegalArgumentException -> throw DomainError.MappingError("Error mapping internship location")
-            is DomainError -> throw throwable
-            else -> throw DomainError.UnknownError
+    /**
+     * Retrieves a location company by its ID.
+     */
+    override suspend fun findInternshipLocationById(id: Long): Result<InternshipLocation> {
+        return remoteDataSource.getById(id).map {
+            internshipLocationMapper.mapToDomain(it)
         }
     }
 
+
+    /**
+     * Creates a new location company.
+     */
+    override suspend fun saveInternshipLocation(internshipLocation: InternshipLocation): Result<Unit> {
+        return remoteDataSource.create(internshipLocationMapper.mapToDto(internshipLocation)).map {
+            internshipLocationMapper.mapToDomain(it)
+        }
+    }
+
+    /**
+     * Updates an existing location company.
+     */
+    override suspend fun updateInternshipLocation(internshipLocation: InternshipLocation): Result<Unit> {
+        return remoteDataSource.update(internshipLocation.id, internshipLocationMapper.mapToDto(internshipLocation)).map {
+            internshipLocationMapper.mapToDomain(it)
+        }
+    }
+
+    /**
+     * Deletes a location company by its ID.
+     */
+    override suspend fun deleteInternshipLocation(id: Long): Result<Unit> {
+        return remoteDataSource.delete(id)
+    }
+
+
+    override suspend fun findInternshipsByLocationId(locationId: Long): Result<List<Internship>> {
+        TODO("Not yet implemented")
+    }
+
+    /*
     override suspend fun findInternshipsByLocationId(locationId: Long): Result<List<Internship>> = runCatching {
         // Fetch internships by locationId from the data source
         dataSource.getInternshipsByLocationId(locationId).first().map { internshipDto ->
@@ -56,35 +88,5 @@ class InternshipLocationRepositoryImpl(
         }
     }
 
-    override suspend fun saveInternshipLocation(internshipLocation: InternshipLocation): Result<Unit> = runCatching {
-        dataSource.insertInternshipLocation(internshipLocationMapper.mapToDto(internshipLocation))
-    }.recoverCatching { throwable ->
-        when (throwable) {
-            is IOException -> throw DomainError.NetworkError("Failed to save internship location")
-            is IllegalArgumentException -> throw DomainError.MappingError("Error mapping internship location")
-            else -> throw DomainError.TaskError("Failed to save internship location: ${throwable.message}")
-        }
-    }
-
-    override suspend fun deleteInternshipLocation(id: Long): Result<Unit> = runCatching {
-        val internshipLocation = dataSource.getInternshipLocationById(id)
-            ?: throw DomainError.TaskError("Internship location not found")
-        dataSource.deleteInternshipLocation(internshipLocation)
-    }.recoverCatching { throwable ->
-        when (throwable) {
-            is IOException -> throw DomainError.NetworkError("Failed to delete internship location")
-            is DomainError -> throw throwable
-            else -> throw DomainError.UnknownError
-        }
-    }
-
-    override suspend fun updateInternshipLocation(internshipLocation: InternshipLocation): Result<Unit> = runCatching {
-        dataSource.updateInternshipLocation(internshipLocationMapper.mapToDto(internshipLocation))
-    }.recoverCatching { throwable ->
-        when (throwable) {
-            is IOException -> throw DomainError.NetworkError("Failed to update internship location")
-            is IllegalArgumentException -> throw DomainError.MappingError("Error mapping internship location")
-            else -> throw DomainError.TaskError("Failed to update internship location: ${throwable.message}")
-        }
-    }
+    */
 }

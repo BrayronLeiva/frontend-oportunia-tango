@@ -248,6 +248,7 @@ fun NavGraph(
     navController: NavHostController,
     locationCompanyViewModel: LocationCompanyViewModel,
     studentViewModel: StudentViewModel,
+    internshipLocationViewModel: InternshipLocationViewModel,
     paddingValues: PaddingValues,
     userId: Long,
     onLogOut: () -> Unit
@@ -269,9 +270,9 @@ fun NavGraph(
             )
         }
 
-        //composable(NavRoutes.InternshipsSearch.ROUTE) {
-            //InternshipSearch(internshipLocationViewModel, paddingValues)
-        //}
+        composable(NavRoutes.InternshipsSearch.ROUTE) {
+            InternshipSearch(internshipLocationViewModel, paddingValues)
+        }
 
         composable(
             route = NavRoutes.LocationCompanyDetail.ROUTE,

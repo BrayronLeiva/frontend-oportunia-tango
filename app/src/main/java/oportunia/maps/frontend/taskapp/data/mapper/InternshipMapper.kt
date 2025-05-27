@@ -2,11 +2,12 @@ package oportunia.maps.frontend.taskapp.data.mapper
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
 import oportunia.maps.frontend.taskapp.domain.model.Internship
+import javax.inject.Inject
 
 /**
  * Mapper class for converting between Internship domain entities and InternshipDto data objects
  */
-class InternshipMapper {
+class InternshipMapper @Inject constructor(){
 
     /**
      * Maps an InternshipDto to a domain Internship entity

@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.model.Task
+import javax.inject.Inject
 
 /**
  * Sealed class representing the various states of an internship operation.
@@ -36,7 +38,8 @@ sealed class InternshipState {
  * @property locationCompanyRepository Repository interface for location operations
  * @property internshipLocationRepository Repository interface for internship-related operations
  */
-class InternshipLocationViewModel(
+@HiltViewModel
+class InternshipLocationViewModel @Inject constructor(
     private val locationCompanyRepository: LocationCompanyRepository,
     private val internshipLocationRepository: InternshipLocationRepository
 ) : ViewModel() {

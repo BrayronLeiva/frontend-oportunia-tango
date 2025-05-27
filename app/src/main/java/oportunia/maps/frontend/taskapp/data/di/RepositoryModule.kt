@@ -4,10 +4,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import oportunia.maps.frontend.taskapp.data.repository.InternshipLocationRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.LocationCompanyRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.QualificationRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.StudentRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.UserRoleRepositoryImpl
+import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
 import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
 import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
 import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
@@ -64,11 +66,28 @@ abstract class RepositoryModule {
 
 
     /**
+     * Binds the concrete implementation [internshipLocationRepositoryImpl] to the [internshipLocationRepository] interface.
+     *
+     * @param userRoleRepositoryImpl The implementation instance to be provided when [UserRoleRepository] is requested
+     * @return The bound [UserRoleRepository] interface
+     */
+
+
+    @Binds
+    @Singleton
+    abstract fun bindInternshipLocationRepository(
+        internshipLocationRepositoryImpl: InternshipLocationRepositoryImpl
+    ): InternshipLocationRepository
+
+
+    /**
      * Binds the concrete implementation [userRoleRepositoryImpl] to the [UserRoleRepository] interface.
      *
      * @param userRoleRepositoryImpl The implementation instance to be provided when [UserRoleRepository] is requested
      * @return The bound [UserRoleRepository] interface
      */
+
+
     @Binds
     @Singleton
     abstract fun binduserRoleRepository(

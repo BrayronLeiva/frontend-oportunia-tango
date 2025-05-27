@@ -10,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
@@ -41,7 +42,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = "https://6124-201-237-2-100.ngrok-free.app"
+    private const val BASE_URL = "https://8bb4-201-203-6-88.ngrok-free.app"
     private const val DATE_FORMAT = "yyyy-MM-dd"
 
     /**
@@ -152,4 +153,15 @@ object NetworkModule {
     fun provideUserRoleService(retrofit: Retrofit): UserRoleService =
         retrofit.create(UserRoleService::class.java)
 
+
+    /**
+     * Provides the Student implementation.
+     *
+     * @param retrofit The Retrofit instance
+     * @return Implementation of [InternshipLocationService]
+     */
+    @Provides
+    @Singleton
+    fun provideInternshipLocationService(retrofit: Retrofit): InternshipLocationService =
+        retrofit.create(InternshipLocationService::class.java)
 }

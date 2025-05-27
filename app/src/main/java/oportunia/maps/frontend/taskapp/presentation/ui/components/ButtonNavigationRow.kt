@@ -29,7 +29,7 @@ fun BottomNavigationRow(navController: NavHostController) {
         )
         BottomNavigationItem(
             selected = false,
-            onClick = { },
+            onClick = { navController.navigate(NavRoutes.InternshipsSearch.ROUTE)},
             icon = { Icon(Icons.Default.Search, contentDescription = "Search") }
         )
         BottomNavigationItem(
