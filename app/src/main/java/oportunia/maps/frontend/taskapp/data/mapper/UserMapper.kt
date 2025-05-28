@@ -17,7 +17,7 @@ class UserMapper @Inject constructor() {
     fun mapToDomain(dto: UserDto): User = User(
         id = dto.id,
         email = dto.email,
-        password = dto.password
+        password = "cf"
     )
 
     /**
@@ -29,6 +29,10 @@ class UserMapper @Inject constructor() {
         UserDto(
             id = domain.id,
             email = domain.email,
-            password = domain.password
+            firstName = "cf",
+            lastName = "cf",
+            enable = true,
+            tokenExpired = false,
+            createDate = "cf"
         )
 }

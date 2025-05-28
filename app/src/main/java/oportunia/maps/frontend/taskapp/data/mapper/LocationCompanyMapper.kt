@@ -17,10 +17,10 @@ class LocationCompanyMapper @Inject constructor(private val companyMapper: Compa
      * @return Domain LocationCompany object
      */
     fun mapToDomain(dto: LocationCompanyDto): LocationCompany = LocationCompany(
-        id = dto.id,
+        id = dto.idLocationCompany,
         email = dto.email,
         location = LatLng(dto.latitude, dto.longitude),
-        contact = dto.contact,
+        contact = dto.contactLocation,
         company = companyMapper.mapToDomain(dto.company)
     )
 
@@ -31,13 +31,14 @@ class LocationCompanyMapper @Inject constructor(private val companyMapper: Compa
      */
     fun mapToDto(domain: LocationCompany): LocationCompanyDto =
         LocationCompanyDto(
-            id = domain.id,
+            idLocationCompany = domain.id,
             email = domain.email,
             latitude = domain.location.latitude,
             longitude = domain.location.longitude,
-            contact = domain.contact,
+            contactLocation = domain.contact,
             company = companyMapper.mapToDto(domain.company)
         )
+    /*
     fun LocationCompanyFlatDto.toDomain(): LocationCompany {
         return LocationCompany(
             id = id,
@@ -47,4 +48,6 @@ class LocationCompanyMapper @Inject constructor(private val companyMapper: Compa
             company = companyMapper.toDomainFromFlat(this)
         )
     }
+
+     */
 }

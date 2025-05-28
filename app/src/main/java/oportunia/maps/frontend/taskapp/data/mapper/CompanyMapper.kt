@@ -20,15 +20,15 @@ class CompanyMapper @Inject constructor(
      * @return Domain Company object
      */
     fun mapToDomain(dto: CompanyDto): Company = Company(
-        id = dto.id,
-        name = dto.name,
+        id = dto.idCompany,
+        name = dto.nameCompany,
         description = dto.description,
         history = dto.history,
         mision = dto.mision,
         vision = dto.vision,
         corporateCultur = dto.corporateCultur,
-        contact = dto.contact,
-        rating = dto.rating,
+        contact = dto.contactCompany,
+        rating = dto.ratingCompany,
         internshipType = InternshipType.valueOf(dto.internshipType),  // Converts String to Enum
         user = userMapper.mapToDomain(dto.user)
     )
@@ -40,18 +40,19 @@ class CompanyMapper @Inject constructor(
      */
     fun mapToDto(domain: Company): CompanyDto =
         CompanyDto(
-            id = domain.id,
-            name = domain.name,
+            idCompany = domain.id,
+            nameCompany = domain.name,
             description = domain.description,
             history = domain.history,
             mision = domain.mision,
             vision = domain.vision,
             corporateCultur = domain.corporateCultur,
-            contact = domain.contact,
-            rating = domain.rating,
+            contactCompany = domain.contact,
+            ratingCompany = domain.rating,
             internshipType = domain.internshipType.name,  // Converts Enum to String
             user = userMapper.mapToDto(domain.user)
         )
+    /*
     fun toDomainFromFlat(flat: LocationCompanyFlatDto): Company {
         return Company(
             id = flat.idCompany,
@@ -64,8 +65,10 @@ class CompanyMapper @Inject constructor(
             contact = flat.contactCompany,
             rating = flat.rating,
             internshipType = InternshipType.valueOf(flat.internshipType),
-            user = userMapper.mapToDomain(UserDto(flat.idUser, flat.emailUser, flat.password))
+            //user = userMapper.mapToDomain(UserData(flat.idUser, flat.emailUser))
         )
     }
+
+     */
 
 }

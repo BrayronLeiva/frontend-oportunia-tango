@@ -16,15 +16,15 @@ package oportunia.maps.frontend.taskapp.data.remote.dto
  */
 
 data class CompanyDto(
-    val id: Long,
-    val name: String,
+    val idCompany: Long,
+    val nameCompany: String,
     val description: String,
     val history: String,
     val mision: String,
     val vision: String,
     val corporateCultur: String,
-    val contact: Int,
-    val rating: Double,
+    val contactCompany: Int,
+    val ratingCompany: Double,
     val internshipType: String,
     val user: UserDto
 )

@@ -18,8 +18,8 @@ class InternshipLocationMapper @Inject constructor(
      * @return Domain InternshipLocation object
      */
     fun mapToDomain(dto: InternshipLocationDto): InternshipLocation = InternshipLocation(
-        id = dto.id,
-        location = locationCompanyMapper.mapToDomain(dto.location),
+        id = dto.idInternshipLocation,
+        location = locationCompanyMapper.mapToDomain(dto.locationCompany),
         internship = internshipMapper.mapToDomain(dto.internship)
     )
 
@@ -30,8 +30,8 @@ class InternshipLocationMapper @Inject constructor(
      */
     fun mapToDto(domain: InternshipLocation): InternshipLocationDto =
         InternshipLocationDto(
-            id = domain.id,
-            location = locationCompanyMapper.mapToDto(domain.location),
+            idInternshipLocation = domain.id,
+            locationCompany = locationCompanyMapper.mapToDto(domain.location),
             internship = internshipMapper.mapToDto(domain.internship)
         )
 }

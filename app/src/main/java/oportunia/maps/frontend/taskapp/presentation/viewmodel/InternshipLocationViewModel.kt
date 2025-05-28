@@ -98,11 +98,11 @@ class InternshipLocationViewModel @Inject constructor(
         viewModelScope.launch {
             internshipLocationRepository.findAllInternshipLocations()
                 .onSuccess { interLocations ->
-                    Log.d("TaskViewModel", "Total Interships: ${interLocations.size}")
+                    Log.d("InternshipLocationViewModel", "Total Interships: ${interLocations.size}")
                     _internshipsLocationList.value = interLocations
                 }
                 .onFailure { exception ->
-                    Log.e("TaskViewModel", "Failed to fetch tasks: ${exception.message}")
+                    Log.e("InternshipLocationViewModel", "Failed to fetch internships location: ${exception.message}")
                 }
         }
     }
