@@ -44,7 +44,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = "https://b2f0-201-237-2-116.ngrok-free.app"
+    private const val BASE_URL = "https://oportunia-maps-34f81e092b2b.herokuapp.com/"
     private const val DATE_FORMAT = "yyyy-MM-dd"
 
     /**
