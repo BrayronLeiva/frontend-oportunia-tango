@@ -20,6 +20,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,6 +39,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
+import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSelector
+import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipDetailDialog
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipItem
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 
@@ -43,10 +49,13 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocation
 @Composable
 fun InternshipSearch(
     internshipLocationViewModel: InternshipLocationViewModel,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    onInternshipSelected: (InternshipLocation) -> Unit // callback para devolver seleccionado
 ) {
     var searchQuery by remember { mutableStateOf("") }
     val ratings = listOf(1.0, 2.0, 3.0, 4.0, 5.0)
+    val searchCriteriaOptions = listOf("Nombre de Compañía", "Detalles de la Pasantía")
+    var selectedCriteria by remember { mutableStateOf(searchCriteriaOptions[0]) }
 
     // Obtener las pasantías con las empresas y sus calificaciones
     val internships = internshipLocationViewModel.internshipsLocationList.collectAsState().value
@@ -54,6 +63,9 @@ fun InternshipSearch(
     LaunchedEffect(Unit) {
         internshipLocationViewModel.findAllInternShipsLocations()
     }
+
+    var selectedInternshipLocation by remember { mutableStateOf<InternshipLocation?>(null) }
+    var showDialog by remember { mutableStateOf(false) }
 
     var expanded by remember { mutableStateOf(false) }
     var selectedRating by remember { mutableStateOf<Double?>(null) }
@@ -66,14 +78,30 @@ fun InternshipSearch(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+
+        Spacer(modifier = Modifier.height(16.dp))
         // Barra de búsqueda
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            label = { stringResource(id = R.string.search_company_label) },
+            label = {
+            Text(
+                when (selectedCriteria) {
+                    "Nombre de Compañía" -> "Buscar por nombre de compañía"
+                    "Detalles de la Pasantía" -> "Buscar por detalles de la pasantía"
+                    else -> "Buscar"
+                }
+            )
+        },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = stringResource(id = R.string.search_label)) },
             modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(4.dp))
+        ChipCriteriaSelector(searchCriteriaOptions,selectedCriteria, onSelectionChange = {
+            if (it != null) {
+                selectedCriteria = it
+            }
+        })
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -114,15 +142,31 @@ fun InternshipSearch(
         val filteredInternships = internships.filter {
             val companyName = it.location.company.name
             val rating = it.location.company.rating
-
-            (searchQuery.isEmpty() || companyName.contains(searchQuery, ignoreCase = true)) &&
-                    (selectedRating == null || selectedRating == rating)
+            when (selectedCriteria) {
+                "Nombre de Compañía" -> it.location.company.name.contains(searchQuery, ignoreCase = true)
+                "Detalles de la Pasantía" -> it.internship.details.contains(searchQuery, ignoreCase = true)
+                else -> true
+            }
         }
 
         LazyColumn {
-            items(filteredInternships) { internship ->
-                InternshipItem(internship)
+            items(filteredInternships) { internshipLocation ->
+                InternshipItem(internshipLocation, onClick = {
+                    selectedInternshipLocation = it
+                    showDialog = true
+                })
             }
+        }
+        // Mostrar dialog con detalle si showDialog es true
+        if (showDialog && selectedInternshipLocation != null) {
+            InternshipDetailDialog(
+                internshipLocation = selectedInternshipLocation!!,
+                onDismiss = { showDialog = false },
+                onConfirm = {
+                    onInternshipSelected(it)
+                    showDialog = false
+                }
+            )
         }
     }
 }

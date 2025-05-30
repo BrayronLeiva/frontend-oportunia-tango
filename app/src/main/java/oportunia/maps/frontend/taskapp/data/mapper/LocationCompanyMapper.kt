@@ -2,7 +2,6 @@ package oportunia.maps.frontend.taskapp.data.mapper
 
 import com.google.android.gms.maps.model.LatLng
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.flat.LocationCompanyFlatDto
 import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import javax.inject.Inject
 
@@ -17,10 +16,10 @@ class LocationCompanyMapper @Inject constructor(private val companyMapper: Compa
      * @return Domain LocationCompany object
      */
     fun mapToDomain(dto: LocationCompanyDto): LocationCompany = LocationCompany(
-        id = dto.idLocationCompany,
+        id = dto.id,
         email = dto.email,
         location = LatLng(dto.latitude, dto.longitude),
-        contact = dto.contactLocation,
+        contact = dto.contact,
         company = companyMapper.mapToDomain(dto.company)
     )
 
@@ -31,11 +30,11 @@ class LocationCompanyMapper @Inject constructor(private val companyMapper: Compa
      */
     fun mapToDto(domain: LocationCompany): LocationCompanyDto =
         LocationCompanyDto(
-            idLocationCompany = domain.id,
+            id = domain.id,
             email = domain.email,
             latitude = domain.location.latitude,
             longitude = domain.location.longitude,
-            contactLocation = domain.contact,
+            contact = domain.contact,
             company = companyMapper.mapToDto(domain.company)
         )
     /*

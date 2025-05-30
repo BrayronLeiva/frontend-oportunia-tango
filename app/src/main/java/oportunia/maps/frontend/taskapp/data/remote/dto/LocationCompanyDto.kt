@@ -9,10 +9,10 @@ package oportunia.maps.frontend.taskapp.data.remote.dto
  */
 
 data class LocationCompanyDto(
-    val idLocationCompany: Long,
+    val id: Long,
     val email: String,
     val latitude: Double,
     val longitude: Double,
-    val contactLocation: Int,
+    val contact: Int,
     val company: CompanyDto
 )

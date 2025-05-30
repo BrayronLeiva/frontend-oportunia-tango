@@ -32,12 +32,17 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
 
 
         // Deserialize user information
-        val userId = jsonObject.get("userId").asLong
-        val userEmail = jsonObject.get("userEmail").asString
-        val userPassword = jsonObject.get("userPassword").asString
+        val userId = jsonObject.get("id").asLong
+        val firstName = jsonObject.get("firstName").asString
+        val lastName = jsonObject.get("lastName").asString
+        val emailUser = jsonObject.get("email").asString
+        val enable = jsonObject.get("enable").asBoolean
+        val tokenExpired = jsonObject.get("tokenExpired").asBoolean
+        val createDate = jsonObject.get("createDate").asString
+        //val roleList = jsonObject.get("roleList").as
 
         // Create UserDto and CompanyDto
-        val userDto = UserDto(userId, userEmail, userPassword)
+        val userDto = UserDto(userId, emailUser, firstName, lastName, enable, tokenExpired, createDate)
 
         // Return the StudentDto object
         return StudentDto(

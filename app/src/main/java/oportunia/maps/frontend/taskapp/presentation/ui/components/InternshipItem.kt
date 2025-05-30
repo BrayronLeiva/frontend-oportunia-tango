@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,14 +23,17 @@ import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 
 @Composable
-fun InternshipItem(internship: InternshipLocation) {
+fun InternshipItem(
+    internship: InternshipLocation,
+    onClick: (InternshipLocation) -> Unit) {
     // Obtener los datos de la compañía y la calificación
     val company = internship.location.company
     val internshipDetail = internship.internship.details
     val companyName = company.name
     val companyRating = company.rating
 
-    Card(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+    Card(modifier = Modifier
+        .fillMaxWidth().padding(vertical = 8.dp).clickable { onClick(internship) }) {
         Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Default.LocationOn, contentDescription = "Compañía", modifier = Modifier.size(40.dp))
             Spacer(modifier = Modifier.width(16.dp))

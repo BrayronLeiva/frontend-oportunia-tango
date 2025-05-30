@@ -271,7 +271,7 @@ fun NavGraph(
         }
 
         composable(NavRoutes.InternshipsSearch.ROUTE) {
-            InternshipSearch(internshipLocationViewModel, paddingValues)
+            InternshipSearch(internshipLocationViewModel, paddingValues, {selectedInternship -> })
         }
 
         composable(

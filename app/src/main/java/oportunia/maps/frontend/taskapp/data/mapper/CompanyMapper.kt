@@ -2,8 +2,6 @@ package oportunia.maps.frontend.taskapp.data.mapper
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.InternshipType
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.flat.LocationCompanyFlatDto
 import oportunia.maps.frontend.taskapp.domain.model.Company
 import javax.inject.Inject
 
@@ -20,15 +18,15 @@ class CompanyMapper @Inject constructor(
      * @return Domain Company object
      */
     fun mapToDomain(dto: CompanyDto): Company = Company(
-        id = dto.idCompany,
-        name = dto.nameCompany,
+        id = dto.id,
+        name = dto.name,
         description = dto.description,
         history = dto.history,
         mision = dto.mision,
         vision = dto.vision,
         corporateCultur = dto.corporateCultur,
-        contact = dto.contactCompany,
-        rating = dto.ratingCompany,
+        contact = dto.contact,
+        rating = dto.rating,
         internshipType = InternshipType.valueOf(dto.internshipType),  // Converts String to Enum
         user = userMapper.mapToDomain(dto.user)
     )
@@ -40,15 +38,15 @@ class CompanyMapper @Inject constructor(
      */
     fun mapToDto(domain: Company): CompanyDto =
         CompanyDto(
-            idCompany = domain.id,
-            nameCompany = domain.name,
+            id = domain.id,
+            name = domain.name,
             description = domain.description,
             history = domain.history,
             mision = domain.mision,
             vision = domain.vision,
             corporateCultur = domain.corporateCultur,
-            contactCompany = domain.contact,
-            ratingCompany = domain.rating,
+            contact = domain.contact,
+            rating = domain.rating,
             internshipType = domain.internshipType.name,  // Converts Enum to String
             user = userMapper.mapToDto(domain.user)
         )

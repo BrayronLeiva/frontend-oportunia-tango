@@ -24,13 +24,19 @@ class UserRoleDeserializer : JsonDeserializer<UserRoleDto> {
     ): UserRoleDto {
         val jsonObject = json.asJsonObject
 
+
         // Deserialize user information
-        val userId = jsonObject.get("user_id").asLong
-        val userEmail = jsonObject.get("user_email").asString
-        val userPassword = jsonObject.get("user_password").asString
+        val userId = jsonObject.get("id").asLong
+        val firstName = jsonObject.get("firstName").asString
+        val lastName = jsonObject.get("lastName").asString
+        val emailUser = jsonObject.get("email").asString
+        val enable = jsonObject.get("enable").asBoolean
+        val tokenExpired = jsonObject.get("tokenExpired").asBoolean
+        val createDate = jsonObject.get("createDate").asString
+        //val roleList = jsonObject.get("roleList").as
 
         // Create UserDto and CompanyDto
-        val userDto = UserDto(userId, userEmail, userPassword)
+        val userDto = UserDto(userId, emailUser, firstName, lastName, enable, tokenExpired, createDate)
 
         val rolId = jsonObject.get("rol_id").asLong
         val roleName = jsonObject.get("rol_name").asString
