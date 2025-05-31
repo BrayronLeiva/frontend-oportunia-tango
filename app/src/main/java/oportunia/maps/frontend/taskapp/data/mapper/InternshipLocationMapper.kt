@@ -23,6 +23,7 @@ class InternshipLocationMapper @Inject constructor(
         internship = internshipMapper.mapToDomain(dto.internship)
     )
 
+
     /**
      * Maps a domain InternshipLocation to an InternshipLocationDto
      * @param domain The domain layer internship location object to convert

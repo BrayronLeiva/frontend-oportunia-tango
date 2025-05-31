@@ -12,3 +12,11 @@ data class InternshipLocationDto (
     val locationCompany: LocationCompanyDto,
     val internship: InternshipDto
 )
+
+data class InternshipLocationRecommendedDto (
+    val id: Long,
+    val locationCompany: LocationCompanyDto,
+    val internship: InternshipDto,
+    val score: Double,
+    val reason: String
+)

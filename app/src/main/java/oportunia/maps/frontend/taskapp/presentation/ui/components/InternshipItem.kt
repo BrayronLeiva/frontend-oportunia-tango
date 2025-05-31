@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 
@@ -41,6 +42,32 @@ fun InternshipItem(
                 Text(internshipDetail, fontWeight = FontWeight.ExtraBold)
                 Text(companyName, fontWeight = FontWeight.Bold, color = DarkCyan)
                 Text("$companyRating ★", color = Color.Gray)
+            }
+        }
+    }
+}
+
+@Composable
+fun InternshipRecommendedItem(
+    internship: InternshipLocationRecommendedDto,
+    onClick: (InternshipLocationRecommendedDto) -> Unit) {
+    // Obtener los datos de la compañía y la calificación
+    val company = internship.locationCompany
+    val internshipDetail = internship.internship.details
+    val companyName = company.company.name
+    val companyRating = company.company.rating
+
+    Card(modifier = Modifier
+        .fillMaxWidth().padding(vertical = 8.dp).clickable { onClick(internship) }) {
+        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Default.LocationOn, contentDescription = "Compañía", modifier = Modifier.size(40.dp))
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Text(internshipDetail, fontWeight = FontWeight.ExtraBold)
+                Text(companyName, fontWeight = FontWeight.Bold, color = DarkCyan)
+                Text("$companyRating ★", color = Color.Gray)
+                Text("${internship.score}", color = Color.Gray)
+                Text("${internship.reason}", color = Color.Gray)
             }
         }
     }

@@ -8,6 +8,7 @@ import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepos
 import kotlinx.coroutines.flow.first
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
 import oportunia.maps.frontend.taskapp.data.remote.InternshipLocationRemoteDataSource
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import java.io.IOException
@@ -61,11 +62,9 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
         }
     }
 
-    override suspend fun findRecommendedInternshipLocations(): Result<List<InternshipLocation>> {
+    override suspend fun findRecommendedInternshipLocations(): Result<List<InternshipLocationRecommendedDto>> {
         return try {
-            remoteDataSource.getRecommended().map { dtos ->
-                dtos.map { internshipLocationMapper.mapToDomain(it) }
-            }
+            remoteDataSource.getRecommended()
         } catch (e: UnknownHostException) {
             Result.failure(Exception("Network error: Please check your connection."))
         } catch (e: Exception) {

@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -64,5 +65,5 @@ interface InternshipLocationService {
         Comments
      */
     @GET("internship-locations-match")
-    suspend fun getRecommendedInternshipsLocations(): Response<List<InternshipLocationDto>>
+    suspend fun getRecommendedInternshipsLocations(): Response<List<InternshipLocationRecommendedDto>>
 }

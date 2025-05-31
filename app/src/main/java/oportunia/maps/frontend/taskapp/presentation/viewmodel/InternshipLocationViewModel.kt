@@ -14,6 +14,7 @@ import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyReposito
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.model.Task
 import javax.inject.Inject
@@ -55,6 +56,9 @@ class InternshipLocationViewModel @Inject constructor(
 
     private val _internshipsLocationList = MutableStateFlow<List<InternshipLocation>>(emptyList())
     val internshipsLocationList: StateFlow<List<InternshipLocation>> = _internshipsLocationList
+
+    private val _internshipsLocationRecommendedList = MutableStateFlow<List<InternshipLocationRecommendedDto>>(emptyList())
+    val internshipsLocationRecommendedList: StateFlow<List<InternshipLocationRecommendedDto>> = _internshipsLocationRecommendedList
 
 
     /**
@@ -111,20 +115,14 @@ class InternshipLocationViewModel @Inject constructor(
         }
     }
 
-    fun loadInternShipsLocations(useAi: Boolean) {
+    fun loadInternShipsLocationsRecommended() {
         viewModelScope.launch {
             try {
-                val result = if (useAi) {
-                    Log.d("InternshipLocationViewModel", "Search By AI")
-                    internshipLocationRepository.findRecommendedInternshipLocations()
-                } else {
-                    Log.d("InternshipLocationViewModel", "Search All")
-                    internshipLocationRepository.findAllInternshipLocations()
-                }
-                result
+                Log.d("InternshipLocationViewModel", "Search By AI")
+                internshipLocationRepository.findRecommendedInternshipLocations()
                     .onSuccess { interLocations ->
                         Log.d("InternshipLocationViewModel", "Total Interships: ${interLocations.size}")
-                        _internshipsLocationList.value = interLocations
+                        _internshipsLocationRecommendedList.value = interLocations
                     }
                     .onFailure { exception ->
                         Log.e("InternshipLocationViewModel", "Error fetching internships: ${exception.message}")

@@ -55,6 +55,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.AiToggleButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipDetailDialog
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipItem
+import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipRecommendedItem
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
@@ -73,6 +74,8 @@ fun InternshipSearch(
     var useAi by remember { mutableStateOf(false) }
     // Obtener las pasantías con las empresas y sus calificaciones
     val internships = internshipLocationViewModel.internshipsLocationList.collectAsState().value
+    val recommendedinternships = internshipLocationViewModel.internshipsLocationRecommendedList.collectAsState().value
+
 
     LaunchedEffect(Unit) {
         internshipLocationViewModel.findAllInternShipsLocations()
@@ -103,7 +106,11 @@ fun InternshipSearch(
                 isAiEnabled = useAi,
                 onToggle = {
                     useAi = !useAi
-                    internshipLocationViewModel.loadInternShipsLocations(useAi)
+                    if (useAi) {
+                        internshipLocationViewModel.loadInternShipsLocationsRecommended()
+                    }else{
+                        internshipLocationViewModel.findAllInternShipsLocations()
+                    }
                 }
             )
         }
@@ -173,13 +180,36 @@ fun InternshipSearch(
             matchesText && matchesRating
         }
 
+        // Filtrar las pasantías por nombre de compañía y calificación
+        val filteredRecommendedInternships = recommendedinternships.filter {
+            val companyName = it.locationCompany.company.name
+            val rating = it.locationCompany.company.rating
+            val matchesText = when (selectedCriteria) {
+                "Nombre de Compañía" -> companyName.contains(searchQuery, ignoreCase = true)
+                "Detalles de la Pasantía" -> it.internship.details.contains(searchQuery, ignoreCase = true)
+                else -> true
+            }
+            val matchesRating = selectedRating == null || rating >= selectedRating!!
+            matchesText && matchesRating
+        }
 
-        LazyColumn {
-            items(filteredInternships) { internshipLocation ->
-                InternshipItem(internshipLocation, onClick = {
-                    selectedInternshipLocation = it
-                    showDialog = true
-                })
+        if(useAi) {
+            LazyColumn {
+                items(filteredRecommendedInternships) { internshipLocation ->
+                    InternshipRecommendedItem(internshipLocation, onClick = {
+                        //selectedInternshipLocation = it
+                        showDialog = true
+                    })
+                }
+            }
+        }else{
+            LazyColumn {
+                items(filteredInternships) { internshipLocation ->
+                    InternshipItem(internshipLocation, onClick = {
+                        selectedInternshipLocation = it
+                        showDialog = true
+                    })
+                }
             }
         }
         // Mostrar dialog con detalle si showDialog es true

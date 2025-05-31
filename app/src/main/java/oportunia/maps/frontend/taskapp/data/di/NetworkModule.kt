@@ -15,12 +15,14 @@ import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import oportunia.maps.frontend.taskapp.data.remote.interceptor.ResponseInterceptor
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationDeserializer
+import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationRecommendedSerializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.QualificationDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.StudentDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.UserRoleDeserializer
@@ -44,7 +46,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = "https://8272-201-237-2-116.ngrok-free.app"
+    private const val BASE_URL = "https://5632-201-237-2-116.ngrok-free.app"
     private const val DATE_FORMAT = "yyyy-MM-dd"
 
     /**
@@ -55,6 +57,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideGson(): Gson = GsonBuilder()
+        .registerTypeAdapter(InternshipLocationRecommendedDto::class.java, InternshipLocationRecommendedSerializer())
         .registerTypeAdapter(InternshipLocationDto::class.java, InternshipLocationDeserializer())
         .registerTypeAdapter(LocationCompanyDto::class.java, LocationCompanyDeserializer())
         .registerTypeAdapter(QualificationDto::class.java, QualificationDeserializer())
