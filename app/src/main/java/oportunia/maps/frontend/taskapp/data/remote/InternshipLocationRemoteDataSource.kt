@@ -66,6 +66,16 @@ class InternshipLocationRemoteDataSource @Inject constructor(
     }
 
     /**
+     * Retrieves all location companies from the remote API.
+     *
+     * @return [Result] containing a list of [LocationCompanyDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getRecommended(): Result<List<InternshipLocationDto>> = safeApiCall {
+        internshipLocationService.getRecommendedInternshipsLocations()
+    }
+
+    /**
      * Helper function to handle API calls safely.
      *
      * @param apiCall The suspending function making the API call

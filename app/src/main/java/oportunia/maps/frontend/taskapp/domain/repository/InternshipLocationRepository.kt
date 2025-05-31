@@ -13,4 +13,5 @@ interface InternshipLocationRepository {
     suspend fun saveInternshipLocation(internshipLocation: InternshipLocation): Result<Unit>
     suspend fun deleteInternshipLocation(id: Long): Result<Unit>
     suspend fun updateInternshipLocation(internshipLocation: InternshipLocation): Result<Unit>
+    suspend fun findRecommendedInternshipLocations(): Result<List<InternshipLocation>>
 }

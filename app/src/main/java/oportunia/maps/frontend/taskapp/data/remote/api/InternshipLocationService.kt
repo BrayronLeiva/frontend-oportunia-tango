@@ -11,6 +11,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface InternshipLocationService {
+
     /**
      * Retrieves all location-company entries from the remote API.
      *
@@ -58,4 +59,10 @@ interface InternshipLocationService {
      */
     @DELETE("internship-locations/{id}")
     suspend fun deleteInternshipLocation(@Path("id") id: Long): Response<Unit>
+
+    /**
+        Comments
+     */
+    @GET("internship-locations-match")
+    suspend fun getRecommendedInternshipsLocations(): Response<List<InternshipLocationDto>>
 }

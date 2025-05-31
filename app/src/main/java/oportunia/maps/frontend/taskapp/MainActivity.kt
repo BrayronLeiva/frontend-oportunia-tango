@@ -25,7 +25,6 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import oportunia.maps.frontend.taskapp.data.datasource.qualification.QualificationDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.datasource.task.TaskDataSourceImpl
-import oportunia.maps.frontend.taskapp.data.datasource.internshiplocation.InternshipLocationDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.datasource.locationcompany.LocationCompanyDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.mapper.CompanyMapper
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipLocationMapper

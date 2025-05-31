@@ -49,6 +49,8 @@ fun InternshipDetailDialog(
                 InfoSection(label = "Rating", value = "${internshipLocation.location.company.rating} ★")
                 InfoSection(label = "Tipo de Pasantía", value = internshipLocation.location.company.internshipType.toString())
 
+
+
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(

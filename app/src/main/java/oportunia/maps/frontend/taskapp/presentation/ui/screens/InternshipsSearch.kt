@@ -15,15 +15,24 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -33,6 +42,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Color
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,9 +51,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
+import oportunia.maps.frontend.taskapp.presentation.ui.components.AiToggleButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipDetailDialog
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipItem
+import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
+import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 
 
@@ -56,7 +70,7 @@ fun InternshipSearch(
     val ratings = listOf(1.0, 2.0, 3.0, 4.0, 5.0)
     val searchCriteriaOptions = listOf("Nombre de Compañía", "Detalles de la Pasantía")
     var selectedCriteria by remember { mutableStateOf(searchCriteriaOptions[0]) }
-
+    var useAi by remember { mutableStateOf(false) }
     // Obtener las pasantías con las empresas y sus calificaciones
     val internships = internshipLocationViewModel.internshipsLocationList.collectAsState().value
 
@@ -74,12 +88,28 @@ fun InternshipSearch(
         // Título
         Spacer(modifier = Modifier.height(32.dp))
 
-        Text(stringResource(id = R.string.internships_search_label), fontSize = 20.sp, fontWeight = FontWeight.Bold)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = stringResource(id = R.string.internships_search_label),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            AiToggleButton(
+                isAiEnabled = useAi,
+                onToggle = {
+                    useAi = !useAi
+                    internshipLocationViewModel.loadInternShipsLocations(useAi)
+                }
+            )
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-
-        Spacer(modifier = Modifier.height(16.dp))
         // Barra de búsqueda
         OutlinedTextField(
             value = searchQuery,
@@ -96,45 +126,37 @@ fun InternshipSearch(
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = stringResource(id = R.string.search_label)) },
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        ChipCriteriaSelector(searchCriteriaOptions,selectedCriteria, onSelectionChange = {
-            if (it != null) {
-                selectedCriteria = it
-            }
-        })
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Filtro por rating
-        Row(
-            verticalAlignment = Alignment.CenterVertically, // Alinea verticalmente
-            horizontalArrangement = Arrangement.spacedBy(8.dp) // Espacio entre elementos
-        ) {
-            Text(stringResource(id = R.string.filter_rating_label), fontWeight = FontWeight.Bold)
-            Box {
-                OutlinedButton(
-                    onClick = { expanded = true },
-                    modifier = Modifier.width(200.dp)
-                ) {
-                    Text(text = selectedRating?.let { "$it ★" } ?: stringResource(id = R.string.choose_rating_label))
+        Spacer(modifier = Modifier.height(6.dp))
+        Row(modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween) {
+            ChipCriteriaSelector(searchCriteriaOptions, selectedCriteria, onSelectionChange = {
+                if (it != null) {
+                    selectedCriteria = it
                 }
-
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
-                    ratings.forEach { rating ->
-                        DropdownMenuItem(
-                            text = { Text("$rating ★") },
-                            onClick = {
-                                selectedRating = if (selectedRating == rating) null else rating
-                                expanded = false
-                            }
-                        )
-                    }
+            })
+            // Filtro por rating
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                IconButton(onClick = { expanded = true }) {
+                    Icon(
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = "Seleccionar mínimo de estrellas",
+                        tint = if (selectedRating != null) Color(0xFFFFD700) else DarkCyan
+                    )
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -142,12 +164,15 @@ fun InternshipSearch(
         val filteredInternships = internships.filter {
             val companyName = it.location.company.name
             val rating = it.location.company.rating
-            when (selectedCriteria) {
-                "Nombre de Compañía" -> it.location.company.name.contains(searchQuery, ignoreCase = true)
+            val matchesText = when (selectedCriteria) {
+                "Nombre de Compañía" -> companyName.contains(searchQuery, ignoreCase = true)
                 "Detalles de la Pasantía" -> it.internship.details.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
+            val matchesRating = selectedRating == null || rating >= selectedRating!!
+            matchesText && matchesRating
         }
+
 
         LazyColumn {
             items(filteredInternships) { internshipLocation ->
@@ -168,6 +193,55 @@ fun InternshipSearch(
                 }
             )
         }
+        if (expanded) {
+            AlertDialog(
+                onDismissRequest = { expanded = false },
+                confirmButton = {},
+                text = {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "Selecciona la calificación mínima",
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+
+                        Row(horizontalArrangement = Arrangement.Center) {
+                            ratings.forEach { rating ->
+                                IconToggleButton(
+                                    checked = selectedRating != null && rating <= selectedRating!!,
+                                    onCheckedChange = {
+                                        selectedRating = if (selectedRating == rating) null else rating
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Star,
+                                        contentDescription = "$rating estrellas",
+                                        tint = if (selectedRating != null && rating <= selectedRating!!) Color(0xFFFFD700) else androidx.compose.ui.graphics.Color.Gray
+                                    )
+                                }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
+                            Button(
+                                onClick = {
+                                selectedRating = null
+                                expanded = false
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = DarkCyan,
+                                    contentColor = Black
+                                )) {
+                                Text("Limpiar")
+                            }
+                        }
+                    }
+                }
+            )
+        }
+
     }
 }
 

@@ -11,6 +11,7 @@ import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
  * InternshipLocationDataSource implementation.
  * @param internshipLocationMapper The mapper for converting between data and domain layer internship location objects.
  */
+
 class InternshipLocationDataSourceImpl(
     private val internshipLocationMapper: InternshipLocationMapper,
     private val internshipMapper: InternshipMapper

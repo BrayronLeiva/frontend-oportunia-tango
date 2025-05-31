@@ -1,6 +1,9 @@
 package oportunia.maps.frontend.taskapp.presentation.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,6 +56,7 @@ class InternshipLocationViewModel @Inject constructor(
     private val _internshipsLocationList = MutableStateFlow<List<InternshipLocation>>(emptyList())
     val internshipsLocationList: StateFlow<List<InternshipLocation>> = _internshipsLocationList
 
+
     /**
      * Finds a location by its ID and updates the [location] state.
      *
@@ -104,6 +108,31 @@ class InternshipLocationViewModel @Inject constructor(
                 .onFailure { exception ->
                     Log.e("InternshipLocationViewModel", "Failed to fetch internships location: ${exception.message}")
                 }
+        }
+    }
+
+    fun loadInternShipsLocations(useAi: Boolean) {
+        viewModelScope.launch {
+            try {
+                val result = if (useAi) {
+                    Log.d("InternshipLocationViewModel", "Search By AI")
+                    internshipLocationRepository.findRecommendedInternshipLocations()
+                } else {
+                    Log.d("InternshipLocationViewModel", "Search All")
+                    internshipLocationRepository.findAllInternshipLocations()
+                }
+                result
+                    .onSuccess { interLocations ->
+                        Log.d("InternshipLocationViewModel", "Total Interships: ${interLocations.size}")
+                        _internshipsLocationList.value = interLocations
+                    }
+                    .onFailure { exception ->
+                        Log.e("InternshipLocationViewModel", "Error fetching internships: ${exception.message}")
+                        //_internshipsLocationList.value = emptyList() // o lo que quieras mostrar en error
+                    }
+            } catch (e: Exception) {
+                // Manejo de errores
+            }
         }
     }
 }
