@@ -27,6 +27,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskListScreen
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
@@ -184,7 +185,7 @@ fun NavGraph(
 
 
 
-
+            /*
             composable(
                 route = NavRoutes.LocationCompanyDetail.ROUTE,
                 arguments = listOf(navArgument(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID) {
@@ -201,6 +202,8 @@ fun NavGraph(
                     paddingValues = paddingValues
                 )
             }
+
+             */
 
             composable(
                 route = NavRoutes.InternshipListStudent.ROUTE,
@@ -249,6 +252,7 @@ fun NavGraph(
     locationCompanyViewModel: LocationCompanyViewModel,
     studentViewModel: StudentViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
+    internshipViewModel: InternshipViewModel,
     paddingValues: PaddingValues,
     userId: Long,
     onLogOut: () -> Unit
@@ -300,13 +304,14 @@ fun NavGraph(
             val locationCompanyId =
                 backStackEntry.arguments?.getLong(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID)
                     ?: 0L
-            /*InternshipListStudentScreen(
+            InternshipListStudentScreen(
                 locationCompanyId = locationCompanyId,
                 navController = navController,
                 locationCompanyViewModel = locationCompanyViewModel,
                 internshipLocationViewModel = internshipLocationViewModel,
+                internshipViewModel = internshipViewModel,
                 paddingValues = paddingValues
-            )*/
+            )
         }
 
 
@@ -328,6 +333,7 @@ fun NavGraph(
             CompanyMapScreen(navController, paddingValues)
         }
 
+        /*
         composable(
             route = NavRoutes.LocationCompanyDetail.ROUTE,
             arguments = listOf(navArgument(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID) {
@@ -341,9 +347,12 @@ fun NavGraph(
                 locationCompanyId = locationCompanyId,
                 locationCompanyViewModel = locationCompanyViewModel,
                 navController = navController,
+
                 paddingValues = paddingValues
             )
         }
+
+         */
 
         composable(
             route = NavRoutes.InternshipListStudent.ROUTE,

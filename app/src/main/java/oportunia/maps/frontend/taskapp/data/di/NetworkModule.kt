@@ -11,9 +11,11 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
+import oportunia.maps.frontend.taskapp.data.remote.api.InternshipService
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
@@ -21,6 +23,7 @@ import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import oportunia.maps.frontend.taskapp.data.remote.interceptor.ResponseInterceptor
+import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationRecommendedSerializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.QualificationDeserializer
@@ -57,6 +60,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideGson(): Gson = GsonBuilder()
+        .registerTypeAdapter(InternshipDto::class.java, InternshipDeserializer())
         .registerTypeAdapter(InternshipLocationRecommendedDto::class.java, InternshipLocationRecommendedSerializer())
         .registerTypeAdapter(InternshipLocationDto::class.java, InternshipLocationDeserializer())
         .registerTypeAdapter(LocationCompanyDto::class.java, LocationCompanyDeserializer())
@@ -170,4 +174,17 @@ object NetworkModule {
     @Singleton
     fun provideInternshipLocationService(retrofit: Retrofit): InternshipLocationService =
         retrofit.create(InternshipLocationService::class.java)
+
+
+
+    /**
+     * Provides the Student implementation.
+     *
+     * @param retrofit The Retrofit instance
+     * @return Implementation of [InternshipLocationService]
+     */
+    @Provides
+    @Singleton
+    fun provideInternshipService(retrofit: Retrofit): InternshipService =
+        retrofit.create(InternshipService::class.java)
 }

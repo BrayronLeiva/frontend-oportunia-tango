@@ -11,7 +11,7 @@ package oportunia.maps.frontend.taskapp.domain.model
 data class Request(
     val id: Long,
     val student: Student,
-    val company: Company,
+    val internshipLocation: InternshipLocation,
     val state: Boolean,
 
     )

@@ -8,7 +8,7 @@ import oportunia.maps.frontend.taskapp.domain.model.Request
  */
 class RequestMapper(
     private val studentMapper: StudentMapper,
-    private val companyMapper: CompanyMapper
+    private val internshipLocationMapper: InternshipLocationMapper
 ) {
 
     /**
@@ -18,8 +18,8 @@ class RequestMapper(
      */
     fun mapToDomain(dto: RequestDto): Request = Request(
         id = dto.id,
-        student = studentMapper.mapToDomain(dto.student),
-        company = companyMapper.mapToDomain(dto.company),
+        student = studentMapper.mapToDomain(dto.studentDto),
+        internshipLocation = internshipLocationMapper.mapToDomain(dto.internshipLocationDto),
         state = dto.state
     )
 
@@ -31,8 +31,8 @@ class RequestMapper(
     fun mapToDto(domain: Request): RequestDto =
         RequestDto(
             id = domain.id,
-            student = studentMapper.mapToDto(domain.student),
-            company = companyMapper.mapToDto(domain.company),
+            studentDto = studentMapper.mapToDto(domain.student),
+            internshipLocationDto = internshipLocationMapper.mapToDto(domain.internshipLocation),
             state = domain.state
         )
 }

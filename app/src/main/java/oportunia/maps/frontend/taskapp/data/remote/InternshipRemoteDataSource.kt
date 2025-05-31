@@ -1,53 +1,47 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
-import oportunia.maps.frontend.taskapp.data.remote.api.LocationCompanyService
-import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
+import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
+import oportunia.maps.frontend.taskapp.data.remote.api.InternshipService
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import retrofit2.Response
 import javax.inject.Inject
 
-
-
-/**
- * Remote data source for location company operations.
- * Handles all network operations related to location companies using [qualificationService].
- *
- * @property qualificationService The service interface for location company API calls
- */
-class QualificationRemoteDataSource @Inject constructor(
-    private val qualificationService: QualificationService
+class InternshipRemoteDataSource @Inject constructor(
+    private val internshipService: InternshipService
 ) {
     /**
      * Retrieves all location companies from the remote API.
      *
-     * @return [Result] containing a list of [QualificationDto] if successful,
+     * @return [Result] containing a list of [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun getAll(): Result<List<QualificationDto>> = safeApiCall {
-        qualificationService.getAllqualifications()
+    suspend fun getAll(): Result<List<InternshipDto>> = safeApiCall {
+        internshipService.getAllInternships()
     }
 
     /**
      * Retrieves a specific location company by its ID.
      *
      * @param id The unique identifier of the location company
-     * @return [Result] containing the [QualificationDto] if successful,
+     * @return [Result] containing the [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun getById(id: Long): Result<QualificationDto> = safeApiCall {
-        qualificationService.getQualificationById(id)
+    suspend fun getById(id: Long): Result<InternshipDto> = safeApiCall {
+        internshipService.getInternshipById(id)
     }
 
     /**
      * Creates a new location company.
      *
      * @param dto The location company data to create
-     * @return [Result] containing the created [QualificationDto] if successful,
+     * @return [Result] containing the created [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun create(dto: QualificationDto): Result<QualificationDto> = safeApiCall {
-        qualificationService.createQualification(dto)
+    suspend fun create(dto: InternshipDto): Result<InternshipDto> = safeApiCall {
+        internshipService.createInternship(dto)
     }
 
     /**
@@ -55,12 +49,13 @@ class QualificationRemoteDataSource @Inject constructor(
      *
      * @param id The unique identifier of the location company to update
      * @param dto The updated location company data
-     * @return [Result] containing the updated [QualificationDto] if successful,
+     * @return [Result] containing the updated [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun update(id: Long, dto: QualificationDto): Result<QualificationDto> = safeApiCall {
-        qualificationService.updateQualification(id, dto)
-    }
+    suspend fun update(id: Long, dto: InternshipDto): Result<InternshipDto> =
+        safeApiCall {
+            internshipService.updateInternship(id, dto)
+        }
 
     /**
      * Deletes a location company by its ID.
@@ -69,7 +64,7 @@ class QualificationRemoteDataSource @Inject constructor(
      * @return [Result] with success or failure
      */
     suspend fun delete(id: Long): Result<Unit> = safeApiCall {
-        qualificationService.deleteQualification(id)
+        internshipService.deleteInternship(id)
     }
 
     /**
@@ -78,6 +73,19 @@ class QualificationRemoteDataSource @Inject constructor(
      * @param apiCall The suspending function making the API call
      * @return [Result] containing the data if successful, or an exception if failed
      */
+
+    /**
+     * Retrieves all location companies from the remote API.
+     *
+     * @return [Result] containing a list of [LocationCompanyDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getInternshipsByLocationId(locationId: Long): Result<List<InternshipDto>> = safeApiCall {
+        internshipService.getInternshipsByLocation(locationId)
+    }
+
+
+
     private suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Result<T> = try {
         val response = apiCall()
         if (response.isSuccessful) {

@@ -63,7 +63,7 @@ class LocationCompanyViewModel @Inject constructor(
                 }
                 .onFailure { exception ->
                     _location.value = LocationState.Error(exception.message ?: "Unknown error")
-                    Log.e("LocationViewModel", "Error fetching location by ID: ${exception.message}")
+                    Log.e("LocationViewModel", "Error fetching location with ID: $locationId error: ${exception.message}")
                 }
         }
     }

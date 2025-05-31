@@ -33,6 +33,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 import androidx.compose.ui.platform.LocalContext
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 
 @AndroidEntryPoint
 class StudentActivity : ComponentActivity() {
@@ -60,6 +61,8 @@ class StudentActivity : ComponentActivity() {
 
     private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
 
+    private val internshipViewModel: InternshipViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -74,6 +77,7 @@ class StudentActivity : ComponentActivity() {
                     locationCompanyViewModel,
                     studentViewModel,
                     internshipLocationViewModel,
+                    internshipViewModel,
                     userId
                 )
             }
@@ -88,6 +92,7 @@ fun MainStudentScreen(
     locationCompanyViewModel: LocationCompanyViewModel,
     studentViewModel: StudentViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
+    internshipViewModel: InternshipViewModel,
     userId: Long
 ) {
     val navController = rememberNavController()
@@ -125,6 +130,7 @@ fun MainStudentScreen(
             locationCompanyViewModel = locationCompanyViewModel,
             studentViewModel = studentViewModel,
             internshipLocationViewModel = internshipLocationViewModel,
+            internshipViewModel = internshipViewModel,
             paddingValues = paddingValues,
             userId = userId,
             onLogOut = onLogOut

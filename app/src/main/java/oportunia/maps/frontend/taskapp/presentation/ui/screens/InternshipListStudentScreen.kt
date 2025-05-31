@@ -12,10 +12,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCard
-import oportunia.maps.frontend.taskapp.presentation.ui.components.LocationCompanyCard
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 
 @Composable
 fun InternshipListStudentScreen(
@@ -23,16 +24,19 @@ fun InternshipListStudentScreen(
     navController: NavController,
     locationCompanyViewModel: LocationCompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
+    internshipViewModel: InternshipViewModel,
     paddingValues: PaddingValues
 ) {
     // Fetch the location company details and internships
     LaunchedEffect(locationCompanyId) {
         locationCompanyViewModel.selectLocationById(locationCompanyId)
-        internshipLocationViewModel.loadInternshipsByLocationId(locationCompanyId)
+        internshipViewModel.loadInternshipsByLocationId(locationCompanyId)
+        internshipViewModel.findAllInternships()
     }
 
     val locationCompany by locationCompanyViewModel.selectedLocation.collectAsState()
-    val internshipState by internshipLocationViewModel.internships.collectAsState()
+    val internshipState by internshipViewModel.internshipState.collectAsState()
+    //val internshipState by internshipLocationViewModel.internships.collectAsState()
 
     Log.d("InternshipListStudentScreen", "Location company: $locationCompany")
     Log.d("InternshipListStudentScreen", "Internships state: $internshipState")
@@ -42,7 +46,7 @@ fun InternshipListStudentScreen(
             .fillMaxSize()
             .padding(paddingValues)
     ) {
-        locationCompany?.let {
+        //locationCompany?.let {
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -50,7 +54,8 @@ fun InternshipListStudentScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Internships for ${it.company.name}",
+                    //text = "Internships for ${it.company.name}",
+                    text = "Internships for ${locationCompany?.company?.name}",
                     modifier = Modifier.padding(16.dp)
                 )
 
@@ -114,9 +119,9 @@ fun InternshipListStudentScreen(
                 }
             }
 
-        } ?: Text(
-            text = "Location details not available.",
-            style = MaterialTheme.typography.bodyMedium
-        )
+       // } ?: Text(
+       //     text = "Location details not available.",
+       //     style = MaterialTheme.typography.bodyMedium
+        //)
     }
 }

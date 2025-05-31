@@ -1,22 +1,15 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
-import oportunia.maps.frontend.taskapp.data.remote.api.LocationCompanyService
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
-import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.api.RequestService
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
 import retrofit2.Response
 import javax.inject.Inject
 
 
-
-/**
- * Remote data source for location company operations.
- * Handles all network operations related to location companies using [qualificationService].
- *
- * @property qualificationService The service interface for location company API calls
- */
-class QualificationRemoteDataSource @Inject constructor(
-    private val qualificationService: QualificationService
+class RequestRemoteDataSource @Inject constructor(
+    private val requestService: RequestService
 ) {
     /**
      * Retrieves all location companies from the remote API.
@@ -24,8 +17,8 @@ class QualificationRemoteDataSource @Inject constructor(
      * @return [Result] containing a list of [QualificationDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun getAll(): Result<List<QualificationDto>> = safeApiCall {
-        qualificationService.getAllqualifications()
+    suspend fun getAll(): Result<List<RequestDto>> = safeApiCall {
+        requestService.getAllRequests()
     }
 
     /**
@@ -35,8 +28,8 @@ class QualificationRemoteDataSource @Inject constructor(
      * @return [Result] containing the [QualificationDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun getById(id: Long): Result<QualificationDto> = safeApiCall {
-        qualificationService.getQualificationById(id)
+    suspend fun getById(id: Long): Result<RequestDto> = safeApiCall {
+        requestService.getRequestById(id)
     }
 
     /**
@@ -46,8 +39,8 @@ class QualificationRemoteDataSource @Inject constructor(
      * @return [Result] containing the created [QualificationDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun create(dto: QualificationDto): Result<QualificationDto> = safeApiCall {
-        qualificationService.createQualification(dto)
+    suspend fun create(dto: RequestDto): Result<RequestDto> = safeApiCall {
+        requestService.createRequest(dto)
     }
 
     /**
@@ -58,8 +51,8 @@ class QualificationRemoteDataSource @Inject constructor(
      * @return [Result] containing the updated [QualificationDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun update(id: Long, dto: QualificationDto): Result<QualificationDto> = safeApiCall {
-        qualificationService.updateQualification(id, dto)
+    suspend fun update(id: Long, dto: RequestDto): Result<RequestDto> = safeApiCall {
+        requestService.updateRequest(id, dto)
     }
 
     /**
@@ -69,7 +62,7 @@ class QualificationRemoteDataSource @Inject constructor(
      * @return [Result] with success or failure
      */
     suspend fun delete(id: Long): Result<Unit> = safeApiCall {
-        qualificationService.deleteQualification(id)
+        requestService.deleteRequest(id)
     }
 
     /**

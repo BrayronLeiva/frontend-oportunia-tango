@@ -2,18 +2,23 @@ package oportunia.maps.frontend.taskapp.data.remote.api
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
-interface QualificationService {
-
+interface RequestService {
     /**
      * Retrieves all qualifications entries from the remote API.
      *
      * @return [Response] containing a list of [LocationCompanyDto] objects if successful
      */
-    @GET("qualification")
-    suspend fun getAllqualifications(): Response<List<QualificationDto>>
+    @GET("requests")
+    suspend fun getAllRequests(): Response<List<RequestDto>>
 
     /**
      * Retrieves a specific location-company by its unique identifier.
@@ -21,8 +26,8 @@ interface QualificationService {
      * @param id The unique identifier of the location to retrieve
      * @return [Response] containing the requested [LocationCompanyDto] if successful
      */
-    @GET("qualification/{id}")
-    suspend fun getQualificationById(@Path("id") id: Long): Response<QualificationDto>
+    @GET("requests/{id}")
+    suspend fun getRequestById(@Path("id") id: Long): Response<RequestDto>
 
     /**
      * Creates a new location-company entry in the remote API.
@@ -30,8 +35,8 @@ interface QualificationService {
      * @param locationCompany The [LocationCompanyDto] object containing the data to create
      * @return [Response] containing the created [LocationCompanyDto] with server-assigned ID if successful
      */
-    @POST("qualification")
-    suspend fun createQualification(@Body qualification: QualificationDto): Response<QualificationDto>
+    @POST("requests")
+    suspend fun createRequest(@Body request: RequestDto): Response<RequestDto>
 
     /**
      * Updates an existing location-company entry in the remote API.
@@ -40,11 +45,11 @@ interface QualificationService {
      * @param locationCompany The [LocationCompanyDto] object containing the updated data
      * @return [Response] containing the updated [LocationCompanyDto] if successful
      */
-    @PUT("qualification/{id}")
-    suspend fun updateQualification(
+    @PUT("requests/{id}")
+    suspend fun updateRequest(
         @Path("id") id: Long,
-        @Body qualification: QualificationDto
-    ): Response<QualificationDto>
+        @Body request: RequestDto
+    ): Response<RequestDto>
 
     /**
      * Deletes a location-company entry from the remote API.
@@ -52,6 +57,6 @@ interface QualificationService {
      * @param id The unique identifier of the location to delete
      * @return [Response] indicating the success of the operation
      */
-    @DELETE("qualification/{id}")
-    suspend fun deleteQualification(@Path("id") id: Long): Response<Unit>
+    @DELETE("requests/{id}")
+    suspend fun deleteRequest(@Path("id") id: Long): Response<Unit>
 }

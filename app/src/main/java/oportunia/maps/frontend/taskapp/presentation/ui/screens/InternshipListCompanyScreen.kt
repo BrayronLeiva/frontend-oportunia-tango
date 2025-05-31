@@ -14,11 +14,10 @@ import oportunia.maps.frontend.taskapp.data.datasource.internshiplocation.Intern
 import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
-import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCard
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCardCompany
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 
 @Composable
 fun InternshipListCompanyScreen(
@@ -32,12 +31,12 @@ fun InternshipListCompanyScreen(
 
     LaunchedEffect(locationCompanyId, refreshTrigger) {
         locationCompanyViewModel.selectLocationById(locationCompanyId)
-        internshipLocationViewModel.loadInternshipsByLocationId(locationCompanyId)
+        //internshipLocationViewModel.loadInternshipsByLocationId(locationCompanyId)
     }
 
     val locationCompany by locationCompanyViewModel.selectedLocation.collectAsState()
-    val internshipState by internshipLocationViewModel.internships.collectAsState()
-
+    //val internshipState by internshipLocationViewModel.internships.collectAsState()
+    /*
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -53,19 +52,19 @@ fun InternshipListCompanyScreen(
                 )
 
                 when (val state = internshipState) {
-                    is InternshipState.Loading -> {
+                    is InternshipLocationState.Loading -> {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                             CircularProgressIndicator()
                         }
                     }
-                    is InternshipState.Empty -> {
+                    is InternshipLocationState.Empty -> {
                         Text(
                             text = "No internships available.",
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(16.dp)
                         )
                     }
-                    is InternshipState.Success -> {
+                    is InternshipLocationState.Success -> {
                         if (state.internships.isNotEmpty()) {
                             LazyColumn(
                                 modifier = Modifier.fillMaxWidth().padding(16.dp)
@@ -82,7 +81,7 @@ fun InternshipListCompanyScreen(
                             )
                         }
                     }
-                    is InternshipState.Error -> {
+                    is InternshipLocationState.Error -> {
                         Text(
                             text = "Error: ${state.message}",
                             style = MaterialTheme.typography.bodyMedium,
@@ -96,6 +95,8 @@ fun InternshipListCompanyScreen(
             style = MaterialTheme.typography.bodyMedium
         )
     }
+
+     */
 
     Box(
         modifier = Modifier
