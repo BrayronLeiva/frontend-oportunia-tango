@@ -1,16 +1,11 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
-import oportunia.maps.frontend.taskapp.data.datasource.internshiplocation.InternshipLocationDataSource
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipLocationMapper
-import oportunia.maps.frontend.taskapp.domain.error.DomainError
-import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
-import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
-import kotlinx.coroutines.flow.first
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
 import oportunia.maps.frontend.taskapp.data.remote.InternshipLocationRemoteDataSource
 import oportunia.maps.frontend.taskapp.domain.model.Internship
-import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
-import java.io.IOException
+import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
+import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -69,8 +64,16 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
     }
 
 
-    override suspend fun findInternshipsByLocationId(locationId: Long): Result<List<Internship>> {
-        TODO("Not yet implemented")
+    override suspend fun findInternshipLocationsByLocationId(locationId: Long): Result<List<InternshipLocation>> {
+        return try {
+            remoteDataSource.getInternshipsByLocationId(locationId).map { dtos ->
+                dtos.map { internshipLocationMapper.mapToDomain(it) }
+            }
+        } catch (e: UnknownHostException) {
+            Result.failure(Exception("Network error: Please check your connection."))
+        } catch (e: Exception) {
+            Result.failure(Exception("Error fetching internships: ${e.message}"))
+        }
     }
 
     /*

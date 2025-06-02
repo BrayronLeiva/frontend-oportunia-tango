@@ -14,6 +14,7 @@ data class UserDto(
     val lastName: String,
     val enable: Boolean,
     val tokenExpired: Boolean,
-    val createDate: String
+    val createDate: String,
+    val roleList: List<RoleDto>
 )
 

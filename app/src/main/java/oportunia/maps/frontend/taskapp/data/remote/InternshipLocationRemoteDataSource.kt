@@ -65,6 +65,10 @@ class InternshipLocationRemoteDataSource @Inject constructor(
         internshipLocationService.deleteInternshipLocation(id)
     }
 
+    suspend fun getInternshipsByLocationId(locationId: Long): Result<List<InternshipLocationDto>> = safeApiCall {
+        internshipLocationService.getInternshipsByLocationId(locationId)
+    }
+
     /**
      * Helper function to handle API calls safely.
      *

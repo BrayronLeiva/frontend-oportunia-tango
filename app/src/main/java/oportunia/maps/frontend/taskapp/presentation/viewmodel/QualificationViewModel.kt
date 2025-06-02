@@ -4,8 +4,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import oportunia.maps.frontend.taskapp.domain.model.Task
-import oportunia.maps.frontend.taskapp.domain.repository.TaskRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,7 +17,7 @@ sealed class QualificationState {
     data object Loading : QualificationState()
 
     /** Contains the successfully retrieved qualification */
-    data class Success(val task: Task) : QualificationState()
+    data class Success(val qualification: Qualification) : QualificationState()
 
     /** Indicates no qualification is available */
     data object Empty : QualificationState()

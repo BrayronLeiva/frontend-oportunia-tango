@@ -12,7 +12,7 @@ interface QualificationService {
      *
      * @return [Response] containing a list of [LocationCompanyDto] objects if successful
      */
-    @GET("qualification")
+    @GET("/v1/qualifications")
     suspend fun getAllqualifications(): Response<List<QualificationDto>>
 
     /**
@@ -21,7 +21,7 @@ interface QualificationService {
      * @param id The unique identifier of the location to retrieve
      * @return [Response] containing the requested [LocationCompanyDto] if successful
      */
-    @GET("qualification/{id}")
+    @GET("/v1/qualifications/{id}")
     suspend fun getQualificationById(@Path("id") id: Long): Response<QualificationDto>
 
     /**
@@ -30,7 +30,7 @@ interface QualificationService {
      * @param locationCompany The [LocationCompanyDto] object containing the data to create
      * @return [Response] containing the created [LocationCompanyDto] with server-assigned ID if successful
      */
-    @POST("qualification")
+    @POST("/v1/qualifications")
     suspend fun createQualification(@Body qualification: QualificationDto): Response<QualificationDto>
 
     /**
@@ -40,7 +40,7 @@ interface QualificationService {
      * @param locationCompany The [LocationCompanyDto] object containing the updated data
      * @return [Response] containing the updated [LocationCompanyDto] if successful
      */
-    @PUT("qualification/{id}")
+    @PUT("/v1/qualifications/{id}")
     suspend fun updateQualification(
         @Path("id") id: Long,
         @Body qualification: QualificationDto
@@ -52,6 +52,6 @@ interface QualificationService {
      * @param id The unique identifier of the location to delete
      * @return [Response] indicating the success of the operation
      */
-    @DELETE("qualification/{id}")
+    @DELETE("/v1/qualifications/{id}")
     suspend fun deleteLocation(@Path("id") id: Long): Response<Unit>
 }

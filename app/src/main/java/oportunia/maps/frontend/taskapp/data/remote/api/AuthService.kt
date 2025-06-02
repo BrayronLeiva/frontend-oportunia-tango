@@ -16,12 +16,12 @@ interface AuthService {
      * @param request Authentication credentials
      * @return Authentication response containing token
      */
-    @POST("users/login")
+    @POST("v1/users/login")
     suspend fun login(@Body request: AuthRequestDto): Response<AuthResponseDto>
 
     /**
      * Logs out the current user session
      */
-    @POST("users/logout") //TODO: Pending in backend
+    @POST("v1/users/logout") //TODO: Pending in backend
     suspend fun logout(): Response<Unit>
 }

@@ -1,11 +1,19 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -31,7 +39,6 @@ import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskState
 
 @Composable
 fun StudentMapScreen(navController: NavHostController, locationCompanyViewModel: LocationCompanyViewModel, paddingValues: PaddingValues) {

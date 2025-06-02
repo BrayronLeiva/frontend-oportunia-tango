@@ -10,15 +10,18 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import oportunia.maps.frontend.taskapp.data.remote.api.AuthService
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
+import oportunia.maps.frontend.taskapp.data.remote.api.UserService
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
+import oportunia.maps.frontend.taskapp.data.remote.interceptor.AuthInterceptor
 import oportunia.maps.frontend.taskapp.data.remote.interceptor.ResponseInterceptor
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.QualificationDeserializer
@@ -83,9 +86,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
+        authInterceptor: AuthInterceptor,
         loggingInterceptor: HttpLoggingInterceptor,
         responseInterceptor: ResponseInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
         .addInterceptor(loggingInterceptor)
         .addInterceptor(responseInterceptor)
         .connectTimeout(30, TimeUnit.SECONDS)
@@ -167,4 +172,14 @@ object NetworkModule {
     @Singleton
     fun provideInternshipLocationService(retrofit: Retrofit): InternshipLocationService =
         retrofit.create(InternshipLocationService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAuthService(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserService(retrofit: Retrofit): UserService =
+        retrofit.create(UserService::class.java)
 }

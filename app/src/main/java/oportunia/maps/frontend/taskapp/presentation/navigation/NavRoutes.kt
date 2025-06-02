@@ -18,10 +18,6 @@ sealed class NavRoutes {
         const val ROUTE = "registerStudentSecond"
     }
 
-    data object TaskList : NavRoutes() {
-        const val ROUTE = "taskList"
-    }
-
     data object Home : NavRoutes() {
         const val ROUTE = "home"
     }
@@ -66,12 +62,4 @@ sealed class NavRoutes {
 
         fun createRoute(locationCompanyId: Long) = "internshipCompany/$locationCompanyId"
     }
-
-    data object TaskDetail : NavRoutes() {
-        const val ROUTE = "taskDetail/{taskId}"
-        const val ARG_TASK_ID = "taskId" // Changed to uppercase with underscores
-
-        fun createRoute(taskId: Long) = "taskDetail/$taskId"
-    }
-
 }

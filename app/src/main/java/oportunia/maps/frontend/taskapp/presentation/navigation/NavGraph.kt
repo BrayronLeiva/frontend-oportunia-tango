@@ -7,29 +7,21 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import oportunia.maps.frontend.taskapp.data.datasource.userrole.UserRoleProvider
-import oportunia.maps.frontend.taskapp.domain.model.Student
-import oportunia.maps.frontend.taskapp.domain.model.User
-import oportunia.maps.frontend.taskapp.domain.model.UserRole
 import oportunia.maps.frontend.taskapp.presentation.screens.StudentProfileScreen
-import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
-import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
-import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.CompanyMapScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.HomeScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListCompanyScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListStudentScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipSearch
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.LocationCompanyDetailScreen
-import oportunia.maps.frontend.taskapp.presentation.ui.screens.LoginScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentMapScreen
-import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskDetailScreen
-import oportunia.maps.frontend.taskapp.presentation.ui.screens.TaskListScreen
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 /**
@@ -150,6 +142,7 @@ fun NavGraph(
     fun NavGraph(
         navController: NavHostController,
         locationCompanyViewModel: LocationCompanyViewModel,
+        internshipLocationViewModel: InternshipLocationViewModel,
         qualificationViewModel: QualificationViewModel,
         studentViewModel: StudentViewModel,
         paddingValues: PaddingValues,
@@ -176,7 +169,7 @@ fun NavGraph(
                 StudentMapScreen(navController, locationCompanyViewModel, paddingValues)
             }
             composable(NavRoutes.CompanyMap.ROUTE) {
-                CompanyMapScreen(navController, paddingValues)
+                CompanyMapScreen(navController, locationCompanyViewModel, paddingValues)
             }
             //composable(NavRoutes.InternshipsSearch.ROUTE) {
             //    InternshipSearch(internshipLocationViewModel, paddingValues)
@@ -211,13 +204,13 @@ fun NavGraph(
                 val locationCompanyId =
                     backStackEntry.arguments?.getLong(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID)
                         ?: 0L
-                /*InternshipListStudentScreen(
+                InternshipListStudentScreen(
                     locationCompanyId = locationCompanyId,
                     navController = navController,
                     locationCompanyViewModel = locationCompanyViewModel,
                     internshipLocationViewModel = internshipLocationViewModel,
                     paddingValues = paddingValues
-                )*/
+                )
             }
 
             composable(
@@ -300,13 +293,13 @@ fun NavGraph(
             val locationCompanyId =
                 backStackEntry.arguments?.getLong(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID)
                     ?: 0L
-            /*InternshipListStudentScreen(
+            InternshipListStudentScreen(
                 locationCompanyId = locationCompanyId,
                 navController = navController,
                 locationCompanyViewModel = locationCompanyViewModel,
                 internshipLocationViewModel = internshipLocationViewModel,
                 paddingValues = paddingValues
-            )*/
+            )
         }
 
 
@@ -319,13 +312,14 @@ fun NavGraph(
 fun NavGraph(
     navController: NavHostController,
     locationCompanyViewModel: LocationCompanyViewModel,
+    internshipLocationViewModel: InternshipLocationViewModel,
     paddingValues: PaddingValues
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.CompanyMap.ROUTE) {
 
 
         composable(NavRoutes.CompanyMap.ROUTE) {
-            CompanyMapScreen(navController, paddingValues)
+            CompanyMapScreen(navController, locationCompanyViewModel, paddingValues)
         }
 
         composable(
@@ -354,13 +348,13 @@ fun NavGraph(
             val locationCompanyId =
                 backStackEntry.arguments?.getLong(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID)
                     ?: 0L
-            /*InternshipListStudentScreen(
+            InternshipListStudentScreen(
                 locationCompanyId = locationCompanyId,
                 navController = navController,
                 locationCompanyViewModel = locationCompanyViewModel,
                 internshipLocationViewModel = internshipLocationViewModel,
                 paddingValues = paddingValues
-            )*/
+            )
         }
 
         composable(
@@ -372,13 +366,13 @@ fun NavGraph(
             val locationCompanyId =
                 backStackEntry.arguments?.getLong(NavRoutes.InternshipListCompany.ARG_LOCATION_COMPANY_ID)
                     ?: 0L
-            /*InternshipListCompanyScreen(
+            InternshipListCompanyScreen(
                 locationCompanyId = locationCompanyId,
                 navController = navController,
                 locationCompanyViewModel = locationCompanyViewModel,
                 internshipLocationViewModel = internshipLocationViewModel,
                 paddingValues = paddingValues
-            )*/
+            )
         }
 
 

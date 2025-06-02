@@ -22,8 +22,8 @@ class AuthInterceptor @Inject constructor(
         val originalRequest = chain.request()
 
         // Skip authentication for login and registration endpoints
-        if (originalRequest.url.encodedPath.contains("auth/login") ||
-            originalRequest.url.encodedPath.contains("auth/register")
+        if (originalRequest.url.encodedPath.contains("v1/users/login") ||
+            originalRequest.url.encodedPath.contains("v1/users/register")
         ) {
             return chain.proceed(originalRequest)
         }

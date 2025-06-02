@@ -4,6 +4,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RoleDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
 import java.lang.reflect.Type
@@ -39,10 +40,17 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
         val enable = jsonObject.get("enable").asBoolean
         val tokenExpired = jsonObject.get("tokenExpired").asBoolean
         val createDate = jsonObject.get("createDate").asString
-        //val roleList = jsonObject.get("roleList").as
+        val roleListJson = jsonObject.getAsJsonArray("roleList")
+        val roleList: List<RoleDto> = roleListJson.map { element ->
+            val roleObject = element.asJsonObject
+            val idrole = roleObject.get("id").asLong
+            val namerole = roleObject.get("name").asString
+
+            RoleDto(id = idrole, name = namerole)
+        }
 
         // Create UserDto and CompanyDto
-        val userDto = UserDto(userId, emailUser, firstName, lastName, enable, tokenExpired, createDate)
+        val userDto = UserDto(userId, emailUser, firstName, lastName, enable, tokenExpired, createDate, roleList)
 
         // Return the StudentDto object
         return StudentDto(

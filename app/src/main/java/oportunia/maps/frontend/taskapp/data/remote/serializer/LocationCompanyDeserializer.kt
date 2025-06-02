@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.data.remote.serializer
 import com.google.gson.*
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RoleDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
 import java.lang.reflect.Type
 
@@ -54,8 +55,16 @@ class LocationCompanyDeserializer : JsonDeserializer<LocationCompanyDto> {
         val enable = userObject.get("enabled").asBoolean
         val tokenExpired = userObject.get("tokenExpired").asBoolean
         val createDate = userObject.get("createDate").asString
+        val roleListJson = userObject.getAsJsonArray("roleList")
+        val roleList: List<RoleDto> = roleListJson.map { element ->
+            val roleObject = element.asJsonObject
+            val idrole = roleObject.get("id").asLong
+            val name = roleObject.get("name").asString
 
-        val userDto = UserDto(userId, emailUser, firstName, lastName, enable, tokenExpired, createDate)
+            RoleDto(id = idrole, name = name)
+        }
+
+        val userDto = UserDto(userId, emailUser, firstName, lastName, enable, tokenExpired, createDate, roleList)
         val companyDto = CompanyDto(
             companyId, companyName, companyDescription, companyHistory,
             companyMision, companyVision, companyCorporateCultur, companyContact,

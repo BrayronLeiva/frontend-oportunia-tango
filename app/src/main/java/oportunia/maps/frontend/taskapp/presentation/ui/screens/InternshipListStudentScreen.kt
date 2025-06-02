@@ -1,21 +1,35 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
 import android.util.Log
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCard
-import oportunia.maps.frontend.taskapp.presentation.ui.components.LocationCompanyCard
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 
 @Composable
 fun InternshipListStudentScreen(
@@ -56,25 +70,25 @@ fun InternshipListStudentScreen(
 
                 // Handle the different internship states
                 when (val state = internshipState) {
-                    is InternshipState.Loading -> {
+                    is InternshipLocationState.Loading -> {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                             CircularProgressIndicator()
                         }
                     }
-                    is InternshipState.Empty -> {
+                    is InternshipLocationState.Empty -> {
                         Text(
                             text = "No internships available.",
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(16.dp)
                         )
                     }
-                    is InternshipState.Success -> {
+                    is InternshipLocationState.Success -> {
                         if (state.internships.isNotEmpty()) {
                             LazyColumn(
                                 modifier = Modifier.fillMaxWidth().padding(16.dp)
                             ) {
-                                items(state.internships) { internship ->
-                                    InternshipCard(internship = internship)
+                                items(state.internships) { internshipLocation ->
+                                    InternshipCard(internship = internshipLocation.internship)
                                 }
                             }
                         } else {
@@ -85,7 +99,7 @@ fun InternshipListStudentScreen(
                             )
                         }
                     }
-                    is InternshipState.Error -> {
+                    is InternshipLocationState.Error -> {
                         Text(
                             text = "Error: ${state.message}",
                             style = MaterialTheme.typography.bodyMedium,

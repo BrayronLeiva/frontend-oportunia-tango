@@ -23,28 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import oportunia.maps.frontend.taskapp.data.datasource.qualification.QualificationDataSourceImpl
-import oportunia.maps.frontend.taskapp.data.datasource.task.TaskDataSourceImpl
-import oportunia.maps.frontend.taskapp.data.datasource.internshiplocation.InternshipLocationDataSourceImpl
-import oportunia.maps.frontend.taskapp.data.datasource.locationcompany.LocationCompanyDataSourceImpl
-import oportunia.maps.frontend.taskapp.data.mapper.CompanyMapper
-import oportunia.maps.frontend.taskapp.data.mapper.InternshipLocationMapper
-import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
-import oportunia.maps.frontend.taskapp.data.mapper.LocationCompanyMapper
-import oportunia.maps.frontend.taskapp.data.mapper.PriorityMapper
-import oportunia.maps.frontend.taskapp.data.mapper.QualificationMapper
-import oportunia.maps.frontend.taskapp.data.mapper.StatusMapper
-import oportunia.maps.frontend.taskapp.data.mapper.TaskMapper
-import oportunia.maps.frontend.taskapp.data.mapper.UserMapper
-import oportunia.maps.frontend.taskapp.data.repository.InternshipLocationRepositoryImpl
-import oportunia.maps.frontend.taskapp.data.repository.LocationCompanyRepositoryImpl
-import oportunia.maps.frontend.taskapp.data.repository.QualificationRepositoryImpl
-import oportunia.maps.frontend.taskapp.data.repository.TaskRepositoryImpl
-import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
-import oportunia.maps.frontend.taskapp.presentation.factory.InternshipLocationViewModelFactory
-import oportunia.maps.frontend.taskapp.presentation.factory.LocationCompanyViewModelFactory
-import oportunia.maps.frontend.taskapp.presentation.factory.QualificationViewModelFactory
-import oportunia.maps.frontend.taskapp.presentation.factory.TaskViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationRow
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
@@ -52,8 +30,6 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 /**
  * Main activity that serves as the entry point for the application.
@@ -61,68 +37,10 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val taskViewModel: TaskViewModel by viewModels {
-        // Create mappers
-        val priorityMapper = PriorityMapper()
-        val statusMapper = StatusMapper()
-        val taskMapper = TaskMapper(priorityMapper, statusMapper)
-        // Create data source with mapper
-        val dataSource = TaskDataSourceImpl(taskMapper)
-
-        // Create repository with data source and mapper
-        val taskRepository = TaskRepositoryImpl(dataSource, taskMapper)
-
-        TaskViewModelFactory(taskRepository)
-    }
-
-    /*private val locationCompanyRepository: LocationCompanyRepository by lazy {
-        val userMapper = UserMapper()
-        val companyMapper = CompanyMapper(userMapper)
-        val locationCompanyMapper = LocationCompanyMapper(companyMapper)
-
-        val locationCompanyDataSource = LocationCompanyDataSourceImpl(locationCompanyMapper)
-
-        LocationCompanyRepositoryImpl(locationCompanyDataSource, locationCompanyMapper)
-    }
-
-    private val qualificationViewModel: QualificationViewModel by viewModels {
-
-        val qualificationMapper = QualificationMapper(null)
-
-        val dataQualificationSource = QualificationDataSourceImpl(qualificationMapper)
-
-        val qualificationRepository = QualificationRepositoryImpl(dataQualificationSource, qualificationMapper)
-
-        QualificationViewModelFactory(qualificationRepository)
-    }
-    */
-
     private val locationCompanyViewModel: LocationCompanyViewModel by viewModels()
-
     private val qualificationViewModel: QualificationViewModel by viewModels()
-
     private val studentViewModel: StudentViewModel by viewModels()
-
-    //private val userRoleViewModel: UserRoleViewModel by viewModels()
-
-    //private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
-
-    /*private val internshipLocationViewModelFactory: InternshipLocationViewModel by viewModels {
-        val userMapper = UserMapper()
-        val internshipMapper = InternshipMapper()
-        val companyMapper = CompanyMapper(userMapper)
-        val locationCompanyMapper = LocationCompanyMapper(companyMapper)
-        val internshipLocationMapper = InternshipLocationMapper(locationCompanyMapper, internshipMapper)
-
-        val internshipLocationDataSource = InternshipLocationDataSourceImpl(internshipLocationMapper, internshipMapper)
-
-        val internshipLocationRepository = InternshipLocationRepositoryImpl(internshipLocationDataSource, internshipLocationMapper, internshipMapper)
-
-        InternshipLocationViewModelFactory(locationCompanyRepository, internshipLocationRepository)
-    }*/
-
-
-
+    private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,12 +50,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             TaskAppTheme {
                 MainScreen(
-                    taskViewModel,
                     qualificationViewModel,
+                    internshipLocationViewModel,
                     locationCompanyViewModel,
                     studentViewModel,
                     userId
-                    //internshipLocationViewModel
                 )
             }
         }
@@ -193,8 +110,8 @@ private fun PreviewMainScreen() {
 
 @Composable
 fun MainScreen(
-    taskViewModel: TaskViewModel,
     qualificationViewModel: QualificationViewModel,
+    internshipLocationViewModel: InternshipLocationViewModel,
     locationCompanyViewModel: LocationCompanyViewModel,
     studentViewModel: StudentViewModel,
     userId: Long
@@ -202,7 +119,6 @@ fun MainScreen(
     val navController = rememberNavController()
 
     LaunchedEffect(Unit) {
-        taskViewModel.findAllTasks()
         locationCompanyViewModel.findAllLocations()
     }
 
@@ -242,6 +158,7 @@ fun MainScreen(
         NavGraph(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
+            internshipLocationViewModel = internshipLocationViewModel,
             qualificationViewModel = qualificationViewModel,
             studentViewModel = studentViewModel,
             paddingValues = paddingValues,
