@@ -1,7 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
 import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
-import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import retrofit2.Response
 import javax.inject.Inject

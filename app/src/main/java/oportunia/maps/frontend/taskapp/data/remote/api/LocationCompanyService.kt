@@ -15,7 +15,7 @@ interface LocationCompanyService {
      *
      * @return [Response] containing a list of [LocationCompanyDto] objects if successful
      */
-    @GET("locationCompany")
+    @GET("/v1/location-companies")
     suspend fun getAllLocations(): Response<List<LocationCompanyDto>>
 
     /**
@@ -24,7 +24,7 @@ interface LocationCompanyService {
      * @param id The unique identifier of the location to retrieve
      * @return [Response] containing the requested [LocationCompanyDto] if successful
      */
-    @GET("locationCompany/{id}")
+    @GET("/v1/location-companies/{id}")
     suspend fun getLocationById(@Path("id") id: Long): Response<LocationCompanyDto>
 
     /**
@@ -33,7 +33,7 @@ interface LocationCompanyService {
      * @param locationCompany The [LocationCompanyDto] object containing the data to create
      * @return [Response] containing the created [LocationCompanyDto] with server-assigned ID if successful
      */
-    @POST("locationCompany")
+    @POST("/v1/location-companies")
     suspend fun createLocation(@Body locationCompany: LocationCompanyDto): Response<LocationCompanyDto>
 
     /**
@@ -43,7 +43,7 @@ interface LocationCompanyService {
      * @param locationCompany The [LocationCompanyDto] object containing the updated data
      * @return [Response] containing the updated [LocationCompanyDto] if successful
      */
-    @PUT("locationCompany/{id}")
+    @PUT("/v1/location-companies/{id}")
     suspend fun updateLocation(
         @Path("id") id: Long,
         @Body locationCompany: LocationCompanyDto
@@ -55,7 +55,7 @@ interface LocationCompanyService {
      * @param id The unique identifier of the location to delete
      * @return [Response] indicating the success of the operation
      */
-    @DELETE("locationCompany/{id}")
+    @DELETE("/v1/location-companies/{id}")
     suspend fun deleteLocation(@Path("id") id: Long): Response<Unit>
 
 

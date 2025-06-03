@@ -7,6 +7,7 @@ import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RoleDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
 import oportunia.maps.frontend.taskapp.domain.model.Internship
 import java.lang.reflect.Type
@@ -62,6 +63,14 @@ class InternshipLocationDeserializer : JsonDeserializer<InternshipLocationDto> {
         val enabled = userJson.get("enabled").asBoolean
         val tokenExpired = userJson.get("tokenExpired").asBoolean
         val createDate = userJson.get("createDate").asString
+        val roleListJson = userJson.getAsJsonArray("roleList")
+        val roleList: List<RoleDto> = roleListJson.map { element ->
+            val roleObject = element.asJsonObject
+            val id = roleObject.get("id").asLong
+            val name = roleObject.get("name").asString
+
+            RoleDto(id = id, name = name)
+        }
 
 
         val userDto = UserDto(
@@ -71,7 +80,8 @@ class InternshipLocationDeserializer : JsonDeserializer<InternshipLocationDto> {
             lastName = lastName,
             enable = enabled,
             tokenExpired = tokenExpired,
-            createDate = createDate
+            createDate = createDate,
+            roleList = roleList
         )
 
         val companyDto = CompanyDto(

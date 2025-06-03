@@ -25,18 +25,15 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
-import oportunia.maps.frontend.taskapp.data.datasource.userrole.UserRoleProvider
-import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.lightBlue
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserState
 
 @Composable
 fun LoginScreen(
-    userRoleViewModel: UserRoleViewModel,
+    userViewModel: UserViewModel,
     paddingValues: PaddingValues,
     onLoginSuccess: (Int) -> Unit,
     onRegisterClick: (Context) -> Unit
@@ -46,8 +43,7 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
 
-    // Observamos el estado de userRole desde el ViewModel
-    val userRoleState by userRoleViewModel.userRole.collectAsState()
+    val userState by userViewModel.userState.collectAsState()
 
     Box(
         modifier = Modifier
@@ -88,54 +84,38 @@ fun LoginScreen(
                 visualTransformation = PasswordVisualTransformation()
             )
 
-            //RegisterText(navController) ESTO ES EL QUE VA PARA REGISTRO
             RegisterText(onRegisterClick = { onRegisterClick(context) })
 
             if (errorMessage.isNotEmpty()) {
-                Text(errorMessage)
+                Text(errorMessage, color = Color.Red)
             }
 
-            // Verificamos el estado de carga y el error
-            when (userRoleState) {
-                is UserRoleState.Loading -> {
-                    CircularProgressIndicator() // Muestra un spinner mientras se hace la operación
+            when (userState) {
+                is UserState.Loading -> {
+                    CircularProgressIndicator()
                 }
-                is UserRoleState.Success -> {
-                    val loggedInUser = (userRoleState as UserRoleState.Success).userRole
-                    // Si el login es exitoso, navegamos a la pantalla correspondiente
-                    LaunchedEffect(loggedInUser.user.id) {
-                        onLoginSuccess(loggedInUser.user.id.toInt())
+                is UserState.Success -> {
+                    val loggedInUser = (userState as UserState.Success).user
+                    LaunchedEffect(loggedInUser.id) {
+                        onLoginSuccess(loggedInUser.id.toInt())
                     }
-                    /*
-                    LaunchedEffect(loggedInUser) {
-                        val userRole = loggedInUser.role.name
-                        when (userRole) {
-                            TypeUser.STU -> {
-                                navController.navigate(NavRoutes.StudentMap.ROUTE)
-                            }
-                            TypeUser.COM -> {
-                                navController.navigate(NavRoutes.CompanyMap.ROUTE)
-                            }
-                        }
-                    }*/
                 }
-                is UserRoleState.Failure -> {
-                    Text("Invalid email or password.", color = Color.Red) // Mensaje de error si no se encuentra al usuario
+                is UserState.Failure -> {
+                    Text("Invalid email or password.", color = Color.Red)
                 }
-                is UserRoleState.Error -> {
-                    val errorMessage = (userRoleState as UserRoleState.Error).message
-                    Text(errorMessage, color = Color.Red) // Muestra el mensaje de error
+                is UserState.Error -> {
+                    val message = (userState as UserState.Error).message
+                    Text(message, color = Color.Red)
                 }
-                is UserRoleState.Empty -> {
-                    //Text("Invalid email or password.", color = Color.Red) // Mensaje de error si no se encuentra al usuario
+                is UserState.Empty -> {
+                    // Optional: Show nothing or a placeholder
                 }
             }
 
             CustomButton(
                 text = stringResource(id = R.string.main_login),
                 onClick = {
-                    // Inicia el login llamando al método del ViewModel
-                    userRoleViewModel.loginUser(email, password)
+                    userViewModel.loginUser(email, password)
                 }
             )
         }
@@ -164,7 +144,7 @@ fun RegisterText(onRegisterClick: () -> Unit) {
         text = annotatedString,
         modifier = Modifier
             .padding(top = 8.dp)
-            .clickable (onClick = onRegisterClick),
+            .clickable(onClick = onRegisterClick),
         style = androidx.compose.ui.text.TextStyle(color = Black)
     )
 }

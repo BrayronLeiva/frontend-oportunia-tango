@@ -160,11 +160,6 @@ fun InternshipSearch(
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-
-
-
-
-
         Spacer(modifier = Modifier.height(16.dp))
 
         // Filtrar las pasantías por nombre de compañía y calificación

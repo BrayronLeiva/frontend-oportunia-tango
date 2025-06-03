@@ -1,6 +1,5 @@
 package oportunia.maps.frontend.taskapp
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -13,46 +12,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import oportunia.maps.frontend.taskapp.data.datasource.task.TaskDataSourceImpl
-import oportunia.maps.frontend.taskapp.data.mapper.PriorityMapper
-import oportunia.maps.frontend.taskapp.data.mapper.StatusMapper
-import oportunia.maps.frontend.taskapp.data.mapper.TaskMapper
-import oportunia.maps.frontend.taskapp.data.repository.TaskRepositoryImpl
-import oportunia.maps.frontend.taskapp.presentation.factory.TaskViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 @AndroidEntryPoint
 class CompanyActivity : ComponentActivity() {
-
-
-    private val taskViewModel: TaskViewModel by viewModels {
-        // Create mappers
-        val priorityMapper = PriorityMapper()
-        val statusMapper = StatusMapper()
-        val taskMapper = TaskMapper(priorityMapper, statusMapper)
-        // Create data source with mapper
-        val dataSource = TaskDataSourceImpl(taskMapper)
-
-        // Create repository with data source and mapper
-        val taskRepository = TaskRepositoryImpl(dataSource, taskMapper)
-
-        TaskViewModelFactory(taskRepository)
-    }
-
     private val studentViewModel: StudentViewModel by viewModels()
-
     private val qualificationViewModel: QualificationViewModel by viewModels()
-
     private val locationCompanyViewModel: LocationCompanyViewModel by viewModels()
+    private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,9 +37,9 @@ class CompanyActivity : ComponentActivity() {
         setContent {
             TaskAppTheme {
                 MainCompanyScreen(
-                    taskViewModel,
                     qualificationViewModel,
                     locationCompanyViewModel,
+                    internshipLocationViewModel,
                     studentViewModel,
                     userId
                 )
@@ -76,16 +50,15 @@ class CompanyActivity : ComponentActivity() {
 
 @Composable
 fun MainCompanyScreen(
-    taskViewModel: TaskViewModel,
     qualificationViewModel: QualificationViewModel,
     locationCompanyViewModel: LocationCompanyViewModel,
+    internshipLocationViewModel: InternshipLocationViewModel,
     studentViewModel: StudentViewModel,
     userId: Long
 ) {
     val navController = rememberNavController()
 
     LaunchedEffect(Unit) {
-        taskViewModel.findAllTasks()
         locationCompanyViewModel.findAllLocations()
     }
 
@@ -104,6 +77,7 @@ fun MainCompanyScreen(
         NavGraph(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
+            internshipLocationViewModel = internshipLocationViewModel,
             paddingValues = paddingValues
         )
     }

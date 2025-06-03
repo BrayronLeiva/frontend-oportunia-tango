@@ -1,17 +1,10 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
-import oportunia.maps.frontend.taskapp.data.datasource.userrole.UserRoleDataSource
+import oportunia.maps.frontend.taskapp.data.mapper.UserMapper
 import oportunia.maps.frontend.taskapp.data.mapper.UserRoleMapper
-import oportunia.maps.frontend.taskapp.domain.error.DomainError
-import oportunia.maps.frontend.taskapp.domain.model.User
+import oportunia.maps.frontend.taskapp.data.remote.UserRoleRemoteDataSource
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
 import oportunia.maps.frontend.taskapp.domain.repository.UserRoleRepository
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
-import oportunia.maps.frontend.taskapp.data.mapper.UserMapper
-import oportunia.maps.frontend.taskapp.data.remote.UserRoleRemoteDataSource
-import oportunia.maps.frontend.taskapp.domain.model.Student
-import java.io.IOException
 import java.net.UnknownHostException
 import javax.inject.Inject
 

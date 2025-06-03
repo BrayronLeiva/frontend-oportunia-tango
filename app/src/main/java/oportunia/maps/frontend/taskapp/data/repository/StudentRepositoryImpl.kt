@@ -8,7 +8,6 @@ import oportunia.maps.frontend.taskapp.domain.model.Qualification
 import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
 import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
-import oportunia.maps.frontend.taskapp.domain.repository.TaskRepository
 import java.net.UnknownHostException
 import javax.inject.Inject
 

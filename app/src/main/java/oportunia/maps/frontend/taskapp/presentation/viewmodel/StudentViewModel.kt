@@ -8,11 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.domain.model.Student
-import oportunia.maps.frontend.taskapp.domain.model.Task
 import oportunia.maps.frontend.taskapp.domain.model.User
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
 import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
-import oportunia.maps.frontend.taskapp.domain.repository.TaskRepository
 import javax.inject.Inject
 
 /**
@@ -62,17 +60,19 @@ class StudentViewModel @Inject constructor(
             personalInfo = "",
             experience = "",
             rating = 0.0,
-            user = User(0L, "", "")
+            user = User(
+                0L, "", "",
+                lastName = "",
+                enabled = false,
+                tokenExpired = false,
+                createDate = "",
+                roles = emptyList(),
+                password = ""
+            )
         )
     )
     val studentDraft: StateFlow<Student> = _studentDraft
 
-
-    /**
-     * Finds a task by its ID and updates the [selectedTask] state.
-     *
-     * @param taskId The ID of the task to find
-     */
     fun selectStudentById(studentId: Long) {
         viewModelScope.launch {
             repository.findStudentById(studentId)
@@ -128,7 +128,15 @@ class StudentViewModel @Inject constructor(
             personalInfo = "",
             experience = "",
             rating = 0.0,
-            user = User(0L, "", "")
+            user = User(
+                0L, "", "",
+                lastName = "",
+                enabled = false,
+                tokenExpired = false,
+                createDate = "",
+                roles = emptyList(),
+                password = ""
+            )
         )
     }
 

@@ -1,14 +1,7 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
 import oportunia.maps.frontend.taskapp.data.datasource.task.TaskDataSource
-import oportunia.maps.frontend.taskapp.data.remote.dto.PriorityDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.StatusDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.TaskDto
-import oportunia.maps.frontend.taskapp.data.mapper.TaskMapper
 import oportunia.maps.frontend.taskapp.domain.error.DomainError
-import oportunia.maps.frontend.taskapp.domain.model.Priority
-import oportunia.maps.frontend.taskapp.domain.model.Status
-import oportunia.maps.frontend.taskapp.domain.model.Task
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

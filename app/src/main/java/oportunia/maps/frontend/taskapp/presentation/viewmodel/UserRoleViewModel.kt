@@ -58,7 +58,15 @@ class UserRoleViewModel @Inject constructor(
      */
     private val _userRoleDraft = MutableStateFlow(
         UserRole(
-            User(0L,"",""),
+            user = User(
+                0L, "", "",
+                lastName = "",
+                enabled = false,
+                tokenExpired = false,
+                createDate = "",
+                roles = emptyList(),
+                password = ""
+            ),
             Role(0L,TypeUser.STU)
         )
     )
@@ -122,7 +130,15 @@ class UserRoleViewModel @Inject constructor(
 
     private fun cleanStudentDraft(){
         _userRoleDraft.value = UserRole(
-            User(0L,"",""),
+            user = User(
+                0L, "", "",
+                lastName = "",
+                enabled = false,
+                tokenExpired = false,
+                createDate = "",
+                roles = emptyList(),
+                password = ""
+            ),
             Role(0L,TypeUser.STU)
         )
     }
@@ -130,7 +146,15 @@ class UserRoleViewModel @Inject constructor(
 
 
     fun updateUser(email: String, password: String) {
-        val user = User(0L, email, password)
+        val user = User(
+            0L, email, password,
+            lastName = "",
+            enabled = false,
+            tokenExpired = false,
+            createDate = "",
+            roles = emptyList(),
+            password = ""
+        )
         _userRoleDraft.value = _userRoleDraft.value.copy(user = user)
     }
 

@@ -17,15 +17,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import oportunia.maps.frontend.taskapp.data.datasource.task.TaskDataSourceImpl
-import oportunia.maps.frontend.taskapp.data.mapper.PriorityMapper
-import oportunia.maps.frontend.taskapp.data.mapper.StatusMapper
-import oportunia.maps.frontend.taskapp.data.mapper.TaskMapper
-import oportunia.maps.frontend.taskapp.data.repository.TaskRepositoryImpl
-import oportunia.maps.frontend.taskapp.presentation.factory.TaskViewModelFactory
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationRow
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
@@ -37,21 +32,6 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewMode
 
 @AndroidEntryPoint
 class StudentActivity : ComponentActivity() {
-
-
-    private val taskViewModel: TaskViewModel by viewModels {
-        // Create mappers
-        val priorityMapper = PriorityMapper()
-        val statusMapper = StatusMapper()
-        val taskMapper = TaskMapper(priorityMapper, statusMapper)
-        // Create data source with mapper
-        val dataSource = TaskDataSourceImpl(taskMapper)
-
-        // Create repository with data source and mapper
-        val taskRepository = TaskRepositoryImpl(dataSource, taskMapper)
-
-        TaskViewModelFactory(taskRepository)
-    }
 
     private val studentViewModel: StudentViewModel by viewModels()
 
@@ -72,7 +52,6 @@ class StudentActivity : ComponentActivity() {
         setContent {
             TaskAppTheme {
                 MainStudentScreen(
-                    taskViewModel,
                     qualificationViewModel,
                     locationCompanyViewModel,
                     studentViewModel,
@@ -87,7 +66,6 @@ class StudentActivity : ComponentActivity() {
 
 @Composable
 fun MainStudentScreen(
-    taskViewModel: TaskViewModel,
     qualificationViewModel: QualificationViewModel,
     locationCompanyViewModel: LocationCompanyViewModel,
     studentViewModel: StudentViewModel,
@@ -98,7 +76,6 @@ fun MainStudentScreen(
     val navController = rememberNavController()
 
     LaunchedEffect(Unit) {
-        taskViewModel.findAllTasks()
         locationCompanyViewModel.findAllLocations()
     }
 

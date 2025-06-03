@@ -19,7 +19,7 @@ interface StudentService {
      *
      * @return [Response] containing a list of [StudentDto] objects if successful
      */
-    @GET("student")
+    @GET("/v1/students")
     suspend fun getAllstudents(): Response<List<StudentDto>>
 
     /**
@@ -28,7 +28,7 @@ interface StudentService {
      * @param id The unique identifier of the student to retrieve
      * @return [Response] containing the requested [StudentDto] if successful
      */
-    @GET("student/{id}")
+    @GET("/v1/students/{id}")
     suspend fun getStudentById(@Path("id") id: Long): Response<StudentDto>
 
     /**
@@ -37,7 +37,7 @@ interface StudentService {
      * @param student The [StudentDto] object containing the data to create
      * @return [Response] containing the created [StudentDto] with server-assigned ID if successful
      */
-    @POST("student")
+    @POST("/v1/students")
     suspend fun createStudent(@Body qualification: StudentDto): Response<StudentDto>
 
     /**
@@ -47,7 +47,7 @@ interface StudentService {
      * @param student The [StudentDto] object containing the updated data
      * @return [Response] containing the updated [StudentDto] if successful
      */
-    @PUT("student/{id}")
+    @PUT("/v1/students/{id}")
     suspend fun updateStudent(
         @Path("id") id: Long,
         @Body student: StudentDto
@@ -59,6 +59,6 @@ interface StudentService {
      * @param id The unique identifier of the location to delete
      * @return [Response] indicating the success of the operation
      */
-    @DELETE("student/{id}")
+    @DELETE("/v1/students/{id}")
     suspend fun deleteStudent(@Path("id") id: Long): Response<Unit>
 }

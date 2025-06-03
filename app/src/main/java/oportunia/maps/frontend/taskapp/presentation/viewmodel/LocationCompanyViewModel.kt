@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
@@ -85,6 +86,26 @@ class LocationCompanyViewModel @Inject constructor(
                     _location.value = LocationState.Error(exception.message ?: "Unknown error")
                     Log.e("LocationViewModel", "Failed to fetch locations: ${exception.message}")
                 }
+        }
+    }
+
+    fun addNewLocation(latLng: LatLng) {
+        viewModelScope.launch {
+            val currentList = _locationList.value
+            val baseCompany = currentList.firstOrNull() ?: return@launch
+            val newId = (currentList.maxOfOrNull { it.id } ?: 0) + 1
+
+            val newLocationCompany = baseCompany.copy(
+                id = newId,
+                location = latLng
+            )
+
+            try {
+                repository.saveLocation(newLocationCompany)  // You must implement this in your repo
+                findAllLocations() // refresh list after adding
+            } catch (e: Exception) {
+                Log.e("LocationViewModel", "Failed to add location: ${e.message}")
+            }
         }
     }
 }

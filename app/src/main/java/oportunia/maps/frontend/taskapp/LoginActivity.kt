@@ -2,29 +2,24 @@ package oportunia.maps.frontend.taskapp
 
 import android.app.Activity
 import android.content.Context
-import dagger.hilt.android.AndroidEntryPoint
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 import oportunia.maps.frontend.taskapp.data.datasource.qualification.QualificationDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.datasource.task.TaskDataSourceImpl
 import oportunia.maps.frontend.taskapp.data.datasource.locationcompany.LocationCompanyDataSourceImpl
@@ -50,22 +45,13 @@ import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationRow
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.LoginScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
-
-import android.content.Intent
-import android.widget.Toast
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalContext
-import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
 
 
 @AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
 
-    private val userRoleViewModel: UserRoleViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +59,7 @@ class LoginActivity : ComponentActivity() {
         setContent {
             TaskAppTheme {
                 MainLoginScreen(
-                    userRoleViewModel
+                    userViewModel
                 )
             }
         }
@@ -83,10 +69,10 @@ class LoginActivity : ComponentActivity() {
 @Composable
 fun MainLoginScreen(
 
-    userRoleViewModel: UserRoleViewModel
+    userViewModel: UserViewModel
 ) {
     val navController = rememberNavController()
-    val loggedInUser by userRoleViewModel.loggedInUser.collectAsState()
+    val loggedInUser by userViewModel.loggedInUser.collectAsState()
     LaunchedEffect(Unit) {
 
     }
@@ -105,9 +91,45 @@ fun MainLoginScreen(
     }
 
 
-    Scaffold () { paddingValues ->
+    Scaffold { paddingValues ->
         LoginScreen(
-            userRoleViewModel = userRoleViewModel,
+            userViewModel = userViewModel,
+            onLoginSuccess = { userId ->
+
+                loggedInUser?.let { user ->
+                    when (user.roles[0].name) {
+                        TypeUser.STU -> {
+                            val intent = Intent(context, StudentActivity::class.java).apply {
+                                putExtra("userId", userId)
+                            }
+                            context.startActivity(intent)
+                            activity?.finish()
+                        }
+                        TypeUser.COM -> {
+                            val intent = Intent(context, CompanyActivity::class.java).apply {
+                                putExtra("userId", userId)
+                            }
+                            context.startActivity(intent)
+                            activity?.finish()
+                        }
+                        else -> {
+                            Toast.makeText(context, "Rol de usuario desconocido", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            },
+            onRegisterClick = { context ->
+                val intent = Intent(context, RegisterActivity::class.java)
+                context.startActivity(intent)
+                activity?.finish()
+            },
+            paddingValues = paddingValues
+        )
+    }
+
+    /*Scaffold () { paddingValues ->
+        LoginScreen(
+            userViewModel = userViewModel,
             onLoginSuccess = { userId ->
 
                 loggedInUser?.let { userRole ->
@@ -139,7 +161,7 @@ fun MainLoginScreen(
             },
             paddingValues = paddingValues
         )
-    }
+    }*/
 
     fun navigateToStudentScreen(context: Context) {
         val intent = Intent(context, StudentActivity::class.java)

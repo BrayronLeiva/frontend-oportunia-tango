@@ -10,5 +10,11 @@ package oportunia.maps.frontend.taskapp.domain.model
 data class User(
     val id: Long,
     val email: String,
-    val password: String
+    val firstName: String,
+    val lastName: String,
+    val enabled: Boolean,
+    val tokenExpired: Boolean,
+    val createDate: String,
+    val roles: List<Role>,
+    val password: String = ""
 )

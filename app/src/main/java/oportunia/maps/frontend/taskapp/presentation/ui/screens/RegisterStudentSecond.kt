@@ -23,23 +23,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.R
-import oportunia.maps.frontend.taskapp.domain.model.UserRole
-import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
-import oportunia.maps.frontend.taskapp.presentation.ui.components.NextButtom
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterTextField
 import oportunia.maps.frontend.taskapp.presentation.ui.components.SelectionTagInput
-import oportunia.maps.frontend.taskapp.presentation.ui.components.SubtitleSection
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
 

@@ -23,7 +23,7 @@ sealed class InternshipLocationState {
     data object Loading : InternshipLocationState()
 
     /** Contains the successfully retrieved list of internships */
-    data class Success(val internships: List<Internship>) : InternshipLocationState()
+    data class Success(val internships: List<InternshipLocation>) : InternshipLocationState()
 
     /** Indicates no internships are available */
     data object Empty : InternshipLocationState()

@@ -16,37 +16,36 @@ import androidx.navigation.NavHostController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
-import oportunia.maps.frontend.taskapp.data.datasource.locationcompany.LocationCompanyProvider
-import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 
 @Composable
-fun CompanyMapScreen(navController: NavHostController, paddingValues: PaddingValues) {
+fun CompanyMapScreen(
+    navController: NavHostController,
+    locationCompanyViewModel: LocationCompanyViewModel,
+    paddingValues: PaddingValues
+) {
     val costaRica = LatLng(9.7489, -83.7534)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(costaRica, 10f)
     }
 
-    // State for toggling marker-adding mode
     var isAddingMarker by remember { mutableStateOf(false) }
 
-    // Fetch all location companies
-    val locationCompanies by remember { mutableStateOf(LocationCompanyProvider.findAllLocationCompanies()) }
+    val locationCompanies by locationCompanyViewModel.locationList.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // Google Map
         GoogleMap(
             modifier = Modifier.matchParentSize(),
             cameraPositionState = cameraPositionState,
             onMapClick = { latLng ->
                 if (isAddingMarker) {
-                    addNewLocation(latLng)
+                    addNewLocation(latLng, locationCompanyViewModel)
                     isAddingMarker = false
                 }
             }
         ) {
-            // Display existing location companies as markers
             locationCompanies.forEach { locationCompany ->
                 Marker(
                     state = MarkerState(position = locationCompany.location),
@@ -60,7 +59,6 @@ fun CompanyMapScreen(navController: NavHostController, paddingValues: PaddingVal
             }
         }
 
-        // Plus button to enable adding markers
         FloatingActionButton(
             onClick = { isAddingMarker = !isAddingMarker },
             modifier = Modifier
@@ -80,7 +78,6 @@ fun CompanyMapScreen(navController: NavHostController, paddingValues: PaddingVal
                 .padding(16.dp)
         )
 
-        // Info text when adding markers
         if (isAddingMarker) {
             Text(
                 text = "Tap on the map to add markers",
@@ -94,18 +91,6 @@ fun CompanyMapScreen(navController: NavHostController, paddingValues: PaddingVal
     }
 }
 
-/**
- * Adds a new location to `LocationCompanyProvider` using the first `LocationCompany` as a template.
- */
-fun addNewLocation(latLng: LatLng) {
-    val baseCompany = LocationCompanyProvider.findAllLocationCompanies().firstOrNull() ?: return
-
-    val newId = (LocationCompanyProvider.findAllLocationCompanies().maxOfOrNull { it.id } ?: 0) + 1
-
-    val newLocationCompany = baseCompany.copy(
-        id = newId,
-        location = latLng
-    )
-
-    LocationCompanyProvider.addLocationCompany(newLocationCompany)
+fun addNewLocation(latLng: LatLng, viewModel: LocationCompanyViewModel) {
+    viewModel.addNewLocation(latLng)
 }

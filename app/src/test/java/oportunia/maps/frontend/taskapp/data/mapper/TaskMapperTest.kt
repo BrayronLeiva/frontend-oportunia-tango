@@ -1,11 +1,5 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.remote.dto.PriorityDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.StatusDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.TaskDto
-import oportunia.maps.frontend.taskapp.domain.model.Priority
-import oportunia.maps.frontend.taskapp.domain.model.Status
-import oportunia.maps.frontend.taskapp.domain.model.Task
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

@@ -18,7 +18,7 @@ interface InternshipLocationService {
      *
      * @return [Response] containing a list of [LocationCompanyDto] objects if successful
      */
-    @GET("internship-locations")
+    @GET("/v1/internship-locations")
     suspend fun getAllInternshipsLocations(): Response<List<InternshipLocationDto>>
 
     /**
@@ -27,7 +27,7 @@ interface InternshipLocationService {
      * @param id The unique identifier of the location to retrieve
      * @return [Response] containing the requested [InternshipLocationDto] if successful
      */
-    @GET("internship-locations/{id}")
+    @GET("/v1/internship-locations/{id}")
     suspend fun getInternshipLocationById(@Path("id") id: Long): Response<InternshipLocationDto>
 
     /**
@@ -36,7 +36,7 @@ interface InternshipLocationService {
      * @param InternshipLocation The [InternshipLocationDto] object containing the data to create
      * @return [Response] containing the created [InternshipLocationDto] with server-assigned ID if successful
      */
-    @POST("internship-locations")
+    @POST("/v1/internship-locations")
     suspend fun createInternshipLocation(@Body locationCompany: InternshipLocationDto): Response<InternshipLocationDto>
 
     /**
@@ -46,7 +46,7 @@ interface InternshipLocationService {
      * @param locationCompany The [LocationCompanyDto] object containing the updated data
      * @return [Response] containing the updated [LocationCompanyDto] if successful
      */
-    @PUT("internship-locations/{id}")
+    @PUT("/v1/internship-locations/{id}")
     suspend fun updateInternshipLocation(
         @Path("id") id: Long,
         @Body internshipLocation: InternshipLocationDto
@@ -58,12 +58,15 @@ interface InternshipLocationService {
      * @param id The unique identifier of the location to delete
      * @return [Response] indicating the success of the operation
      */
-    @DELETE("internship-locations/{id}")
+    @DELETE("/v1/internship-locations/{id}")
     suspend fun deleteInternshipLocation(@Path("id") id: Long): Response<Unit>
+
+    @GET("/v1/internship-locations/location/{locationId}")
+    suspend fun getInternshipsByLocationId(@Path("locationId") locationId: Long): Response<List<InternshipLocationDto>>
 
     /**
         Comments
      */
-    @GET("internship-locations-match")
+    @GET("/v1/internship-locations-match")
     suspend fun getRecommendedInternshipsLocations(): Response<List<InternshipLocationRecommendedDto>>
 }

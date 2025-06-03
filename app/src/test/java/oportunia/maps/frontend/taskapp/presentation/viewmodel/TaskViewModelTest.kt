@@ -1,10 +1,6 @@
 package oportunia.maps.frontend.taskapp.presentation.viewmodel
 
 import android.util.Log
-import oportunia.maps.frontend.taskapp.domain.model.Priority
-import oportunia.maps.frontend.taskapp.domain.model.Status
-import oportunia.maps.frontend.taskapp.domain.model.Task
-import oportunia.maps.frontend.taskapp.domain.repository.TaskRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

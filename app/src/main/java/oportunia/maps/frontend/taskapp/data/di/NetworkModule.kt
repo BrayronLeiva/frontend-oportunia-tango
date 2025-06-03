@@ -10,18 +10,21 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import oportunia.maps.frontend.taskapp.data.remote.api.AuthService
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipService
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
+import oportunia.maps.frontend.taskapp.data.remote.api.UserService
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
+import oportunia.maps.frontend.taskapp.data.remote.interceptor.AuthInterceptor
 import oportunia.maps.frontend.taskapp.data.remote.interceptor.ResponseInterceptor
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationDeserializer
@@ -49,7 +52,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val BASE_URL = "https://5632-201-237-2-116.ngrok-free.app"
+    private const val BASE_URL = "https://oportunia-maps-34f81e092b2b.herokuapp.com/"
     private const val DATE_FORMAT = "yyyy-MM-dd"
 
     /**
@@ -90,9 +93,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
+        authInterceptor: AuthInterceptor,
         loggingInterceptor: HttpLoggingInterceptor,
         responseInterceptor: ResponseInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(authInterceptor)
         .addInterceptor(loggingInterceptor)
         .addInterceptor(responseInterceptor)
         .connectTimeout(30, TimeUnit.SECONDS)
@@ -187,4 +192,14 @@ object NetworkModule {
     @Singleton
     fun provideInternshipService(retrofit: Retrofit): InternshipService =
         retrofit.create(InternshipService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAuthService(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserService(retrofit: Retrofit): UserService =
+        retrofit.create(UserService::class.java)
 }
