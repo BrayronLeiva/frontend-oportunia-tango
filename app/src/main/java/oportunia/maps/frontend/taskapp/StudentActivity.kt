@@ -24,10 +24,6 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.TaskViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
-import androidx.compose.ui.platform.LocalContext
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 
 @AndroidEntryPoint

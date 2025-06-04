@@ -31,11 +31,8 @@ import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
-import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCardCompany
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 
 @Composable
 fun InternshipListCompanyScreen(
@@ -141,7 +138,7 @@ fun InternshipListCompanyScreen(
                             location = location,
                             internship = Internship(System.currentTimeMillis(), "Sample internship")
                         )
-                        InternshipLocationProvider.addInternshipLocation(newInternshipLocation)
+                        //InternshipLocationProvider.addInternshipLocation(newInternshipLocation)
                         Log.d("InternshipListStudentScreen", "Added internship: $newInternshipLocation")
                         refreshTrigger = !refreshTrigger // Toggle state to trigger recomposition
                     }

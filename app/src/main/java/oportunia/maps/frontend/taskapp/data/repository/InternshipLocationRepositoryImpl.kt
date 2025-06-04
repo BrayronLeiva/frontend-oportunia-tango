@@ -4,7 +4,6 @@ import oportunia.maps.frontend.taskapp.data.mapper.InternshipLocationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
 import oportunia.maps.frontend.taskapp.data.remote.InternshipLocationRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
-import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
 import java.net.UnknownHostException
@@ -74,7 +73,7 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
         return remoteDataSource.delete(id)
     }
 
-
+    /*
     override suspend fun findInternshipLocationsByLocationId(locationId: Long): Result<List<InternshipLocation>> {
         return try {
             remoteDataSource.getInternshipsByLocationId(locationId).map { dtos ->
@@ -86,6 +85,7 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
             Result.failure(Exception("Error fetching internships: ${e.message}"))
         }
     }
+     */
 
     /*
     override suspend fun findInternshipsByLocationId(locationId: Long): Result<List<Internship>> = runCatching {

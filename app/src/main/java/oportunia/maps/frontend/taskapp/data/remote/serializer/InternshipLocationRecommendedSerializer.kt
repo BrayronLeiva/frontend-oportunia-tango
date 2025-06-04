@@ -68,7 +68,8 @@ class InternshipLocationRecommendedSerializer : JsonDeserializer<InternshipLocat
             lastName = lastName,
             enable = enabled,
             tokenExpired = tokenExpired,
-            createDate = createDate
+            createDate = createDate,
+            roleList = emptyList()
         )
 
         val companyDto = CompanyDto(

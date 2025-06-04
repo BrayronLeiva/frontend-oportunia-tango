@@ -48,8 +48,8 @@ class InternshipViewModel @Inject constructor(
     private val _internshipsList = MutableStateFlow<List<Internship>>(emptyList())
     val internshipsList: StateFlow<List<Internship>> = _internshipsList
 
-    private val _internships = MutableStateFlow<InternshipLocationState>(InternshipLocationState.Empty)
-    val internships: StateFlow<InternshipLocationState> = _internships
+    private val _internships = MutableStateFlow<InternshipState>(InternshipState.Empty)
+    val internships: StateFlow<InternshipState> = _internships
 
 
     /**
@@ -95,17 +95,18 @@ class InternshipViewModel @Inject constructor(
      */
     fun loadInternshipsByLocationId(locationId: Long) {
         viewModelScope.launch {
-            _internships.value = InternshipLocationState.Loading
+            _internships.value = InternshipState.Loading
             internshipRepository.findInternshipsByLocationId(locationId)
                 .onSuccess { internshipList ->
                     if (internshipList.isEmpty()) {
-                        _internships.value = InternshipLocationState.Empty
+                        _internshipState.value = InternshipState.Empty
                     } else {
-                        _internships.value = InternshipLocationState.Success(internshipList)
+                        Log.d("InternshipViewModel", "Total Interships: ${internshipList.size}")
+                        _internshipState.value = InternshipState.Success(internshipList)
                     }
                 }
                 .onFailure { exception ->
-                    _internships.value = InternshipLocationState.Error("Failed to fetch internships with id $locationId: ${exception.message}")
+                    _internships.value = InternshipState.Error("Failed to fetch internships with id $locationId: ${exception.message}")
                     Log.e("InternshipLocationViewModel", "Error fetching internships: ${exception.message}")
                 }
         }

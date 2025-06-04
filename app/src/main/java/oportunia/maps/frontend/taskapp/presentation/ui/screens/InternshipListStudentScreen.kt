@@ -27,13 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCard
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 
 @Composable
 fun InternshipListStudentScreen(
@@ -48,7 +45,7 @@ fun InternshipListStudentScreen(
     LaunchedEffect(locationCompanyId) {
         locationCompanyViewModel.selectLocationById(locationCompanyId)
         internshipViewModel.loadInternshipsByLocationId(locationCompanyId)
-        internshipViewModel.findAllInternships()
+        //internshipViewModel.findAllInternships()
     }
 
     val locationCompany by locationCompanyViewModel.selectedLocation.collectAsState()

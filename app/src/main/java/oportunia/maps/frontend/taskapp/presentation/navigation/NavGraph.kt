@@ -207,6 +207,7 @@ fun NavGraph(
                 val locationCompanyId =
                     backStackEntry.arguments?.getLong(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID)
                         ?: 0L
+                /*
                 InternshipListStudentScreen(
                     locationCompanyId = locationCompanyId,
                     navController = navController,
@@ -214,6 +215,8 @@ fun NavGraph(
                     internshipLocationViewModel = internshipLocationViewModel,
                     paddingValues = paddingValues
                 )
+
+                 */
             }
 
             composable(
@@ -357,6 +360,7 @@ fun NavGraph(
             val locationCompanyId =
                 backStackEntry.arguments?.getLong(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID)
                     ?: 0L
+            /*
             InternshipListStudentScreen(
                 locationCompanyId = locationCompanyId,
                 navController = navController,
@@ -364,6 +368,8 @@ fun NavGraph(
                 internshipLocationViewModel = internshipLocationViewModel,
                 paddingValues = paddingValues
             )
+
+             */
         }
 
         composable(
