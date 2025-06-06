@@ -4,6 +4,7 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowOutward
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -27,9 +28,9 @@ fun BottomNavigationBarCompany(navController: NavHostController) {
         )
         BottomNavigationItem(
             selected = false,
-            onClick = { //navController.navigate(NavRoutes.InternshipsSearch.ROUTE)
+            onClick = { navController.navigate(NavRoutes.StudentsSearch.ROUTE)
                  },
-            icon = { Icon(Icons.Default.Search, contentDescription = "Search") }
+            icon = { Icon(Icons.Default.ArrowDownward, contentDescription = "Requests Received") }
         )
         BottomNavigationItem(
             selected = false,

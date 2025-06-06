@@ -7,6 +7,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.domain.model.User
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
@@ -30,6 +32,21 @@ sealed class StudentState {
     data class Error(val message: String) : StudentState()
 }
 
+
+sealed class StudentListState {
+    /** Indicates an ongoing task operation */
+    data object Loading : StudentListState()
+
+    /** Contains the successfully retrieved task */
+    data class Success(val studentList: List<Student>) : StudentListState()
+
+    /** Indicates no task is available */
+    data object Empty : StudentListState()
+
+    /** Contains an error message if the task operation fails */
+    data class Error(val message: String) : StudentListState()
+}
+
 /**
  * ViewModel responsible for managing task-related UI state and business logic.
  *
@@ -40,6 +57,9 @@ class StudentViewModel @Inject constructor(
     private val repository: StudentRepository
 ) : ViewModel() {
 
+    private val _studentListState = MutableStateFlow<StudentListState>(StudentListState.Empty)
+    val studentListState: StateFlow<StudentListState> = _studentListState
+
     private val _studentState = MutableStateFlow<StudentState>(StudentState.Empty)
     val studentState: StateFlow<StudentState> = _studentState
 
@@ -48,6 +68,9 @@ class StudentViewModel @Inject constructor(
 
     private val _studentList = MutableStateFlow<List<Student>>(emptyList())
     val studentList: StateFlow<List<Student>> = _studentList
+
+    private val _studentRecommendedList = MutableStateFlow<List<StudentRecommendedDto>>(emptyList())
+    val studentRecommendedList: StateFlow<List<StudentRecommendedDto>> = _studentRecommendedList
 
     private val _registeredStudent = MutableStateFlow<Student?>(null)
     val registeredStudent: StateFlow<Student?> = _registeredStudent
@@ -120,6 +143,69 @@ class StudentViewModel @Inject constructor(
                 }
         }
     }
+
+
+
+    fun loadStudentsRecommended() {
+        _studentListState.value = StudentListState.Loading
+        viewModelScope.launch {
+            Log.d("StudentViewModel", "Search By AI")
+            //By the moment
+            repository.findRecommendedStudents()
+                .onSuccess { studentLists ->
+                    if (studentLists.isEmpty()) {
+                        _studentListState.value = StudentListState.Empty
+                    } else {
+                        Log.d("StudentViewModel", "Total Interships: ${studentLists.size}"
+                        )
+                        _studentRecommendedList.value = studentLists
+                        _studentListState.value = StudentListState.Success(emptyList())
+                    }
+                }
+                .onFailure { exception ->
+                    Log.e("StudentViewModel", "Error fetching internships locations: ${exception.message}"
+                    )
+                    _studentListState.value = StudentListState.Error("Failed to fetch students: ${exception.message}")
+                    //_internshipsLocationList.value = emptyList() // o lo que quieras mostrar en error
+                }
+        }
+    }
+
+    /**
+     * Retrieves internships for a specific location and updates the [internships] state.
+     *
+     * @param locationId The ID of the location to retrieve internships for
+     */
+    fun loadStudentsRequestingToMyCompany() {
+        viewModelScope.launch {
+            _studentListState.value = StudentListState.Loading
+            repository.findStudentsRequestingMyCompany()
+                .onSuccess { studentList ->
+                    if (studentList.isEmpty()) {
+                        _studentListState.value = StudentListState.Empty
+                    } else {
+                        Log.d("StudentViewModel", "Total Students: ${studentList.size}")
+                        _studentListState.value = StudentListState.Success(studentList)
+                        _studentList.value = studentList
+                    }
+                }
+                .onFailure { exception ->
+                    _studentListState.value = StudentListState.Error("Failed to fetch students $: ${exception.message}")
+                    Log.e("StudentViewModel", "Error fetching students: ${exception.message}")
+                }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     fun saveStudent() {
         viewModelScope.launch {

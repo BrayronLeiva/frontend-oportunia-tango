@@ -4,6 +4,7 @@ import oportunia.maps.frontend.taskapp.data.mapper.QualificationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.StudentMapper
 import oportunia.maps.frontend.taskapp.data.remote.QualificationRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.StudentRemoteDataSource
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Qualification
 import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
@@ -86,5 +87,28 @@ class StudentRepositoryImpl @Inject constructor(
             studentMapper.mapToDomain(it)
         }
     }
+
+    override suspend fun findRecommendedStudents(): Result<List<StudentRecommendedDto>> {
+        return try {
+            dataSource.getRecommendedStudents()
+        } catch (e: UnknownHostException) {
+            Result.failure(Exception("Network error: Please check your connection."))
+        } catch (e: Exception) {
+            Result.failure(Exception("Error fetching location companies: ${e.message}"))
+        }
+    }
+
+    override suspend fun findStudentsRequestingMyCompany(): Result<List<Student>> {
+        return try {
+            dataSource.getStudentsRequestingMyCompany().map { dtos ->
+                dtos.map { studentMapper.mapToDomain(it) }
+            }
+        } catch (e: UnknownHostException) {
+            Result.failure(Exception("Network error: Please check your connection."))
+        } catch (e: Exception) {
+            Result.failure(Exception("Error fetching location companies: ${e.message}"))
+        }
+    }
+
 
 }

@@ -4,6 +4,7 @@ import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -86,6 +87,28 @@ class StudentRemoteDataSource @Inject constructor(
      */
     suspend fun getByLoggedStudent(): Result<StudentDto> = safeApiCall {
         studentService.getStudentByLoggedStudent()
+    }
+
+
+    /**
+     * Retrieves all student from the remote API.
+     *
+     * @return [Result] containing a list of [StudentDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getRecommendedStudents(): Result<List<StudentRecommendedDto>> = safeApiCall {
+        studentService.getRecommendedStudents()
+    }
+
+
+    /**
+     * Retrieves all student from the remote API.
+     *
+     * @return [Result] containing a list of [StudentDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getStudentsRequestingMyCompany(): Result<List<StudentDto>> = safeApiCall {
+        studentService.getStudentsRequestingMyCompany()
     }
 
 

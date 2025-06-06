@@ -23,3 +23,17 @@ data class StudentDto(
     val user: UserDto
 
 )
+
+data class StudentRecommendedDto(
+    val id: Long,
+    val name: String,
+    val identification: String,
+    val personalInfo: String,
+    val experience: String,
+    val rating: Double,
+    val user: UserDto,
+    val score: Int,
+    val reason: String
+
+)
+

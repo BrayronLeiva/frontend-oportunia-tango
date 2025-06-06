@@ -85,6 +85,7 @@ fun MainCompanyScreen(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
             internshipLocationViewModel = internshipLocationViewModel,
+            studentViewModel = studentViewModel,
             paddingValues = paddingValues
         )
     }

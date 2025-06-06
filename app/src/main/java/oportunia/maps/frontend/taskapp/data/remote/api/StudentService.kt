@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.data.remote.api
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -70,4 +71,24 @@ interface StudentService {
      */
     @GET("/v1/students/me")
     suspend fun getStudentByLoggedStudent(): Response<StudentDto>
+
+
+
+    /**
+     * Retrieves all students entries from the remote API.
+     *
+     * @return [Response] containing a list of [StudentDto] objects if successful
+     */
+    @GET("/v1/students/recommendations")
+    suspend fun getRecommendedStudents(): Response<List<StudentRecommendedDto>>
+
+    /**
+     * Retrieves all students entries from the remote API.
+     *
+     * @return [Response] containing a list of [StudentDto] objects if successful
+     */
+    @GET("/v1/students/company/logged")
+    suspend fun getStudentsRequestingMyCompany(): Response<List<StudentDto>>
+
+
 }

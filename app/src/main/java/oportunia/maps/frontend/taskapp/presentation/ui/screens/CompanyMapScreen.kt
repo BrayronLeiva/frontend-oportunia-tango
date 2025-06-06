@@ -63,11 +63,15 @@ fun CompanyMapScreen(
             onClick = { isAddingMarker = !isAddingMarker },
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(16.dp)
+                .padding(
+                    start =16.dp,
+                    bottom = paddingValues.calculateBottomPadding() + 16.dp)
                 .zIndex(1f)
         ) {
             Icon(imageVector = Icons.Default.Add, contentDescription = "Add Marker")
         }
+
+        /*
 
         CustomButton(
             onClick = { navController.navigate(NavRoutes.Login.ROUTE) },
@@ -78,12 +82,19 @@ fun CompanyMapScreen(
                 .padding(16.dp)
         )
 
+
+         */
+
         if (isAddingMarker) {
             Text(
                 text = "Tap on the map to add markers",
                 modifier = Modifier
                     .align(Alignment.BottomStart)
-                    .padding(16.dp),
+                    .padding(
+                    start = 16.dp,
+                    bottom = paddingValues.calculateBottomPadding() + 16.dp
+                )
+                ,
                 color = Color.White,
                 style = TextStyle(fontSize = 16.sp)
             )

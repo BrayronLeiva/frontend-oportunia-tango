@@ -35,6 +35,7 @@
     <string name="profile">Profile</string>
     <string name="choose_rating_label">Choose Rating</string>
     <string name="internships_search_label">Internship Search</string>
+    <string name="student_search_label">Student Search</string>
     <string name="request_search_label">Request Search</string>
     <string name="search_company_label">Search Company</string>
     <string name="filter_rating_label">Filter by</string>

@@ -37,45 +37,45 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import oportunia.maps.frontend.taskapp.R
-import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
+import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.presentation.ui.components.AiToggleButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSelector
-import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipDetailDialog
-import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipItem
-import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipRecommendedCard
+import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentCard
+import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentDetailDialog
+import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentRecommenedCard
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
-
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentListState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
 @Composable
-fun InternshipSearch(
-    internshipLocationViewModel: InternshipLocationViewModel,
+fun StudentSearchScreen(
+    studentViewModel: StudentViewModel,
     paddingValues: PaddingValues,
-    onInternshipSelected: (InternshipLocation) -> Unit // callback para devolver seleccionado
+    onStudentSelected: (Student) -> Unit // callback para devolver seleccionado
 ) {
     var searchQuery by remember { mutableStateOf("") }
     val ratings = listOf(1.0, 2.0, 3.0, 4.0, 5.0)
     val searchCriteriaOptions = listOf("Nombre de Compañía", "Detalles de la Pasantía")
     var selectedCriteria by remember { mutableStateOf(searchCriteriaOptions[0]) }
     var useAi by remember { mutableStateOf(false) }
-    // Obtener las pasantías con las empresas y sus calificaciones
-    val internships = internshipLocationViewModel.internshipsLocationList.collectAsState().value
-    val recommendedinternships = internshipLocationViewModel.internshipsLocationRecommendedList.collectAsState().value
 
-    val internshipLocationState = internshipLocationViewModel.internshipLocationState.collectAsState().value
+    // Obtener las pasantías con las empresas y sus calificaciones
+    val students = studentViewModel.studentList.collectAsState().value
+    val studentsRecommended = studentViewModel.studentRecommendedList.collectAsState().value
+
+    val studentListState = studentViewModel.studentListState.collectAsState()
+    //val internshipLocationState = internshipLocationViewModel.internshipLocationState.collectAsState().value
 
 
     LaunchedEffect(Unit) {
-        internshipLocationViewModel.findAllInternShipsLocations()
+        studentViewModel.loadStudentsRequestingToMyCompany()
     }
 
-    var selectedInternshipLocation by remember { mutableStateOf<InternshipLocation?>(null) }
+    var selectedStudent by remember { mutableStateOf<Student?>(null) }
     var showDialog by remember { mutableStateOf(false) }
 
     var expanded by remember { mutableStateOf(false) }
@@ -91,7 +91,7 @@ fun InternshipSearch(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = stringResource(id = R.string.internships_search_label),
+                text = stringResource(id = R.string.student_search_label),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -101,9 +101,9 @@ fun InternshipSearch(
                 onToggle = {
                     useAi = !useAi
                     if (useAi) {
-                        internshipLocationViewModel.loadInternShipsLocationsRecommended()
+                        studentViewModel.loadStudentsRecommended()
                     }else{
-                        internshipLocationViewModel.findAllInternShipsLocations()
+                        studentViewModel.loadStudentsRequestingToMyCompany()
                     }
                 }
             )
@@ -116,14 +116,14 @@ fun InternshipSearch(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             label = {
-            Text(
-                when (selectedCriteria) {
-                    "Nombre de Compañía" -> "Buscar por nombre de compañía"
-                    "Detalles de la Pasantía" -> "Buscar por detalles de la pasantía"
-                    else -> "Buscar"
-                }
-            )
-        },
+                Text(
+                    when (selectedCriteria) {
+                        "Nombre de Compañía" -> "Buscar por nombre de compañía"
+                        "Detalles de la Pasantía" -> "Buscar por detalles de la pasantía"
+                        else -> "Buscar"
+                    }
+                )
+            },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = stringResource(id = R.string.search_label)) },
             modifier = Modifier.fillMaxWidth()
         )
@@ -157,68 +157,75 @@ fun InternshipSearch(
 
 
         // Filtrar las pasantías por nombre de compañía y calificación
-        val filteredInternships = internships.filter {
-            val companyName = it.location.company.name
-            val rating = it.location.company.rating
+        val filteredRecommendedStudents = studentsRecommended.filter {
+            val rating = it.rating
+            /*
             val matchesText = when (selectedCriteria) {
                 "Nombre de Compañía" -> companyName.contains(searchQuery, ignoreCase = true)
                 "Detalles de la Pasantía" -> it.internship.details.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
+
+             */
             val matchesRating = selectedRating == null || rating >= selectedRating!!
-            matchesText && matchesRating
+            //matchesText && matchesRating
+            matchesRating
         }
 
         // Filtrar las pasantías por nombre de compañía y calificación
-        val filteredRecommendedInternships = recommendedinternships.filter {
-            val companyName = it.locationCompany.company.name
-            val rating = it.locationCompany.company.rating
+        val filteredStudents = students.filter {
+            val rating = it.rating
+            /*
             val matchesText = when (selectedCriteria) {
                 "Nombre de Compañía" -> companyName.contains(searchQuery, ignoreCase = true)
                 "Detalles de la Pasantía" -> it.internship.details.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
+
+             */
             val matchesRating = selectedRating == null || rating >= selectedRating!!
-            matchesText && matchesRating
+            //matchesText && matchesRating
+            matchesRating
         }
 
-
         // Handle the different internship states
-        when (val state = internshipLocationState) {
-            is InternshipLocationState.Loading -> {
+        when (val state = studentListState.value) {
+            is StudentListState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
-            is InternshipLocationState.Empty -> {
+            is StudentListState.Empty -> {
                 androidx.compose.material3.Text(
-                    text = "No internships locations available.",
+                    text = "No students available.",
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )
             }
-            is InternshipLocationState.Success -> {
+            is StudentListState.Success -> {
                 if(useAi) {
+
                     LazyColumn {
-                        items(filteredRecommendedInternships) { internshipLocation ->
-                            InternshipRecommendedCard(internshipLocation, onClick = {
+                        items(filteredRecommendedStudents) { studentRecommended ->
+                            StudentRecommenedCard(studentRecommended, onClick = {
                                 //selectedInternshipLocation = it
                                 showDialog = true
                             })
                         }
                     }
                 }else {
+
                     LazyColumn {
-                        items(filteredInternships) { internshipLocation ->
-                            InternshipItem(internshipLocation, onClick = {
-                                selectedInternshipLocation = it
+                        items(filteredStudents) { student ->
+                            StudentCard(student, onClick = {
+                                selectedStudent = it
                                 showDialog = true
                             })
                         }
                     }
                 }
             }
-            is InternshipLocationState.Error -> {
+            is StudentListState.Error -> {
                 androidx.compose.material3.Text(
                     text = "Error: ${state.message}",
                     style = MaterialTheme.typography.bodyMedium,
@@ -228,12 +235,12 @@ fun InternshipSearch(
         }
 
         // Mostrar dialog con detalle si showDialog es true
-        if (showDialog && selectedInternshipLocation != null) {
-            InternshipDetailDialog(
-                internshipLocation = selectedInternshipLocation!!,
+        if (showDialog && selectedStudent != null) {
+            StudentDetailDialog(
+                student = selectedStudent!!,
                 onDismiss = { showDialog = false },
                 onConfirm = {
-                    onInternshipSelected(it)
+                    onStudentSelected(it)
                     showDialog = false
                 }
             )
@@ -272,8 +279,8 @@ fun InternshipSearch(
                         Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
                             Button(
                                 onClick = {
-                                selectedRating = null
-                                expanded = false
+                                    selectedRating = null
+                                    expanded = false
                                 },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = DarkCyan,
@@ -288,12 +295,4 @@ fun InternshipSearch(
         }
 
     }
-}
-
-
-
-@Composable
-@Preview
-fun InternshipSearchPreview(){
-    //InternshipSearch()
 }

@@ -18,6 +18,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RequestDetailScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentSearchScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentMapScreen
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
@@ -340,6 +341,7 @@ fun NavGraph(
     navController: NavHostController,
     locationCompanyViewModel: LocationCompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
+    studentViewModel: StudentViewModel,
     paddingValues: PaddingValues
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.CompanyMap.ROUTE) {
@@ -369,6 +371,9 @@ fun NavGraph(
         }
 
          */
+        composable(NavRoutes.StudentsSearch.ROUTE) {
+            StudentSearchScreen(studentViewModel, paddingValues, { selectStudent -> })
+        }
 
         composable(
             route = NavRoutes.InternshipListStudent.ROUTE,
