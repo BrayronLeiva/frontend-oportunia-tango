@@ -80,7 +80,7 @@ class InternshipLocationRemoteDataSource @Inject constructor(
      * or an exception if the operation failed
      */
     suspend fun getRecommended(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>> = safeApiCall {
-        internshipLocationService.getRecommendedInternshipsLocations(locationRequestDto)
+        internshipLocationService.getRecommendedInternshipsLocations(locationRequestDto.latitude, locationRequestDto.longitude)
     }
 
     /**

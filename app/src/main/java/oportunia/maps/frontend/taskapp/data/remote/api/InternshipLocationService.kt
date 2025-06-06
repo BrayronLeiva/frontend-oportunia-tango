@@ -11,6 +11,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface InternshipLocationService {
 
@@ -69,7 +70,10 @@ interface InternshipLocationService {
         Comments
      */
     @GET("/v1/internship-locations/recommendations")
-    suspend fun getRecommendedInternshipsLocations(@Body locationRequestDto: LocationRequestDto): Response<List<InternshipLocationRecommendedDto>>
+    suspend fun getRecommendedInternshipsLocations(
+        @Query("lat") lat: Double,
+        @Query("lng") lng: Double
+    ): Response<List<InternshipLocationRecommendedDto>>
 
 
 }

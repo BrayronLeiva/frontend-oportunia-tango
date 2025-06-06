@@ -115,6 +115,7 @@ class InternshipLocationViewModel @Inject constructor(
                                 "InternshipLocationViewModel",
                                 "Total Interships: ${interLocations.size}"
                             )
+                            _internshipLocationState.value = InternshipLocationState.Success(emptyList())
                             _internshipsLocationRecommendedList.value = interLocations
                         }
                     }
