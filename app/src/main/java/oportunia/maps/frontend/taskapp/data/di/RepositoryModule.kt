@@ -8,6 +8,7 @@ import oportunia.maps.frontend.taskapp.data.repository.InternshipLocationReposit
 import oportunia.maps.frontend.taskapp.data.repository.InternshipRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.LocationCompanyRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.QualificationRepositoryImpl
+import oportunia.maps.frontend.taskapp.data.repository.RequestRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.StudentRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.UserRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.UserRoleRepositoryImpl
@@ -15,6 +16,7 @@ import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepos
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipRepository
 import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
 import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
+import oportunia.maps.frontend.taskapp.domain.repository.RequestRepository
 import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
 import oportunia.maps.frontend.taskapp.domain.repository.UserRepository
 import oportunia.maps.frontend.taskapp.domain.repository.UserRoleRepository
@@ -113,10 +115,24 @@ abstract class RepositoryModule {
      * @return The bound [UserRoleRepository] interface
      */
 
-
     @Binds
     @Singleton
     abstract fun bindInternshipRepository(
         internshipRepositoryImpl: InternshipRepositoryImpl
     ): InternshipRepository
+
+
+    /**
+     * Binds the concrete implementation [internshipLocationRepositoryImpl] to the [internshipLocationRepository] interface.
+     *
+     * @param userRoleRepositoryImpl The implementation instance to be provided when [UserRoleRepository] is requested
+     * @return The bound [UserRoleRepository] interface
+     */
+
+
+    @Binds
+    @Singleton
+    abstract fun bindRequestRepository(
+        requestRepositoryImpl: RequestRepositoryImpl
+    ): RequestRepository
 }

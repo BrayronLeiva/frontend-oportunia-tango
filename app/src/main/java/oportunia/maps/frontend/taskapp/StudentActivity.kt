@@ -18,13 +18,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
-import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationRow
+import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationBarStudent
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 
 @AndroidEntryPoint
 class StudentActivity : ComponentActivity() {
@@ -38,6 +39,8 @@ class StudentActivity : ComponentActivity() {
     private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
 
     private val internshipViewModel: InternshipViewModel by viewModels()
+
+    private val requestViewModel: RequestViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +56,7 @@ class StudentActivity : ComponentActivity() {
                     studentViewModel,
                     internshipLocationViewModel,
                     internshipViewModel,
+                    requestViewModel,
                     userId
                 )
             }
@@ -67,6 +71,7 @@ fun MainStudentScreen(
     studentViewModel: StudentViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
     internshipViewModel: InternshipViewModel,
+    requestViewModel: RequestViewModel,
     userId: Long
 ) {
     val navController = rememberNavController()
@@ -95,7 +100,7 @@ fun MainStudentScreen(
 
     Scaffold(
         bottomBar = {
-            BottomNavigationRow(navController = navController)
+            BottomNavigationBarStudent(navController = navController)
         }
     ) { paddingValues ->
         NavGraph(
@@ -105,6 +110,7 @@ fun MainStudentScreen(
             internshipLocationViewModel = internshipLocationViewModel,
             internshipViewModel = internshipViewModel,
             paddingValues = paddingValues,
+            requestViewModel = requestViewModel,
             userId = userId,
             onLogOut = onLogOut
         )

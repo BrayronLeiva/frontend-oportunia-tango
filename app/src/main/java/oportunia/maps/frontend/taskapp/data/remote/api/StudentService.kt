@@ -61,4 +61,13 @@ interface StudentService {
      */
     @DELETE("/v1/students/{id}")
     suspend fun deleteStudent(@Path("id") id: Long): Response<Unit>
+
+    /**
+     * Retrieves a specific student by its unique identifier.
+     *
+     * @param id The unique identifier of the student to retrieve
+     * @return [Response] containing the requested [StudentDto] if successful
+     */
+    @GET("/v1/students/me")
+    suspend fun getStudentByLoggedStudent(): Response<StudentDto>
 }

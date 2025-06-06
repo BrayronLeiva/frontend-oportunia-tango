@@ -73,7 +73,7 @@ fun RegisterStudentFirst(
             onClick = {
                 studentViewModel.updateName(name)
                 val idCardInt = idCard.toIntOrNull() ?: 0
-                studentViewModel.updateIdentification(idCardInt)
+                studentViewModel.updateIdentification(idCardInt.toString())
                 studentViewModel.updatePersonalInfo(personalInfo)
                 studentViewModel.updateExperience(experience)
                 navController.navigate(NavRoutes.RegisterStudentSecond.ROUTE)

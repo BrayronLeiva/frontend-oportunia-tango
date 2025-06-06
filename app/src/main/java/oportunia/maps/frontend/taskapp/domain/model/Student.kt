@@ -16,7 +16,7 @@ package oportunia.maps.frontend.taskapp.domain.model
 data class Student(
     val id: Long,
     val name: String,
-    val identification: Int,
+    val identification: String,
     val personalInfo: String,
     val experience: String,
     val rating: Double,

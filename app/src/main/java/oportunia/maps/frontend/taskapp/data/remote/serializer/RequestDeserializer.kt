@@ -21,7 +21,7 @@ class RequestDeserializer : JsonDeserializer<RequestDto> {
         val studentJson = jsonObject.getAsJsonObject("student")
         val idStudent = studentJson.get("idStudent").asLong
         val nameStudent = studentJson.get("nameStudent").asString
-        val identification = studentJson.get("identification").asInt
+        val identification = studentJson.get("identification").asString
         val personalInfo = studentJson.get("personalInfo").asString
         val experience = studentJson.get("experience").asString
         val ratingStudent = studentJson.get("ratingStudent").asDouble

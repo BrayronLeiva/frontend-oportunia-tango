@@ -42,6 +42,15 @@ sealed class NavRoutes {
         const val ROUTE = "internshipsSearch"
     }
 
+
+    data object RequestList : NavRoutes() {
+        const val ROUTE = "requestList"
+    }
+
+    data object RequestDetail : NavRoutes() {
+        const val ROUTE = "requestDetail"
+    }
+
     data object LocationCompanyDetail : NavRoutes() {
         const val ROUTE = "locationCompanyDetail/{locationCompanyId}"
         const val ARG_LOCATION_COMPANY_ID = "locationCompanyId" // Changed to uppercase with underscores

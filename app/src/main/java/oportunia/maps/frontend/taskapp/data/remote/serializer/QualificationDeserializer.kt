@@ -35,7 +35,7 @@ class QualificationDeserializer : JsonDeserializer<QualificationDto> {
         // Manually deserialize the flattened company fields
         val studentId = jsonObject.get("idStudent").asLong
         val studentName = jsonObject.get("studentName").asString
-        val identification = jsonObject.get("identification").asInt
+        val identification = jsonObject.get("identification").asString
         val personalInfo = jsonObject.get("personalInfo").asString
         val experience = jsonObject.get("experience").asString
         val rating = jsonObject.get("rating").asDouble

@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.runtime.android)
     implementation(libs.androidx.compose.material)
+    //ui
+    implementation(libs.material.icons.extended)
     implementation(libs.cronet.embedded)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

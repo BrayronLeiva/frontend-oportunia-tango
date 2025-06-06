@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.data.remote
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.RequestService
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
 import retrofit2.Response
 import javax.inject.Inject
@@ -39,7 +40,7 @@ class RequestRemoteDataSource @Inject constructor(
      * @return [Result] containing the created [QualificationDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun create(dto: RequestDto): Result<RequestDto> = safeApiCall {
+    suspend fun create(dto: RequestCreateDto): Result<RequestDto> = safeApiCall {
         requestService.createRequest(dto)
     }
 

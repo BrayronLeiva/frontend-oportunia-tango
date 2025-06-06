@@ -14,3 +14,8 @@ data class RequestDto(
     val internshipLocationDto: InternshipLocationDto,
     val state: Boolean,
     )
+
+data class RequestCreateDto(
+    val internshipLocationId: Long
+)
+

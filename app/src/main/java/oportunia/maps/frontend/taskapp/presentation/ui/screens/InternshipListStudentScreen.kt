@@ -27,10 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCard
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 
 @Composable
 fun InternshipListStudentScreen(
@@ -39,21 +40,24 @@ fun InternshipListStudentScreen(
     locationCompanyViewModel: LocationCompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
     internshipViewModel: InternshipViewModel,
+    requestViewModel: RequestViewModel,
     paddingValues: PaddingValues
 ) {
     // Fetch the location company details and internships
     LaunchedEffect(locationCompanyId) {
         locationCompanyViewModel.selectLocationById(locationCompanyId)
-        internshipViewModel.loadInternshipsByLocationId(locationCompanyId)
+        //internshipViewModel.loadInternshipsByLocationId(locationCompanyId)
+        internshipLocationViewModel.loadInternshipsLocationsByLocationId(locationCompanyId)
         //internshipViewModel.findAllInternships()
     }
 
     val locationCompany by locationCompanyViewModel.selectedLocation.collectAsState()
-    val internshipState by internshipViewModel.internshipState.collectAsState()
+    val internshipLocationState by internshipLocationViewModel.internshipLocationState.collectAsState()
+    //val internshipState by internshipViewModel.internshipState.collectAsState()
     //val internshipState by internshipLocationViewModel.internships.collectAsState()
 
     Log.d("InternshipListStudentScreen", "Location company: $locationCompany")
-    Log.d("InternshipListStudentScreen", "Internships state: $internshipState")
+    Log.d("InternshipListStudentScreen", "Internships state: $internshipLocationState")
 
     Box(
         modifier = Modifier
@@ -74,26 +78,32 @@ fun InternshipListStudentScreen(
                 )
 
                 // Handle the different internship states
-                when (val state = internshipState) {
-                    is InternshipState.Loading -> {
+                when (val state = internshipLocationState) {
+                    is InternshipLocationState.Loading -> {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                             CircularProgressIndicator()
                         }
                     }
-                    is InternshipState.Empty -> {
+                    is InternshipLocationState.Empty -> {
                         Text(
                             text = "No internships available.",
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(16.dp)
                         )
                     }
-                    is InternshipState.Success -> {
-                        if (state.internships.isNotEmpty()) {
+                    is InternshipLocationState.Success -> {
+                        if (state.internshipLocations.isNotEmpty()) {
                             LazyColumn(
                                 modifier = Modifier.fillMaxWidth().padding(16.dp)
                             ) {
-                                items(state.internships) { internship ->
-                                    InternshipCard(internship = internship)
+                                items(state.internshipLocations) { internshipLocation ->
+                                    InternshipCard(
+                                        internship = internshipLocation.internship,
+                                        onRequestClick = { inter ->
+                                            // Aquí llamás al ViewModel para crear la solicitud
+                                            requestViewModel.createRequest(internshipLocation)
+                                        }
+                                    )
                                 }
                             }
                         } else {
@@ -104,7 +114,7 @@ fun InternshipListStudentScreen(
                             )
                         }
                     }
-                    is InternshipState.Error -> {
+                    is InternshipLocationState.Error -> {
                         Text(
                             text = "Error: ${state.message}",
                             style = MaterialTheme.typography.bodyMedium,

@@ -60,6 +60,8 @@ class StudentRepositoryImpl @Inject constructor(
         }
     }
 
+
+
     override suspend fun saveStudent(student: Student): Result<Student> {
         return dataSource.create(studentMapper.mapToDto(student)).map {
             studentMapper.mapToDomain(it)
@@ -76,5 +78,13 @@ class StudentRepositoryImpl @Inject constructor(
         return dataSource.delete(studentId)
     }
 
+    /**
+     * Retrieves a student by its ID.
+     */
+    override suspend fun findLoggedStudent(): Result<Student> {
+        return dataSource.getByLoggedStudent().map {
+            studentMapper.mapToDomain(it)
+        }
+    }
 
 }

@@ -8,7 +8,10 @@ import androidx.compose.ui.unit.dp
 import oportunia.maps.frontend.taskapp.domain.model.Internship
 
 @Composable
-fun InternshipCard(internship: Internship) {
+fun InternshipCard(
+    internship: Internship,
+    onRequestClick: (Internship) -> Unit
+) {
     Card(
         modifier = Modifier.padding(8.dp),
         elevation = CardDefaults.cardElevation(4.dp)
@@ -17,7 +20,7 @@ fun InternshipCard(internship: Internship) {
             Text(text = internship.details, style = MaterialTheme.typography.labelMedium)
             CustomButton(
                 text = "Request",
-                onClick = { /* Handle apply button click */ },
+                onClick = { onRequestClick(internship) },
                 modifier = Modifier.padding(top = 8.dp)
             )
         }

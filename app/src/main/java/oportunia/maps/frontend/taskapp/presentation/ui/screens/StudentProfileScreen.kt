@@ -39,7 +39,7 @@ fun StudentProfileScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        studentViewModel.selectStudentById(userId)
+        studentViewModel.getLoggedStudent()
     }
 
     val selectedStudent by studentViewModel.selectedStudent.collectAsState()

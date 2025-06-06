@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
-import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationRow
+import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationBarStudent
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
@@ -150,7 +150,7 @@ fun MainScreen(
                 &&
                 !currentDestination!!.startsWith("internshipCompany/")
             ) {
-                BottomNavigationRow(navController = navController)
+                BottomNavigationBarStudent(navController = navController)
             }
         }
 

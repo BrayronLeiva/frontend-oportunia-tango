@@ -1,11 +1,15 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
+import android.util.Log
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipLocationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
 import oportunia.maps.frontend.taskapp.data.remote.InternshipLocationRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
+import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
+import retrofit2.http.Body
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -56,9 +60,10 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
         }
     }
 
-    override suspend fun findRecommendedInternshipLocations(): Result<List<InternshipLocationRecommendedDto>> {
+    override suspend fun findRecommendedInternshipLocations(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>> {
         return try {
-            remoteDataSource.getRecommended()
+            remoteDataSource.getRecommended(locationRequestDto)
+
         } catch (e: UnknownHostException) {
             Result.failure(Exception("Network error: Please check your connection."))
         } catch (e: Exception) {
@@ -73,6 +78,18 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
         return remoteDataSource.delete(id)
     }
 
+
+    override suspend fun findInternshipLocationsByLocationId(locationId: Long): Result<List<InternshipLocation>>{
+        return try {
+            remoteDataSource.getInternshipsLocationsByLocationId(locationId).map { dtos ->
+                dtos.map { internshipLocationMapper.mapToDomain(it) }
+            }
+        } catch (e: UnknownHostException) {
+            Result.failure(Exception("Network error: Please check your connection."))
+        } catch (e: Exception) {
+            Result.failure(Exception("Error fetching location companies: ${e.message}"))
+        }
+    }
     /*
     override suspend fun findInternshipLocationsByLocationId(locationId: Long): Result<List<InternshipLocation>> {
         return try {

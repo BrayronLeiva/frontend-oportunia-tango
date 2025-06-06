@@ -48,7 +48,7 @@ fun InternshipItem(
 }
 
 @Composable
-fun InternshipRecommendedItem(
+fun InternshipRecommendedCard(
     internship: InternshipLocationRecommendedDto,
     onClick: (InternshipLocationRecommendedDto) -> Unit) {
     // Obtener los datos de la compañía y la calificación

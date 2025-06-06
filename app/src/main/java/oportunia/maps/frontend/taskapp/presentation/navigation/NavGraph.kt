@@ -17,11 +17,13 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.LocationCompanyDe
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RequestDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentMapScreen
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 
@@ -249,6 +251,7 @@ fun NavGraph(
     studentViewModel: StudentViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
     internshipViewModel: InternshipViewModel,
+    requestViewModel: RequestViewModel,
     paddingValues: PaddingValues,
     userId: Long,
     onLogOut: () -> Unit
@@ -270,8 +273,22 @@ fun NavGraph(
             )
         }
 
+        composable(NavRoutes.RequestList.ROUTE) {
+            StudentProfileScreen(
+                navController,
+                studentViewModel,
+                userId,
+                onLogOut
+            )
+        }
+
         composable(NavRoutes.InternshipsSearch.ROUTE) {
             InternshipSearch(internshipLocationViewModel, paddingValues, {selectedInternship -> })
+        }
+
+
+        composable(NavRoutes.RequestDetail.ROUTE) {
+            RequestDetailScreen(requestViewModel, paddingValues, {selectedRequest -> })
         }
 
         composable(
@@ -291,6 +308,7 @@ fun NavGraph(
             )
         }
 
+        //To the screen of internships list - Student
         composable(
             route = NavRoutes.InternshipListStudent.ROUTE,
             arguments = listOf(navArgument(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID) {
@@ -306,6 +324,7 @@ fun NavGraph(
                 locationCompanyViewModel = locationCompanyViewModel,
                 internshipLocationViewModel = internshipLocationViewModel,
                 internshipViewModel = internshipViewModel,
+                requestViewModel = requestViewModel,
                 paddingValues = paddingValues
             )
         }

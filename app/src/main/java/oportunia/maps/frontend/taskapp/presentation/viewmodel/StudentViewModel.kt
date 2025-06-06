@@ -56,7 +56,7 @@ class StudentViewModel @Inject constructor(
         Student(
             id = 0L,
             name = "",
-            identification = 0,
+            identification = "",
             personalInfo = "",
             experience = "",
             rating = 0.0,
@@ -82,6 +82,18 @@ class StudentViewModel @Inject constructor(
                 .onFailure { exception ->
                     Log.e("StudentViewModel", "User $studentId")
                     Log.e("StudentViewModel", "Error fetching task by ID: ${exception.message}")
+                }
+        }
+    }
+
+    fun getLoggedStudent() {
+        viewModelScope.launch {
+            repository.findLoggedStudent()
+                .onSuccess { student ->
+                    _selectedStudent.value = student
+                }
+                .onFailure { exception ->
+                    Log.e("StudentViewModel", "Error fetching student by ID: ${exception.message}")
                 }
         }
     }
@@ -124,7 +136,7 @@ class StudentViewModel @Inject constructor(
         _studentDraft.value = Student(
             id = 0L,
             name = "",
-            identification = 0,
+            identification = "",
             personalInfo = "",
             experience = "",
             rating = 0.0,
@@ -144,7 +156,7 @@ class StudentViewModel @Inject constructor(
         _studentDraft.value = _studentDraft.value.copy(name = name)
     }
 
-    fun updateIdentification(id: Int) {
+    fun updateIdentification(id: String) {
         _studentDraft.value = _studentDraft.value.copy(identification = id)
     }
 

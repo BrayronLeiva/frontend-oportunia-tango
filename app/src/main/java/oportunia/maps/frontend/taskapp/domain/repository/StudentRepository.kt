@@ -10,4 +10,6 @@ interface StudentRepository {
     suspend fun saveStudent(student: Student): Result<Student>
     suspend fun deleteStudent(studentId: Long): Result<Unit>
     suspend fun updateStudent(student: Student): Result<Unit>
+    suspend fun findLoggedStudent(): Result<Student>
 }
+

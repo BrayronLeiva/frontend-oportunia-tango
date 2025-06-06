@@ -76,6 +76,19 @@ class StudentRemoteDataSource @Inject constructor(
      * @param apiCall The suspending function making the API call
      * @return [Result] containing the data if successful, or an exception if failed
      */
+
+    /**
+     * Retrieves a specific student company by its ID.
+     *
+     * @param id The unique identifier of the location company
+     * @return [Result] containing the [StudentDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getByLoggedStudent(): Result<StudentDto> = safeApiCall {
+        studentService.getStudentByLoggedStudent()
+    }
+
+
     private suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Result<T> = try {
         val response = apiCall()
         if (response.isSuccessful) {

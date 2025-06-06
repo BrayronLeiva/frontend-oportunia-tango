@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.data.remote.api
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -67,6 +68,8 @@ interface InternshipLocationService {
     /**
         Comments
      */
-    @GET("/v1/internship-locations-match")
-    suspend fun getRecommendedInternshipsLocations(): Response<List<InternshipLocationRecommendedDto>>
+    @GET("/v1/internship-locations/recommendations")
+    suspend fun getRecommendedInternshipsLocations(@Body locationRequestDto: LocationRequestDto): Response<List<InternshipLocationRecommendedDto>>
+
+
 }

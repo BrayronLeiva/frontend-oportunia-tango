@@ -14,6 +14,7 @@ import oportunia.maps.frontend.taskapp.data.remote.api.AuthService
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipService
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
+import oportunia.maps.frontend.taskapp.data.remote.api.RequestService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
@@ -22,6 +23,7 @@ import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import oportunia.maps.frontend.taskapp.data.remote.interceptor.AuthInterceptor
@@ -30,6 +32,7 @@ import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipDeserial
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationRecommendedSerializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.QualificationDeserializer
+import oportunia.maps.frontend.taskapp.data.remote.serializer.RequestDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.StudentDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.UserRoleDeserializer
 import retrofit2.Retrofit
@@ -63,6 +66,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideGson(): Gson = GsonBuilder()
+        .registerTypeAdapter(RequestDto::class.java, RequestDeserializer())
         .registerTypeAdapter(InternshipDto::class.java, InternshipDeserializer())
         .registerTypeAdapter(InternshipLocationRecommendedDto::class.java, InternshipLocationRecommendedSerializer())
         .registerTypeAdapter(InternshipLocationDto::class.java, InternshipLocationDeserializer())
@@ -192,6 +196,20 @@ object NetworkModule {
     @Singleton
     fun provideInternshipService(retrofit: Retrofit): InternshipService =
         retrofit.create(InternshipService::class.java)
+
+    /**
+     * Provides the Student implementation.
+     *
+     * @param retrofit The Retrofit instance
+     * @return Implementation of [InternshipLocationService]
+     */
+    @Provides
+    @Singleton
+    fun provideRequestService(retrofit: Retrofit): RequestService =
+        retrofit.create(RequestService::class.java)
+
+
+
 
     @Provides
     @Singleton

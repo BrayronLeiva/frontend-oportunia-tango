@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ sealed class InternshipLocationState {
     data object Loading : InternshipLocationState()
 
     /** Contains the successfully retrieved list of internships */
-    data class Success(val internships: List<InternshipLocation>) : InternshipLocationState()
+    data class Success(val internshipLocations: List<InternshipLocation>) : InternshipLocationState()
 
     /** Indicates no internships are available */
     data object Empty : InternshipLocationState()
@@ -44,9 +45,11 @@ class InternshipLocationViewModel @Inject constructor(
     private val internshipLocationRepository: InternshipLocationRepository
 ) : ViewModel() {
 
+    private val _internshipLocationState = MutableStateFlow<InternshipLocationState>(InternshipLocationState.Empty)
+    val internshipLocationState: StateFlow<InternshipLocationState> = _internshipLocationState
+
     private val _location = MutableStateFlow<LocationCompany?>(null)
     val location: StateFlow<LocationCompany?> = _location
-
 
     private val _internshipsLocationList = MutableStateFlow<List<InternshipLocation>>(emptyList())
     val internshipsLocationList: StateFlow<List<InternshipLocation>> = _internshipsLocationList
@@ -91,7 +94,8 @@ class InternshipLocationViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 Log.d("InternshipLocationViewModel", "Search By AI")
-                internshipLocationRepository.findRecommendedInternshipLocations()
+                //By the moment
+                internshipLocationRepository.findRecommendedInternshipLocations(LocationRequestDto(9.940,-84.100))
                     .onSuccess { interLocations ->
                         Log.d("InternshipLocationViewModel", "Total Interships: ${interLocations.size}")
                         _internshipsLocationRecommendedList.value = interLocations
@@ -103,6 +107,30 @@ class InternshipLocationViewModel @Inject constructor(
             } catch (e: Exception) {
                 // Manejo de errores
             }
+        }
+    }
+
+    /**
+     * Retrieves internships for a specific location and updates the [internships] state.
+     *
+     * @param locationId The ID of the location to retrieve internships for
+     */
+    fun loadInternshipsLocationsByLocationId(locationId: Long) {
+        viewModelScope.launch {
+            _internshipLocationState.value = InternshipLocationState.Loading
+            internshipLocationRepository.findInternshipLocationsByLocationId(locationId)
+                .onSuccess { internshipsLocationList ->
+                    if (internshipsLocationList.isEmpty()) {
+                        _internshipLocationState.value = InternshipLocationState.Empty
+                    } else {
+                        Log.d("InternshipViewModel", "Total Interships: ${internshipsLocationList.size}")
+                        _internshipLocationState.value = InternshipLocationState.Success(internshipsLocationList)
+                    }
+                }
+                .onFailure { exception ->
+                    _internshipLocationState.value = InternshipLocationState.Error("Failed to fetch internships with id $locationId: ${exception.message}")
+                    Log.e("InternshipLocationViewModel", "Error fetching internships: ${exception.message}")
+                }
         }
     }
 }

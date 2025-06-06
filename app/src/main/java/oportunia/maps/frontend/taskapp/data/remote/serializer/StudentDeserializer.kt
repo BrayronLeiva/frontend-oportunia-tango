@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote.serializer
 
+import android.util.Log
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -22,40 +23,45 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
         context: JsonDeserializationContext
     ): StudentDto {
         val jsonObject = json.asJsonObject
+        Log.d("StudentDeserializer", "JSON recibido: $json")
 
 
-        val studentId = jsonObject.get("id").asLong
-        val studentName = jsonObject.get("name").asString
-        val identification = jsonObject.get("identification").asInt
+
+        val studentId = jsonObject.get("idStudent").asLong
+        val studentName = jsonObject.get("nameStudent").asString
+        val identification = jsonObject.get("identification").asString
         val personalInfo = jsonObject.get("personalInfo").asString
         val experience = jsonObject.get("experience").asString
-        val rating = jsonObject.get("rating").asDouble
+        val rating = jsonObject.get("ratingStudent").asDouble
 
 
         // Deserialize user information
-        val userId = jsonObject.get("id").asLong
-        val firstName = jsonObject.get("firstName").asString
-        val lastName = jsonObject.get("lastName").asString
-        val emailUser = jsonObject.get("email").asString
-        val enable = jsonObject.get("enable").asBoolean
-        val tokenExpired = jsonObject.get("tokenExpired").asBoolean
-        val createDate = jsonObject.get("createDate").asString
-        val roleListJson = jsonObject.getAsJsonArray("roleList")
+        val userObject = jsonObject.getAsJsonObject("user")
+        val userId = userObject.get("id").asLong
+        val firstName = userObject.get("firstName").asString
+        val lastName = userObject.get("lastName").asString
+        val emailUser = userObject.get("email").asString
+        val enable = userObject.get("enabled").asBoolean
+        val tokenExpired = userObject.get("tokenExpired").asBoolean
+        val createDate = userObject.get("createDate").asString
+        val roleListJson = userObject.getAsJsonArray("roleList")
         val roleList: List<RoleDto> = roleListJson.map { element ->
             val roleObject = element.asJsonObject
             val idrole = roleObject.get("id").asLong
-            val namerole = roleObject.get("name").asString
+            val name = roleObject.get("name").asString
 
-            RoleDto(id = idrole, name = namerole)
+            RoleDto(id = idrole, name = name)
         }
 
         // Create UserDto and CompanyDto
         val userDto = UserDto(userId, emailUser, firstName, lastName, enable, tokenExpired, createDate, roleList)
 
         // Return the StudentDto object
-        return StudentDto(
+        val student = StudentDto(
             studentId, studentName, identification, personalInfo,
             experience, rating, userDto
         )
+        Log.d("StudentDeserializer", "JSON en Student DTO: $student")
+        return student
     }
 }

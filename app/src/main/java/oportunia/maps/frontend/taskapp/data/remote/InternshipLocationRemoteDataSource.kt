@@ -1,10 +1,13 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
+import android.util.Log
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
 import oportunia.maps.frontend.taskapp.data.remote.api.LocationCompanyService
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -76,8 +79,8 @@ class InternshipLocationRemoteDataSource @Inject constructor(
      * @return [Result] containing a list of [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun getRecommended(): Result<List<InternshipLocationRecommendedDto>> = safeApiCall {
-        internshipLocationService.getRecommendedInternshipsLocations()
+    suspend fun getRecommended(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>> = safeApiCall {
+        internshipLocationService.getRecommendedInternshipsLocations(locationRequestDto)
     }
 
     /**
@@ -86,6 +89,17 @@ class InternshipLocationRemoteDataSource @Inject constructor(
      * @param apiCall The suspending function making the API call
      * @return [Result] containing the data if successful, or an exception if failed
      */
+
+    /**
+     * Retrieves all location companies from the remote API.
+     *
+     * @return [Result] containing a list of [LocationCompanyDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getInternshipsLocationsByLocationId(locationId: Long): Result<List<InternshipLocationDto>> = safeApiCall {
+        internshipLocationService.getInternshipsByLocationId(locationId)
+    }
+
     private suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Result<T> = try {
         val response = apiCall()
         if (response.isSuccessful) {
