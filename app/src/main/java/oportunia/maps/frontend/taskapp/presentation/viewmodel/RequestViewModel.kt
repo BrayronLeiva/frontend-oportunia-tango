@@ -28,6 +28,21 @@ sealed class RequestState {
     data class Error(val message: String) : RequestState()
 }
 
+sealed class RequestCreateState{
+    /** Indicates an ongoing internship operation */
+    data object Loading : RequestCreateState()
+
+    /** Contains the successfully retrieved list of internships */
+    data class Success(val request: Request) : RequestCreateState()
+
+    /** Indicates no internships are available */
+    data object Empty : RequestCreateState()
+
+    /** Contains an error message if the internship operation fails */
+    data class Error(val message: String) : RequestCreateState()
+}
+
+
 /**
  * ViewModel responsible for managing location and internship-related UI state and business logic.
  *
@@ -41,6 +56,10 @@ class RequestViewModel @Inject constructor(
 
     private val _requestState = MutableStateFlow<RequestState>(RequestState.Empty)
     val requestState: StateFlow<RequestState> = _requestState
+
+
+    private val _requestCreateState = MutableStateFlow<RequestCreateState>(RequestCreateState.Empty)
+    val requestCreateState: StateFlow<RequestCreateState> = _requestCreateState
 
     private val _selectedRequest = MutableStateFlow<Request?>(null)
     val selectedRequest: StateFlow<Request?> = _selectedRequest
@@ -93,9 +112,16 @@ class RequestViewModel @Inject constructor(
                 .onSuccess { request ->
                     // Puedes actualizar el estado si es necesario
                     Log.d("RequestViewModel", "Request created: $request")
+                    _requestCreateState.value = RequestCreateState.Success(request)
                 }
                 .onFailure { exception ->
                     Log.e("RequestViewModel", "Error creating request: ${exception.message}")
+                    val errorMsg = if (exception.message?.contains("409") == true || exception.message?.contains("Conflict") == true) {
+                        "You have already made a request to this internship."
+                    } else {
+                        "An unexpected error occurred. Please try again."
+                    }
+                    _requestCreateState.value = RequestCreateState.Error(errorMsg)
                 }
         }
     }

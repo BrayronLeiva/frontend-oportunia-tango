@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +32,11 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
+import androidx.compose.ui.platform.LocalContext
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
+
 
 @Composable
 fun InternshipListStudentScreen(
@@ -43,13 +48,27 @@ fun InternshipListStudentScreen(
     requestViewModel: RequestViewModel,
     paddingValues: PaddingValues
 ) {
+    val requestCreateState by requestViewModel.requestCreateState.collectAsState()
     // Fetch the location company details and internships
-    LaunchedEffect(locationCompanyId) {
+    val context = LocalContext.current
+    LaunchedEffect(locationCompanyId, requestCreateState) {
         locationCompanyViewModel.selectLocationById(locationCompanyId)
-        //internshipViewModel.loadInternshipsByLocationId(locationCompanyId)
         internshipLocationViewModel.loadInternshipsLocationsByLocationId(locationCompanyId)
-        //internshipViewModel.findAllInternships()
+
+        when (requestCreateState) {
+            is RequestCreateState.Error -> {
+                val message = (requestCreateState as RequestCreateState.Error).message
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+            is RequestCreateState.Success -> {
+                Toast.makeText(context, "Request sent successfully", Toast.LENGTH_SHORT).show()
+            }
+            else -> Unit
+        }
     }
+
+
+
 
     val locationCompany by locationCompanyViewModel.selectedLocation.collectAsState()
     val internshipLocationState by internshipLocationViewModel.internshipLocationState.collectAsState()
@@ -64,7 +83,7 @@ fun InternshipListStudentScreen(
             .fillMaxSize()
             .padding(paddingValues)
     ) {
-        //locationCompany?.let {
+        locationCompany?.let {
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -143,9 +162,9 @@ fun InternshipListStudentScreen(
                 }
             }
 
-       // } ?: Text(
-       //     text = "Location details not available.",
-       //     style = MaterialTheme.typography.bodyMedium
-        //)
+        } ?: Text(
+            text = "Location details not available.",
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }

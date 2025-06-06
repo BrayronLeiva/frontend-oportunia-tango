@@ -78,30 +78,49 @@ class InternshipLocationViewModel @Inject constructor(
 
 
     fun findAllInternShipsLocations() {
+        _internshipLocationState.value = InternshipLocationState.Loading
         viewModelScope.launch {
             internshipLocationRepository.findAllInternshipLocations()
                 .onSuccess { interLocations ->
-                    Log.d("InternshipLocationViewModel", "Total Interships: ${interLocations.size}")
-                    _internshipsLocationList.value = interLocations
+                    if (interLocations.isEmpty()){
+                        _internshipLocationState.value = InternshipLocationState.Empty
+                    }else {
+                        Log.d(
+                            "InternshipLocationViewModel",
+                            "Total Interships: ${interLocations.size}"
+                        )
+                        _internshipLocationState.value = InternshipLocationState.Success(interLocations)
+                        _internshipsLocationList.value = interLocations
+                    }
                 }
                 .onFailure { exception ->
                     Log.e("InternshipLocationViewModel", "Failed to fetch internships location: ${exception.message}")
+                    _internshipLocationState.value = InternshipLocationState.Error("Failed to fetch internships locations: ${exception.message}")
                 }
         }
     }
 
     fun loadInternShipsLocationsRecommended() {
+        _internshipLocationState.value = InternshipLocationState.Loading
         viewModelScope.launch {
             try {
                 Log.d("InternshipLocationViewModel", "Search By AI")
                 //By the moment
                 internshipLocationRepository.findRecommendedInternshipLocations(LocationRequestDto(9.940,-84.100))
                     .onSuccess { interLocations ->
-                        Log.d("InternshipLocationViewModel", "Total Interships: ${interLocations.size}")
-                        _internshipsLocationRecommendedList.value = interLocations
+                        if (interLocations.isEmpty()){
+                            _internshipLocationState.value = InternshipLocationState.Empty
+                        }else {
+                            Log.d(
+                                "InternshipLocationViewModel",
+                                "Total Interships: ${interLocations.size}"
+                            )
+                            _internshipsLocationRecommendedList.value = interLocations
+                        }
                     }
                     .onFailure { exception ->
-                        Log.e("InternshipLocationViewModel", "Error fetching internships: ${exception.message}")
+                        Log.e("InternshipLocationViewModel", "Error fetching internships locations: ${exception.message}")
+                        _internshipLocationState.value = InternshipLocationState.Error("Failed to fetch internships locations: ${exception.message}")
                         //_internshipsLocationList.value = emptyList() // o lo que quieras mostrar en error
                     }
             } catch (e: Exception) {

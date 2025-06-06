@@ -35,10 +35,8 @@ import androidx.compose.ui.unit.sp
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.domain.model.Request
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSelector
-import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCard
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RequestCard
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RequestCardDetailDialog
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 
@@ -49,7 +47,7 @@ fun RequestDetailScreen(
     onRequestSelected: (Request) -> Unit // callback para devolver seleccionado
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    val searchCriteriaOptions = listOf("Nombre de Compañía", "Detalles de la Pasantía")
+    val searchCriteriaOptions = listOf("Company Name", "Internships Details")
     var selectedCriteria by remember { mutableStateOf(searchCriteriaOptions[0]) }
     var useAi by remember { mutableStateOf(false) }
     // Obtener las pasantías con las empresas y sus calificaciones
@@ -77,7 +75,7 @@ fun RequestDetailScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = stringResource(id = R.string.internships_search_label),
+                text = stringResource(id = R.string.request_search_label),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -94,8 +92,8 @@ fun RequestDetailScreen(
             label = {
                 Text(
                     when (selectedCriteria) {
-                        "Nombre de Compañía" -> "Buscar por nombre de compañía"
-                        "Detalles de la Pasantía" -> "Buscar por detalles de la pasantía"
+                        "Company Name" -> "Search by Company Name"
+                        "Internships Details" -> "Search by Internships Details"
                         else -> "Buscar"
                     }
                 )
@@ -125,8 +123,8 @@ fun RequestDetailScreen(
             //Aca agregar mejores criterios
 
             val matchesText = when (selectedCriteria) {
-                "Nombre de Compañía" -> companyName.contains(searchQuery, ignoreCase = true)
-                "Detalles de la Pasantía" -> it.internshipLocation.internship.details.contains(searchQuery, ignoreCase = true)
+                "Company Name" -> companyName.contains(searchQuery, ignoreCase = true)
+                "Internships Details" -> it.internshipLocation.internship.details.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
             matchesText

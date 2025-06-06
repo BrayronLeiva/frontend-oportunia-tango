@@ -40,8 +40,8 @@ class StudentViewModel @Inject constructor(
     private val repository: StudentRepository
 ) : ViewModel() {
 
-    private val _student = MutableStateFlow<StudentState>(StudentState.Empty)
-    val student: StateFlow<StudentState> = _student
+    private val _studentState = MutableStateFlow<StudentState>(StudentState.Empty)
+    val studentState: StateFlow<StudentState> = _studentState
 
     private val _selectedStudent = MutableStateFlow<Student?>(null)
     val selectedStudent: StateFlow<Student?> = _selectedStudent
@@ -74,26 +74,32 @@ class StudentViewModel @Inject constructor(
     val studentDraft: StateFlow<Student> = _studentDraft
 
     fun selectStudentById(studentId: Long) {
+        _studentState.value = StudentState.Loading
         viewModelScope.launch {
             repository.findStudentById(studentId)
                 .onSuccess { student ->
                     _selectedStudent.value = student
+                    _studentState.value = StudentState.Success(student)
                 }
                 .onFailure { exception ->
                     Log.e("StudentViewModel", "User $studentId")
-                    Log.e("StudentViewModel", "Error fetching task by ID: ${exception.message}")
+                    Log.e("StudentViewModel", "Error fetching student by ID: ${exception.message}")
+                    _studentState.value = StudentState.Error(exception.toString())
                 }
         }
     }
 
     fun getLoggedStudent() {
+        _studentState.value = StudentState.Loading
         viewModelScope.launch {
             repository.findLoggedStudent()
                 .onSuccess { student ->
                     _selectedStudent.value = student
+                    _studentState.value = StudentState.Success(student)
                 }
                 .onFailure { exception ->
                     Log.e("StudentViewModel", "Error fetching student by ID: ${exception.message}")
+                    _studentState.value = StudentState.Error(exception.toString())
                 }
         }
     }
@@ -121,7 +127,7 @@ class StudentViewModel @Inject constructor(
             repository.saveStudent(student)
                 .onSuccess { savedStudent ->
                     _registeredStudent.value = savedStudent
-                    _student.value = StudentState.Success(savedStudent)
+                    _studentState.value = StudentState.Success(savedStudent)
                     cleanStudentDraft()
                     Log.e("StudentViewModel", "Saved succesfully student: ${savedStudent.id}")
                 }

@@ -53,7 +53,7 @@ fun RegisterStudentSecond(
 
     val studentCreated = studentViewModel.registeredStudent.collectAsState().value
 
-    val studentState by studentViewModel.student.collectAsState()
+    val studentState by studentViewModel.studentState.collectAsState()
 
     val habilidades = qualifications.map { it.name }
     // Llamamos al método para cargar las qualifications

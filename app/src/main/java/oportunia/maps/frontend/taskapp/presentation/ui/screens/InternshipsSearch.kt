@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -20,8 +21,10 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,6 +49,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipItem
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipRecommendedCard
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 
 
@@ -63,6 +67,8 @@ fun InternshipSearch(
     // Obtener las pasantías con las empresas y sus calificaciones
     val internships = internshipLocationViewModel.internshipsLocationList.collectAsState().value
     val recommendedinternships = internshipLocationViewModel.internshipsLocationRecommendedList.collectAsState().value
+
+    val internshipLocationState = internshipLocationViewModel.internshipLocationState.collectAsState().value
 
 
     LaunchedEffect(Unit) {
@@ -147,8 +153,8 @@ fun InternshipSearch(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
+
 
         // Filtrar las pasantías por nombre de compañía y calificación
         val filteredInternships = internships.filter {
@@ -176,25 +182,51 @@ fun InternshipSearch(
             matchesText && matchesRating
         }
 
-        if(useAi) {
-            LazyColumn {
-                items(filteredRecommendedInternships) { internshipLocation ->
-                    InternshipRecommendedCard(internshipLocation, onClick = {
-                        //selectedInternshipLocation = it
-                        showDialog = true
-                    })
+
+        // Handle the different internship states
+        when (val state = internshipLocationState) {
+            is InternshipLocationState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
                 }
             }
-        }else{
-            LazyColumn {
-                items(filteredInternships) { internshipLocation ->
-                    InternshipItem(internshipLocation, onClick = {
-                        selectedInternshipLocation = it
-                        showDialog = true
-                    })
+            is InternshipLocationState.Empty -> {
+                androidx.compose.material3.Text(
+                    text = "No internships locations available.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+            is InternshipLocationState.Success -> {
+                if(useAi) {
+                    LazyColumn {
+                        items(filteredRecommendedInternships) { internshipLocation ->
+                            InternshipRecommendedCard(internshipLocation, onClick = {
+                                //selectedInternshipLocation = it
+                                showDialog = true
+                            })
+                        }
+                    }
+                }else {
+                    LazyColumn {
+                        items(filteredInternships) { internshipLocation ->
+                            InternshipItem(internshipLocation, onClick = {
+                                selectedInternshipLocation = it
+                                showDialog = true
+                            })
+                        }
+                    }
                 }
+            }
+            is InternshipLocationState.Error -> {
+                androidx.compose.material3.Text(
+                    text = "Error: ${state.message}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(16.dp)
+                )
             }
         }
+
         // Mostrar dialog con detalle si showDialog es true
         if (showDialog && selectedInternshipLocation != null) {
             InternshipDetailDialog(
@@ -213,7 +245,7 @@ fun InternshipSearch(
                 text = {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = "Selecciona la calificación mínima",
+                            text = "Chosee the stars",
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
@@ -228,7 +260,7 @@ fun InternshipSearch(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Filled.Star,
-                                        contentDescription = "$rating estrellas",
+                                        contentDescription = "$rating stars",
                                         tint = if (selectedRating != null && rating <= selectedRating!!) Color(0xFFFFD700) else androidx.compose.ui.graphics.Color.Gray
                                     )
                                 }
@@ -247,7 +279,7 @@ fun InternshipSearch(
                                     containerColor = DarkCyan,
                                     contentColor = Black
                                 )) {
-                                Text("Limpiar")
+                                Text("Clean")
                             }
                         }
                     }
