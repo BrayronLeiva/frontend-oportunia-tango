@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Task App</string>
-    <string name="app_title">MVVM Simple Sample</string>
+    <string name="app_name">OportunIA Maps</string>
+    <string name="app_title">Map Based Internship Locator</string>
     <string name="student_map">Student Map</string>
     <string name="company_map">Company Map</string>
-    <string name="task_title">Title:</string>
-    <string name="task_notes">Notes:</string>
-    <string name="no_task_available">No task available - Click to refresh</string>
     <string name="error_message">Error: %1$s</string>
-    <string name="no_tasks_available">No tasks available</string>
     <string name="title_welcome">Welcome to Oportunia</string>
     <string name="main_register_subtitle">Create an account</string>
-    <string name="main_register_subtitle_sub">Fill the following filds</string>
+    <string name="main_register_subtitle_sub">Fill the following fields</string>
     <string name="email_field">Email</string>
     <string name="password_field">Password</string>
     <string name="confirm_password_field">Confirm Password</string>
@@ -41,4 +37,65 @@
     <string name="search_label">Search</string>
     <string name="go_student_screen_label">Go to Student Screen</string>
     <string name="go_company_screen_label">Go to Company Screen</string>
+
+    <string name="snippet_click_internships">Click for Internships</string>
+    <string name="add_marker_description">Add Marker</string>
+    <string name="logout_button">Logout</string>
+    <string name="tap_to_add_marker">Tap on the map to add markers</string>
+
+    <string name="internships_for">Internships for %1$s</string>
+    <string name="no_internships_available">No internships available.</string>
+    <string name="location_details_unavailable">Location details not available.</string>
+    <string name="back_button">Back</string>
+    <string name="add_button">Add</string>
+
+    <string name="request_success_message">Request sent successfully</string>
+
+    <string name="search_by_company_name">Search by company name</string>
+    <string name="search_by_internship_details">Search by internship details</string>
+    <string name="search_placeholder">Search</string>
+    <string name="select_minimum_stars">Select minimum stars</string>
+    <string name="company_name">Company Name</string>
+    <string name="internship_details">Internship Details</string>
+
+    <string name="rating_stars">%1$s stars</string>
+
+    <string name="clean">Clean</string>
+
+    <string name="company_information">Company Information</string>
+    <string name="internships_button">Internships</string>
+
+    <string name="invalid_login">Invalid email or password</string>
+
+    <string name="no_requests_available">No requests available</string>
+
+    <string name="no_student_info_available">No student information available.</string>
+    <string name="profile_picture_content_description">Profile Picture</string>
+    <string name="rating_format">⭐ %1$s</string>
+    <string name="identification">Identification</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="experience">Experience</string>
+
+    <string name="approved">Approved</string>
+    <string name="denied">Denied</string>
+
+    <string name="state">State</string>
+
+    <string name="company">Company</string>
+
+    <string name="example">Example</string>
+    <string name="name">Name</string>
+
+    <string name="description">Description:</string>
+    <string name="history">History:</string>
+    <string name="mission">Mission:</string>
+    <string name="vision">Vision:</string>
+    <string name="contact">Contact:</string>
+    <string name="corporate_culture">Corporate Culture:</string>
+    <string name="rating">Rating:</string>
+    <string name="internship_type">Internship Type:</string>
+
+    <string name="apply">Apply</string>
+
+    <string name="internship">Internship</string>
 </resources>

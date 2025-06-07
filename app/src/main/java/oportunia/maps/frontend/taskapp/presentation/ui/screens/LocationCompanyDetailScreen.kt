@@ -43,7 +43,7 @@ fun LocationCompanyDetailScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Company Information",
+                text = stringResource(id = R.string.company_information),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -59,7 +59,7 @@ fun LocationCompanyDetailScreen(
             locationCompany?.let {
                 LocationCompanyCard(locationCompany = it)
             } ?: Text(
-                text = "Location details not available.",
+                text = stringResource(id = R.string.location_details_unavailable),
                 style = MaterialTheme.typography.bodyMedium
             )
             Box(
@@ -73,13 +73,13 @@ fun LocationCompanyDetailScreen(
                     horizontalArrangement = Arrangement.Start
                 ) {
                     CustomButton(
-                        text = "Back",
+                        text = stringResource(id = R.string.back_button),
                         onClick = { navController.popBackStack() },
                         modifier = Modifier.weight(0.5f)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     CustomButton(
-                        text = "Internships",
+                        text = stringResource(id = R.string.internships_button),
                         onClick = {
                             navController.navigate(
                                 NavRoutes.InternshipListStudent.createRoute(

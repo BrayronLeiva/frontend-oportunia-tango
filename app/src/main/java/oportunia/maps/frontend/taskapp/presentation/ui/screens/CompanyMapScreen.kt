@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -16,6 +17,7 @@ import androidx.navigation.NavHostController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
@@ -24,7 +26,8 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyVie
 fun CompanyMapScreen(
     navController: NavHostController,
     locationCompanyViewModel: LocationCompanyViewModel,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    onLogout: () -> Unit
 ) {
     val costaRica = LatLng(9.7489, -83.7534)
     val cameraPositionState = rememberCameraPositionState {
@@ -50,7 +53,7 @@ fun CompanyMapScreen(
                 Marker(
                     state = MarkerState(position = locationCompany.location),
                     title = locationCompany.company.name,
-                    snippet = "Click for Internships",
+                    snippet = stringResource(id = R.string.snippet_click_internships),
                     onClick = {
                         navController.navigate(NavRoutes.InternshipListCompany.createRoute(locationCompany.id))
                         true
@@ -66,12 +69,15 @@ fun CompanyMapScreen(
                 .padding(16.dp)
                 .zIndex(1f)
         ) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = "Add Marker")
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = stringResource(id = R.string.add_marker_description)
+            )
         }
 
         CustomButton(
-            onClick = { navController.navigate(NavRoutes.Login.ROUTE) },
-            text = "Logout",
+            onClick = { onLogout() },
+            text = stringResource(id = R.string.logout_button),
             modifier = Modifier
                 .width(160.dp)
                 .align(Alignment.BottomCenter)
@@ -80,7 +86,7 @@ fun CompanyMapScreen(
 
         if (isAddingMarker) {
             Text(
-                text = "Tap on the map to add markers",
+                text = stringResource(id = R.string.tap_to_add_marker),
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .padding(16.dp),

@@ -21,10 +21,12 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 
 
@@ -41,20 +43,20 @@ fun InternshipDetailDialog(
         },
         text = {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                InfoSection(label = "Descripción", value = internshipLocation.location.company.description)
-                InfoSection(label = "Misión", value = internshipLocation.location.company.mision)
-                InfoSection(label = "Visión", value = internshipLocation.location.company.vision)
-                InfoSection(label = "Cultura Corporativa", value = internshipLocation.location.company.corporateCultur)
-                InfoSection(label = "Contacto", value = internshipLocation.location.company.contact.toString())
-                InfoSection(label = "Rating", value = "${internshipLocation.location.company.rating} ★")
-                InfoSection(label = "Tipo de Pasantía", value = internshipLocation.location.company.internshipType.toString())
+                InfoSection(label = stringResource(id = R.string.description), value = internshipLocation.location.company.description)
+                InfoSection(label = stringResource(id = R.string.mission), value = internshipLocation.location.company.mision)
+                InfoSection(label = stringResource(id = R.string.vision), value = internshipLocation.location.company.vision)
+                InfoSection(label = stringResource(id = R.string.corporate_culture), value = internshipLocation.location.company.corporateCultur)
+                InfoSection(label = stringResource(id = R.string.contact), value = internshipLocation.location.company.contact.toString())
+                InfoSection(label = stringResource(id = R.string.rating), value = "${internshipLocation.location.company.rating} ★")
+                InfoSection(label = stringResource(id = R.string.internship_type), value = internshipLocation.location.company.internshipType.toString())
 
 
 
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Detalles de la Pasantía",
+                    text = stringResource(id = R.string.internship_details),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
@@ -72,12 +74,12 @@ fun InternshipDetailDialog(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 CustomButton(
-                    text = "Cerrar",
+                    text = stringResource(id = R.string.back_button),
                     onClick = onDismiss,
                     width = 140.dp
                 )
                 CustomButton(
-                    text = "Aplicar",
+                    text = stringResource(id = R.string.apply),
                     onClick = { onConfirm(internshipLocation) },
                     width = 140.dp
                 )

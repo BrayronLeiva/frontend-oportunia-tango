@@ -1,4 +1,4 @@
-package oportunia.maps.frontend.taskapp.presentation.viewmodel
+    package oportunia.maps.frontend.taskapp.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -48,6 +48,13 @@ class LocationCompanyViewModel @Inject constructor(
 
     private val _locationList = MutableStateFlow<List<LocationCompany>>(emptyList())
     val locationList = _locationList.asStateFlow()
+
+    private val _tempLocation = MutableStateFlow<LocationCompany?>(null)
+    val tempLocation: StateFlow<LocationCompany?> = _tempLocation
+
+    fun setTempLocation(location: LocationCompany) {
+        _tempLocation.value = location
+    }
 
     /**
      * Finds a location by its ID and updates the [selectedLocation] state.

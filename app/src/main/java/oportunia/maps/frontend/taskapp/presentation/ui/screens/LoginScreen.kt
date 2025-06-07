@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterTextField
 import androidx.compose.ui.res.stringResource
 import oportunia.maps.frontend.taskapp.R
@@ -26,6 +25,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
+import oportunia.maps.frontend.taskapp.presentation.ui.components.LanguageSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.lightBlue
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
@@ -51,6 +51,14 @@ fun LoginScreen(
             .padding(paddingValues),
         contentAlignment = Alignment.Center
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            contentAlignment = Alignment.TopEnd
+        ) {
+            LanguageSelector()
+        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -101,7 +109,7 @@ fun LoginScreen(
                     }
                 }
                 is UserState.Failure -> {
-                    Text("Invalid email or password.", color = Color.Red)
+                    Text(stringResource(id = R.string.invalid_login), color = Color.Red)
                 }
                 is UserState.Error -> {
                     val message = (userState as UserState.Error).message

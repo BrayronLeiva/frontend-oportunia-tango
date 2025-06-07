@@ -74,6 +74,7 @@ dependencies {
     //ui
     implementation(libs.material.icons.extended)
     implementation(libs.cronet.embedded)
+    implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -8,9 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 
@@ -39,11 +41,11 @@ fun LocationCompanyCard(locationCompany: LocationCompany) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            InfoText(label = "Description:", value = locationCompany.company.description)
-            InfoText(label = "History:", value = locationCompany.company.history)
-            InfoText(label = "Mission:", value = locationCompany.company.mision)
-            InfoText(label = "Vision:", value = locationCompany.company.vision)
-            InfoText(label = "Contact:", value = locationCompany.contact.toString())
+            InfoText(label = stringResource(id = R.string.description), value = locationCompany.company.description)
+            InfoText(label = stringResource(id = R.string.history), value = locationCompany.company.history)
+            InfoText(label = stringResource(id = R.string.mission), value = locationCompany.company.mision)
+            InfoText(label = stringResource(id = R.string.vision), value = locationCompany.company.vision)
+            InfoText(label = stringResource(id = R.string.contact), value = locationCompany.contact.toString())
         }
     }
 }

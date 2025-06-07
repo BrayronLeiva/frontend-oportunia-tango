@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OportunIA Maps</string>
+    <string name="app_title">Stagezoeker op Kaartbasis</string>
+    <string name="student_map">Studentenkaart</string>
+    <string name="company_map">Bedrijvenkaart</string>
+    <string name="error_message">Fout: %1$s</string>
+    <string name="title_welcome">Welkom bij Oportunia</string>
+    <string name="main_register_subtitle">Maak een account aan</string>
+    <string name="main_register_subtitle_sub">Vul de volgende velden in</string>
+    <string name="email_field">E-mail</string>
+    <string name="password_field">Wachtwoord</string>
+    <string name="confirm_password_field">Bevestig wachtwoord</string>
+    <string name="main_register">Registreren</string>
+
+    <string name="preparing_text">Alles wordt voorbereid!</string>
+    <string name="name_field">Voer je naam in</string>
+    <string name="id_field">Voer je identiteitskaart in</string>
+    <string name="personal_info_field">Vertel iets over jezelf</string>
+    <string name="experience_field">Beschrijf je ervaring</string>
+    <string name="main_login_subtitle">Log in met je account</string>
+    <string name="interests_field">Wat zijn je interesses?</string>
+    <string name="next_button">Volgende</string>
+
+    <string name="chosee_skills_field">Kies je vaardigheden</string>
+    <string name="main_login">Inloggen</string>
+    <string name="no_account">Geen account?</string>
+    <string name="register_here">Registreer hier</string>
+    <string name="map">Kaart</string>
+    <string name="search">Zoeken</string>
+    <string name="profile">Profiel</string>
+    <string name="choose_rating_label">Kies een beoordeling</string>
+    <string name="internships_search_label">Stage Zoeken</string>
+    <string name="request_search_label">Verzoek Zoeken</string>
+    <string name="search_company_label">Zoek Bedrijf</string>
+    <string name="filter_rating_label">Filter op</string>
+    <string name="search_label">Zoeken</string>
+    <string name="go_student_screen_label">Ga naar Studentenoverzicht</string>
+    <string name="go_company_screen_label">Ga naar Bedrijfsoverzicht</string>
+
+    <string name="snippet_click_internships">Klik voor stages</string>
+    <string name="add_marker_description">Markeer toevoegen</string>
+    <string name="logout_button">Uitloggen</string>
+    <string name="tap_to_add_marker">Tik op de kaart om markeringen toe te voegen</string>
+
+    <string name="internships_for">Stages voor %1$s</string>
+    <string name="no_internships_available">Geen stages beschikbaar.</string>
+    <string name="location_details_unavailable">Locatiegegevens niet beschikbaar.</string>
+    <string name="back_button">Terug</string>
+    <string name="add_button">Toevoegen</string>
+
+    <string name="request_success_message">Verzoek succesvol verzonden</string>
+
+    <string name="search_by_company_name">Zoek op bedrijfsnaam</string>
+    <string name="search_by_internship_details">Zoek op stagedetails</string>
+    <string name="search_placeholder">Zoeken</string>
+    <string name="select_minimum_stars">Selecteer minimaal aantal sterren</string>
+    <string name="company_name">Bedrijfsnaam</string>
+    <string name="internship_details">Stagedetails</string>
+
+    <string name="rating_stars">%1$s sterren</string>
+
+    <string name="clean">Wissen</string>
+
+    <string name="company_information">Bedrijfsinformatie</string>
+    <string name="internships_button">Stages</string>
+
+    <string name="invalid_login">Ongeldig e-mailadres of wachtwoord</string>
+
+    <string name="no_requests_available">Geen verzoeken beschikbaar</string>
+
+    <string name="no_student_info_available">Geen studenteninformatie beschikbaar.</string>
+    <string name="profile_picture_content_description">Profielfoto</string>
+    <string name="rating_format">⭐ %1$s</string>
+    <string name="identification">Identificatie</string>
+    <string name="personal_info">Persoonlijke informatie</string>
+    <string name="experience">Ervaring</string>
+
+    <string name="approved">Goedgekeurd</string>
+    <string name="denied">Afgewezen</string>
+
+    <string name="state">Staat</string>
+
+    <string name="company">Bedrijf</string>
+
+    <string name="example">Voorbeeld</string>
+    <string name="name">Naam</string>
+
+    <string name="description">Beschrijving:</string>
+    <string name="history">Geschiedenis:</string>
+    <string name="mission">Missie:</string>
+    <string name="vision">Visie:</string>
+    <string name="contact">Contact:</string>
+
+    <string name="corporate_culture">Bedrijfscultuur:</string>
+    <string name="rating">Beoordeling:</string>
+    <string name="internship_type">Soort Stage:</string>
+
+    <string name="apply">Solliciteren</string>
+
+    <string name="internship">Stage</string>
+</resources>

@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRequestDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import javax.inject.Inject
 
@@ -34,5 +35,11 @@ class InternshipLocationMapper @Inject constructor(
             id = domain.id,
             locationCompany = locationCompanyMapper.mapToDto(domain.location),
             internship = internshipMapper.mapToDto(domain.internship)
+        )
+
+    fun mapToRequestDto(domain: InternshipLocation): InternshipLocationRequestDto =
+        InternshipLocationRequestDto(
+            locationCompanyId = domain.location.id,
+            internshipId = domain.internship.id!!
         )
 }

@@ -61,7 +61,7 @@ fun InternshipSearch(
 ) {
     var searchQuery by remember { mutableStateOf("") }
     val ratings = listOf(1.0, 2.0, 3.0, 4.0, 5.0)
-    val searchCriteriaOptions = listOf("Nombre de Compañía", "Detalles de la Pasantía")
+    val searchCriteriaOptions = listOf(stringResource(id = R.string.company_name), stringResource(id = R.string.internship_details))
     var selectedCriteria by remember { mutableStateOf(searchCriteriaOptions[0]) }
     var useAi by remember { mutableStateOf(false) }
     // Obtener las pasantías con las empresas y sus calificaciones
@@ -118,9 +118,9 @@ fun InternshipSearch(
             label = {
             Text(
                 when (selectedCriteria) {
-                    "Nombre de Compañía" -> "Buscar por nombre de compañía"
-                    "Detalles de la Pasantía" -> "Buscar por detalles de la pasantía"
-                    else -> "Buscar"
+                    stringResource(id = R.string.company_name) -> stringResource(id = R.string.search_by_company_name)
+                    stringResource(id = R.string.internship_details) -> stringResource(R.string.search_by_internship_details)
+                    else -> stringResource(id = R.string.search_by_company_name)
                 }
             )
         },
@@ -146,7 +146,7 @@ fun InternshipSearch(
                 IconButton(onClick = { expanded = true }) {
                     Icon(
                         imageVector = Icons.Filled.Star,
-                        contentDescription = "Seleccionar mínimo de estrellas",
+                        contentDescription = stringResource(id = R.string.select_minimum_stars),
                         tint = if (selectedRating != null) Color(0xFFFFD700) else DarkCyan
                     )
                 }
@@ -161,8 +161,8 @@ fun InternshipSearch(
             val companyName = it.location.company.name
             val rating = it.location.company.rating
             val matchesText = when (selectedCriteria) {
-                "Nombre de Compañía" -> companyName.contains(searchQuery, ignoreCase = true)
-                "Detalles de la Pasantía" -> it.internship.details.contains(searchQuery, ignoreCase = true)
+                stringResource(id = R.string.company_name) -> companyName.contains(searchQuery, ignoreCase = true)
+                stringResource(id = R.string.internship_details) -> it.internship.details.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
             val matchesRating = selectedRating == null || rating >= selectedRating!!
@@ -174,8 +174,8 @@ fun InternshipSearch(
             val companyName = it.locationCompany.company.name
             val rating = it.locationCompany.company.rating
             val matchesText = when (selectedCriteria) {
-                "Nombre de Compañía" -> companyName.contains(searchQuery, ignoreCase = true)
-                "Detalles de la Pasantía" -> it.internship.details.contains(searchQuery, ignoreCase = true)
+                stringResource(id = R.string.company_name) -> companyName.contains(searchQuery, ignoreCase = true)
+                stringResource(id = R.string.internship_details) -> it.internship.details.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
             val matchesRating = selectedRating == null || rating >= selectedRating!!
@@ -192,7 +192,7 @@ fun InternshipSearch(
             }
             is InternshipLocationState.Empty -> {
                 androidx.compose.material3.Text(
-                    text = "No internships locations available.",
+                    text = stringResource(id = R.string.no_internships_available),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )
@@ -220,7 +220,7 @@ fun InternshipSearch(
             }
             is InternshipLocationState.Error -> {
                 androidx.compose.material3.Text(
-                    text = "Error: ${state.message}",
+                    text = stringResource(id = R.string.error_message, state.message),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )
@@ -245,7 +245,7 @@ fun InternshipSearch(
                 text = {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = "Chosee the stars",
+                            text = stringResource(id = R.string.select_minimum_stars),
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
@@ -260,7 +260,7 @@ fun InternshipSearch(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Filled.Star,
-                                        contentDescription = "$rating stars",
+                                        contentDescription = stringResource(id = R.string.rating_stars, rating),
                                         tint = if (selectedRating != null && rating <= selectedRating!!) Color(0xFFFFD700) else androidx.compose.ui.graphics.Color.Gray
                                     )
                                 }
@@ -279,7 +279,7 @@ fun InternshipSearch(
                                     containerColor = DarkCyan,
                                     contentColor = Black
                                 )) {
-                                Text("Clean")
+                                Text(stringResource(id = R.string.clean))
                             }
                         }
                     }

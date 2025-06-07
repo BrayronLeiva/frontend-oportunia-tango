@@ -10,10 +10,12 @@ import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepos
 import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
+import oportunia.maps.frontend.taskapp.domain.repository.InternshipRepository
 import javax.inject.Inject
 
 /**
@@ -42,7 +44,8 @@ sealed class InternshipLocationState {
 @HiltViewModel
 class InternshipLocationViewModel @Inject constructor(
     private val locationCompanyRepository: LocationCompanyRepository,
-    private val internshipLocationRepository: InternshipLocationRepository
+    private val internshipLocationRepository: InternshipLocationRepository,
+    private val internshipRepository: InternshipRepository
 ) : ViewModel() {
 
     private val _internshipLocationState = MutableStateFlow<InternshipLocationState>(InternshipLocationState.Empty)
@@ -115,6 +118,7 @@ class InternshipLocationViewModel @Inject constructor(
                                 "InternshipLocationViewModel",
                                 "Total Interships: ${interLocations.size}"
                             )
+                            _internshipLocationState.value = InternshipLocationState.Success(emptyList())
                             _internshipsLocationRecommendedList.value = interLocations
                         }
                     }
@@ -149,6 +153,51 @@ class InternshipLocationViewModel @Inject constructor(
                 .onFailure { exception ->
                     _internshipLocationState.value = InternshipLocationState.Error("Failed to fetch internships with id $locationId: ${exception.message}")
                     Log.e("InternshipLocationViewModel", "Error fetching internships: ${exception.message}")
+                }
+        }
+    }
+
+    fun saveInternshipLocation(internshipLocation: InternshipLocation){
+        viewModelScope.launch {
+            internshipLocationRepository.saveInternshipLocation(internshipLocation)
+                .onSuccess {
+                    Log.d("InternshipLocationViewModel", "Internship Location saved successfully")
+                }
+                .onFailure { exception ->
+                    Log.e(
+                        "InternshipLocationViewModel",
+                        "Failed to save internship location: ${exception.message}"
+                    )
+                }
+        }
+        }
+
+    fun addInternshipLocation(internshipLocation: InternshipLocation) {
+        _internshipLocationState.update {
+            val currentList = (it as? InternshipLocationState.Success)?.internshipLocations ?: emptyList()
+            InternshipLocationState.Success(currentList + internshipLocation)
+        }
+    }
+
+    fun saveInternshipWithLocation(
+        internship: Internship,
+        location: LocationCompany
+    ) {
+        viewModelScope.launch {
+            internshipRepository.saveInternship(internship)
+                .onSuccess { savedInternship ->
+                    Log.d("InternshipViewModel", "Internship saved successfully")
+
+                    val internshipLocation = InternshipLocation(
+                        id = null,
+                        internship = savedInternship,
+                        location = location
+                    )
+                    saveInternshipLocation(internshipLocation)
+                    addInternshipLocation(internshipLocation)
+                }
+                .onFailure { exception ->
+                    Log.e("InternshipViewModel", "Failed to save internship: ${exception.message}")
                 }
         }
     }

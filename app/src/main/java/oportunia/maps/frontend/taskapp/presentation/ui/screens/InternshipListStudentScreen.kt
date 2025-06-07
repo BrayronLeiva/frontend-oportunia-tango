@@ -35,6 +35,8 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyVie
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
 
 
@@ -61,7 +63,7 @@ fun InternshipListStudentScreen(
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
             is RequestCreateState.Success -> {
-                Toast.makeText(context, "Request sent successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.request_success_message.toString(), Toast.LENGTH_SHORT).show()
             }
             else -> Unit
         }
@@ -91,8 +93,7 @@ fun InternshipListStudentScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    //text = "Internships for ${it.company.name}",
-                    text = "Internships for ${locationCompany?.company?.name}",
+                    text = stringResource(id = R.string.internships_for, it.company.name),
                     modifier = Modifier.padding(16.dp)
                 )
 
@@ -105,7 +106,7 @@ fun InternshipListStudentScreen(
                     }
                     is InternshipLocationState.Empty -> {
                         Text(
-                            text = "No internships available.",
+                            text = stringResource(id = R.string.no_internships_available),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(16.dp)
                         )
@@ -127,7 +128,7 @@ fun InternshipListStudentScreen(
                             }
                         } else {
                             Text(
-                                text = "No internships available.",
+                                text = stringResource(id = R.string.no_internships_available),
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.padding(16.dp)
                             )
@@ -135,7 +136,7 @@ fun InternshipListStudentScreen(
                     }
                     is InternshipLocationState.Error -> {
                         Text(
-                            text = "Error: ${state.message}",
+                            text = stringResource(id = R.string.error_message, state.message),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(16.dp)
                         )
@@ -154,7 +155,7 @@ fun InternshipListStudentScreen(
                     horizontalArrangement = Arrangement.Start
                 ) {
                     CustomButton(
-                        text = "Back",
+                        text = stringResource(id = R.string.back_button),
                         onClick = { navController.popBackStack() },
                         modifier = Modifier.weight(0.5f)
                     )
@@ -163,7 +164,7 @@ fun InternshipListStudentScreen(
             }
 
         } ?: Text(
-            text = "Location details not available.",
+            text = stringResource(id = R.string.location_details_unavailable),
             style = MaterialTheme.typography.bodyMedium
         )
     }

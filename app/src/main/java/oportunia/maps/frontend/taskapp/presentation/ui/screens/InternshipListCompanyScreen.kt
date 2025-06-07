@@ -26,12 +26,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
+import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
+import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCardCompany
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 
 @Composable
@@ -46,12 +52,12 @@ fun InternshipListCompanyScreen(
 
     LaunchedEffect(locationCompanyId, refreshTrigger) {
         locationCompanyViewModel.selectLocationById(locationCompanyId)
-        //internshipLocationViewModel.loadInternshipsByLocationId(locationCompanyId)
+        internshipLocationViewModel.loadInternshipsLocationsByLocationId(locationCompanyId)
     }
 
     val locationCompany by locationCompanyViewModel.selectedLocation.collectAsState()
-    //val internshipState by internshipLocationViewModel.internships.collectAsState()
-    /*
+    val internshipState by internshipLocationViewModel.internshipLocationState.collectAsState() // Assuming InternshipState type
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -62,43 +68,51 @@ fun InternshipListCompanyScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Internships for ${location.company.name}",
+                    text = stringResource(id = R.string.internships_for, location.company.name),
                     modifier = Modifier.padding(16.dp)
                 )
 
                 when (val state = internshipState) {
-                    is InternshipState.Loading -> {
-                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    is InternshipLocationState.Loading -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
                             CircularProgressIndicator()
                         }
                     }
-                    is InternshipState.Empty -> {
+
+                    is InternshipLocationState.Empty -> {
                         Text(
-                            text = "No internships available.",
+                            text = stringResource(id = R.string.no_internships_available),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(16.dp)
                         )
                     }
-                    is InternshipState.Success -> {
-                        if (state.internships.isNotEmpty()) {
+
+                    is InternshipLocationState.Success -> {
+                        if (state.internshipLocations.isNotEmpty()) {
                             LazyColumn(
-                                modifier = Modifier.fillMaxWidth().padding(16.dp)
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
                             ) {
-                                items(state.internships) { internship ->
-                                    InternshipCardCompany(internship = internship)
+                                items(state.internshipLocations) { internship ->
+                                    InternshipCardCompany(internship = internship.internship)
                                 }
                             }
                         } else {
                             Text(
-                                text = "No internships available.",
+                                text = stringResource(id = R.string.no_internships_available),
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.padding(16.dp)
                             )
                         }
                     }
-                    is InternshipState.Error -> {
+
+                    is InternshipLocationState.Error -> {
                         Text(
-                            text = "Error: ${state.message}",
+                            text = stringResource(id = R.string.error_message, state.message),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(16.dp)
                         )
@@ -106,12 +120,11 @@ fun InternshipListCompanyScreen(
                 }
             }
         } ?: Text(
-            text = "Location details not available.",
-            style = MaterialTheme.typography.bodyMedium
+            text = stringResource(id = R.string.location_details_unavailable),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(16.dp)
         )
     }
-
-     */
 
     Box(
         modifier = Modifier
@@ -121,29 +134,25 @@ fun InternshipListCompanyScreen(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             CustomButton(
-                text = "Back",
+                text = stringResource(id = R.string.back_button),
                 onClick = { navController.popBackStack() },
-                modifier = Modifier.weight(0.5f)
+                modifier = Modifier.weight(1f)
             )
-            Spacer(modifier = Modifier.width(8.dp))
+
+            Spacer(modifier = Modifier.width(16.dp))
+
             CustomButton(
-                text = "Add",
+                text = stringResource(id = R.string.add_button),
                 onClick = {
-                    locationCompany?.let { location ->
-                        val newInternshipLocation = InternshipLocation(
-                            id = System.currentTimeMillis(), // Unique ID
-                            location = location,
-                            internship = Internship(System.currentTimeMillis(), "Sample internship")
-                        )
-                        //InternshipLocationProvider.addInternshipLocation(newInternshipLocation)
-                        Log.d("InternshipListStudentScreen", "Added internship: $newInternshipLocation")
-                        refreshTrigger = !refreshTrigger // Toggle state to trigger recomposition
+                    locationCompany?.let {
+                        locationCompanyViewModel.setTempLocation(it)
+                        navController.navigate(NavRoutes.AddInternshipScreen.ROUTE)
                     }
                 },
-                modifier = Modifier.weight(0.5f)
+                modifier = Modifier.weight(1f)
             )
         }
     }

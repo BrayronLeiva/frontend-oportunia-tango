@@ -2,8 +2,8 @@ package oportunia.maps.frontend.taskapp.data.remote.api
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -11,6 +11,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface InternshipLocationService {
 
@@ -38,7 +39,7 @@ interface InternshipLocationService {
      * @return [Response] containing the created [InternshipLocationDto] with server-assigned ID if successful
      */
     @POST("/v1/internship-locations")
-    suspend fun createInternshipLocation(@Body locationCompany: InternshipLocationDto): Response<InternshipLocationDto>
+    suspend fun createInternshipLocation(@Body dto: InternshipLocationRequestDto): Response<InternshipLocationDto>
 
     /**
      * Updates an existing location-company entry in the remote API.
@@ -69,7 +70,10 @@ interface InternshipLocationService {
         Comments
      */
     @GET("/v1/internship-locations/recommendations")
-    suspend fun getRecommendedInternshipsLocations(@Body locationRequestDto: LocationRequestDto): Response<List<InternshipLocationRecommendedDto>>
+    suspend fun getRecommendedInternshipsLocations(
+        @Query("lat") lat: Double,
+        @Query("lng") lng: Double
+    ): Response<List<InternshipLocationRecommendedDto>>
 
 
 }

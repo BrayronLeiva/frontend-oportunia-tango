@@ -1,5 +1,7 @@
 package oportunia.maps.frontend.taskapp
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -12,11 +14,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
@@ -27,6 +31,7 @@ class CompanyActivity : ComponentActivity() {
     private val qualificationViewModel: QualificationViewModel by viewModels()
     private val locationCompanyViewModel: LocationCompanyViewModel by viewModels()
     private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
+    private val internshipViewModel: InternshipViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +45,7 @@ class CompanyActivity : ComponentActivity() {
                     qualificationViewModel,
                     locationCompanyViewModel,
                     internshipLocationViewModel,
+                    internshipViewModel,
                     studentViewModel,
                     userId
                 )
@@ -53,6 +59,7 @@ fun MainCompanyScreen(
     qualificationViewModel: QualificationViewModel,
     locationCompanyViewModel: LocationCompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
+    internshipViewModel: InternshipViewModel,
     studentViewModel: StudentViewModel,
     userId: Long
 ) {
@@ -60,6 +67,14 @@ fun MainCompanyScreen(
 
     LaunchedEffect(Unit) {
         locationCompanyViewModel.findAllLocations()
+    }
+
+    val context = LocalContext.current
+    val activity = context as? Activity
+    val onLogOut: () -> Unit = {
+        val intent = Intent(context, LoginActivity::class.java)
+        context.startActivity(intent)
+        activity?.finish()
     }
 
     // Mantener el estado de la ruta actual
@@ -78,7 +93,8 @@ fun MainCompanyScreen(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
             internshipLocationViewModel = internshipLocationViewModel,
-            paddingValues = paddingValues
+            paddingValues = paddingValues,
+            onLogOut
         )
     }
 
