@@ -12,10 +12,17 @@ data class RequestDto(
     val id: Long,
     val studentDto: StudentDto,
     val internshipLocationDto: InternshipLocationDto,
-    val state: Boolean,
-    )
+    val state: Boolean
+)
 
 data class RequestCreateDto(
     val internshipLocationId: Long
 )
 
+data class RequestUpdateDto(
+    val idRequest: Long,
+    val state: Boolean,
+    val studentId: Long,
+    val internshipLocationId: Long
+
+)

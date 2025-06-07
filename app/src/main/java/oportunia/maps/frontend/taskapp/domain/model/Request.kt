@@ -13,5 +13,4 @@ data class Request(
     val student: Student,
     val internshipLocation: InternshipLocation,
     val state: Boolean,
-
     )

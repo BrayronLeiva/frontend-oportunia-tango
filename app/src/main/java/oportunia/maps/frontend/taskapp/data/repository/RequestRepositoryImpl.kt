@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.data.repository
 import oportunia.maps.frontend.taskapp.data.mapper.RequestMapper
 import oportunia.maps.frontend.taskapp.data.remote.RequestRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestCreateDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestUpdateDto
 import oportunia.maps.frontend.taskapp.domain.model.Request
 import oportunia.maps.frontend.taskapp.domain.repository.RequestRepository
 import java.net.UnknownHostException
@@ -64,8 +65,8 @@ class RequestRepositoryImpl @Inject constructor(
         return dataSource.delete(requestId)
     }
 
-    override suspend fun updateRequest(request: Request): Result<Unit> {
-        return dataSource.update(request.id, requestMapper.mapToDto(request)).map {
+    override suspend fun updateRequest(request: RequestUpdateDto): Result<Request> {
+        return dataSource.update(request).map {
             requestMapper.mapToDomain(it)
         }
     }

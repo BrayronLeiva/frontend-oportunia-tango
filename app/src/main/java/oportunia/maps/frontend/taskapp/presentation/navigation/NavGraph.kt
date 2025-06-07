@@ -342,6 +342,7 @@ fun NavGraph(
     locationCompanyViewModel: LocationCompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
     studentViewModel: StudentViewModel,
+    requestViewModel: RequestViewModel,
     paddingValues: PaddingValues
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.CompanyMap.ROUTE) {
@@ -372,7 +373,7 @@ fun NavGraph(
 
          */
         composable(NavRoutes.StudentsSearch.ROUTE) {
-            StudentSearchScreen(studentViewModel, paddingValues, { selectStudent -> })
+            StudentSearchScreen(studentViewModel, requestViewModel, paddingValues, { selectStudent -> })
         }
 
         composable(

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestCreateDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestUpdateDto
 import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.model.Request
@@ -122,6 +123,22 @@ class RequestViewModel @Inject constructor(
                         "An unexpected error occurred. Please try again."
                     }
                     _requestCreateState.value = RequestCreateState.Error(errorMsg)
+                }
+        }
+    }
+
+
+    fun updateRequest(request: Request) {
+        val updatedRequest = request.copy(state = !request.state)
+        val updateRequestDto = RequestUpdateDto(updatedRequest.id, updatedRequest.state, updatedRequest.student.id, updatedRequest.internshipLocation.id)
+        viewModelScope.launch {
+            requestRepository.updateRequest(updateRequestDto)
+                .onSuccess { request ->
+                    //_selectedRequest.value = request
+                    Log.e("RequestViewModel", "Request update correctly: $request")
+                }
+                .onFailure { exception ->
+                    Log.e("RequestViewModel", "Error fetching request by ID: ${exception.message}")
                 }
         }
     }

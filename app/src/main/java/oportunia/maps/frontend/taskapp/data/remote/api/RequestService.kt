@@ -4,6 +4,7 @@ import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestUpdateDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -46,10 +47,9 @@ interface RequestService {
      * @param locationCompany The [LocationCompanyDto] object containing the updated data
      * @return [Response] containing the updated [LocationCompanyDto] if successful
      */
-    @PUT("/v1/requests/{id}")
+    @PUT("/v1/requests")
     suspend fun updateRequest(
-        @Path("id") id: Long,
-        @Body request: RequestDto
+        @Body request: RequestUpdateDto
     ): Response<RequestDto>
 
     /**

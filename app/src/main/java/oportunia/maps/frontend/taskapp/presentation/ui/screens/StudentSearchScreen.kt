@@ -18,12 +18,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,34 +36,39 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.presentation.ui.components.AiToggleButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSelector
+import oportunia.maps.frontend.taskapp.presentation.ui.components.RatingFilterSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentCard
 import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentDetailDialog
+import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentDetailRecommendedDialog
 import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentRecommenedCard
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentListState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
 @Composable
 fun StudentSearchScreen(
     studentViewModel: StudentViewModel,
+    requestViewModel: RequestViewModel,
     paddingValues: PaddingValues,
     onStudentSelected: (Student) -> Unit // callback para devolver seleccionado
 ) {
     var searchQuery by remember { mutableStateOf("") }
     val ratings = listOf(1.0, 2.0, 3.0, 4.0, 5.0)
-    val searchCriteriaOptions = listOf("Nombre de Compañía", "Detalles de la Pasantía")
+    val searchCriteriaOptions = listOf("Name", "Identification")
     var selectedCriteria by remember { mutableStateOf(searchCriteriaOptions[0]) }
-    var useAi by remember { mutableStateOf(false) }
 
+    var useAi by remember { mutableStateOf(false) }
     // Obtener las pasantías con las empresas y sus calificaciones
     val students = studentViewModel.studentList.collectAsState().value
     val studentsRecommended = studentViewModel.studentRecommendedList.collectAsState().value
-
     val studentListState = studentViewModel.studentListState.collectAsState()
+    val requestList = requestViewModel.requestList.collectAsState()
     //val internshipLocationState = internshipLocationViewModel.internshipLocationState.collectAsState().value
 
 
@@ -76,6 +77,7 @@ fun StudentSearchScreen(
     }
 
     var selectedStudent by remember { mutableStateOf<Student?>(null) }
+    var selectedRecommendedStudent by remember { mutableStateOf<StudentRecommendedDto?>(null) }
     var showDialog by remember { mutableStateOf(false) }
 
     var expanded by remember { mutableStateOf(false) }
@@ -118,9 +120,9 @@ fun StudentSearchScreen(
             label = {
                 Text(
                     when (selectedCriteria) {
-                        "Nombre de Compañía" -> "Buscar por nombre de compañía"
-                        "Detalles de la Pasantía" -> "Buscar por detalles de la pasantía"
-                        else -> "Buscar"
+                        "Name" -> "Buscar por nombre de compañía"
+                        "Identification" -> "Buscar por detalles de la pasantía"
+                        else -> "Search"
                     }
                 )
             },
@@ -159,33 +161,36 @@ fun StudentSearchScreen(
         // Filtrar las pasantías por nombre de compañía y calificación
         val filteredRecommendedStudents = studentsRecommended.filter {
             val rating = it.rating
-            /*
+            val name = it.name
+            val identification = it.identification
+
             val matchesText = when (selectedCriteria) {
-                "Nombre de Compañía" -> companyName.contains(searchQuery, ignoreCase = true)
-                "Detalles de la Pasantía" -> it.internship.details.contains(searchQuery, ignoreCase = true)
+                "Name" -> name.contains(searchQuery, ignoreCase = true)
+                "Identification" -> identification.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
 
-             */
+
             val matchesRating = selectedRating == null || rating >= selectedRating!!
-            //matchesText && matchesRating
-            matchesRating
+            matchesText && matchesRating
+
         }
 
         // Filtrar las pasantías por nombre de compañía y calificación
         val filteredStudents = students.filter {
             val rating = it.rating
-            /*
+            val name = it.name
+            val identification = it.identification
+
             val matchesText = when (selectedCriteria) {
-                "Nombre de Compañía" -> companyName.contains(searchQuery, ignoreCase = true)
-                "Detalles de la Pasantía" -> it.internship.details.contains(searchQuery, ignoreCase = true)
+                "Name" -> name.contains(searchQuery, ignoreCase = true)
+                "Identification" -> identification.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
 
-             */
+
             val matchesRating = selectedRating == null || rating >= selectedRating!!
-            //matchesText && matchesRating
-            matchesRating
+            matchesText && matchesRating
         }
 
         // Handle the different internship states
@@ -208,7 +213,7 @@ fun StudentSearchScreen(
                     LazyColumn {
                         items(filteredRecommendedStudents) { studentRecommended ->
                             StudentRecommenedCard(studentRecommended, onClick = {
-                                //selectedInternshipLocation = it
+                                selectedRecommendedStudent = it
                                 showDialog = true
                             })
                         }
@@ -235,64 +240,37 @@ fun StudentSearchScreen(
         }
 
         // Mostrar dialog con detalle si showDialog es true
-        if (showDialog && selectedStudent != null) {
+        if (showDialog && selectedStudent != null && !useAi) {
+            requestViewModel.findAllRequest()
             StudentDetailDialog(
                 student = selectedStudent!!,
+                requestList = requestList.value,
                 onDismiss = { showDialog = false },
-                onConfirm = {
-                    onStudentSelected(it)
+                onRequestAction = { request ->
+                    requestViewModel.updateRequest(request)
                     showDialog = false
                 }
             )
         }
-        if (expanded) {
-            AlertDialog(
-                onDismissRequest = { expanded = false },
-                confirmButton = {},
-                text = {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Chosee the stars",
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-
-                        Row(horizontalArrangement = Arrangement.Center) {
-                            ratings.forEach { rating ->
-                                IconToggleButton(
-                                    checked = selectedRating != null && rating <= selectedRating!!,
-                                    onCheckedChange = {
-                                        selectedRating = if (selectedRating == rating) null else rating
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Star,
-                                        contentDescription = "$rating stars",
-                                        tint = if (selectedRating != null && rating <= selectedRating!!) Color(0xFFFFD700) else androidx.compose.ui.graphics.Color.Gray
-                                    )
-                                }
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-                            Button(
-                                onClick = {
-                                    selectedRating = null
-                                    expanded = false
-                                },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = DarkCyan,
-                                    contentColor = Black
-                                )) {
-                                Text("Clean")
-                            }
-                        }
-                    }
+        if (showDialog && selectedRecommendedStudent != null && useAi) {
+            StudentDetailRecommendedDialog(
+                student = selectedRecommendedStudent!!,
+                onDismiss = { showDialog = false },
+                onConfirm = {
+                    showDialog = false
                 }
             )
+
         }
+        if (expanded) {
+            RatingFilterSelector(
+                ratings = ratings,
+                selectedRating = selectedRating,
+                onRatingSelected = { selectedRating = it },
+                onDismiss = { expanded = false }
+            )
+        }
+
 
     }
 }

@@ -21,6 +21,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
 @AndroidEntryPoint
@@ -29,6 +30,7 @@ class CompanyActivity : ComponentActivity() {
     private val qualificationViewModel: QualificationViewModel by viewModels()
     private val locationCompanyViewModel: LocationCompanyViewModel by viewModels()
     private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
+    private val requestViewModel: RequestViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,7 @@ class CompanyActivity : ComponentActivity() {
                     locationCompanyViewModel,
                     internshipLocationViewModel,
                     studentViewModel,
+                    requestViewModel,
                     userId
                 )
             }
@@ -56,6 +59,7 @@ fun MainCompanyScreen(
     locationCompanyViewModel: LocationCompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
     studentViewModel: StudentViewModel,
+    requestViewModel: RequestViewModel,
     userId: Long
 ) {
     val navController = rememberNavController()
@@ -86,6 +90,7 @@ fun MainCompanyScreen(
             locationCompanyViewModel = locationCompanyViewModel,
             internshipLocationViewModel = internshipLocationViewModel,
             studentViewModel = studentViewModel,
+            requestViewModel = requestViewModel,
             paddingValues = paddingValues
         )
     }

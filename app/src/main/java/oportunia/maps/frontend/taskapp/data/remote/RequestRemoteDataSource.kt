@@ -5,6 +5,7 @@ import oportunia.maps.frontend.taskapp.data.remote.api.RequestService
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestUpdateDto
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -52,8 +53,8 @@ class RequestRemoteDataSource @Inject constructor(
      * @return [Result] containing the updated [QualificationDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun update(id: Long, dto: RequestDto): Result<RequestDto> = safeApiCall {
-        requestService.updateRequest(id, dto)
+    suspend fun update(dto: RequestUpdateDto): Result<RequestDto> = safeApiCall {
+        requestService.updateRequest(dto)
     }
 
     /**

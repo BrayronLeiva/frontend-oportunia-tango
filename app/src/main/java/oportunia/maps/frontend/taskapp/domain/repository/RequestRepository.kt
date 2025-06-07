@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp.domain.repository
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestCreateDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestUpdateDto
 import oportunia.maps.frontend.taskapp.domain.model.Request
 
 interface RequestRepository {
@@ -9,5 +10,5 @@ interface RequestRepository {
     suspend fun saveRequest(request: RequestCreateDto): Result<Request>
     //suspend fun saveRequest(request: Request): Result<Request>
     suspend fun deleteRequest(requestId: Long): Result<Unit>
-    suspend fun updateRequest(request: Request): Result<Unit>
+    suspend fun updateRequest(request: RequestUpdateDto): Result<Request>
 }
