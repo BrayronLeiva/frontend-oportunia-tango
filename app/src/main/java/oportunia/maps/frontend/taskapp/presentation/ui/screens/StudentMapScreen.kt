@@ -88,7 +88,7 @@ fun StudentMapScreen(navController: NavHostController, locationCompanyViewModel:
                     state = MarkerState(position = locationCompany.location),
                     onClick = {
                         // Navigate to the location details screen when a marker is clicked
-                        navController.navigate(NavRoutes.LocationCompanyDetail.createRoute(locationCompany.id))
+                        navController.navigate(NavRoutes.LocationCompanyDetail.createRoute(locationCompany.id!!))
                         true
                     }
                 )

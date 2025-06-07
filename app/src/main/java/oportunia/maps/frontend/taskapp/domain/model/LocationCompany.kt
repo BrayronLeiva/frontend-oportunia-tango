@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.LatLng
  */
 
 data class LocationCompany(
-    val id: Long,
+    val id: Long? = null,
     val email: String,
     val location: LatLng,
     val contact: Int,

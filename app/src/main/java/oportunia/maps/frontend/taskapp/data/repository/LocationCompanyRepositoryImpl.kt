@@ -55,7 +55,7 @@ class LocationCompanyRepositoryImpl @Inject constructor(
      * Updates an existing location company.
      */
     override suspend fun updateLocation(location: LocationCompany): Result<Unit> {
-        return remoteDataSource.update(location.id, mapper.mapToDto(location)).map {
+        return remoteDataSource.update(location.id!!, mapper.mapToDto(location)).map {
             mapper.mapToDomain(it)
         }
     }

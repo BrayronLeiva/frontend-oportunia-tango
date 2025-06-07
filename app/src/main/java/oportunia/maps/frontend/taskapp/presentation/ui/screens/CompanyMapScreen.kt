@@ -55,7 +55,7 @@ fun CompanyMapScreen(
                     title = locationCompany.company.name,
                     snippet = stringResource(id = R.string.snippet_click_internships),
                     onClick = {
-                        navController.navigate(NavRoutes.InternshipListCompany.createRoute(locationCompany.id))
+                        navController.navigate(NavRoutes.InternshipListCompany.createRoute(locationCompany.id!!))
                         true
                     }
                 )

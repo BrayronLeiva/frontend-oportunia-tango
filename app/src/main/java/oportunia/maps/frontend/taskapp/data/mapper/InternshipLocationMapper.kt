@@ -39,7 +39,7 @@ class InternshipLocationMapper @Inject constructor(
 
     fun mapToRequestDto(domain: InternshipLocation): InternshipLocationRequestDto =
         InternshipLocationRequestDto(
-            locationCompanyId = domain.location.id,
+            locationCompanyId = domain.location.id!!,
             internshipId = domain.internship.id!!
         )
 }

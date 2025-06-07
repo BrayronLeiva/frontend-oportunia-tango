@@ -100,10 +100,9 @@ class LocationCompanyViewModel @Inject constructor(
         viewModelScope.launch {
             val currentList = _locationList.value
             val baseCompany = currentList.firstOrNull() ?: return@launch
-            val newId = (currentList.maxOfOrNull { it.id } ?: 0) + 1
 
             val newLocationCompany = baseCompany.copy(
-                id = newId,
+                id = null,
                 location = latLng
             )
 

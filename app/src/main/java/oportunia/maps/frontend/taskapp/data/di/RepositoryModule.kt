@@ -4,6 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import oportunia.maps.frontend.taskapp.data.repository.CompanyRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.InternshipLocationRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.InternshipRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.LocationCompanyRepositoryImpl
@@ -12,6 +13,7 @@ import oportunia.maps.frontend.taskapp.data.repository.RequestRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.StudentRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.UserRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.UserRoleRepositoryImpl
+import oportunia.maps.frontend.taskapp.domain.repository.CompanyRepository
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipRepository
 import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
@@ -135,4 +137,10 @@ abstract class RepositoryModule {
     abstract fun bindRequestRepository(
         requestRepositoryImpl: RequestRepositoryImpl
     ): RequestRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindCompanyRepository(
+        companyRepositoryImpl: CompanyRepositoryImpl
+    ): CompanyRepository
 }
