@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,13 +54,16 @@ import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 
 
 @Composable
 fun InternshipSearch(
     internshipLocationViewModel: InternshipLocationViewModel,
-    paddingValues: PaddingValues,
-    onInternshipSelected: (InternshipLocation) -> Unit // callback para devolver seleccionado
+    requestViewModel: RequestViewModel,
+    paddingValues: PaddingValues
+
 ) {
     var searchQuery by remember { mutableStateOf("") }
     val ratings = listOf(1.0, 2.0, 3.0, 4.0, 5.0)
@@ -74,6 +79,22 @@ fun InternshipSearch(
 
     LaunchedEffect(Unit) {
         internshipLocationViewModel.findAllInternShipsLocations()
+    }
+
+    val context = LocalContext.current
+    val requestCreateState by requestViewModel.requestCreateState.collectAsState()
+
+    LaunchedEffect(requestCreateState) {
+        when (requestCreateState) {
+            is RequestCreateState.Error -> {
+                val message = (requestCreateState as RequestCreateState.Error).message
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+            is RequestCreateState.Success -> {
+                Toast.makeText(context, "Request sent successfully", Toast.LENGTH_SHORT).show()
+            }
+            else -> Unit
+        }
     }
 
     var selectedInternshipLocation by remember { mutableStateOf<InternshipLocation?>(null) }
@@ -233,8 +254,8 @@ fun InternshipSearch(
             InternshipDetailDialog(
                 internshipLocation = selectedInternshipLocation!!,
                 onDismiss = { showDialog = false },
-                onConfirm = {
-                    onInternshipSelected(it)
+                onRequestClick = {
+                    requestViewModel.createRequest(selectedInternshipLocation!!)
                     showDialog = false
                 }
             )

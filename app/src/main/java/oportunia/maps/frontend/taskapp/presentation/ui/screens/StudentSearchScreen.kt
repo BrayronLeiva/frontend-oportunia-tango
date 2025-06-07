@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,20 +22,24 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Student
@@ -47,6 +52,8 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentDetailR
 import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentRecommenedCard
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestUpdateState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentListState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
@@ -71,9 +78,23 @@ fun StudentSearchScreen(
     val requestList = requestViewModel.requestList.collectAsState()
     //val internshipLocationState = internshipLocationViewModel.internshipLocationState.collectAsState().value
 
-
+    val requestUpdateState = requestViewModel.requestUpdateState.collectAsState()
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         studentViewModel.loadStudentsRequestingToMyCompany()
+
+    }
+    LaunchedEffect(requestUpdateState.value) {
+        when (requestUpdateState.value) {
+            is RequestUpdateState.Error -> {
+                val message = (requestUpdateState as RequestUpdateState.Error).message
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+            is RequestUpdateState.Success -> {
+                Toast.makeText(context, "Request update successfully", Toast.LENGTH_SHORT).show()
+            }
+            else -> Unit
+        }
     }
 
     var selectedStudent by remember { mutableStateOf<Student?>(null) }
@@ -249,6 +270,7 @@ fun StudentSearchScreen(
                 onDismiss = { showDialog = false },
                 onRequestAction = { request ->
                     requestViewModel.updateRequest(request)
+
                     //showDialog = false
                 }
             )
@@ -262,6 +284,7 @@ fun StudentSearchScreen(
                 onRequestAction = { request ->
                     requestViewModel.updateRequest(request)
                     //showDialog = false
+
                 }
             )
 

@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 
 
@@ -32,7 +33,7 @@ import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 fun InternshipDetailDialog(
     internshipLocation: InternshipLocation,
     onDismiss: () -> Unit,
-    onConfirm: (InternshipLocation) -> Unit
+    onRequestClick: (Internship) -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -78,7 +79,7 @@ fun InternshipDetailDialog(
                 )
                 CustomButton(
                     text = "Aplicar",
-                    onClick = { onConfirm(internshipLocation) },
+                    onClick = { onRequestClick(internshipLocation.internship) },
                     width = 140.dp
                 )
             }

@@ -48,13 +48,16 @@ fun InternshipListStudentScreen(
     requestViewModel: RequestViewModel,
     paddingValues: PaddingValues
 ) {
+    val context = LocalContext.current
     val requestCreateState by requestViewModel.requestCreateState.collectAsState()
     // Fetch the location company details and internships
-    val context = LocalContext.current
-    LaunchedEffect(locationCompanyId, requestCreateState) {
+
+    LaunchedEffect(locationCompanyId) {
         locationCompanyViewModel.selectLocationById(locationCompanyId)
         internshipLocationViewModel.loadInternshipsLocationsByLocationId(locationCompanyId)
+    }
 
+    LaunchedEffect(requestCreateState) {
         when (requestCreateState) {
             is RequestCreateState.Error -> {
                 val message = (requestCreateState as RequestCreateState.Error).message
@@ -68,12 +71,9 @@ fun InternshipListStudentScreen(
     }
 
 
-
-
     val locationCompany by locationCompanyViewModel.selectedLocation.collectAsState()
     val internshipLocationState by internshipLocationViewModel.internshipLocationState.collectAsState()
-    //val internshipState by internshipViewModel.internshipState.collectAsState()
-    //val internshipState by internshipLocationViewModel.internships.collectAsState()
+
 
     Log.d("InternshipListStudentScreen", "Location company: $locationCompany")
     Log.d("InternshipListStudentScreen", "Internships state: $internshipLocationState")

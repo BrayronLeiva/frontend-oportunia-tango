@@ -44,6 +44,20 @@ sealed class RequestCreateState{
 }
 
 
+sealed class RequestUpdateState{
+    /** Indicates an ongoing internship operation */
+    data object Loading : RequestUpdateState()
+
+    /** Contains the successfully retrieved list of internships */
+    data class Success(val request: Request) : RequestUpdateState()
+
+    /** Indicates no internships are available */
+    data object Empty : RequestUpdateState()
+
+    /** Contains an error message if the internship operation fails */
+    data class Error(val message: String) : RequestUpdateState()
+}
+
 /**
  * ViewModel responsible for managing location and internship-related UI state and business logic.
  *
@@ -58,9 +72,11 @@ class RequestViewModel @Inject constructor(
     private val _requestState = MutableStateFlow<RequestState>(RequestState.Empty)
     val requestState: StateFlow<RequestState> = _requestState
 
-
     private val _requestCreateState = MutableStateFlow<RequestCreateState>(RequestCreateState.Empty)
     val requestCreateState: StateFlow<RequestCreateState> = _requestCreateState
+
+    private val _requestUpdateState = MutableStateFlow<RequestUpdateState>(RequestUpdateState.Empty)
+    val requestUpdateState: StateFlow<RequestUpdateState> = _requestUpdateState
 
     private val _selectedRequest = MutableStateFlow<Request?>(null)
     val selectedRequest: StateFlow<Request?> = _selectedRequest
@@ -136,9 +152,11 @@ class RequestViewModel @Inject constructor(
                 .onSuccess { request ->
                     //_selectedRequest.value = request
                     Log.e("RequestViewModel", "Request update correctly: $request")
+                    _requestUpdateState.value = RequestUpdateState.Success(request)
                 }
                 .onFailure { exception ->
                     Log.e("RequestViewModel", "Error fetching request by ID: ${exception.message}")
+                    _requestUpdateState.value = RequestUpdateState.Error("Error )-:")
                 }
         }
     }
