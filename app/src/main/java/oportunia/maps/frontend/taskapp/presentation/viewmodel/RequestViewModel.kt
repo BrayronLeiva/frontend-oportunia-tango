@@ -144,5 +144,24 @@ class RequestViewModel @Inject constructor(
     }
 
 
+    fun findRequestsbyStudentAndCompany(studentId: Long) {
+        viewModelScope.launch {
+            requestRepository.findByStudentAndCompany(studentId)
+                .onSuccess { requests ->
+                    if (requests.isEmpty()) {
+                        _requestState.value = RequestState.Empty
+                    }else {
+                        Log.d("RequestViewModel", "Total Internships: ${requests.size}")
+                        _requestState.value = RequestState.Success(requests)
+                        _requestList.value = requests
+                    }
+                }
+                .onFailure { exception ->
+                    Log.e("RequestViewModel", "Failed to fetch requests location: ${exception.message}")
+                }
+        }
+    }
+
+
 
 }

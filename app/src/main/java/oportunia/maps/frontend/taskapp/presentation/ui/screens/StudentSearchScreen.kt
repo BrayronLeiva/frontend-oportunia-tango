@@ -241,23 +241,27 @@ fun StudentSearchScreen(
 
         // Mostrar dialog con detalle si showDialog es true
         if (showDialog && selectedStudent != null && !useAi) {
-            requestViewModel.findAllRequest()
+            //requestViewModel.findAllRequest()
+            requestViewModel.findRequestsbyStudentAndCompany(selectedStudent!!.id)
             StudentDetailDialog(
                 student = selectedStudent!!,
                 requestList = requestList.value,
                 onDismiss = { showDialog = false },
                 onRequestAction = { request ->
                     requestViewModel.updateRequest(request)
-                    showDialog = false
+                    //showDialog = false
                 }
             )
         }
         if (showDialog && selectedRecommendedStudent != null && useAi) {
+            requestViewModel.findAllRequest()
             StudentDetailRecommendedDialog(
                 student = selectedRecommendedStudent!!,
+                requestList = requestList.value,
                 onDismiss = { showDialog = false },
-                onConfirm = {
-                    showDialog = false
+                onRequestAction = { request ->
+                    requestViewModel.updateRequest(request)
+                    //showDialog = false
                 }
             )
 

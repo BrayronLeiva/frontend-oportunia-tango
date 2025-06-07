@@ -71,5 +71,17 @@ class RequestRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun findByStudentAndCompany(studentId: Long): Result<List<Request>> {
+        return try {
+            dataSource.getRequestsByStudentAndCompany(studentId).map { dtos ->
+                dtos.map { requestMapper.mapToDomain(it) }
+            }
+        } catch (e: UnknownHostException) {
+            Result.failure(Exception("Network error: Please check your connection."))
+        } catch (e: Exception) {
+            Result.failure(Exception("Error fetching location companies: ${e.message}"))
+        }
+    }
+
 
 }

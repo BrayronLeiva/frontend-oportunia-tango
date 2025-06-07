@@ -11,4 +11,6 @@ interface RequestRepository {
     //suspend fun saveRequest(request: Request): Result<Request>
     suspend fun deleteRequest(requestId: Long): Result<Unit>
     suspend fun updateRequest(request: RequestUpdateDto): Result<Request>
+    suspend fun findByStudentAndCompany(studentId: Long): Result<List<Request>>
+
 }

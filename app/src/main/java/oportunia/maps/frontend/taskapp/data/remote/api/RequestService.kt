@@ -60,4 +60,15 @@ interface RequestService {
      */
     @DELETE("/v1/requests/{id}")
     suspend fun deleteRequest(@Path("id") id: Long): Response<Unit>
+
+    /**
+     * Retrieves all qualifications entries from the remote API.
+     *
+     * @return [Response] containing a list of [LocationCompanyDto] objects if successful
+     */
+    @GET("/v1/requests/students/{idStudent}/by-company")
+    suspend fun getRequestsByStudentAndCompany(
+        @Path("idStudent") idStudent: Long)
+    : Response<List<RequestDto>>
+
 }

@@ -47,6 +47,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSe
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipDetailDialog
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipItem
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipRecommendedCard
+import oportunia.maps.frontend.taskapp.presentation.ui.components.RatingFilterSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
@@ -72,7 +73,7 @@ fun InternshipSearch(
 
 
     LaunchedEffect(Unit) {
-        //internshipLocationViewModel.findAllInternShipsLocations()
+        internshipLocationViewModel.findAllInternShipsLocations()
     }
 
     var selectedInternshipLocation by remember { mutableStateOf<InternshipLocation?>(null) }
@@ -239,51 +240,11 @@ fun InternshipSearch(
             )
         }
         if (expanded) {
-            AlertDialog(
-                onDismissRequest = { expanded = false },
-                confirmButton = {},
-                text = {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Chosee the stars",
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-
-                        Row(horizontalArrangement = Arrangement.Center) {
-                            ratings.forEach { rating ->
-                                IconToggleButton(
-                                    checked = selectedRating != null && rating <= selectedRating!!,
-                                    onCheckedChange = {
-                                        selectedRating = if (selectedRating == rating) null else rating
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Star,
-                                        contentDescription = "$rating stars",
-                                        tint = if (selectedRating != null && rating <= selectedRating!!) Color(0xFFFFD700) else androidx.compose.ui.graphics.Color.Gray
-                                    )
-                                }
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-                            Button(
-                                onClick = {
-                                selectedRating = null
-                                expanded = false
-                                },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = DarkCyan,
-                                    contentColor = Black
-                                )) {
-                                Text("Clean")
-                            }
-                        }
-                    }
-                }
+            RatingFilterSelector(
+                ratings = ratings,
+                selectedRating = selectedRating,
+                onRatingSelected = { selectedRating = it },
+                onDismiss = { expanded = false }
             )
         }
 

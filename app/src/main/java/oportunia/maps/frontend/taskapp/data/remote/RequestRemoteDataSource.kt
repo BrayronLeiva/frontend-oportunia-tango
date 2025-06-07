@@ -67,6 +67,17 @@ class RequestRemoteDataSource @Inject constructor(
         requestService.deleteRequest(id)
     }
 
+
+    /**
+     * Retrieves all location companies from the remote API.
+     *
+     * @return [Result] containing a list of [QualificationDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getRequestsByStudentAndCompany(studentId: Long): Result<List<RequestDto>> = safeApiCall {
+        requestService.getRequestsByStudentAndCompany(studentId)
+    }
+
     /**
      * Helper function to handle API calls safely.
      *
