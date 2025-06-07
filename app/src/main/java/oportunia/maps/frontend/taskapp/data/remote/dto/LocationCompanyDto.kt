@@ -21,6 +21,6 @@ data class LocationCompanyRequestDto(
     val latitude: Double,
     val longitude: Double,
     val email: String,
-    val contact: Int,
+    val contactLocation: Int,
     val companyId: Long
 )

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.domain.model.Company
 import javax.inject.Inject
 
 /**
@@ -96,14 +97,14 @@ class LocationCompanyViewModel @Inject constructor(
         }
     }
 
-    fun addNewLocation(latLng: LatLng) {
+    fun addNewLocation(latLng: LatLng, company: Company) {
         viewModelScope.launch {
-            val currentList = _locationList.value
-            val baseCompany = currentList.firstOrNull() ?: return@launch
-
-            val newLocationCompany = baseCompany.copy(
+            val newLocationCompany = LocationCompany(
                 id = null,
-                location = latLng
+                location = latLng,
+                contact = company.contact,
+                company = company,
+                email = company.user.email
             )
 
             try {

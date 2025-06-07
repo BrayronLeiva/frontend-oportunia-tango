@@ -2,6 +2,7 @@ package oportunia.maps.frontend.taskapp.data.remote
 
 import oportunia.maps.frontend.taskapp.data.remote.api.LocationCompanyService
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyRequestDto
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -42,7 +43,7 @@ class LocationCompanyRemoteDataSource @Inject constructor(
      * @return [Result] containing the created [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun create(dto: LocationCompanyDto): Result<LocationCompanyDto> = safeApiCall {
+    suspend fun create(dto: LocationCompanyRequestDto): Result<LocationCompanyDto> = safeApiCall {
         locationCompanyService.createLocation(dto)
     }
 

@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
@@ -32,6 +33,7 @@ class CompanyActivity : ComponentActivity() {
     private val locationCompanyViewModel: LocationCompanyViewModel by viewModels()
     private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
     private val internshipViewModel: InternshipViewModel by viewModels()
+    private val companyViewModel: CompanyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,7 @@ class CompanyActivity : ComponentActivity() {
                     qualificationViewModel,
                     locationCompanyViewModel,
                     internshipLocationViewModel,
+                    companyViewModel,
                     internshipViewModel,
                     studentViewModel,
                     userId
@@ -59,6 +62,7 @@ fun MainCompanyScreen(
     qualificationViewModel: QualificationViewModel,
     locationCompanyViewModel: LocationCompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
+    companyViewModel: CompanyViewModel,
     internshipViewModel: InternshipViewModel,
     studentViewModel: StudentViewModel,
     userId: Long
@@ -93,6 +97,7 @@ fun MainCompanyScreen(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
             internshipLocationViewModel = internshipLocationViewModel,
+            companyViewModel = companyViewModel,
             paddingValues = paddingValues,
             onLogOut
         )

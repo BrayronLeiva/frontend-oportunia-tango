@@ -46,7 +46,7 @@ class LocationCompanyRepositoryImpl @Inject constructor(
      * Creates a new location company.
      */
     override suspend fun saveLocation(location: LocationCompany): Result<Unit> {
-        return remoteDataSource.create(mapper.mapToDto(location)).map {
+        return remoteDataSource.create(mapper.mapToRequestDto(location)).map {
             mapper.mapToDomain(it)
         }
     }

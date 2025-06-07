@@ -35,6 +35,13 @@ sealed class InternshipLocationState {
     data class Error(val message: String) : InternshipLocationState()
 }
 
+sealed class SaveInternshipResult {
+    object Idle : SaveInternshipResult()
+    object Saving : SaveInternshipResult()
+    object Success : SaveInternshipResult()
+    data class Error(val message: String) : SaveInternshipResult()
+}
+
 /**
  * ViewModel responsible for managing location and internship-related UI state and business logic.
  *
@@ -60,12 +67,17 @@ class InternshipLocationViewModel @Inject constructor(
     private val _internshipsLocationRecommendedList = MutableStateFlow<List<InternshipLocationRecommendedDto>>(emptyList())
     val internshipsLocationRecommendedList: StateFlow<List<InternshipLocationRecommendedDto>> = _internshipsLocationRecommendedList
 
-
+    private val _saveResult = MutableStateFlow<SaveInternshipResult>(SaveInternshipResult.Idle)
+    val saveResult: StateFlow<SaveInternshipResult> = _saveResult
     /**
      * Finds a location by its ID and updates the [location] state.
      *
      * @param locationId The ID of the location to find
      */
+
+    fun resetSaveResult() {
+        _saveResult.value = SaveInternshipResult.Idle
+    }
     fun selectInternshipLocationById(locationId: Long) {
         viewModelScope.launch {
             locationCompanyRepository.findLocationById(locationId)
@@ -184,20 +196,25 @@ class InternshipLocationViewModel @Inject constructor(
         location: LocationCompany
     ) {
         viewModelScope.launch {
+            _saveResult.value = SaveInternshipResult.Saving
             internshipRepository.saveInternship(internship)
                 .onSuccess { savedInternship ->
-                    Log.d("InternshipViewModel", "Internship saved successfully")
-
                     val internshipLocation = InternshipLocation(
                         id = null,
                         internship = savedInternship,
                         location = location
                     )
-                    saveInternshipLocation(internshipLocation)
-                    addInternshipLocation(internshipLocation)
+                    internshipLocationRepository.saveInternshipLocation(internshipLocation)
+                        .onSuccess {
+                            addInternshipLocation(internshipLocation)
+                            _saveResult.value = SaveInternshipResult.Success
+                        }
+                        .onFailure { e ->
+                            _saveResult.value = SaveInternshipResult.Error("Failed to save internship location: ${e.message}")
+                        }
                 }
-                .onFailure { exception ->
-                    Log.e("InternshipViewModel", "Failed to save internship: ${exception.message}")
+                .onFailure { e ->
+                    _saveResult.value = SaveInternshipResult.Error("Failed to save internship: ${e.message}")
                 }
         }
     }

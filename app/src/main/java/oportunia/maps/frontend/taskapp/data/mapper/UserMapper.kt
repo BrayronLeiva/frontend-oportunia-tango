@@ -49,11 +49,11 @@ class UserMapper @Inject constructor(
         UserDto(
             id = domain.id,
             email = domain.email,
-            firstName = "cf",
-            lastName = "cf",
+            firstName = domain.firstName,
+            lastName = domain.lastName,
             enable = true,
             tokenExpired = false,
             roleList = domain.roles.map { roleMapper.mapToDto(it) },
-            createDate = "cf"
+            createDate = domain.createDate
         )
 }

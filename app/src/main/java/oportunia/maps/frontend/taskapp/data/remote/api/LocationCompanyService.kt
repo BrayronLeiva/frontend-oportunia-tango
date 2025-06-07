@@ -2,6 +2,7 @@ package oportunia.maps.frontend.taskapp.data.remote.api
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyRequestDto
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -34,7 +35,7 @@ interface LocationCompanyService {
      * @return [Response] containing the created [LocationCompanyDto] with server-assigned ID if successful
      */
     @POST("/v1/location-companies")
-    suspend fun createLocation(@Body locationCompany: LocationCompanyDto): Response<LocationCompanyDto>
+    suspend fun createLocation(@Body locationCompany: LocationCompanyRequestDto): Response<LocationCompanyDto>
 
     /**
      * Updates an existing location-company entry in the remote API.

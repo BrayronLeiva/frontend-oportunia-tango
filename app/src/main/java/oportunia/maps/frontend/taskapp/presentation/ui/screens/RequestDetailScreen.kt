@@ -47,7 +47,7 @@ fun RequestDetailScreen(
     onRequestSelected: (Request) -> Unit // callback para devolver seleccionado
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    val searchCriteriaOptions = listOf("Company Name", "Internships Details")
+    val searchCriteriaOptions = listOf(stringResource(id = R.string.company_name), stringResource(id = R.string.internship_details))
     var selectedCriteria by remember { mutableStateOf(searchCriteriaOptions[0]) }
     var useAi by remember { mutableStateOf(false) }
     // Obtener las pasantías con las empresas y sus calificaciones

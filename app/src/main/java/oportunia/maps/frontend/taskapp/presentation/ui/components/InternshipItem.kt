@@ -99,8 +99,8 @@ fun InternshipRecommendedCard(
     // Obtener los datos de la compañía y la calificación
     val company = internship.locationCompany
     val internshipDetail = internship.internship.details
-    val companyName = company.company.name
-    val companyRating = company.company.rating
+    val companyName = company.company.nameCompany
+    val companyRating = company.company.ratingCompany
 
     Card(modifier = Modifier
         .fillMaxWidth().padding(vertical = 8.dp).clickable { onClick(internship) }) {

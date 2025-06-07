@@ -171,8 +171,8 @@ fun InternshipSearch(
 
         // Filtrar las pasantías por nombre de compañía y calificación
         val filteredRecommendedInternships = recommendedinternships.filter {
-            val companyName = it.locationCompany.company.name
-            val rating = it.locationCompany.company.rating
+            val companyName = it.locationCompany.company.nameCompany
+            val rating = it.locationCompany.company.ratingCompany
             val matchesText = when (selectedCriteria) {
                 stringResource(id = R.string.company_name) -> companyName.contains(searchQuery, ignoreCase = true)
                 stringResource(id = R.string.internship_details) -> it.internship.details.contains(searchQuery, ignoreCase = true)

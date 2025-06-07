@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +29,7 @@ import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.SaveInternshipResult
 
 
 @Composable
@@ -38,6 +40,15 @@ fun AddInternshipScreen(
 ) {
     var internshipName by remember { mutableStateOf("") }
     val locationCompany by locationCompanyViewModel.tempLocation.collectAsState()
+    val saveResult by internshipLocationViewModel.saveResult.collectAsState()
+
+    LaunchedEffect(saveResult) {
+        if (saveResult is SaveInternshipResult.Success) {
+            navController.popBackStack()
+            // Optionally reset the state to Idle if user comes back to this screen
+            internshipLocationViewModel.resetSaveResult()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -81,7 +92,7 @@ fun AddInternshipScreen(
                                 locationCompany
                             )
                         }
-                        navController.popBackStack()
+                        //navController.popBackStack()
                     }
                 },
                 modifier = Modifier.weight(1f)
