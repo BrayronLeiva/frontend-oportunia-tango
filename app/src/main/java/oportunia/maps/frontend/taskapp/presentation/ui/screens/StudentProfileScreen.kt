@@ -30,9 +30,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
 @Composable
 fun StudentProfileScreen(
-    navController: NavController,
     studentViewModel: StudentViewModel,
-    userId: Long,
     onLogOut: () -> Unit
 ) {
     LaunchedEffect(Unit) {

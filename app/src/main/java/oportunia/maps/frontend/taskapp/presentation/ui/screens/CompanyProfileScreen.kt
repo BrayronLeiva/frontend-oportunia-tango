@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,23 +32,23 @@ import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ProfileInfoCard
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
+
 
 @Composable
 fun CompanyProfileScreen(
-    navController: NavController,
-    studentViewModel: StudentViewModel,
-    userId: Long,
+    companyViewModel: CompanyViewModel,
     onLogOut: () -> Unit
 ) {
 
     LaunchedEffect(Unit) {
-        studentViewModel.getLoggedStudent()
+        companyViewModel.getLoggedCompany()
     }
 
-    val selectedStudent by studentViewModel.selectedStudent.collectAsState()
-    val studentState by studentViewModel.studentState.collectAsState()
+    //val selectedCompany by companyViewModel.selectedStudent.collectAsState()
+    val companyState by companyViewModel.companyState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -59,26 +60,26 @@ fun CompanyProfileScreen(
 
 
         // Handle the different internship states
-        when (val state = studentState) {
-            is StudentState.Loading -> {
+        when (val state = companyState) {
+            is CompanyState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
-            is StudentState.Empty -> {
+            is CompanyState.Empty -> {
                 Text(
-                    text = "No stundent information available.",
+                    text = stringResource(R.string.no_companny_info_available),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )
             }
-            is StudentState.Success -> {
+
+            is CompanyState.Success -> {
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Profile Image
                 Image(
-                    painter = painterResource(id = R.drawable.oportunia_maps), // Replace with your drawable
-                    contentDescription = "Profile Picture",
+                    painter = painterResource(id = R.drawable.oportunia_maps),
+                    contentDescription = stringResource(R.string.profile_picture_content_description),
                     modifier = Modifier
                         .size(120.dp)
                         .clip(CircleShape)
@@ -86,51 +87,66 @@ fun CompanyProfileScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Student Name
-                selectedStudent?.let {
-                    Text(
-                        text = it.name,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
-                }
+                Text(
+                    text = state.company.name,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Student Rating
+
                 Text(
-                    text = "⭐ ${selectedStudent?.rating}",
+                    text = stringResource(R.string.rating_format, state.company.rating ?: 0),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color(0xFFFFA500) // Orange for rating
+                    color = Color(0xFFFFA500)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Info Card
-                ProfileInfoCard(title = "Identification", value = selectedStudent?.identification.toString())
-                selectedStudent?.let { ProfileInfoCard(title = "Personal Info", value = it.personalInfo) }
-                selectedStudent?.let { ProfileInfoCard(title = "Experience", value = it.experience) }
+                ProfileInfoCard(
+                    title = stringResource(R.string.mission),
+                    value = state.company.mision
+                )
+                state.company.let {
+                    ProfileInfoCard(
+                        title = stringResource(R.string.vision),
+                        value = state.company.mision
+                    )
+                    ProfileInfoCard(
+                        title = stringResource(R.string.corporate_culture),
+                        value = state.company.corporateCultur
+                    )
+                    ProfileInfoCard(
+                        title = stringResource(R.string.contact),
+                        value = state.company.contact.toString()
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Logout Button
                 CustomButton(
-                    onClick = {
-                        onLogOut()
-                    },
-                    text = "Logout",
+                    onClick = { onLogOut() },
+                    text = stringResource(R.string.logout_button),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                 )
             }
-            is StudentState.Error -> {
+
+            is CompanyState.Error -> {
                 Text(
-                    text = "Error: ${state.message}",
+                    text = stringResource(R.string.error_message, state.message),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            CompanyState.Failure -> {
+                Text(
+                    text = ""
                 )
             }
         }
