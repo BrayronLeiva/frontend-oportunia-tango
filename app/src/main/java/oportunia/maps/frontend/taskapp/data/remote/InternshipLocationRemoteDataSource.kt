@@ -5,6 +5,7 @@ import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
 import oportunia.maps.frontend.taskapp.data.remote.api.LocationCompanyService
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
@@ -99,6 +100,16 @@ class InternshipLocationRemoteDataSource @Inject constructor(
      */
     suspend fun getInternshipsLocationsByLocationId(locationId: Long): Result<List<InternshipLocationDto>> = safeApiCall {
         internshipLocationService.getInternshipsByLocationId(locationId)
+    }
+
+    /**
+     * Retrieves all location companies from the remote API.
+     *
+     * @return [Result] containing a list of [LocationCompanyDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getInternshipsLocationsFlagByLocationId(locationId: Long): Result<List<InternshipLocationFlagDto>> = safeApiCall {
+        internshipLocationService.getInternshipsLocationsFlagByLocationId(locationId)
     }
 
     private suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Result<T> = try {

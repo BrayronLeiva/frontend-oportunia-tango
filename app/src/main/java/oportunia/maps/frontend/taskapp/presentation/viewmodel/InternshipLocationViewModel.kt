@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
@@ -35,6 +36,22 @@ sealed class InternshipLocationState {
     data class Error(val message: String) : InternshipLocationState()
 }
 
+
+sealed class InternshipLocationFlagState {
+    /** Indicates an ongoing internship operation */
+    data object Loading : InternshipLocationFlagState()
+
+    /** Contains the successfully retrieved list of internships */
+    data class Success(val internshipLocationsFlag: List<InternshipLocationFlagDto>) : InternshipLocationFlagState()
+
+    /** Indicates no internships are available */
+    data object Empty : InternshipLocationFlagState()
+
+    /** Contains an error message if the internship operation fails */
+    data class Error(val message: String) : InternshipLocationFlagState()
+}
+
+
 sealed class SaveInternshipResult {
     object Idle : SaveInternshipResult()
     object Saving : SaveInternshipResult()
@@ -54,6 +71,9 @@ class InternshipLocationViewModel @Inject constructor(
     private val internshipLocationRepository: InternshipLocationRepository,
     private val internshipRepository: InternshipRepository
 ) : ViewModel() {
+
+    private val _internshipLocationStateFlag = MutableStateFlow<InternshipLocationFlagState>(InternshipLocationFlagState.Empty)
+    val internshipLocationStateFlag: StateFlow<InternshipLocationFlagState> = _internshipLocationStateFlag
 
     private val _internshipLocationState = MutableStateFlow<InternshipLocationState>(InternshipLocationState.Empty)
     val internshipLocationState: StateFlow<InternshipLocationState> = _internshipLocationState
@@ -164,6 +184,30 @@ class InternshipLocationViewModel @Inject constructor(
                 }
                 .onFailure { exception ->
                     _internshipLocationState.value = InternshipLocationState.Error("Failed to fetch internships with id $locationId: ${exception.message}")
+                    Log.e("InternshipLocationViewModel", "Error fetching internships: ${exception.message}")
+                }
+        }
+    }
+
+    /**
+     * Retrieves internships for a specific location and updates the [internships] state.
+     *
+     * @param locationId The ID of the location to retrieve internships for
+     */
+    fun loadInternshipsLocationsFlagByLocationId(locationId: Long) {
+        viewModelScope.launch {
+            _internshipLocationStateFlag.value = InternshipLocationFlagState.Loading
+            internshipLocationRepository.findInternshipLocationsFlagByLocationId(locationId)
+                .onSuccess { internshipsLocationList ->
+                    if (internshipsLocationList.isEmpty()) {
+                        _internshipLocationStateFlag.value = InternshipLocationFlagState.Empty
+                    } else {
+                        Log.d("InternshipViewModel", "Total Interships: ${internshipsLocationList.size}")
+                        _internshipLocationStateFlag.value = InternshipLocationFlagState.Success(internshipsLocationList)
+                    }
+                }
+                .onFailure { exception ->
+                    _internshipLocationStateFlag.value = InternshipLocationFlagState.Error("Failed to fetch internships with id $locationId: ${exception.message}")
                     Log.e("InternshipLocationViewModel", "Error fetching internships: ${exception.message}")
                 }
         }

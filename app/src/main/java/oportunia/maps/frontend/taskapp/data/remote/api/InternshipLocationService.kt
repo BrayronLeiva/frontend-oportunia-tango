@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
@@ -65,6 +66,9 @@ interface InternshipLocationService {
 
     @GET("/v1/internship-locations/location/{locationId}")
     suspend fun getInternshipsByLocationId(@Path("locationId") locationId: Long): Response<List<InternshipLocationDto>>
+
+    @GET("/v1/internship-locations/location/flag-byStudent/{locationId}")
+    suspend fun getInternshipsLocationsFlagByLocationId(@Path("locationId") locationId: Long): Response<List<InternshipLocationFlagDto>>
 
     /**
         Comments

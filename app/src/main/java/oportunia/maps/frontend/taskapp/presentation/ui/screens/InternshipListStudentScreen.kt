@@ -37,6 +37,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationFlagState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
 
 
@@ -56,7 +57,7 @@ fun InternshipListStudentScreen(
 
     LaunchedEffect(locationCompanyId) {
         locationCompanyViewModel.selectLocationById(locationCompanyId)
-        internshipLocationViewModel.loadInternshipsLocationsByLocationId(locationCompanyId)
+        internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
     }
 
     LaunchedEffect(requestCreateState) {
@@ -74,11 +75,11 @@ fun InternshipListStudentScreen(
 
 
     val locationCompany by locationCompanyViewModel.selectedLocation.collectAsState()
-    val internshipLocationState by internshipLocationViewModel.internshipLocationState.collectAsState()
+    val internshipLocationFlagState by internshipLocationViewModel.internshipLocationStateFlag.collectAsState()
 
 
     Log.d("InternshipListStudentScreen", "Location company: $locationCompany")
-    Log.d("InternshipListStudentScreen", "Internships state: $internshipLocationState")
+    Log.d("InternshipListStudentScreen", "Internships state: $internshipLocationFlagState")
 
     Box(
         modifier = Modifier
@@ -98,30 +99,30 @@ fun InternshipListStudentScreen(
                 )
 
                 // Handle the different internship states
-                when (val state = internshipLocationState) {
-                    is InternshipLocationState.Loading -> {
+                when (val state = internshipLocationFlagState) {
+                    is InternshipLocationFlagState.Loading -> {
                         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                             CircularProgressIndicator()
                         }
                     }
-                    is InternshipLocationState.Empty -> {
+                    is InternshipLocationFlagState.Empty -> {
                         Text(
                             text = stringResource(id = R.string.no_internships_available),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(16.dp)
                         )
                     }
-                    is InternshipLocationState.Success -> {
-                        if (state.internshipLocations.isNotEmpty()) {
+                    is InternshipLocationFlagState.Success -> {
+                        if (state.internshipLocationsFlag.isNotEmpty()) {
                             LazyColumn(
                                 modifier = Modifier.fillMaxWidth().padding(16.dp)
                             ) {
-                                items(state.internshipLocations) { internshipLocation ->
+                                items(state.internshipLocationsFlag) { internshipLocation ->
                                     InternshipCard(
-                                        internship = internshipLocation.internship,
+                                        internshipFlag = internshipLocation,
                                         onRequestClick = { inter ->
                                             // Aquí llamás al ViewModel para crear la solicitud
-                                            requestViewModel.createRequest(internshipLocation)
+                                            requestViewModel.createRequestOfInternshipLocationFlag(internshipLocation)
                                         }
                                     )
                                 }
@@ -134,7 +135,7 @@ fun InternshipListStudentScreen(
                             )
                         }
                     }
-                    is InternshipLocationState.Error -> {
+                    is InternshipLocationFlagState.Error -> {
                         Text(
                             text = stringResource(id = R.string.error_message, state.message),
                             style = MaterialTheme.typography.bodyMedium,

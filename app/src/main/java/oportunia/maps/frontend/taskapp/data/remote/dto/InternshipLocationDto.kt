@@ -25,3 +25,10 @@ data class InternshipLocationRecommendedDto (
     val score: Double,
     val reason: String
 )
+
+data class InternshipLocationFlagDto (
+    val id: Long? = null,
+    val locationCompany: LocationCompanyDto,
+    val internship: InternshipDto,
+    val requested: Boolean
+)

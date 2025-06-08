@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestUpdateDto
 import oportunia.maps.frontend.taskapp.domain.model.Internship
@@ -124,6 +125,30 @@ class RequestViewModel @Inject constructor(
 
     fun createRequest(internshipLocation: InternshipLocation) {
         val requestCreate = RequestCreateDto(internshipLocation.id!!)
+        viewModelScope.launch {
+            requestRepository.saveRequest (requestCreate)
+                .onSuccess { request ->
+                    // Puedes actualizar el estado si es necesario
+                    Log.d("RequestViewModel", "Request created: $request")
+                    _requestCreateState.value = RequestCreateState.Success(request)
+                }
+                .onFailure { exception ->
+                    Log.e("RequestViewModel", "Error creating request: ${exception.message}")
+                    val errorMsg = if (exception.message?.contains("409") == true || exception.message?.contains("Conflict") == true) {
+                        "You have already made a request to this internship."
+                    } else {
+                        "An unexpected error occurred. Please try again."
+                    }
+                    _requestCreateState.value = RequestCreateState.Error(errorMsg)
+                }
+        }
+    }
+
+    fun createRequestOfInternshipLocationFlag(internshipLocation: InternshipLocationFlagDto) {
+        Log.d("RequestViewModel", "Request: $internshipLocation.id ")
+        val requestCreate = RequestCreateDto(internshipLocation.id!!)
+        val updatedRequest = internshipLocation.copy(requested = !internshipLocation.requested)
+
         viewModelScope.launch {
             requestRepository.saveRequest (requestCreate)
                 .onSuccess { request ->
