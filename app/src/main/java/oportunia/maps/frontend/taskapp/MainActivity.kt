@@ -23,14 +23,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationBarStudent
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
-
+/*
 /**
  * Main activity that serves as the entry point for the application.
  * Initializes the TaskViewModel and sets up the Compose UI with the main screen.
@@ -41,6 +43,7 @@ class MainActivity : ComponentActivity() {
     private val qualificationViewModel: QualificationViewModel by viewModels()
     private val studentViewModel: StudentViewModel by viewModels()
     private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
+    private val internshipViewModel: InternshipViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +56,7 @@ class MainActivity : ComponentActivity() {
                     qualificationViewModel,
                     internshipLocationViewModel,
                     locationCompanyViewModel,
+                    internshipViewModel,
                     studentViewModel,
                     userId
                 )
@@ -113,6 +117,7 @@ fun MainScreen(
     qualificationViewModel: QualificationViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
     locationCompanyViewModel: LocationCompanyViewModel,
+    internshipViewModel: InternshipViewModel,
     studentViewModel: StudentViewModel,
     userId: Long
 ) {
@@ -159,10 +164,8 @@ fun MainScreen(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
             internshipLocationViewModel = internshipLocationViewModel,
-            qualificationViewModel = qualificationViewModel,
-            studentViewModel = studentViewModel,
+            internshipViewModel = internshipViewModel,
             paddingValues = paddingValues,
-            userId = userId
         )
     }
-}
+}*/

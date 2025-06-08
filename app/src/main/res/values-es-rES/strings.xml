@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OportunIA Maps</string>
+    <string name="app_title">Localizador de Pasantías Basado en Mapas</string>
+    <string name="student_map">Mapa de Estudiantes</string>
+    <string name="company_map">Mapa de Empresas</string>
+    <string name="error_message">Error: %1$s</string>
+    <string name="title_welcome">Bienvenido a Oportunia</string>
+    <string name="main_register_subtitle">Crea una cuenta</string>
+    <string name="main_register_subtitle_sub">Rellena los siguientes campos</string>
+    <string name="email_field">Correo electrónico</string>
+    <string name="password_field">Contraseña</string>
+    <string name="confirm_password_field">Confirmar contraseña</string>
+    <string name="main_register">Registrarse</string>
+
+    <string name="preparing_text">¡Preparando todo!</string>
+    <string name="name_field">Introduce tu nombre</string>
+    <string name="id_field">Introduce tu cédula</string>
+    <string name="personal_info_field">Habla sobre ti</string>
+    <string name="experience_field">Describe tu experiencia</string>
+    <string name="main_login_subtitle">Inicia sesión con tu cuenta</string>
+    <string name="interests_field">¿Cuáles son tus intereses?</string>
+    <string name="next_button">Siguiente</string>
+
+    <string name="chosee_skills_field">Elige tus habilidades</string>
+    <string name="main_login">Iniciar sesión</string>
+    <string name="no_account">¿No tienes una cuenta?</string>
+    <string name="register_here">Regístrate aquí</string>
+    <string name="map">Mapa</string>
+    <string name="search">Buscar</string>
+    <string name="profile">Perfil</string>
+    <string name="choose_rating_label">Elige una calificación</string>
+    <string name="internships_search_label">Búsqueda de Pasantías</string>
+    <string name="request_search_label">Búsqueda de Solicitudes</string>
+    <string name="search_company_label">Buscar Empresa</string>
+    <string name="filter_rating_label">Filtrar por</string>
+    <string name="search_label">Buscar</string>
+    <string name="go_student_screen_label">Ir a la pantalla de estudiante</string>
+    <string name="go_company_screen_label">Ir a la pantalla de empresa</string>
+
+    <string name="snippet_click_internships">Haz clic para ver pasantías</string>
+    <string name="add_marker_description">Agregar Marcador</string>
+    <string name="logout_button">Cerrar sesión</string>
+    <string name="tap_to_add_marker">Toca el mapa para agregar marcadores</string>
+
+    <string name="internships_for">Pasantías para %1$s</string>
+    <string name="no_internships_available">No hay pasantías disponibles.</string>
+    <string name="location_details_unavailable">Detalles de ubicación no disponibles.</string>
+    <string name="back_button">Atrás</string>
+    <string name="add_button">Agregar</string>
+
+    <string name="request_success_message">Solicitud enviada exitosamente</string>
+
+    <string name="search_by_company_name">Buscar por nombre de empresa</string>
+    <string name="search_by_internship_details">Buscar por detalles de pasantía</string>
+    <string name="search_placeholder">Buscar</string>
+    <string name="select_minimum_stars">Selecciona estrellas mínimas</string>
+    <string name="company_name">Nombre de la Empresa</string>
+    <string name="internship_details">Detalles de la Pasantía</string>
+
+    <string name="rating_stars">%1$s estrellas</string>
+
+    <string name="clean">Limpiar</string>
+
+    <string name="company_information">Información de la Empresa</string>
+    <string name="internships_button">Pasantías</string>
+
+    <string name="invalid_login">Correo o contraseña inválidos</string>
+
+    <string name="no_requests_available">No hay solicitudes disponibles</string>
+
+    <string name="no_student_info_available">No hay información del estudiante disponible.</string>
+    <string name="profile_picture_content_description">Foto de Perfil</string>
+    <string name="rating_format">⭐ %1$s</string>
+    <string name="identification">Identificación</string>
+    <string name="personal_info">Información Personal</string>
+    <string name="experience">Experiencia</string>
+
+    <string name="approved">Aprobado</string>
+    <string name="denied">Denegado</string>
+
+    <string name="state">Estado</string>
+
+    <string name="company">Empresa</string>
+
+    <string name="example">Ejemplo</string>
+    <string name="name">Nombre</string>
+
+    <string name="description">Descripción:</string>
+    <string name="history">Historia:</string>
+    <string name="mission">Misión:</string>
+    <string name="vision">Visión:</string>
+    <string name="contact">Contacto:</string>
+
+    <string name="corporate_culture">Cultura Corporativa:</string>
+    <string name="rating">Calificación:</string>
+    <string name="internship_type">Tipo de Pasantía:</string>
+
+    <string name="apply">Aplicar</string>
+
+    <string name="internship">Pasantía</string>
+</resources>

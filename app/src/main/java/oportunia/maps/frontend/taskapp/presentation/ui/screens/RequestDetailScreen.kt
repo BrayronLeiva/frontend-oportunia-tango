@@ -47,7 +47,7 @@ fun RequestDetailScreen(
     onRequestSelected: (Request) -> Unit // callback para devolver seleccionado
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    val searchCriteriaOptions = listOf("Company Name", "Internships Details")
+    val searchCriteriaOptions = listOf(stringResource(id = R.string.company_name), stringResource(id = R.string.internship_details))
     var selectedCriteria by remember { mutableStateOf(searchCriteriaOptions[0]) }
     var useAi by remember { mutableStateOf(false) }
     // Obtener las pasantías con las empresas y sus calificaciones
@@ -92,9 +92,9 @@ fun RequestDetailScreen(
             label = {
                 Text(
                     when (selectedCriteria) {
-                        "Company Name" -> "Search by Company Name"
-                        "Internships Details" -> "Search by Internships Details"
-                        else -> "Buscar"
+                        stringResource(id = R.string.company_name) -> stringResource(id = R.string.search_by_company_name)
+                        stringResource(id = R.string.internship_details) -> stringResource(R.string.search_by_internship_details)
+                        else -> stringResource(id = R.string.search_by_company_name)
                     }
                 )
             },
@@ -123,8 +123,8 @@ fun RequestDetailScreen(
             //Aca agregar mejores criterios
 
             val matchesText = when (selectedCriteria) {
-                "Company Name" -> companyName.contains(searchQuery, ignoreCase = true)
-                "Internships Details" -> it.internshipLocation.internship.details.contains(searchQuery, ignoreCase = true)
+                stringResource(id = R.string.company_name) -> companyName.contains(searchQuery, ignoreCase = true)
+                stringResource(id = R.string.internship_details) -> it.internshipLocation.internship.details.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
             matchesText
@@ -141,7 +141,7 @@ fun RequestDetailScreen(
             }
             is RequestState.Empty -> {
                 androidx.compose.material3.Text(
-                    text = "No request available.",
+                    text = stringResource(id = R.string.no_requests_available),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )
@@ -158,7 +158,7 @@ fun RequestDetailScreen(
                     }
                 } else {
                     androidx.compose.material3.Text(
-                        text = "No internships available.",
+                        text = stringResource(id = R.string.no_internships_available),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(16.dp)
                     )
@@ -166,7 +166,7 @@ fun RequestDetailScreen(
             }
             is RequestState.Error -> {
                 androidx.compose.material3.Text(
-                    text = "Error: ${state.message}",
+                    text = stringResource(id = R.string.error_message, state.message),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )

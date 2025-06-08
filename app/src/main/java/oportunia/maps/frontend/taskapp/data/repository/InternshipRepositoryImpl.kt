@@ -43,17 +43,17 @@ class InternshipRepositoryImpl  @Inject constructor(
     /**
      * Creates a new location company.
      */
-    override suspend fun saveInternship(internship: Internship): Result<Unit> {
-        return remoteDataSource.create(internshipMapper.mapToDto(internship)).map {
-            internshipMapper.mapToDomain(it)
-        }
+    override suspend fun saveInternship(internship: Internship): Result<Internship> {
+        val dto = internshipMapper.mapToDto(internship)
+        return remoteDataSource.create(dto)
+            .map { savedDto -> internshipMapper.mapToDomain(savedDto) }
     }
 
     /**
      * Updates an existing location company.
      */
     override suspend fun updateInternship(internship: Internship): Result<Unit> {
-        return remoteDataSource.update(internship.id, internshipMapper.mapToDto(internship)).map {
+        return remoteDataSource.update(internship.id!!, internshipMapper.mapToDto(internship)).map {
             internshipMapper.mapToDomain(it)
         }
     }

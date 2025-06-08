@@ -6,6 +6,7 @@ import oportunia.maps.frontend.taskapp.data.remote.api.LocationCompanyService
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import retrofit2.Response
@@ -42,7 +43,7 @@ class InternshipLocationRemoteDataSource @Inject constructor(
      * @return [Result] containing the created [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun create(dto: InternshipLocationDto): Result<InternshipLocationDto> = safeApiCall {
+    suspend fun create(dto: InternshipLocationRequestDto): Result<InternshipLocationDto> = safeApiCall {
         internshipLocationService.createInternshipLocation(dto)
     }
 

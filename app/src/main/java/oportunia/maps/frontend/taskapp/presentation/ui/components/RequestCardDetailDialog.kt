@@ -19,9 +19,11 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.model.Request
 
@@ -41,14 +43,14 @@ fun RequestCardDetailDialog(
                 // Ícono que representa el estado
                 Icon(
                     imageVector = if (request.state) Icons.Default.CheckCircle else Icons.Default.Error,
-                    contentDescription = if (request.state) "Aprobado" else "Rechazado",
+                    contentDescription = if (request.state) stringResource(id = R.string.approved) else stringResource(id = R.string.denied),
                     tint = if (request.state) Color(0xFF4CAF50) else Color(0xFFF44336), // verde o rojo
                     modifier = Modifier.size(48.dp)
                 )
-                InfoSection(label = "Estado", value = request.state.toString())
+                InfoSection(label = stringResource(id = R.string.state), value = request.state.toString())
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "Detalles de la Pasantía",
+                    text = stringResource(id = R.string.internship_details),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
@@ -66,7 +68,7 @@ fun RequestCardDetailDialog(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 CustomButton(
-                    text = "Cerrar",
+                    text = stringResource(id = R.string.back_button),
                     onClick = onDismiss,
                     width = 140.dp
                 )

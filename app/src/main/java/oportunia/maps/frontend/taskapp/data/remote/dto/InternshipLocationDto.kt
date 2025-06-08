@@ -8,9 +8,14 @@ package oportunia.maps.frontend.taskapp.data.remote.dto
  */
 
 data class InternshipLocationDto (
-    val id: Long,
+    val id: Long? = null,
     val locationCompany: LocationCompanyDto,
     val internship: InternshipDto
+)
+
+data class InternshipLocationRequestDto(
+    val internshipId: Long,
+    val locationCompanyId: Long
 )
 
 data class InternshipLocationRecommendedDto (

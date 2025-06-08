@@ -1,4 +1,4 @@
-package oportunia.maps.frontend.taskapp.presentation.viewmodel
+    package oportunia.maps.frontend.taskapp.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.domain.model.Company
 import javax.inject.Inject
 
 /**
@@ -48,6 +49,13 @@ class LocationCompanyViewModel @Inject constructor(
 
     private val _locationList = MutableStateFlow<List<LocationCompany>>(emptyList())
     val locationList = _locationList.asStateFlow()
+
+    private val _tempLocation = MutableStateFlow<LocationCompany?>(null)
+    val tempLocation: StateFlow<LocationCompany?> = _tempLocation
+
+    fun setTempLocation(location: LocationCompany) {
+        _tempLocation.value = location
+    }
 
     /**
      * Finds a location by its ID and updates the [selectedLocation] state.
@@ -89,15 +97,14 @@ class LocationCompanyViewModel @Inject constructor(
         }
     }
 
-    fun addNewLocation(latLng: LatLng) {
+    fun addNewLocation(latLng: LatLng, company: Company) {
         viewModelScope.launch {
-            val currentList = _locationList.value
-            val baseCompany = currentList.firstOrNull() ?: return@launch
-            val newId = (currentList.maxOfOrNull { it.id } ?: 0) + 1
-
-            val newLocationCompany = baseCompany.copy(
-                id = newId,
-                location = latLng
+            val newLocationCompany = LocationCompany(
+                id = null,
+                location = latLng,
+                contact = company.contact,
+                company = company,
+                email = company.user.email
             )
 
             try {

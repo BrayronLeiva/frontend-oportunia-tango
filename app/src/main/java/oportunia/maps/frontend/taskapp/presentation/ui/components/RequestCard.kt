@@ -26,8 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.model.Request
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
@@ -63,7 +65,7 @@ fun RequestCard(
             ) {
                 Icon(
                     imageVector = Icons.Default.LocationOn,
-                    contentDescription = "Compañía",
+                    contentDescription = stringResource(id = R.string.company),
                     tint = Color.DarkGray,
                     modifier = Modifier.size(28.dp)
                 )
@@ -94,14 +96,14 @@ fun RequestCard(
                 modifier = Modifier.wrapContentWidth()
             ) {
                 Text(
-                    text = if(state) "Aprobado" else "Rechazado",
+                    text = if(state) stringResource(id = R.string.approved) else stringResource(id = R.string.denied),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold,
                     color = if (state) Color(0xFF4CAF50) else Color(0xFFF44336)
                 )
                 Icon(
                     imageVector = if (state) Icons.Default.CheckCircle else Icons.Default.Error,
-                    contentDescription = if (state) "Aprobado" else "Rechazado",
+                    contentDescription = if (state) stringResource(id = R.string.approved) else stringResource(id = R.string.denied),
                     tint = if (state) Color(0xFF4CAF50) else Color(0xFFF44336),
                     modifier = Modifier.size(28.dp)
                 )

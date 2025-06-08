@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OportunIA Maps</string>
+    <string name="app_title">Localisateur de Stages Basé sur une Carte</string>
+    <string name="student_map">Carte des Étudiants</string>
+    <string name="company_map">Carte des Entreprises</string>
+    <string name="error_message">Erreur : %1$s</string>
+    <string name="title_welcome">Bienvenue sur Oportunia</string>
+    <string name="main_register_subtitle">Créer un compte</string>
+    <string name="main_register_subtitle_sub">Remplissez les champs suivants</string>
+    <string name="email_field">Email</string>
+    <string name="password_field">Mot de passe</string>
+    <string name="confirm_password_field">Confirmer le mot de passe</string>
+    <string name="main_register">S inscrire</string>
+
+    <string name="preparing_text">Préparation en cours !</string>
+    <string name="name_field">Entrez votre nom</string>
+    <string name="id_field">Entrez votre carte d identité</string>
+    <string name="personal_info_field">Parlez de vous</string>
+    <string name="experience_field">Décrivez votre expérience</string>
+    <string name="main_login_subtitle">Connectez-vous avec votre compte</string>
+    <string name="interests_field">Quels sont vos centres d’intérêt ?</string>
+    <string name="next_button">Suivant</string>
+
+    <string name="chosee_skills_field">Choisissez vos compétences</string>
+    <string name="main_login">Se connecter</string>
+    <string name="no_account">Pas de compte ?</string>
+    <string name="register_here">Inscrivez-vous ici</string>
+    <string name="map">Carte</string>
+    <string name="search">Rechercher</string>
+    <string name="profile">Profil</string>
+    <string name="choose_rating_label">Choisissez une note</string>
+    <string name="internships_search_label">Recherche de Stage</string>
+    <string name="request_search_label">Recherche de Demande</string>
+    <string name="search_company_label">Rechercher une Entreprise</string>
+    <string name="filter_rating_label">Filtrer par</string>
+    <string name="search_label">Rechercher</string>
+    <string name="go_student_screen_label">Aller à l’écran Étudiant</string>
+    <string name="go_company_screen_label">Aller à l’écran Entreprise</string>
+
+    <string name="snippet_click_internships">Cliquez pour voir les stages</string>
+    <string name="add_marker_description">Ajouter un Marqueur</string>
+    <string name="logout_button">Se déconnecter</string>
+    <string name="tap_to_add_marker">Touchez la carte pour ajouter des marqueurs</string>
+
+    <string name="internships_for">Stages pour %1$s</string>
+    <string name="no_internships_available">Aucun stage disponible.</string>
+    <string name="location_details_unavailable">Détails de l’emplacement non disponibles.</string>
+    <string name="back_button">Retour</string>
+    <string name="add_button">Ajouter</string>
+
+    <string name="request_success_message">Demande envoyée avec succès</string>
+
+    <string name="search_by_company_name">Rechercher par nom d’entreprise</string>
+    <string name="search_by_internship_details">Rechercher par détails du stage</string>
+    <string name="search_placeholder">Rechercher</string>
+    <string name="select_minimum_stars">Sélectionnez le nombre minimum d’étoiles</string>
+    <string name="company_name">Nom de l’Entreprise</string>
+    <string name="internship_details">Détails du Stage</string>
+
+    <string name="rating_stars">%1$s étoiles</string>
+
+    <string name="clean">Effacer</string>
+
+    <string name="company_information">Informations sur l’Entreprise</string>
+    <string name="internships_button">Stages</string>
+
+    <string name="invalid_login">Email ou mot de passe invalide</string>
+
+    <string name="no_requests_available">Aucune demande disponible</string>
+
+    <string name="no_student_info_available">Aucune information sur l’étudiant disponible.</string>
+    <string name="profile_picture_content_description">Photo de Profil</string>
+    <string name="rating_format">⭐ %1$s</string>
+    <string name="identification">Identification</string>
+    <string name="personal_info">Informations Personnelles</string>
+    <string name="experience">Expérience</string>
+
+    <string name="approved">Approuvé</string>
+    <string name="denied">Refusé</string>
+
+    <string name="state">État</string>
+
+    <string name="company">Entreprise</string>
+
+    <string name="example">Exemple</string>
+    <string name="name">Nom</string>
+
+    <string name="description">Description:</string>
+    <string name="history">Historique:</string>
+    <string name="mission">Mission:</string>
+    <string name="vision">Vision:</string>
+    <string name="contact">Contact:</string>
+
+    <string name="corporate_culture">Culture d entreprise:</string>
+    <string name="rating">Évaluation:</string>
+    <string name="internship_type">Type de Stage:</string>
+
+    <string name="apply">Postuler</string>
+
+    <string name="internship">Stage</string>
+</resources>

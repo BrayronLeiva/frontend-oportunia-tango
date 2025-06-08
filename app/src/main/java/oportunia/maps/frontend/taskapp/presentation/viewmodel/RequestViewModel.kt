@@ -123,7 +123,7 @@ class RequestViewModel @Inject constructor(
     }
 
     fun createRequest(internshipLocation: InternshipLocation) {
-        val requestCreate = RequestCreateDto(internshipLocation.id)
+        val requestCreate = RequestCreateDto(internshipLocation.id!!)
         viewModelScope.launch {
             requestRepository.saveRequest (requestCreate)
                 .onSuccess { request ->

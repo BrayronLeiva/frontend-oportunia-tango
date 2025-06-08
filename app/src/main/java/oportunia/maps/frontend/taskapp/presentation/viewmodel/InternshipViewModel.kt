@@ -112,7 +112,15 @@ class InternshipViewModel @Inject constructor(
         }
     }
 
-
-
-
+    fun saveInternship(internship: Internship) {
+        viewModelScope.launch {
+            internshipRepository.saveInternship(internship)
+                .onSuccess {
+                    Log.d("InternshipViewModel", "Internship saved successfully")
+                }
+                .onFailure { exception ->
+                    Log.e("InternshipViewModel", "Failed to save internship: ${exception.message}")
+                }
+        }
+    }
 }

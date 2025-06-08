@@ -75,4 +75,8 @@ sealed class NavRoutes {
 
         fun createRoute(locationCompanyId: Long) = "internshipCompany/$locationCompanyId"
     }
+
+    data object AddInternshipScreen : NavRoutes(){
+        const val ROUTE = "addInternship"
+    }
 }

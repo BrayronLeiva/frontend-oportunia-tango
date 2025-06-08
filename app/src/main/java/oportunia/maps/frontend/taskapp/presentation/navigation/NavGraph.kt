@@ -7,7 +7,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import oportunia.maps.frontend.taskapp.presentation.screens.StudentProfileScreen
+import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.AddInternshipScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentProfileScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.CompanyMapScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.HomeScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListCompanyScreen
@@ -20,6 +22,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSe
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RequestDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentSearchScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentMapScreen
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
@@ -42,208 +45,6 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
  * @param paddingValues Provides padding values to account for UI elements like the app bar or bottom navigation,
  *                     ensuring content doesn't get hidden behind system UI elements.
  */
-
-/*@Composable
-fun NavGraph(
-    navController: NavHostController,
-    locationCompanyViewModel: LocationCompanyViewModel,
-    internshipLocationViewModel: InternshipLocationViewModel,
-    qualificationViewModel: QualificationViewModel,
-    paddingValues: PaddingValues
-) {
-    NavHost(navController = navController, startDestination = NavRoutes.Login.ROUTE) {
-
-        composable(NavRoutes.MainRegister.ROUTE) {
-            MainRegister(navController, paddingValues)
-        }
-
-        composable(NavRoutes.RegisterStudentFirst.ROUTE) {
-            RegisterStudentFirst(navController, paddingValues)
-        }
-
-        composable(NavRoutes.RegisterStudentSecond.ROUTE) {
-            RegisterStudentSecond(navController, qualificationViewModel, paddingValues)
-        }
-
-        composable(NavRoutes.Home.ROUTE) {
-            HomeScreen(navController, paddingValues)
-        }
-        composable(NavRoutes.StudentMap.ROUTE) {
-            StudentMapScreen(navController, paddingValues)
-        }
-        composable(NavRoutes.CompanyMap.ROUTE) {
-            CompanyMapScreen(navController, paddingValues)
-        }
-        composable(NavRoutes.InternshipsSearch.ROUTE) {
-            InternshipSearch(internshipLocationViewModel, paddingValues)
-        }
-
-        composable(NavRoutes.StudentProfile.ROUTE) {
-            StudentProfileScreen(navController, Student(1, "Rodney", 402640339, "I love Android Studio", "Kotlin Developer", 4.5, User(3, "rodney@est.una.ac.cr", "123")) ) //Estudiante temporal
-        }
-
-
-        composable(
-            route = NavRoutes.LocationCompanyDetail.ROUTE,
-            arguments = listOf(navArgument(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID) {
-                type = NavType.LongType
-            })
-        ) { backStackEntry ->
-            val locationCompanyId =
-                backStackEntry.arguments?.getLong(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID)
-                    ?: 0L
-            LocationCompanyDetailScreen(
-                locationCompanyId = locationCompanyId,
-                locationCompanyViewModel = locationCompanyViewModel,
-                navController = navController,
-                paddingValues = paddingValues
-            )
-        }
-
-        composable(
-            route = NavRoutes.InternshipListStudent.ROUTE,
-            arguments = listOf(navArgument(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID) {
-                type = NavType.LongType
-            })
-        ) { backStackEntry ->
-            val locationCompanyId =
-                backStackEntry.arguments?.getLong(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID)
-                    ?: 0L
-            InternshipListStudentScreen(
-                locationCompanyId = locationCompanyId,
-                navController = navController,
-                locationCompanyViewModel = locationCompanyViewModel,
-                internshipLocationViewModel = internshipLocationViewModel,
-                paddingValues = paddingValues
-            )
-        }
-
-        composable(
-            route = NavRoutes.InternshipListCompany.ROUTE,
-            arguments = listOf(navArgument(NavRoutes.InternshipListCompany.ARG_LOCATION_COMPANY_ID) {
-                type = NavType.LongType
-            })
-        ) { backStackEntry ->
-            val locationCompanyId =
-                backStackEntry.arguments?.getLong(NavRoutes.InternshipListCompany.ARG_LOCATION_COMPANY_ID)
-                    ?: 0L
-            InternshipListCompanyScreen(
-                locationCompanyId = locationCompanyId,
-                navController = navController,
-                locationCompanyViewModel = locationCompanyViewModel,
-                internshipLocationViewModel = internshipLocationViewModel,
-                paddingValues = paddingValues
-            )
-        }
-
-        composable(NavRoutes.Login.ROUTE) {
-            LoginScreen(navController, paddingValues)
-
-        }
-
-    }*/
-    @Composable
-    fun NavGraph(
-        navController: NavHostController,
-        locationCompanyViewModel: LocationCompanyViewModel,
-        internshipLocationViewModel: InternshipLocationViewModel,
-        qualificationViewModel: QualificationViewModel,
-        studentViewModel: StudentViewModel,
-        paddingValues: PaddingValues,
-        userId: Long
-    ) {
-        NavHost(navController = navController, startDestination = NavRoutes.Home.ROUTE) {
-
-            //composable(NavRoutes.MainRegister.ROUTE) {
-                //MainRegister(navController, paddingValues)
-            //}
-
-            //composable(NavRoutes.RegisterStudentFirst.ROUTE) {
-                //RegisterStudentFirst(navController, paddingValues)
-            //}
-
-            //composable(NavRoutes.RegisterStudentSecond.ROUTE) {
-                //RegisterStudentSecond(navController, qualificationViewModel, paddingValues)
-            //}
-
-            composable(NavRoutes.Home.ROUTE) {
-                HomeScreen(navController, paddingValues)
-            }
-            composable(NavRoutes.StudentMap.ROUTE) {
-                StudentMapScreen(navController, locationCompanyViewModel, paddingValues)
-            }
-            composable(NavRoutes.CompanyMap.ROUTE) {
-                CompanyMapScreen(navController, locationCompanyViewModel, paddingValues)
-            }
-            //composable(NavRoutes.InternshipsSearch.ROUTE) {
-            //    InternshipSearch(internshipLocationViewModel, paddingValues)
-            //}
-
-
-
-            /*
-            composable(
-                route = NavRoutes.LocationCompanyDetail.ROUTE,
-                arguments = listOf(navArgument(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID) {
-                    type = NavType.LongType
-                })
-            ) { backStackEntry ->
-                val locationCompanyId =
-                    backStackEntry.arguments?.getLong(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID)
-                        ?: 0L
-                LocationCompanyDetailScreen(
-                    locationCompanyId = locationCompanyId,
-                    locationCompanyViewModel = locationCompanyViewModel,
-                    navController = navController,
-                    paddingValues = paddingValues
-                )
-            }
-
-             */
-
-            composable(
-                route = NavRoutes.InternshipListStudent.ROUTE,
-                arguments = listOf(navArgument(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID) {
-                    type = NavType.LongType
-                })
-            ) { backStackEntry ->
-                val locationCompanyId =
-                    backStackEntry.arguments?.getLong(NavRoutes.InternshipListStudent.ARG_LOCATION_COMPANY_ID)
-                        ?: 0L
-                /*
-                InternshipListStudentScreen(
-                    locationCompanyId = locationCompanyId,
-                    navController = navController,
-                    locationCompanyViewModel = locationCompanyViewModel,
-                    internshipLocationViewModel = internshipLocationViewModel,
-                    paddingValues = paddingValues
-                )
-
-                 */
-            }
-
-            composable(
-                route = NavRoutes.InternshipListCompany.ROUTE,
-                arguments = listOf(navArgument(NavRoutes.InternshipListCompany.ARG_LOCATION_COMPANY_ID) {
-                    type = NavType.LongType
-                })
-            ) { backStackEntry ->
-                val locationCompanyId =
-                    backStackEntry.arguments?.getLong(NavRoutes.InternshipListCompany.ARG_LOCATION_COMPANY_ID)
-                        ?: 0L
-                /*InternshipListCompanyScreen(
-                    locationCompanyId = locationCompanyId,
-                    navController = navController,
-                    locationCompanyViewModel = locationCompanyViewModel,
-                    internshipLocationViewModel = internshipLocationViewModel,
-                    paddingValues = paddingValues
-                )*/
-            }
-
-
-        }
-
-}
 //STUDENT
 @Composable
 fun NavGraph(
@@ -343,16 +144,25 @@ fun NavGraph(
     internshipLocationViewModel: InternshipLocationViewModel,
     studentViewModel: StudentViewModel,
     requestViewModel: RequestViewModel,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    companyViewModel: CompanyViewModel,
+    paddingValues: PaddingValues,
+    onLogOut: () -> Unit
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.CompanyMap.ROUTE) {
 
 
         composable(NavRoutes.CompanyMap.ROUTE) {
-            CompanyMapScreen(navController, locationCompanyViewModel, paddingValues)
+            CompanyMapScreen(
+                navController = navController,
+                locationCompanyViewModel = locationCompanyViewModel,
+                companyViewModel = companyViewModel,
+                paddingValues = paddingValues,
+                onLogOut
+            )
         }
 
-        /*
+
         composable(
             route = NavRoutes.LocationCompanyDetail.ROUTE,
             arguments = listOf(navArgument(NavRoutes.LocationCompanyDetail.ARG_LOCATION_COMPANY_ID) {
@@ -371,10 +181,11 @@ fun NavGraph(
             )
         }
 
-         */
+
         composable(NavRoutes.StudentsSearch.ROUTE) {
             StudentSearchScreen(studentViewModel, requestViewModel, paddingValues, { selectStudent -> })
         }
+
 
         composable(
             route = NavRoutes.InternshipListStudent.ROUTE,
@@ -415,9 +226,14 @@ fun NavGraph(
             )
         }
 
-
+        composable(NavRoutes.AddInternshipScreen.ROUTE) {
+            AddInternshipScreen(
+                navController = navController,
+                internshipLocationViewModel = internshipLocationViewModel,
+                locationCompanyViewModel = locationCompanyViewModel
+            )
+        }
     }
-
 }
 //REGISTER
 @Composable
