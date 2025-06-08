@@ -265,53 +265,8 @@ fun InternshipSearch(
                 ratings = ratings,
                 selectedRating = selectedRating,
                 onRatingSelected = { selectedRating = it },
-                onDismiss = { expanded = false }
-            AlertDialog(
-                onDismissRequest = { expanded = false },
-                confirmButton = {},
-                text = {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = stringResource(id = R.string.select_minimum_stars),
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
+                onDismiss = { expanded = false })
 
-                        Row(horizontalArrangement = Arrangement.Center) {
-                            ratings.forEach { rating ->
-                                IconToggleButton(
-                                    checked = selectedRating != null && rating <= selectedRating!!,
-                                    onCheckedChange = {
-                                        selectedRating = if (selectedRating == rating) null else rating
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Star,
-                                        contentDescription = stringResource(id = R.string.rating_stars, rating),
-                                        tint = if (selectedRating != null && rating <= selectedRating!!) Color(0xFFFFD700) else androidx.compose.ui.graphics.Color.Gray
-                                    )
-                                }
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-                            Button(
-                                onClick = {
-                                selectedRating = null
-                                expanded = false
-                                },
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = DarkCyan,
-                                    contentColor = Black
-                                )) {
-                                Text(stringResource(id = R.string.clean))
-                            }
-                        }
-                    }
-                }
-            )
         }
 
     }

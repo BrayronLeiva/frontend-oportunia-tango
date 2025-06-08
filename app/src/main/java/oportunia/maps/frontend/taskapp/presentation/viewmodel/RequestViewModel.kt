@@ -146,7 +146,7 @@ class RequestViewModel @Inject constructor(
 
     fun updateRequest(request: Request) {
         val updatedRequest = request.copy(state = !request.state)
-        val updateRequestDto = RequestUpdateDto(updatedRequest.id, updatedRequest.state, updatedRequest.student.id, updatedRequest.internshipLocation.id)
+        val updateRequestDto = RequestUpdateDto(updatedRequest.id, updatedRequest.state, updatedRequest.student.id, updatedRequest.internshipLocation.id!!)
         viewModelScope.launch {
             requestRepository.updateRequest(updateRequestDto)
                 .onSuccess { request ->

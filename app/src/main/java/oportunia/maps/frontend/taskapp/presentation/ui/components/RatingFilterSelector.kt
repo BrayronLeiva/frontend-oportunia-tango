@@ -19,8 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 
@@ -37,7 +39,7 @@ fun RatingFilterSelector(
         text = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "Choose the stars",
+                    text = stringResource(id = R.string.select_minimum_stars),
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
@@ -52,7 +54,7 @@ fun RatingFilterSelector(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Star,
-                                contentDescription = "$rating stars",
+                                contentDescription = stringResource(id = R.string.rating_stars, rating),
                                 tint = if (selectedRating != null && rating <= selectedRating) Color(0xFFFFD700) else Color.Gray
                             )
                         }
@@ -75,7 +77,7 @@ fun RatingFilterSelector(
                             contentColor = Black
                         )
                     ) {
-                        Text("Clean")
+                        Text(stringResource(id = R.string.clean))
                     }
                 }
             }

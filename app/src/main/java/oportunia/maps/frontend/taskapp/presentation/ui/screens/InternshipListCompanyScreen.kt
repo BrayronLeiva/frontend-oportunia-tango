@@ -129,6 +129,7 @@ fun InternshipListCompanyScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .padding(paddingValues)
             .padding(16.dp),
         contentAlignment = Alignment.BottomStart
     ) {

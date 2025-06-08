@@ -276,7 +276,7 @@ fun StudentSearchScreen(
             )
         }
         if (showDialog && selectedRecommendedStudent != null && useAi) {
-            requestViewModel.findAllRequest()
+            requestViewModel.findRequestsbyStudentAndCompany(selectedRecommendedStudent!!.id)
             StudentDetailRecommendedDialog(
                 student = selectedRecommendedStudent!!,
                 requestList = requestList.value,

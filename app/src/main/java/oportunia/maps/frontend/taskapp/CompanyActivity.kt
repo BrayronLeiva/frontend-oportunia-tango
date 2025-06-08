@@ -110,7 +110,6 @@ fun MainCompanyScreen(
             internshipLocationViewModel = internshipLocationViewModel,
             studentViewModel = studentViewModel,
             requestViewModel = requestViewModel,
-            paddingValues = paddingValues,
             companyViewModel = companyViewModel,
             paddingValues = paddingValues,
             onLogOut

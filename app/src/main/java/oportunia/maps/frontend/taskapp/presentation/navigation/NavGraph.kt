@@ -144,7 +144,6 @@ fun NavGraph(
     internshipLocationViewModel: InternshipLocationViewModel,
     studentViewModel: StudentViewModel,
     requestViewModel: RequestViewModel,
-    paddingValues: PaddingValues,
     companyViewModel: CompanyViewModel,
     paddingValues: PaddingValues,
     onLogOut: () -> Unit
