@@ -28,13 +28,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ProfileInfoCard
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
 
 
 @Composable
@@ -68,7 +66,7 @@ fun CompanyProfileScreen(
             }
             is CompanyState.Empty -> {
                 Text(
-                    text = stringResource(R.string.no_companny_info_available),
+                    text = stringResource(R.string.no_company_info_available),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )

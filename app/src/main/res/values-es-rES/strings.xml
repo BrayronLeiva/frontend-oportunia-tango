@@ -33,6 +33,8 @@
     <string name="internships_search_label">Búsqueda de Pasantías</string>
     <string name="request_search_label">Búsqueda de Solicitudes</string>
     <string name="search_company_label">Buscar Empresa</string>
+    <string name="student_search_label">Búsqueda de estudiantes</string>
+
     <string name="filter_rating_label">Filtrar por</string>
     <string name="search_label">Buscar</string>
     <string name="go_student_screen_label">Ir a la pantalla de estudiante</string>
@@ -75,6 +77,8 @@
     <string name="identification">Identificación</string>
     <string name="personal_info">Información Personal</string>
     <string name="experience">Experiencia</string>
+
+    <string name="no_company_info_available">No hay información disponible de la empresa.</string>
 
     <string name="approved">Aprobado</string>
     <string name="denied">Denegado</string>

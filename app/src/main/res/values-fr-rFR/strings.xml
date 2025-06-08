@@ -33,8 +33,10 @@
     <string name="internships_search_label">Recherche de Stage</string>
     <string name="request_search_label">Recherche de Demande</string>
     <string name="search_company_label">Rechercher une Entreprise</string>
+    <string name="student_search_label">Recherche d\'étudiants</string>
     <string name="filter_rating_label">Filtrer par</string>
     <string name="search_label">Rechercher</string>
+
     <string name="go_student_screen_label">Aller à l’écran Étudiant</string>
     <string name="go_company_screen_label">Aller à l’écran Entreprise</string>
 
@@ -75,6 +77,8 @@
     <string name="identification">Identification</string>
     <string name="personal_info">Informations Personnelles</string>
     <string name="experience">Expérience</string>
+
+    <string name="no_company_info_available">Aucune information sur l\'entreprise disponible.</string>
 
     <string name="approved">Approuvé</string>
     <string name="denied">Refusé</string>

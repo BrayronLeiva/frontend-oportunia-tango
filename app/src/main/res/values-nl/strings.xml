@@ -32,6 +32,7 @@
     <string name="choose_rating_label">Kies een beoordeling</string>
     <string name="internships_search_label">Stage Zoeken</string>
     <string name="request_search_label">Verzoek Zoeken</string>
+    <string name="student_search_label">Student zoeken</string>
     <string name="search_company_label">Zoek Bedrijf</string>
     <string name="filter_rating_label">Filter op</string>
     <string name="search_label">Zoeken</string>
@@ -75,6 +76,8 @@
     <string name="identification">Identificatie</string>
     <string name="personal_info">Persoonlijke informatie</string>
     <string name="experience">Ervaring</string>
+
+    <string name="no_company_info_available">Geen bedrijfsinformatie beschikbaar.</string>
 
     <string name="approved">Goedgekeurd</string>
     <string name="denied">Afgewezen</string>

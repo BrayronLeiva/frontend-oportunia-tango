@@ -31,7 +31,7 @@
     <string name="profile">Profile</string>
     <string name="choose_rating_label">Choose Rating</string>
     <string name="internships_search_label">Internship Search</string>
-    <string name="student_search_label" translatable="false">Student Search</string>
+    <string name="student_search_label">Student Search</string>
     <string name="request_search_label">Request Search</string>
     <string name="search_company_label">Search Company</string>
     <string name="filter_rating_label">Filter by</string>
@@ -77,12 +77,7 @@
     <string name="personal_info">Personal Info</string>
     <string name="experience">Experience</string>
 
-
-    <string name="no_companny_info_available" translatable="false">No company information available.</string>
-    <!--<string name="profile_picture_content_description">Profile Picture</string>-->
-
-
-
+    <string name="no_company_info_available">No company information available.</string>
 
     <string name="approved">Approved</string>
     <string name="denied">Denied</string>
