@@ -65,6 +65,11 @@ class RequestRepositoryImpl @Inject constructor(
         return dataSource.delete(requestId)
     }
 
+
+    override suspend fun deleteRequestByInternshipLocationId(internshipLocationId: Long): Result<Unit> {
+        return dataSource.deleteRequestByInternshipLocationId(internshipLocationId)
+    }
+
     override suspend fun updateRequest(request: RequestUpdateDto): Result<Request> {
         return dataSource.update(request).map {
             requestMapper.mapToDomain(it)

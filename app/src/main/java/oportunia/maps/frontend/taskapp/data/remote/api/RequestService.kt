@@ -62,6 +62,15 @@ interface RequestService {
     suspend fun deleteRequest(@Path("id") id: Long): Response<Unit>
 
     /**
+     * Deletes a location-company entry from the remote API.
+     *
+     * @param id The unique identifier of the location to delete
+     * @return [Response] indicating the success of the operation
+     */
+    @DELETE("/v1/requests/internship-locations/{id}")
+    suspend fun deleteRequestByInternshipLocationId(@Path("id") id: Long): Response<Unit>
+
+    /**
      * Retrieves all qualifications entries from the remote API.
      *
      * @return [Response] containing a list of [LocationCompanyDto] objects if successful

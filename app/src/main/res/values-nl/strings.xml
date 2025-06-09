@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="request_delete_message">Request delete successfully</string>
+
     <string name="app_name">OportunIA Maps</string>
     <string name="app_title">Stagezoeker op Kaartbasis</string>
     <string name="student_map">Studentenkaart</string>

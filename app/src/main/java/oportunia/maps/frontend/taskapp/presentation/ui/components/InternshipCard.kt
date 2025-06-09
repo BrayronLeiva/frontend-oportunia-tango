@@ -17,7 +17,7 @@ import oportunia.maps.frontend.taskapp.domain.model.Internship
 @Composable
 fun InternshipCard(
     internshipFlag: InternshipLocationFlagDto,
-    onRequestClick: (InternshipDto) -> Unit
+    onRequestClick: (InternshipLocationFlagDto) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -48,7 +48,7 @@ fun InternshipCard(
             //)
 
             Button(
-                onClick = { onRequestClick(internshipFlag.internship) },
+                onClick = { onRequestClick(internshipFlag) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (internshipFlag.requested) Color.Red else Color.Cyan,
                     contentColor = Color.White

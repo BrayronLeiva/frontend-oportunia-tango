@@ -30,6 +30,20 @@ sealed class RequestState {
     data class Error(val message: String) : RequestState()
 }
 
+sealed class RequestDeleteState{
+    /** Indicates an ongoing internship operation */
+    data object Loading : RequestDeleteState()
+
+    /** Contains the successfully retrieved list of internships */
+    data class Success(val request: Unit) : RequestDeleteState()
+
+    /** Indicates no internships are available */
+    data object Empty : RequestDeleteState()
+
+    /** Contains an error message if the internship operation fails */
+    data class Error(val message: String) : RequestDeleteState()
+}
+
 sealed class RequestCreateState{
     /** Indicates an ongoing internship operation */
     data object Loading : RequestCreateState()
@@ -76,6 +90,9 @@ class RequestViewModel @Inject constructor(
     private val _requestCreateState = MutableStateFlow<RequestCreateState>(RequestCreateState.Empty)
     val requestCreateState: StateFlow<RequestCreateState> = _requestCreateState
 
+    private val _requesDeleteState = MutableStateFlow<RequestDeleteState>(RequestDeleteState.Empty)
+    val requesDeleteState: StateFlow<RequestDeleteState> = _requesDeleteState
+
     private val _requestUpdateState = MutableStateFlow<RequestUpdateState>(RequestUpdateState.Empty)
     val requestUpdateState: StateFlow<RequestUpdateState> = _requestUpdateState
 
@@ -112,7 +129,7 @@ class RequestViewModel @Inject constructor(
                     if (requests.isEmpty()) {
                         _requestState.value = RequestState.Empty
                     }else {
-                        Log.d("RequestViewModel", "Total Internships: ${requests.size}")
+                        Log.d("RequestViewModel", "Total All Requests: ${requests.size}")
                         _requestState.value = RequestState.Success(requests)
                         _requestList.value = requests
                     }
@@ -155,6 +172,7 @@ class RequestViewModel @Inject constructor(
                     // Puedes actualizar el estado si es necesario
                     Log.d("RequestViewModel", "Request created: $request")
                     _requestCreateState.value = RequestCreateState.Success(request)
+
                 }
                 .onFailure { exception ->
                     Log.e("RequestViewModel", "Error creating request: ${exception.message}")
@@ -167,6 +185,26 @@ class RequestViewModel @Inject constructor(
                 }
         }
     }
+
+    fun deleteRequestByInternshipLocationIdAndStudent(internshipLocation: InternshipLocationFlagDto) {
+
+
+        viewModelScope.launch {
+            requestRepository.deleteRequestByInternshipLocationId (internshipLocation.id!!)
+                .onSuccess { request ->
+                    // Puedes actualizar el estado si es necesario
+                    Log.d("RequestViewModel", "Request deleted: $request")
+                    _requesDeleteState.value = RequestDeleteState.Success(request)
+                }
+                .onFailure { exception ->
+                    Log.e("RequestViewModel", "Error deleting request: ${exception.message}")
+                    val errorMsg = "Error deleting request"
+                    _requesDeleteState.value = RequestDeleteState.Error(errorMsg)
+                }
+        }
+    }
+
+
 
 
     fun updateRequest(request: Request) {

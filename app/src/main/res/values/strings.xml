@@ -52,6 +52,8 @@
 
     <string name="request_success_message">Request sent successfully</string>
 
+    <string name="request_delete_message">Request delete successfully</string>
+
     <string name="search_by_company_name">Search by company name</string>
     <string name="search_by_internship_details">Search by internship details</string>
     <string name="search_placeholder">Search</string>

@@ -39,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationFlagState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestDeleteState
 
 
 @Composable
@@ -53,6 +54,7 @@ fun InternshipListStudentScreen(
 ) {
     val context = LocalContext.current
     val requestCreateState by requestViewModel.requestCreateState.collectAsState()
+    val requestDeleteState by requestViewModel.requesDeleteState.collectAsState()
     // Fetch the location company details and internships
 
     LaunchedEffect(locationCompanyId) {
@@ -60,6 +62,31 @@ fun InternshipListStudentScreen(
         internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
     }
 
+    LaunchedEffect(requestCreateState) {
+        when (requestCreateState) {
+            is RequestCreateState.Error -> {
+                val message = (requestCreateState as RequestCreateState.Error).message
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+            is RequestCreateState.Success -> {
+                Toast.makeText(context, R.string.request_success_message.toString(), Toast.LENGTH_SHORT).show()
+            }
+            else -> Unit
+        }
+    }
+
+    LaunchedEffect(requestDeleteState) {
+        when (requestDeleteState) {
+            is RequestDeleteState.Error -> {
+                val message = (requestDeleteState as RequestDeleteState.Error).message
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+            is RequestDeleteState.Success -> {
+                Toast.makeText(context, R.string.request_delete_message.toString(), Toast.LENGTH_SHORT).show()
+            }
+            else -> Unit
+        }
+    }
     LaunchedEffect(requestCreateState) {
         when (requestCreateState) {
             is RequestCreateState.Error -> {
@@ -120,9 +147,16 @@ fun InternshipListStudentScreen(
                                 items(state.internshipLocationsFlag) { internshipLocation ->
                                     InternshipCard(
                                         internshipFlag = internshipLocation,
-                                        onRequestClick = { inter ->
+                                        onRequestClick = { internshipLocationRequest ->
                                             // Aquí llamás al ViewModel para crear la solicitud
-                                            requestViewModel.createRequestOfInternshipLocationFlag(internshipLocation)
+                                            if (internshipLocationRequest.requested){
+                                                requestViewModel.deleteRequestByInternshipLocationIdAndStudent(internshipLocationRequest)
+                                                internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
+                                            }else{
+                                                requestViewModel.createRequestOfInternshipLocationFlag(internshipLocationRequest)
+                                                internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
+                                            }
+                                            //internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
                                         }
                                     )
                                 }

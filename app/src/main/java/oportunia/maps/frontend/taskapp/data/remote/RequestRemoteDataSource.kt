@@ -67,7 +67,9 @@ class RequestRemoteDataSource @Inject constructor(
         requestService.deleteRequest(id)
     }
 
-
+    suspend fun deleteRequestByInternshipLocationId(internshipLocationId: Long): Result<Unit> = safeApiCall {
+        requestService.deleteRequestByInternshipLocationId(internshipLocationId)
+    }
     /**
      * Retrieves all location companies from the remote API.
      *

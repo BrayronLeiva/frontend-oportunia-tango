@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="request_delete_message">Solicitud borrada correctamente</string>
+
     <string name="app_name">OportunIA Maps</string>
     <string name="app_title">Localizador de Pasantías Basado en Mapas</string>
     <string name="student_map">Mapa de Estudiantes</string>
