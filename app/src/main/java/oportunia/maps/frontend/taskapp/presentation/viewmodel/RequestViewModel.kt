@@ -188,7 +188,7 @@ class RequestViewModel @Inject constructor(
 
     fun deleteRequestByInternshipLocationIdAndStudent(internshipLocation: InternshipLocationFlagDto) {
 
-
+        _requesDeleteState.value = RequestDeleteState.Loading
         viewModelScope.launch {
             requestRepository.deleteRequestByInternshipLocationId (internshipLocation.id!!)
                 .onSuccess { request ->
