@@ -19,13 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 
 @Composable
 fun InternshipRecommendedFlagDetailDialog(
-    internshipLocation: InternshipLocationRecommendedFlagDto,
+    internshipLocation: InternshipLocationRecommendedDto,
     onDismiss: () -> Unit,
-    onRequestClick: (InternshipLocationRecommendedFlagDto) -> Unit
+    onRequestClick: (InternshipLocationRecommendedDto) -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -38,7 +39,7 @@ fun InternshipRecommendedFlagDetailDialog(
                 InfoSection(label = stringResource(id = R.string.mission), value = internshipLocation.locationCompany.company.mision)
                 InfoSection(label = stringResource(id = R.string.vision), value = internshipLocation.locationCompany.company.vision)
                 InfoSection(label = stringResource(id = R.string.corporate_culture), value = internshipLocation.locationCompany.company.corporateCultur)
-                InfoSection(label = stringResource(id = R.string.contact), value = internshipLocation.locationCompany.company.toString())
+                InfoSection(label = stringResource(id = R.string.contact), value = internshipLocation.locationCompany.company.contactCompany.toString())
                 InfoSection(label = stringResource(id = R.string.rating), value = "${internshipLocation.locationCompany.company.ratingCompany} ★")
                 InfoSection(label = stringResource(id = R.string.internship_type), value = internshipLocation.locationCompany.company.internshipType.toString())
 
@@ -70,10 +71,12 @@ fun InternshipRecommendedFlagDetailDialog(
                     width = 140.dp
                 )
 
-                CustomButtonRequest(
-                    internshipLocationFlag = internshipLocation,
-                    onClick = { onRequestClick(internshipLocation) }
+                CustomButton(
+                    text =  stringResource(id = R.string.apply),
+                    onClick = { onRequestClick(internshipLocation) },
+                    width = 140.dp
                 )
+
 
             }
         }

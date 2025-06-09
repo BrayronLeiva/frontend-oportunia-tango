@@ -37,3 +37,27 @@ fun CustomButton(
         Text(text = text, color = Color.DarkGray)
     }
 }
+
+@Composable
+fun CustomButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    width: Dp = 350.dp,
+    backgroundColor: Color,
+    textColor: Color
+) {
+    Spacer(modifier = Modifier.height(16.dp))
+    Button(
+        onClick = onClick,
+        modifier = modifier
+            .width(width)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = backgroundColor,
+            contentColor = textColor
+        )
+    ) {
+        Text(text = text, color = textColor)
+    }
+}

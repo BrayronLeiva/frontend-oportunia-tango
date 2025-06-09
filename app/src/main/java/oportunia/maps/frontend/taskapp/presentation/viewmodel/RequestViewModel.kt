@@ -230,6 +230,24 @@ class RequestViewModel @Inject constructor(
         }
     }
 
+    fun deleteRequestById(requestId: Long) {
+
+        _requesDeleteState.value = RequestDeleteState.Loading
+        viewModelScope.launch {
+            requestRepository.deleteRequest(requestId)
+                .onSuccess { request ->
+                    // Puedes actualizar el estado si es necesario
+                    Log.d("RequestViewModel", "Request deleted: $request")
+                    _requesDeleteState.value = RequestDeleteState.Success(request)
+                }
+                .onFailure { exception ->
+                    Log.e("RequestViewModel", "Error deleting request: ${exception.message}")
+                    val errorMsg = "Error deleting request"
+                    _requesDeleteState.value = RequestDeleteState.Error(errorMsg)
+                }
+        }
+    }
+
 
 
     fun updateRequest(request: Request) {

@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,6 +39,8 @@ import oportunia.maps.frontend.taskapp.domain.model.Request
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RequestCard
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RequestCardDetailDialog
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestDeleteState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 
@@ -54,9 +58,25 @@ fun RequestDetailScreen(
 
     val requestState by requestViewModel.requestState.collectAsState()
     val requestList by requestViewModel.requestList.collectAsState()
+    val requestDeleteState by requestViewModel.requesDeleteState.collectAsState()
 
     LaunchedEffect(Unit) {
         requestViewModel.findAllRequest()
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(requestDeleteState) {
+        when (requestDeleteState) {
+            is RequestDeleteState.Error -> {
+                val message = (requestDeleteState as RequestDeleteState.Error).message
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            }
+            is RequestDeleteState.Success -> {
+                Toast.makeText(context, R.string.request_success_message.toString(), Toast.LENGTH_SHORT).show()
+                requestViewModel.findAllRequest()
+            }
+            else -> Unit
+        }
     }
 
     var selectedRequest by remember { mutableStateOf<Request?>(null) }
@@ -131,45 +151,52 @@ fun RequestDetailScreen(
         }
 
 
+        // Mostrar loading general si se está haciendo una operación de update/delete
+        if (requestState is RequestState.Loading ||
+            requestDeleteState is RequestDeleteState.Loading) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        } else {
+            // Handle the different internship states
+            when (val state = requestState) {
 
-        // Handle the different internship states
-        when (val state = requestState) {
-            is RequestState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            }
-            is RequestState.Empty -> {
-                androidx.compose.material3.Text(
-                    text = stringResource(id = R.string.no_requests_available),
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-            is RequestState.Success -> {
-                if (state.internships.isNotEmpty()) {
-                    LazyColumn {
-                        items(filteredRequests) { request ->
-                            RequestCard(request, onClick = {
-                                selectedRequest = it
-                                showDialog = true
-                            })
-                        }
-                    }
-                } else {
+                is RequestState.Empty -> {
                     androidx.compose.material3.Text(
-                        text = stringResource(id = R.string.no_internships_available),
+                        text = stringResource(id = R.string.no_requests_available),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(16.dp)
                     )
                 }
-            }
-            is RequestState.Error -> {
-                androidx.compose.material3.Text(
-                    text = stringResource(id = R.string.error_message, state.message),
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(16.dp)
-                )
+
+                is RequestState.Success -> {
+                    if (state.internships.isNotEmpty()) {
+                        LazyColumn {
+                            items(filteredRequests) { request ->
+                                RequestCard(request, onClick = {
+                                    selectedRequest = it
+                                    showDialog = true
+                                })
+                            }
+                        }
+                    } else {
+                        androidx.compose.material3.Text(
+                            text = stringResource(id = R.string.no_internships_available),
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
+                }
+
+                is RequestState.Error -> {
+                    androidx.compose.material3.Text(
+                        text = stringResource(id = R.string.error_message, state.message),
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+
+                else -> {}
             }
         }
 
@@ -178,7 +205,11 @@ fun RequestDetailScreen(
         if (showDialog && selectedRequest != null) {
             RequestCardDetailDialog(
                 request = selectedRequest!!,
-                onDismiss = { showDialog = false }
+                onDismiss = { showDialog = false },
+                onRequestClick = {
+                    requestViewModel.deleteRequestById(it.id)
+                    showDialog = false
+                }
             )
         }
 

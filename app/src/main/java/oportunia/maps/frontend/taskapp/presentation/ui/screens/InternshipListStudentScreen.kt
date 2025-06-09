@@ -54,7 +54,6 @@ fun InternshipListStudentScreen(
 ) {
     val context = LocalContext.current
     val requestCreateState by requestViewModel.requestCreateState.collectAsState()
-    val requestDeleteState by requestViewModel.requesDeleteState.collectAsState()
     // Fetch the location company details and internships
 
     LaunchedEffect(locationCompanyId) {
@@ -62,20 +61,6 @@ fun InternshipListStudentScreen(
         internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
     }
 
-
-    LaunchedEffect(requestDeleteState) {
-        when (requestDeleteState) {
-            is RequestDeleteState.Error -> {
-                val message = (requestDeleteState as RequestDeleteState.Error).message
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            }
-            is RequestDeleteState.Success -> {
-                Toast.makeText(context, R.string.request_delete_message.toString(), Toast.LENGTH_SHORT).show()
-                internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
-            }
-            else -> Unit
-        }
-    }
     LaunchedEffect(requestCreateState) {
         when (requestCreateState) {
             is RequestCreateState.Error -> {
@@ -118,7 +103,7 @@ fun InternshipListStudentScreen(
 
                 // Mostrar loading general si se está haciendo una operación de update/delete
                 if (internshipLocationFlagState is InternshipLocationFlagState.Loading ||
-                    requestDeleteState is RequestDeleteState.Loading || requestCreateState is RequestCreateState.Loading) {
+                    requestCreateState is RequestCreateState.Loading) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
                     }
@@ -141,15 +126,7 @@ fun InternshipListStudentScreen(
                                         InternshipCard(
                                             internshipFlag = internshipLocation,
                                             onRequestClick = { internshipLocationRequest ->
-                                                if (internshipLocationRequest.requested) {
-                                                    internshipLocationRequest.id?.let { it1 ->
-                                                        requestViewModel.deleteRequestByInternshipLocationIdAndStudent(
-                                                            it1
-                                                        )
-                                                    }
-                                                } else {
-                                                    requestViewModel.createRequestOfInternshipLocationFlag(internshipLocationRequest)
-                                                }
+                                                requestViewModel.createRequestOfInternshipLocationFlag(internshipLocationRequest)
                                             }
                                         )
                                     }

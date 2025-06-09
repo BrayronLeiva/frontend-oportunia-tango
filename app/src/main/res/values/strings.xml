@@ -78,11 +78,15 @@
     <string name="identification">Identification</string>
     <string name="personal_info">Personal Info</string>
     <string name="experience">Experience</string>
+    <string name="add_internship_title" translatable="false">Add a new Internship</string>
+
 
     <string name="no_company_info_available">No company information available.</string>
 
     <string name="approved">Approved</string>
     <string name="denied">Denied</string>
+    <string name="requested" translatable="false">Requested</string>
+    <string name="cancel_request" translatable="false">Cancel</string>
 
     <string name="state">State</string>
 

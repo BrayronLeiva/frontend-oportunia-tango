@@ -35,13 +35,13 @@ import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 
 @Composable
 fun InternshipItem(
-    internship: InternshipLocationFlagDto,
-    onClick: (InternshipLocationFlagDto) -> Unit
+    internship: InternshipLocation,
+    onClick: (InternshipLocation) -> Unit
 ) {
-    val company = internship.locationCompany.company
+    val company = internship.location.company
     val internshipDetail = internship.internship.details
-    val companyName = company.nameCompany
-    val companyRating = company.ratingCompany
+    val companyName = company.name
+    val companyRating = company.rating
 
     Card(
         modifier = Modifier
@@ -96,8 +96,8 @@ fun InternshipItem(
 
 @Composable
 fun InternshipRecommendedCard(
-    internship: InternshipLocationRecommendedFlagDto,
-    onClick: (InternshipLocationRecommendedFlagDto) -> Unit) {
+    internship: InternshipLocationRecommendedDto,
+    onClick: (InternshipLocationRecommendedDto) -> Unit) {
 
     val company = internship.locationCompany.company
     val internshipDetail = internship.internship.details
@@ -154,7 +154,7 @@ fun InternshipRecommendedCard(
                 Text(
                     text = reason,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = DarkCyan
+                    color = Color.DarkGray
                 )
                 Text(
                     text = "$score",
