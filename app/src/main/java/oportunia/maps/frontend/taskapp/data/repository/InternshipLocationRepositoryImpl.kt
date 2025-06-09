@@ -6,6 +6,7 @@ import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
 import oportunia.maps.frontend.taskapp.data.remote.InternshipLocationRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
@@ -26,6 +27,16 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
             remoteDataSource.getAll().map { dtos ->
                 dtos.map { internshipLocationMapper.mapToDomain(it) }
             }
+        } catch (e: UnknownHostException) {
+            Result.failure(Exception("Network error: Please check your connection."))
+        } catch (e: Exception) {
+            Result.failure(Exception("Error fetching location companies: ${e.message}"))
+        }
+    }
+
+    override suspend fun findAllFlagInternshipLocations(): Result<List<InternshipLocationFlagDto>> {
+        return try {
+            remoteDataSource.getInternshipsLocationsFlag()
         } catch (e: UnknownHostException) {
             Result.failure(Exception("Network error: Please check your connection."))
         } catch (e: Exception) {
@@ -63,6 +74,17 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
     override suspend fun findRecommendedInternshipLocations(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>> {
         return try {
             remoteDataSource.getRecommended(locationRequestDto)
+
+        } catch (e: UnknownHostException) {
+            Result.failure(Exception("Network error: Please check your connection."))
+        } catch (e: Exception) {
+            Result.failure(Exception("Error fetching location companies: ${e.message}"))
+        }
+    }
+
+    override suspend fun findRecommendedInternshipLocationsFlag(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedFlagDto>> {
+        return try {
+            remoteDataSource.getFlagRecommended(locationRequestDto)
 
         } catch (e: UnknownHostException) {
             Result.failure(Exception("Network error: Please check your connection."))

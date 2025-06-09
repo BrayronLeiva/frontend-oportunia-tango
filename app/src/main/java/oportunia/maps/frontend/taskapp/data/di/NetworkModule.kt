@@ -23,6 +23,7 @@ import oportunia.maps.frontend.taskapp.data.remote.api.UserService
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
@@ -34,6 +35,7 @@ import oportunia.maps.frontend.taskapp.data.remote.interceptor.ResponseIntercept
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationFlagDeserializer
+import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationRecommendedFlagDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationRecommendedSerializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.QualificationDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.RequestDeserializer
@@ -74,6 +76,7 @@ object NetworkModule {
         .registerTypeAdapter(InternshipLocationFlagDto::class.java, InternshipLocationFlagDeserializer())
         .registerTypeAdapter(RequestDto::class.java, RequestDeserializer())
         .registerTypeAdapter(InternshipDto::class.java, InternshipDeserializer())
+        .registerTypeAdapter(InternshipLocationRecommendedFlagDto::class.java, InternshipLocationRecommendedFlagDeserializer())
         .registerTypeAdapter(InternshipLocationRecommendedDto::class.java, InternshipLocationRecommendedSerializer())
         .registerTypeAdapter(InternshipLocationDto::class.java, InternshipLocationDeserializer())
         .registerTypeAdapter(LocationCompanyDto::class.java, LocationCompanyDeserializer())

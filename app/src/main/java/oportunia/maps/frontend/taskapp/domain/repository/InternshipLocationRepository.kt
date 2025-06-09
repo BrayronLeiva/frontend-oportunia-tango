@@ -2,6 +2,7 @@ package oportunia.maps.frontend.taskapp.domain.repository
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
@@ -19,4 +20,6 @@ interface InternshipLocationRepository {
     suspend fun findRecommendedInternshipLocations(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>>
     suspend fun findInternshipLocationsByLocationId(locationId: Long): Result<List<InternshipLocation>>
     suspend fun findInternshipLocationsFlagByLocationId(locationId: Long): Result<List<InternshipLocationFlagDto>>
+    suspend fun findAllFlagInternshipLocations(): Result<List<InternshipLocationFlagDto>>
+    suspend fun findRecommendedInternshipLocationsFlag(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedFlagDto>>
 }

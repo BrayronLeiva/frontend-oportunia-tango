@@ -118,7 +118,7 @@ fun InternshipListStudentScreen(
 
                 // Mostrar loading general si se está haciendo una operación de update/delete
                 if (internshipLocationFlagState is InternshipLocationFlagState.Loading ||
-                    requestDeleteState is RequestDeleteState.Loading) {
+                    requestDeleteState is RequestDeleteState.Loading || requestCreateState is RequestCreateState.Loading) {
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator()
                     }
@@ -142,7 +142,11 @@ fun InternshipListStudentScreen(
                                             internshipFlag = internshipLocation,
                                             onRequestClick = { internshipLocationRequest ->
                                                 if (internshipLocationRequest.requested) {
-                                                    requestViewModel.deleteRequestByInternshipLocationIdAndStudent(internshipLocationRequest)
+                                                    internshipLocationRequest.id?.let { it1 ->
+                                                        requestViewModel.deleteRequestByInternshipLocationIdAndStudent(
+                                                            it1
+                                                        )
+                                                    }
                                                 } else {
                                                     requestViewModel.createRequestOfInternshipLocationFlag(internshipLocationRequest)
                                                 }

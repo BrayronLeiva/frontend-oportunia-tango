@@ -27,19 +27,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 
 @Composable
 fun InternshipItem(
-    internship: InternshipLocation,
-    onClick: (InternshipLocation) -> Unit
+    internship: InternshipLocationFlagDto,
+    onClick: (InternshipLocationFlagDto) -> Unit
 ) {
-    val company = internship.location.company
+    val company = internship.locationCompany.company
     val internshipDetail = internship.internship.details
-    val companyName = company.name
-    val companyRating = company.rating
+    val companyName = company.nameCompany
+    val companyRating = company.ratingCompany
 
     Card(
         modifier = Modifier
@@ -94,25 +96,71 @@ fun InternshipItem(
 
 @Composable
 fun InternshipRecommendedCard(
-    internship: InternshipLocationRecommendedDto,
-    onClick: (InternshipLocationRecommendedDto) -> Unit) {
-    // Obtener los datos de la compañía y la calificación
-    val company = internship.locationCompany
-    val internshipDetail = internship.internship.details
-    val companyName = company.company.nameCompany
-    val companyRating = company.company.ratingCompany
+    internship: InternshipLocationRecommendedFlagDto,
+    onClick: (InternshipLocationRecommendedFlagDto) -> Unit) {
 
-    Card(modifier = Modifier
-        .fillMaxWidth().padding(vertical = 8.dp).clickable { onClick(internship) }) {
-        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.LocationOn, contentDescription = stringResource(id = R.string.company), modifier = Modifier.size(40.dp))
+    val company = internship.locationCompany.company
+    val internshipDetail = internship.internship.details
+    val companyName = company.nameCompany
+    val companyRating = company.ratingCompany
+    val reason = internship.reason
+    val score = internship.score
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .clickable { onClick(internship) },
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(color = Color(0xFFE0F7FA), shape = CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = stringResource(id = R.string.company),
+                    tint =  Color.DarkGray,
+                    modifier = Modifier.size(28.dp)
+                )
+            }
+
             Spacer(modifier = Modifier.width(16.dp))
+
             Column {
-                Text(internshipDetail, fontWeight = FontWeight.ExtraBold)
-                Text(companyName, fontWeight = FontWeight.Bold, color = DarkCyan)
-                Text("$companyRating ★", color = Color.Gray)
-                Text("${internship.score}", color = Color.Gray)
-                Text("${internship.reason}", color = Color.Gray)
+                Text(
+                    text = internshipDetail,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = companyName,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = DarkCyan
+                )
+                Text(
+                    text = "$companyRating ★",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+                Text(
+                    text = reason,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = DarkCyan
+                )
+                Text(
+                    text = "$score",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
             }
         }
     }

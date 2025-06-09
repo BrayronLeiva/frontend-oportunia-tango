@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipRepository
@@ -81,6 +82,12 @@ class InternshipLocationViewModel @Inject constructor(
     private val _location = MutableStateFlow<LocationCompany?>(null)
     val location: StateFlow<LocationCompany?> = _location
 
+    private val _internshipsLocationFlagList = MutableStateFlow<List<InternshipLocationFlagDto>>(emptyList())
+    val internshipsLocationFlagList: StateFlow<List<InternshipLocationFlagDto>> = _internshipsLocationFlagList
+
+    private val _internshipsLocationRecommendedFlagList = MutableStateFlow<List<InternshipLocationRecommendedFlagDto>>(emptyList())
+    val internshipsLocationRecommendedFlagList: StateFlow<List<InternshipLocationRecommendedFlagDto>> = _internshipsLocationRecommendedFlagList
+
     private val _internshipsLocationList = MutableStateFlow<List<InternshipLocation>>(emptyList())
     val internshipsLocationList: StateFlow<List<InternshipLocation>> = _internshipsLocationList
 
@@ -135,6 +142,29 @@ class InternshipLocationViewModel @Inject constructor(
         }
     }
 
+    fun findAllFlagInternShipsLocations() {
+        _internshipLocationStateFlag.value = InternshipLocationFlagState.Loading
+        viewModelScope.launch {
+            internshipLocationRepository.findAllFlagInternshipLocations()
+                .onSuccess { interLocations ->
+                    if (interLocations.isEmpty()){
+                        _internshipLocationStateFlag.value = InternshipLocationFlagState.Empty
+                    }else {
+                        Log.d(
+                            "InternshipLocationViewModel",
+                            "Total Interships: ${interLocations.size}"
+                        )
+                        _internshipLocationStateFlag.value = InternshipLocationFlagState.Success(interLocations)
+                        _internshipsLocationFlagList.value = interLocations
+                    }
+                }
+                .onFailure { exception ->
+                    Log.e("InternshipLocationViewModel", "Failed to fetch internships location: ${exception.message}")
+                    _internshipLocationStateFlag.value = InternshipLocationFlagState.Error("Failed to fetch internships locations: ${exception.message}")
+                }
+        }
+    }
+
     fun loadInternShipsLocationsRecommended() {
         _internshipLocationState.value = InternshipLocationState.Loading
         viewModelScope.launch {
@@ -157,6 +187,36 @@ class InternshipLocationViewModel @Inject constructor(
                     .onFailure { exception ->
                         Log.e("InternshipLocationViewModel", "Error fetching internships locations: ${exception.message}")
                         _internshipLocationState.value = InternshipLocationState.Error("Failed to fetch internships locations: ${exception.message}")
+                        //_internshipsLocationList.value = emptyList() // o lo que quieras mostrar en error
+                    }
+            } catch (e: Exception) {
+                // Manejo de errores
+            }
+        }
+    }
+
+    fun loadInternShipsLocationsFlagRecommended() {
+        _internshipLocationStateFlag.value = InternshipLocationFlagState.Loading
+        viewModelScope.launch {
+            try {
+                Log.d("InternshipLocationViewModel", "Search By AI")
+                //By the moment
+                internshipLocationRepository.findRecommendedInternshipLocationsFlag(LocationRequestDto(9.940,-84.100))
+                    .onSuccess { interLocations ->
+                        if (interLocations.isEmpty()){
+                            _internshipLocationStateFlag.value = InternshipLocationFlagState.Empty
+                        }else {
+                            Log.d(
+                                "InternshipLocationViewModel",
+                                "Total Interships: ${interLocations.size}"
+                            )
+                            _internshipLocationStateFlag.value = InternshipLocationFlagState.Success(emptyList())
+                            _internshipsLocationRecommendedFlagList.value = interLocations
+                        }
+                    }
+                    .onFailure { exception ->
+                        Log.e("InternshipLocationViewModel", "Error fetching internships locations: ${exception.message}")
+                        _internshipLocationStateFlag.value = InternshipLocationFlagState.Error("Failed to fetch internships locations: ${exception.message}")
                         //_internshipsLocationList.value = emptyList() // o lo que quieras mostrar en error
                     }
             } catch (e: Exception) {

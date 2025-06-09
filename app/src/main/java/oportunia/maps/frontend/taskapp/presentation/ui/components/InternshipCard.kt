@@ -47,19 +47,10 @@ fun InternshipCard(
                 //modifier = Modifier.width(200.dp)
             //)
 
-            Button(
-                onClick = { onRequestClick(internshipFlag) },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (internshipFlag.requested) Color.Red else Color.Cyan,
-                    contentColor = Color.White
-                ),
-                modifier = Modifier.width(150.dp)
-            ) {
-                androidx.compose.material.Text(
-                    text = if (internshipFlag.requested) "Dismiss" else "Request",
-                    fontWeight = FontWeight.Bold
-                )
-            }
+            CustomButtonRequest(
+                internshipLocationFlag = internshipFlag,
+                onClick = { onRequestClick(internshipFlag) }
+            )
         }
 
     }
