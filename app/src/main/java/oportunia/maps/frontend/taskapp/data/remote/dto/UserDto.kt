@@ -23,5 +23,6 @@ data class UserCreateDto(
     val lastName: String,
     val email: String,
     val password: String,
-    val enable: Boolean
+    val enabled: Boolean,
+    val tokenExpired: Boolean
 )

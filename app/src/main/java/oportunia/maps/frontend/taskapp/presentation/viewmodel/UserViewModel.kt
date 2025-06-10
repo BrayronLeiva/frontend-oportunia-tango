@@ -137,7 +137,8 @@ class UserViewModel @Inject constructor(
             lastName = "",
             email = "",
             password = "",
-            enable = false
+            enabled = true,
+            tokenExpired = false
         )
     )
     val userDraft: StateFlow<UserCreateDto> = _userDraft
