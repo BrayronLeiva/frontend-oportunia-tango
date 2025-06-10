@@ -105,4 +105,8 @@
     <string name="apply">Aplicar</string>
 
     <string name="internship">Pasantía</string>
+
+    <string name="student_ratings_title">Calificaciones de estudiantes</string>
+    <string name="company_ratings_title">Calificaciones de empresas</string>
+    <string name="no_ratings_available">No hay calificaciones disponibles.</string>
 </resources>

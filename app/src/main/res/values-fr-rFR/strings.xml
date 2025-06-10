@@ -105,4 +105,8 @@
     <string name="apply">Postuler</string>
 
     <string name="internship">Stage</string>
+
+    <string name="student_ratings_title">Évaluations des étudiants</string>
+    <string name="company_ratings_title">Évaluations des entreprises</string>
+    <string name="no_ratings_available">Aucune évaluation disponible.</string>
 </resources>

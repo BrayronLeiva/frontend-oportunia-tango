@@ -103,4 +103,8 @@
     <string name="apply">Apply</string>
 
     <string name="internship">Internship</string>
+
+    <string name="student_ratings_title">Student Ratings</string>
+    <string name="company_ratings_title">Company Ratings</string>
+    <string name="no_ratings_available">No ratings available.</string>
 </resources>

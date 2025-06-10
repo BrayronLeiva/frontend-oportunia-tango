@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
@@ -22,23 +23,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
+import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.LanguageSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ProfileInfoCard
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RatingCompanyStudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
 @Composable
 fun StudentProfileScreen(
     studentViewModel: StudentViewModel,
+    ratingCompanyStudentViewModel: RatingCompanyStudentViewModel,
+    navController: NavController,
     onLogOut: () -> Unit
 ) {
     LaunchedEffect(Unit) {
         studentViewModel.getLoggedStudent()
+        ratingCompanyStudentViewModel.findAllRatingCompanyStudents()
     }
 
     val selectedStudent by studentViewModel.selectedStudent.collectAsState()
     val studentState by studentViewModel.studentState.collectAsState()
+    val ratingList by ratingCompanyStudentViewModel.ratingCompanyStudentList.collectAsState()
 
     Column(
         modifier = Modifier
@@ -55,6 +63,7 @@ fun StudentProfileScreen(
         ) {
             LanguageSelector()
         }
+
         when (val state = studentState) {
             is StudentState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -83,50 +92,61 @@ fun StudentProfileScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                selectedStudent?.let {
+                selectedStudent?.let { student ->
                     Text(
-                        text = it.name,
+                        text = student.name,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
-                }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                Text(
-                    text = stringResource(R.string.rating_format, selectedStudent?.rating ?: 0),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color(0xFFFFA500)
-                )
+                    val studentRatings = ratingList.filter {
+                        it.student.id == student.id && it.type == TypeUser.STU
+                    }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    val averageRating = studentRatings.map { it.rating }
+                        .takeIf { it.isNotEmpty() }
+                        ?.average()
+                        ?.let { String.format("%.1f", it) }
+                        ?: "0.0"
 
-                ProfileInfoCard(
-                    title = stringResource(R.string.identification),
-                    value = selectedStudent?.identification.toString()
-                )
-                selectedStudent?.let {
+                    Text(
+                        text = stringResource(R.string.rating_format, averageRating),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFFFFA500),
+                        modifier = Modifier.clickable {
+                            navController.navigate(NavRoutes.StudentRatings.createRoute(student.id))
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    ProfileInfoCard(
+                        title = stringResource(R.string.identification),
+                        value = student.identification
+                    )
                     ProfileInfoCard(
                         title = stringResource(R.string.personal_info),
-                        value = it.personalInfo
+                        value = student.personalInfo
                     )
                     ProfileInfoCard(
                         title = stringResource(R.string.experience),
-                        value = it.experience
+                        value = student.experience
+                    )
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    CustomButton(
+                        onClick = { onLogOut() },
+                        text = stringResource(R.string.logout_button),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
                     )
                 }
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                CustomButton(
-                    onClick = { onLogOut() },
-                    text = stringResource(R.string.logout_button),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                )
             }
 
             is StudentState.Error -> {

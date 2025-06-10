@@ -104,4 +104,8 @@
     <string name="apply">Solliciteren</string>
 
     <string name="internship">Stage</string>
+
+    <string name="student_ratings_title">Beoordelingen van studenten</string>
+    <string name="company_ratings_title">Beoordelingen van bedrijven</string>
+    <string name="no_ratings_available">Geen beoordelingen beschikbaar.</string>
 </resources>
