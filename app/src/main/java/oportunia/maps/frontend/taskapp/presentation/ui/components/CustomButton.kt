@@ -21,7 +21,8 @@ fun CustomButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    width: Dp = 350.dp
+    width: Dp = 350.dp,
+    enabled: Boolean = true
 ) {
     Spacer(modifier = Modifier.height(16.dp))
     Button(
@@ -32,11 +33,13 @@ fun CustomButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = DarkCyan,
             contentColor = Black
-        )
+        ),
+        enabled = enabled
     ) {
         Text(text = text, color = Color.DarkGray)
     }
 }
+
 
 @Composable
 fun CustomButton(

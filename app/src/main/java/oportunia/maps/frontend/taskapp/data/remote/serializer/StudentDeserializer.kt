@@ -42,7 +42,13 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
         val lastName = userObject.get("lastName").asString
         val emailUser = userObject.get("email").asString
         val enable = userObject.get("enabled").asBoolean
-        val tokenExpired = userObject.get("tokenExpired").asBoolean
+        val tokenExpired = try {
+            userObject.get("tokenExpired")?.asBoolean ?: false
+        } catch (e: Exception) {
+            Log.e("StudentDeserializer", "Error al obtener 'tokenExpired': ${e.message}")
+            false
+        }
+
         val createDate = userObject.get("createDate").asString
         val roleListJson = userObject.getAsJsonArray("roleList")
         val roleList: List<RoleDto> = roleListJson.map { element ->

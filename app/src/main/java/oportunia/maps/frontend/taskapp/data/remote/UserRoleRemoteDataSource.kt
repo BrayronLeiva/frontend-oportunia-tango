@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
 import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import retrofit2.Response
 import javax.inject.Inject
@@ -43,7 +44,7 @@ class UserRoleRemoteDataSource @Inject constructor(
      * @return [Result] containing the created [UserRoleDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun create(dto: UserRoleDto): Result<UserRoleDto> = safeApiCall {
+    suspend fun create(dto: UserRoleCreateDto): Result<UserRoleDto> = safeApiCall {
         userRoleService.createUserRole(dto)
     }
 

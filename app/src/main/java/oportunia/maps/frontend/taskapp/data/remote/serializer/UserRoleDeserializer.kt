@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote.serializer
 
+import android.util.Log
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -24,33 +25,46 @@ class UserRoleDeserializer : JsonDeserializer<UserRoleDto> {
     ): UserRoleDto {
         val jsonObject = json.asJsonObject
 
+        val userJson = jsonObject.getAsJsonObject("user")
+        val userId = userJson.get("id").asLong
+        val firstName = userJson.get("firstName").asString
+        val lastName = userJson.get("lastName").asString
+        val emailUser = userJson.get("email").asString
+        val enable = userJson.get("enabled").asBoolean
+        val tokenExpired = try {
+            userJson.get("tokenExpired")?.asBoolean ?: false
+        } catch (e: Exception) {
+            Log.e("StudentDeserializer", "Error al obtener 'tokenExpired': ${e.message}")
+            false
+        }
+        val createDate = userJson.get("createDate").asString
 
-        // Deserialize user information
-        val userId = jsonObject.get("id").asLong
-        val firstName = jsonObject.get("firstName").asString
-        val lastName = jsonObject.get("lastName").asString
-        val emailUser = jsonObject.get("email").asString
-        val enable = jsonObject.get("enable").asBoolean
-        val tokenExpired = jsonObject.get("tokenExpired").asBoolean
-        val createDate = jsonObject.get("createDate").asString
-        val roleListJson = jsonObject.getAsJsonArray("roleList")
+        val roleListJson = userJson.getAsJsonArray("roleList")
         val roleList: List<RoleDto> = roleListJson.map { element ->
             val roleObject = element.asJsonObject
             val idrole = roleObject.get("id").asLong
             val namerole = roleObject.get("name").asString
-
             RoleDto(id = idrole, name = namerole)
         }
 
-        // Create UserDto and CompanyDto
-        val userDto = UserDto(userId, emailUser, firstName, lastName, enable, tokenExpired, createDate, roleList)
+        val userDto = UserDto(
+            id = userId,
+            email = emailUser,
+            firstName = firstName,
+            lastName = lastName,
+            enable = enable,
+            tokenExpired = tokenExpired,
+            createDate = createDate,
+            roleList = roleList
+        )
 
-        val rolId = jsonObject.get("rol_id").asLong
-        val roleName = jsonObject.get("rol_name").asString
+        // Obtener el objeto anidado "role"
+        val roleJson = jsonObject.getAsJsonObject("role")
+        val roleId = roleJson.get("id").asLong
+        val roleName = roleJson.get("name").asString
 
-        val roleDto = RoleDto(rolId,roleName)
+        val roleDto = RoleDto(id = roleId, name = roleName)
 
-        // Return the StudentDto object
-        return UserRoleDto(userDto,roleDto)
+        return UserRoleDto(user = userDto, role = roleDto)
     }
 }

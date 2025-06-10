@@ -4,6 +4,7 @@ import oportunia.maps.frontend.taskapp.data.mapper.QualificationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.StudentMapper
 import oportunia.maps.frontend.taskapp.data.remote.QualificationRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.StudentRemoteDataSource
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Qualification
 import oportunia.maps.frontend.taskapp.domain.model.Student
@@ -65,6 +66,12 @@ class StudentRepositoryImpl @Inject constructor(
 
     override suspend fun saveStudent(student: Student): Result<Student> {
         return dataSource.create(studentMapper.mapToDto(student)).map {
+            studentMapper.mapToDomain(it)
+        }
+    }
+
+    override suspend fun saveStudent(student: StudentCreateDto): Result<Student> {
+        return dataSource.create(student).map {
             studentMapper.mapToDomain(it)
         }
     }

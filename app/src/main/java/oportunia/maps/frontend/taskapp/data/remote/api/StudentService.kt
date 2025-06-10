@@ -2,6 +2,7 @@ package oportunia.maps.frontend.taskapp.data.remote.api
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import retrofit2.Response
@@ -39,8 +40,17 @@ interface StudentService {
      * @return [Response] containing the created [StudentDto] with server-assigned ID if successful
      */
     @POST("/v1/students")
-    suspend fun createStudent(@Body qualification: StudentDto): Response<StudentDto>
+    suspend fun createStudent(@Body student: StudentDto): Response<StudentDto>
 
+
+    /**
+     * Creates a new student entry in the remote API.
+     *
+     * @param student The [StudentDto] object containing the data to create
+     * @return [Response] containing the created [StudentDto] with server-assigned ID if successful
+     */
+    @POST("/v1/students")
+    suspend fun createStudent(@Body student: StudentCreateDto): Response<StudentDto>
     /**
      * Updates an existing student entry in the remote API.
      *

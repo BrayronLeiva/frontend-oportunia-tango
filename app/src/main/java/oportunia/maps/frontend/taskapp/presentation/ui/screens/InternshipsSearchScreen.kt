@@ -88,7 +88,7 @@ fun InternshipSearch(
 
 
     LaunchedEffect(Unit) {
-        internshipLocationViewModel.findAllInternShipsLocations()
+        internshipLocationViewModel.findAllInternShipsAvailableLocations()
     }
 
     val context = LocalContext.current
@@ -101,7 +101,7 @@ fun InternshipSearch(
             }
             is RequestCreateState.Success -> {
                 Toast.makeText(context, "Request sent successfully", Toast.LENGTH_SHORT).show()
-                internshipLocationViewModel.findAllInternShipsLocations()
+                internshipLocationViewModel.findAllInternShipsAvailableLocations()
             }
             else -> Unit
         }
@@ -136,9 +136,9 @@ fun InternshipSearch(
                 onToggle = {
                     useAi = !useAi
                     if (useAi) {
-                        internshipLocationViewModel.loadInternShipsLocationsRecommended()
+                        internshipLocationViewModel.loadInternShipsLocationsAvailableRecommended()
                     }else{
-                        internshipLocationViewModel.findAllInternShipsLocations()
+                        internshipLocationViewModel.findAllInternShipsAvailableLocations()
                     }
                 }
             )

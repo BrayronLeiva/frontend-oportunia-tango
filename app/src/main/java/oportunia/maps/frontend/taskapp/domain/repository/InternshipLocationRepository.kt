@@ -22,4 +22,6 @@ interface InternshipLocationRepository {
     suspend fun findInternshipLocationsFlagByLocationId(locationId: Long): Result<List<InternshipLocationFlagDto>>
     suspend fun findAllFlagInternshipLocations(): Result<List<InternshipLocationFlagDto>>
     suspend fun findRecommendedInternshipLocationsFlag(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedFlagDto>>
+    suspend fun findAllInternshipLocationsAvailable(): Result<List<InternshipLocation>>
+    suspend fun findRecommendedInternshipLocationsAvailable(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>>
 }

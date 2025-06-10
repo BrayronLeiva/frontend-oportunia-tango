@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.domain.model.User
@@ -72,29 +73,10 @@ class StudentViewModel @Inject constructor(
     private val _studentRecommendedList = MutableStateFlow<List<StudentRecommendedDto>>(emptyList())
     val studentRecommendedList: StateFlow<List<StudentRecommendedDto>> = _studentRecommendedList
 
-    private val _registeredStudent = MutableStateFlow<Student?>(null)
-    val registeredStudent: StateFlow<Student?> = _registeredStudent
+    //private val _registeredStudent = MutableStateFlow<Student?>(null)
+    //val registeredStudent: StateFlow<Student?> = _registeredStudent
 
-    private val _studentDraft = MutableStateFlow(
-        Student(
-            id = 0L,
-            name = "",
-            identification = "",
-            personalInfo = "",
-            experience = "",
-            rating = 0.0,
-            user = User(
-                0L, "", "",
-                lastName = "",
-                enabled = false,
-                tokenExpired = false,
-                createDate = "",
-                roles = emptyList(),
-                password = ""
-            )
-        )
-    )
-    val studentDraft: StateFlow<Student> = _studentDraft
+
 
     fun selectStudentById(studentId: Long) {
         _studentState.value = StudentState.Loading
@@ -197,55 +179,55 @@ class StudentViewModel @Inject constructor(
     }
 
 
-
-
-
-
-
-
-
-
-
-
     fun saveStudent() {
         viewModelScope.launch {
             val student = _studentDraft.value
+            _studentState.value = StudentState.Loading
+            Log.e("StudentViewModel", "Trying to save student: $student")
             repository.saveStudent(student)
                 .onSuccess { savedStudent ->
-                    _registeredStudent.value = savedStudent
+
                     _studentState.value = StudentState.Success(savedStudent)
-                    cleanStudentDraft()
+                    //cleanStudentDraft()
                     Log.e("StudentViewModel", "Saved succesfully student: ${savedStudent.id}")
                 }
                 .onFailure { exception ->
-                    Log.e("StudentViewModel", "Error saving student" + exception.message)
+                    _studentState.value = StudentState.Error("Error")
+                    Log.e("StudentViewModel", "Error saving student" + exception.printStackTrace())
                 }
         }
     }
 
 
-    private fun cleanStudentDraft(){
-        _studentDraft.value = Student(
-            id = 0L,
-            name = "",
+
+
+
+    private val _studentDraft = MutableStateFlow(
+        StudentCreateDto(
+            nameStudent = "",
             identification = "",
             personalInfo = "",
             experience = "",
-            rating = 0.0,
-            user = User(
-                0L, "", "",
-                lastName = "",
-                enabled = false,
-                tokenExpired = false,
-                createDate = "",
-                roles = emptyList(),
-                password = ""
-            )
+            ratingStudent = 0.0,
+            userId = 0
+        )
+    )
+    val studentDraft: StateFlow<StudentCreateDto> = _studentDraft
+
+
+    private fun cleanStudentDraft(){
+        _studentDraft.value = StudentCreateDto(
+            nameStudent = "",
+            identification = "",
+            personalInfo = "",
+            experience = "",
+            ratingStudent = 0.0,
+            userId = 0
         )
     }
 
     fun updateName(name: String) {
-        _studentDraft.value = _studentDraft.value.copy(name = name)
+        _studentDraft.value = _studentDraft.value.copy(nameStudent = name)
     }
 
     fun updateIdentification(id: String) {
@@ -261,12 +243,11 @@ class StudentViewModel @Inject constructor(
     }
 
     fun updateRating(rating: Double) {
-        _studentDraft.value = _studentDraft.value.copy(rating = rating)
+        _studentDraft.value = _studentDraft.value.copy(ratingStudent = rating)
     }
 
-    fun updateUser(email: String, password: String) {
-        val updatedUser = _studentDraft.value.user.copy(email = email, password = password)
-        _studentDraft.value = _studentDraft.value.copy(user = updatedUser)
+    fun updateUser(userId: Long) {
+        _studentDraft.value = _studentDraft.value.copy(userId = userId)
     }
 
 }

@@ -25,6 +25,15 @@ interface InternshipLocationService {
     @GET("/v1/internship-locations")
     suspend fun getAllInternshipsLocations(): Response<List<InternshipLocationDto>>
 
+
+    /**
+     * Retrieves all location-company entries from the remote API.
+     *
+     * @return [Response] containing a list of [LocationCompanyDto] objects if successful
+     */
+    @GET("/v1/internship-locations/available")
+    suspend fun getAllInternshipsLocationsAvailable(): Response<List<InternshipLocationDto>>
+
     /**
      * Retrieves a specific location-company by its unique identifier.
      *
@@ -79,6 +88,15 @@ interface InternshipLocationService {
      */
     @GET("/v1/internship-locations/recommendations")
     suspend fun getRecommendedInternshipsLocations(
+        @Query("lat") lat: Double,
+        @Query("lng") lng: Double
+    ): Response<List<InternshipLocationRecommendedDto>>
+
+    /**
+    Comments
+     */
+    @GET("/v1/internship-locations/recommendations/available")
+    suspend fun getRecommendedInternshipsLocationsAvailable(
         @Query("lat") lat: Double,
         @Query("lng") lng: Double
     ): Response<List<InternshipLocationRecommendedDto>>

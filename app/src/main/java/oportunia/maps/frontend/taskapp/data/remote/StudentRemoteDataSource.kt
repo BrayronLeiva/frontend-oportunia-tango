@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.data.remote
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import retrofit2.Response
@@ -48,6 +49,19 @@ class StudentRemoteDataSource @Inject constructor(
     suspend fun create(dto: StudentDto): Result<StudentDto> = safeApiCall {
         studentService.createStudent(dto)
     }
+
+
+    /**
+     * Creates a new student.
+     *
+     * @param dto The student data to create
+     * @return [Result] containing the created [StudentDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun create(dto: StudentCreateDto): Result<StudentDto> = safeApiCall {
+        studentService.createStudent(dto)
+    }
+
 
     /**
      * Updates an existing location company.

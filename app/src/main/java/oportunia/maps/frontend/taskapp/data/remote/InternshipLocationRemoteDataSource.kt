@@ -92,6 +92,16 @@ class InternshipLocationRemoteDataSource @Inject constructor(
      * @return [Result] containing a list of [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
+    suspend fun getRecommendedAvailable(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>> = safeApiCall {
+        internshipLocationService.getRecommendedInternshipsLocationsAvailable(locationRequestDto.latitude, locationRequestDto.longitude)
+    }
+
+    /**
+     * Retrieves all location companies from the remote API.
+     *
+     * @return [Result] containing a list of [LocationCompanyDto] if successful,
+     * or an exception if the operation failed
+     */
     suspend fun getFlagRecommended(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedFlagDto>> = safeApiCall {
         internshipLocationService.getRecommendedInternshipsLocationsFlag(locationRequestDto.latitude, locationRequestDto.longitude)
     }
@@ -125,6 +135,16 @@ class InternshipLocationRemoteDataSource @Inject constructor(
 
     suspend fun getInternshipsLocationsFlag(): Result<List<InternshipLocationFlagDto>> = safeApiCall {
         internshipLocationService.getInternshipsLocationsFlag()
+    }
+
+    /**
+     * Retrieves all location companies from the remote API.
+     *
+     * @return [Result] containing a list of [LocationCompanyDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getAllAvailable(): Result<List<InternshipLocationDto>> = safeApiCall {
+        internshipLocationService.getAllInternshipsLocationsAvailable()
     }
 
     private suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Result<T> = try {

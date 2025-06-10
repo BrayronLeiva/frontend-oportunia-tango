@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
 import oportunia.maps.frontend.taskapp.data.remote.api.UserService
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
 import retrofit2.Response
 import javax.inject.Inject
@@ -17,6 +18,10 @@ class UserRemoteDataSource @Inject constructor(
     }
 
     suspend fun create(dto: UserDto): Result<UserDto> = safeApiCall {
+        userService.createUser(dto)
+    }
+
+    suspend fun create(dto: UserCreateDto): Result<UserDto> = safeApiCall {
         userService.createUser(dto)
     }
 

@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.domain.repository
 
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Qualification
 import oportunia.maps.frontend.taskapp.domain.model.Student
@@ -14,5 +15,6 @@ interface StudentRepository {
     suspend fun findLoggedStudent(): Result<Student>
     suspend fun findRecommendedStudents(): Result<List<StudentRecommendedDto>>
     suspend fun findStudentsRequestingMyCompany(): Result<List<Student>>
+    suspend fun saveStudent(student: StudentCreateDto): Result<Student>
 }
 

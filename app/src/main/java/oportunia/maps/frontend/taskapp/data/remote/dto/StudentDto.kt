@@ -37,3 +37,13 @@ data class StudentRecommendedDto(
 
 )
 
+
+data class StudentCreateDto(
+    val nameStudent: String,
+    val identification: String,
+    val personalInfo: String,
+    val experience: String,
+    val ratingStudent: Double,
+    val userId: Long
+
+)

@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -19,6 +20,9 @@ interface UserService {
 
     @POST("v1/users")
     suspend fun createUser(@Body user: UserDto): Response<UserDto>
+
+    @POST("v1/users")
+    suspend fun createUser(@Body user: UserCreateDto): Response<UserDto>
 
     @PUT("v1/users/{id}")
     suspend fun updateUser(

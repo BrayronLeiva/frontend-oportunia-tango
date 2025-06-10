@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -35,8 +36,8 @@ interface UserRoleService {
      * @param userRole The [UserRoleDto] object containing the data to create
      * @return [Response] containing the created [UserRoleDto] with server-assigned ID if successful
      */
-    @POST("userRole")
-    suspend fun createUserRole(@Body userRole: UserRoleDto): Response<UserRoleDto>
+    @POST("user-roles")
+    suspend fun createUserRole(@Body userRole: UserRoleCreateDto): Response<UserRoleDto>
 
     /**
      * Updates an existing user-role entry in the remote API.

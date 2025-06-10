@@ -26,20 +26,20 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterTextFi
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
 
 
 @Composable
 fun RegisterStudentFirst(
     navController: NavController,
-    userRoleViewModel: UserRoleViewModel,
+    userviewModel: UserViewModel,
     studentViewModel: StudentViewModel,
     paddingValues: PaddingValues
 ) {
     var name by remember { mutableStateOf("") }
     var idCard by remember { mutableStateOf("") }
     var personalInfo by remember { mutableStateOf("") }
-    var experience by remember { mutableStateOf("") }
-    var interests by remember { mutableStateOf("") }
+    var lastName by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -62,23 +62,35 @@ fun RegisterStudentFirst(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 RegisterLineTextField(value = name, onValueChange = { name = it }, label = stringResource(id = R.string.name_field), true, 56.dp)
+                RegisterLineTextField(value = lastName, onValueChange = { lastName = it }, label = stringResource(id = R.string.last_name_field), true, 56.dp)
                 RegisterLineTextField(value = idCard, onValueChange = { idCard = it }, label = stringResource(id = R.string.id_field), true, 56.dp)
                 RegisterTextField(value = personalInfo, onValueChange = { personalInfo = it }, stringResource(id = R.string.personal_info_field), false, 94.dp)
-                RegisterTextField(value = experience, onValueChange = { experience = it }, label = stringResource(id = R.string.experience_field), false, 94.dp)
+
             }
 
         }
-        CustomButton(stringResource(
-            id = R.string.next_button),
+
+        val isFormValid = name.isNotBlank() &&
+                lastName.isNotBlank() &&
+                idCard.isNotBlank() &&
+                personalInfo.isNotBlank()
+
+        CustomButton(
+            text = stringResource(id = R.string.next_button),
             onClick = {
+                userviewModel.updateFirstName(name)
+                userviewModel.updateLastName(lastName)
+
                 studentViewModel.updateName(name)
                 val idCardInt = idCard.toIntOrNull() ?: 0
                 studentViewModel.updateIdentification(idCardInt.toString())
                 studentViewModel.updatePersonalInfo(personalInfo)
-                studentViewModel.updateExperience(experience)
                 navController.navigate(NavRoutes.RegisterStudentSecond.ROUTE)
-                      },
-            modifier = Modifier.width(350.dp), 350.dp)
+            },
+            modifier = Modifier.width(350.dp),
+            enabled = isFormValid
+        )
+
 
     }
 }

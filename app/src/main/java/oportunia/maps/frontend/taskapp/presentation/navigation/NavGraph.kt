@@ -31,6 +31,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewM
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
 
 /**
  * Sets up the navigation graph for the application.
@@ -241,6 +242,7 @@ fun NavGraph(
 @Composable
 fun NavGraph(
     navController: NavHostController,
+    userViewModel: UserViewModel,
     userRoleViewModel: UserRoleViewModel,
     studentViewModel: StudentViewModel,
     qualificationViewModel: QualificationViewModel,
@@ -250,15 +252,15 @@ fun NavGraph(
     NavHost(navController = navController, startDestination = NavRoutes.MainRegister.ROUTE) {
 
         composable(NavRoutes.MainRegister.ROUTE) {
-            MainRegister(navController, userRoleViewModel, studentViewModel, paddingValues)
+            MainRegister(navController, userViewModel, studentViewModel, paddingValues)
         }
 
         composable(NavRoutes.RegisterStudentFirst.ROUTE) {
-            RegisterStudentFirst(navController, userRoleViewModel, studentViewModel,paddingValues)
+            RegisterStudentFirst(navController, userViewModel, studentViewModel,paddingValues)
         }
 
         composable(NavRoutes.RegisterStudentSecond.ROUTE) {
-            RegisterStudentSecond(navController, qualificationViewModel, userRoleViewModel, studentViewModel, paddingValues, onRegisterSuccess)
+            RegisterStudentSecond(navController, qualificationViewModel, userViewModel, userRoleViewModel, studentViewModel, paddingValues, onRegisterSuccess)
         }
 
 
