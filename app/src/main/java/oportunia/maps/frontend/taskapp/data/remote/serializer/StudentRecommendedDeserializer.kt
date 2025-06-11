@@ -33,6 +33,15 @@ class StudentRecommendedDeserializer : JsonDeserializer<StudentRecommendedDto> {
         val personalInfo = jsonObject.get("personalInfo").asString
         val experience = jsonObject.get("experience").asString
         val rating = jsonObject.get("ratingStudent").asDouble
+        val homeLatitude = jsonObject.get("homeLatitude").asDouble
+        val homeLongitude = jsonObject.get("homeLongitude").asDouble
+
+        val imageProfile = try {
+            jsonObject.get("imageProfile").asString ?: "empty"
+        } catch (e: Exception) {
+            Log.e("StudentDeserializer", "Error al obtener 'imageProfile': ${e.message}")
+            "empty"
+        }
 
 
         // Deserialize user information
@@ -42,7 +51,12 @@ class StudentRecommendedDeserializer : JsonDeserializer<StudentRecommendedDto> {
         val lastName = userObject.get("lastName").asString
         val emailUser = userObject.get("email").asString
         val enable = userObject.get("enabled").asBoolean
-        val tokenExpired = userObject.get("tokenExpired").asBoolean
+        val tokenExpired = try {
+            userObject.get("tokenExpired")?.asBoolean ?: false
+        } catch (e: Exception) {
+            Log.e("StudentDeserializer", "Error al obtener 'userObject': ${e.message}")
+            false
+        }
         val createDate = userObject.get("createDate").asString
         val roleListJson = userObject.getAsJsonArray("roleList")
         val roleList: List<RoleDto> = roleListJson.map { element ->
@@ -62,7 +76,7 @@ class StudentRecommendedDeserializer : JsonDeserializer<StudentRecommendedDto> {
         // Return the StudentDto object
         val student = StudentRecommendedDto(
             studentId, studentName, identification, personalInfo,
-            experience, rating, userDto, score, reason
+            experience, rating, userDto, imageProfile, homeLatitude, homeLongitude, score, reason
         )
         Log.d("StudentDeserializer", "JSON en Student DTO: $student")
         return student
