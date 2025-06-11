@@ -63,7 +63,22 @@ sealed class StudentImageState {
     /** Contains an error message if the task operation fails */
     data class Error(val message: String) : StudentImageState()
 
-    data class ImageUploadSuccess(val imageUrl: String): StudentImageState()
+}
+
+
+sealed class StudentImageUploadState {
+    /** Indicates an ongoing task operation */
+    data object Loading : StudentImageUploadState()
+
+    /** Contains the successfully retrieved task */
+    data class Success(val imageUrl: String) : StudentImageUploadState()
+
+    /** Indicates no task is available */
+    data object Empty : StudentImageUploadState()
+
+    /** Contains an error message if the task operation fails */
+    data class Error(val message: String) : StudentImageUploadState()
+
 }
 
 /**
@@ -94,6 +109,11 @@ class StudentViewModel @Inject constructor(
     private val _studentImageState = MutableStateFlow<StudentImageState>(StudentImageState.Empty)
     val studentImageState: StateFlow<StudentImageState> = _studentImageState
 
+    private val _studentImageUploadState = MutableStateFlow<StudentImageUploadState>(StudentImageUploadState.Empty)
+    val studentImageUploadState: StateFlow<StudentImageUploadState> = _studentImageUploadState
+
+    private val _isProcessing = MutableStateFlow(false)
+    val isProcessing: StateFlow<Boolean> = _isProcessing
 
 
     fun selectStudentById(studentId: Long) {
@@ -218,17 +238,34 @@ class StudentViewModel @Inject constructor(
 
     fun uploadImage(studentId: Long, file: File) {
 
-        _studentImageState.value = StudentImageState.Loading
+        _studentImageUploadState.value = StudentImageUploadState.Loading
         viewModelScope.launch {
             repository.uploadProfileImage(studentId, file)
                 .onSuccess { responseMap ->
-                    val imageUrl = responseMap["message"] ?: ""
-                    _studentImageState.value = StudentImageState.ImageUploadSuccess(imageUrl)
+                    val responseText = responseMap.toString()
+                    val regex = Regex("imageUrl=([^}]+)")
+                    val match = regex.find(responseText)
+                    val imageUrl1 = match?.groupValues?.get(1) ?: ""
+                    Log.e("StudentViewModel", "Image 1: $imageUrl1")
+
+                    val imageUrl2 = responseMap["imageUrl"]?.toString() ?: ""
+                    Log.e("StudentViewModel", "Image 2: $imageUrl2")
+
+                    _studentImageUploadState.value = StudentImageUploadState.Success(imageUrl2)
                 }
                 .onFailure { exception ->
-                    _studentImageState.value = StudentImageState.Error(exception.toString())
+                    Log.e("StudentViewModel", "Error uploading image")
+                    _studentImageUploadState.value = StudentImageUploadState.Error(exception.toString())
                 }
         }
+    }
+
+    fun startRegistrationFlow() {
+        _isProcessing.value = true
+    }
+
+    fun stopRegistrationFlow() {
+        _isProcessing.value = false
     }
 
 
@@ -261,6 +298,14 @@ class StudentViewModel @Inject constructor(
             homeLatitude = 0.0,
             homeLongitude = 0.0
         )
+    }
+
+    fun updateLatitude(latitude: Double) {
+        _studentDraft.value = _studentDraft.value.copy(homeLatitude = latitude)
+    }
+
+    fun updateLongitude(longitude: Double) {
+        _studentDraft.value = _studentDraft.value.copy(homeLongitude = longitude)
     }
 
     fun updateName(name: String) {

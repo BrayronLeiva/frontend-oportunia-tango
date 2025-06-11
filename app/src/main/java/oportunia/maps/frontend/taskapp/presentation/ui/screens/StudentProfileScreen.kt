@@ -149,7 +149,6 @@ fun StudentProfileScreen(
                 )
             }
 
-            is StudentImageState.ImageUploadSuccess -> {}
         }
     }
 }

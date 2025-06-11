@@ -76,10 +76,8 @@ fun MainRegisterScreen(
     // Obtenemos el contexto
     val context = LocalContext.current
     val activity = context as? Activity
-    val onRegisterSuccess: (Int) -> Unit = { userId ->
-        val intent = Intent(context, LoginActivity::class.java).apply {
-            putExtra("userId", userId)
-        }
+    val onRegisterSuccess: () -> Unit = {
+        val intent = Intent(context, LoginActivity::class.java)
         context.startActivity(intent)
         activity?.finish()
     }

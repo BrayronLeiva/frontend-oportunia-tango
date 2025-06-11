@@ -18,8 +18,10 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListStu
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipSearch
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.LocationCompanyDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFinal
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentThird
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RequestDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentSearchScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentMapScreen
@@ -247,7 +249,7 @@ fun NavGraph(
     studentViewModel: StudentViewModel,
     qualificationViewModel: QualificationViewModel,
     paddingValues: PaddingValues,
-    onRegisterSuccess: (Int) -> Unit
+    onRegisterSuccess: () -> Unit
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.MainRegister.ROUTE) {
 
@@ -260,7 +262,15 @@ fun NavGraph(
         }
 
         composable(NavRoutes.RegisterStudentSecond.ROUTE) {
-            RegisterStudentSecond(navController, qualificationViewModel, userViewModel, userRoleViewModel, studentViewModel, paddingValues, onRegisterSuccess)
+            RegisterStudentSecond(navController, qualificationViewModel, userViewModel, userRoleViewModel, studentViewModel, paddingValues)
+        }
+
+        composable(NavRoutes.RegisterStudentThird.ROUTE) {
+            RegisterStudentThird(navController, qualificationViewModel, userViewModel, userRoleViewModel, studentViewModel, paddingValues)
+        }
+
+        composable(NavRoutes.RegisterStudentFinal.ROUTE) {
+            RegisterStudentFinal(navController, qualificationViewModel, userViewModel, userRoleViewModel, studentViewModel, paddingValues, onRegisterSuccess)
         }
 
 
