@@ -109,7 +109,7 @@ fun RegisterStudentFinal(
                                 .build(),
                             contentDescription = stringResource(R.string.profile_picture_content_description),
                             modifier = Modifier
-                                .size(140.dp)
+                                .size(180.dp)
                                 .clip(CircleShape)
                         )
 
