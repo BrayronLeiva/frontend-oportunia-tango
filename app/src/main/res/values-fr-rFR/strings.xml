@@ -109,4 +109,12 @@
     <string name="student_ratings_title">Évaluations des étudiants</string>
     <string name="company_ratings_title">Évaluations des entreprises</string>
     <string name="no_ratings_available">Aucune évaluation disponible.</string>
+
+    <string name="rate_button">Évaluer</string>
+
+    <string name="rate_company_title">Évaluer l entreprise</string>
+    <string name="comment_label">Commentaire</string>
+    <string name="send_button">Envoyer</string>
+
+    <string name="rate_student_title">Évaluer l étudiant</string>
 </resources>

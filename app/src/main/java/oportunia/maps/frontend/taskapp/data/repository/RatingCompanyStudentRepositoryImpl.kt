@@ -36,8 +36,7 @@ class RatingCompanyStudentRepositoryImpl @Inject constructor(
 
     override suspend fun saveRatingCompanyStudent(ratingCompanyStudent: RatingCompanyStudent): Result<Unit> {
         return try {
-            remoteDataSource.create(mapper.mapToDto(ratingCompanyStudent)).map {
-                // Usually you ignore the result or use it as confirmation
+            remoteDataSource.create(mapper.mapToRequestDto(ratingCompanyStudent)).map {
                 Unit
             }
         } catch (e: Exception) {
@@ -47,7 +46,7 @@ class RatingCompanyStudentRepositoryImpl @Inject constructor(
 
     override suspend fun updateRatingCompanyStudent(ratingCompanyStudent: RatingCompanyStudent): Result<Unit> {
         return try {
-            remoteDataSource.update(ratingCompanyStudent.id, mapper.mapToDto(ratingCompanyStudent)).map {
+            remoteDataSource.update(ratingCompanyStudent.id!!, mapper.mapToDto(ratingCompanyStudent)).map {
                 Unit
             }
         } catch (e: Exception) {

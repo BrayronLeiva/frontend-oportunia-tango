@@ -43,17 +43,14 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.RatingCompanyStude
 @Composable
 fun CompanyProfileScreen(
     companyViewModel: CompanyViewModel,
-    ratingCompanyStudentViewModel: RatingCompanyStudentViewModel,
     navController: NavController,
     onLogOut: () -> Unit
 ) {
     LaunchedEffect(Unit) {
         companyViewModel.getLoggedCompany()
-        ratingCompanyStudentViewModel.findAllRatingCompanyStudents()
     }
 
     val companyState by companyViewModel.companyState.collectAsState()
-    val ratingList by ratingCompanyStudentViewModel.ratingCompanyStudentList.collectAsState()
 
     Column(
         modifier = Modifier
@@ -80,15 +77,6 @@ fun CompanyProfileScreen(
             is CompanyState.Success -> {
                 val company = state.company
 
-                val companyRatings = ratingList.filter {
-                    it.company.id == company.id && it.type == TypeUser.COM
-                }
-                val averageRating = if (companyRatings.isNotEmpty()) {
-                    companyRatings.map { it.rating }.average()
-                } else {
-                    0.0
-                }
-
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Image(
@@ -111,7 +99,7 @@ fun CompanyProfileScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = stringResource(R.string.rating_format, averageRating),
+                    text = stringResource(R.string.rating_format, company.rating),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color(0xFFFFA500),

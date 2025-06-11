@@ -4,9 +4,18 @@ package oportunia.maps.frontend.taskapp.presentation.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,30 +32,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.R
-import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.LanguageSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ProfileInfoCard
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.RatingCompanyStudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
 @Composable
 fun StudentProfileScreen(
     studentViewModel: StudentViewModel,
-    ratingCompanyStudentViewModel: RatingCompanyStudentViewModel,
     navController: NavController,
     onLogOut: () -> Unit
 ) {
     LaunchedEffect(Unit) {
         studentViewModel.getLoggedStudent()
-        ratingCompanyStudentViewModel.findAllRatingCompanyStudents()
     }
 
     val selectedStudent by studentViewModel.selectedStudent.collectAsState()
     val studentState by studentViewModel.studentState.collectAsState()
-    val ratingList by ratingCompanyStudentViewModel.ratingCompanyStudentList.collectAsState()
 
     Column(
         modifier = Modifier
@@ -102,18 +106,8 @@ fun StudentProfileScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    val studentRatings = ratingList.filter {
-                        it.student.id == student.id && it.type == TypeUser.STU
-                    }
-
-                    val averageRating = studentRatings.map { it.rating }
-                        .takeIf { it.isNotEmpty() }
-                        ?.average()
-                        ?.let { String.format("%.1f", it) }
-                        ?: "0.0"
-
                     Text(
-                        text = stringResource(R.string.rating_format, averageRating),
+                        text = stringResource(R.string.rating_format, selectedStudent!!.rating),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color(0xFFFFA500),

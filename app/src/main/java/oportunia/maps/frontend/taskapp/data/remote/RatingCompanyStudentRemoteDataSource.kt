@@ -2,6 +2,7 @@ package oportunia.maps.frontend.taskapp.data.remote
 
 import oportunia.maps.frontend.taskapp.data.remote.api.RatingCompanyStudentService
 import oportunia.maps.frontend.taskapp.data.remote.dto.RatingCompanyStudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RatingCompanyStudentRequestDto
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -26,7 +27,7 @@ class RatingCompanyStudentRemoteDataSource @Inject constructor(
     /**
      * Creates a new rating entry.
      */
-    suspend fun create(dto: RatingCompanyStudentDto): Result<RatingCompanyStudentDto> = safeApiCall {
+    suspend fun create(dto: RatingCompanyStudentRequestDto): Result<RatingCompanyStudentDto> = safeApiCall {
         ratingCompanyStudentService.createRatingCompanyStudent(dto)
     }
 

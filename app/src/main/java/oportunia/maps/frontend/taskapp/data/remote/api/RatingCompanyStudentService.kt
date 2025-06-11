@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.RatingCompanyStudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RatingCompanyStudentRequestDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -35,7 +36,7 @@ interface RatingCompanyStudentService {
      * @return [Response] containing the created [RatingCompanyStudentDto] with server-assigned ID if successful
      */
     @POST("/v1/rating-company-students")
-    suspend fun createRatingCompanyStudent(@Body dto: RatingCompanyStudentDto): Response<RatingCompanyStudentDto>
+    suspend fun createRatingCompanyStudent(@Body dto: RatingCompanyStudentRequestDto): Response<RatingCompanyStudentDto>
 
     /**
      * Updates an existing rating-company-student entry in the remote API.

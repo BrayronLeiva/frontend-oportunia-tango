@@ -19,3 +19,11 @@ data class RatingCompanyStudentDto(
     val student: StudentDto,
     val company: CompanyDto
 )
+
+data class RatingCompanyStudentRequestDto(
+    val rating: Double,
+    val type: String,
+    val comment: String,
+    val studentId: Long,
+    val companyId: Long
+)

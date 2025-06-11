@@ -14,7 +14,7 @@ import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 
 
 data class RatingCompanyStudent(
-    val id: Long,
+    val id: Long? = null,
     val rating: Double,
     val type: TypeUser,
     val comment: String,

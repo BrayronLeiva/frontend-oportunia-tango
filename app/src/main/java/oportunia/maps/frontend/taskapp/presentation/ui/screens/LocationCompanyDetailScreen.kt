@@ -57,7 +57,7 @@ fun LocationCompanyDetailScreen(
             contentAlignment = Alignment.Center
         ) {
             locationCompany?.let {
-                LocationCompanyCard(locationCompany = it)
+                LocationCompanyCard(locationCompany = it, navController = navController)
             } ?: Text(
                 text = stringResource(id = R.string.location_details_unavailable),
                 style = MaterialTheme.typography.bodyMedium

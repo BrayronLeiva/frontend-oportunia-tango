@@ -7,7 +7,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
+import oportunia.maps.frontend.taskapp.domain.model.Company
 import oportunia.maps.frontend.taskapp.domain.model.RatingCompanyStudent
+import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.domain.repository.RatingCompanyStudentRepository
 import javax.inject.Inject
 
@@ -46,6 +49,25 @@ class RatingCompanyStudentViewModel @Inject constructor(
                 .onFailure { exception ->
                     Log.e("RatingCompanyStudentVM", "Failed to fetch entries: ${exception.message}")
                 }
+        }
+    }
+
+    fun rate(rating: Double, typeUser: TypeUser, comment: String, company: Company, student: Student) {
+        viewModelScope.launch {
+            repository.saveRatingCompanyStudent(
+                RatingCompanyStudent(
+                    rating = rating,
+                    type = typeUser,
+                    comment = comment,
+                    company = company,
+                    student = student
+                )
+            ).onSuccess {
+                Log.d("RatingCompanyStudentVM", "Rating successful")
+            }
+            .onFailure { exception ->
+                Log.e("RatingCompanyStudentVM", "Failed to rate: ${exception.message}")
+            }
         }
     }
 }

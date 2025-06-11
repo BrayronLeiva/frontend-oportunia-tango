@@ -19,6 +19,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListStu
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipSearch
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.LocationCompanyDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RateCompanyScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RequestDetailScreen
@@ -55,6 +56,7 @@ fun NavGraph(
     navController: NavHostController,
     locationCompanyViewModel: LocationCompanyViewModel,
     studentViewModel: StudentViewModel,
+    companyViewModel: CompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
     internshipViewModel: InternshipViewModel,
     requestViewModel: RequestViewModel,
@@ -73,7 +75,6 @@ fun NavGraph(
         composable(NavRoutes.StudentProfile.ROUTE) {
             StudentProfileScreen(
                 studentViewModel,
-                ratingCompanyStudentViewModel,
                 navController,
                 onLogOut
             )
@@ -82,7 +83,6 @@ fun NavGraph(
         composable(NavRoutes.RequestList.ROUTE) {
             StudentProfileScreen(
                 studentViewModel,
-                ratingCompanyStudentViewModel,
                 navController,
                 onLogOut
             )
@@ -146,6 +146,23 @@ fun NavGraph(
                 studentId = studentId,
                 ratingViewModel = ratingCompanyStudentViewModel,
                 paddingValues = paddingValues
+            )
+        }
+
+        composable(
+            route = NavRoutes.RateCompany.ROUTE,
+            arguments = listOf(navArgument(NavRoutes.RateCompany.ARG_COMPANY_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val companyId = backStackEntry.arguments?.getLong(NavRoutes.RateCompany.ARG_COMPANY_ID) ?: 0L
+
+            RateCompanyScreen(
+                navController = navController,
+                ratingCompanyStudentViewModel = ratingCompanyStudentViewModel,
+                companyViewModel = companyViewModel,
+                studentViewModel = studentViewModel,
+                companyId = companyId
             )
         }
     }
@@ -251,7 +268,6 @@ fun NavGraph(
         composable(NavRoutes.CompanyProfile.ROUTE) {
             CompanyProfileScreen (
                 companyViewModel,
-                ratingCompanyStudentViewModel,
                 navController,
                 onLogOut
             )

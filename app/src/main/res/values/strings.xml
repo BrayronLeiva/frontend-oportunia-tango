@@ -107,4 +107,12 @@
     <string name="student_ratings_title">Student Ratings</string>
     <string name="company_ratings_title">Company Ratings</string>
     <string name="no_ratings_available">No ratings available.</string>
+
+    <string name="rate_button">Rate</string>
+
+    <string name="rate_company_title">Rate Company</string>
+    <string name="comment_label">Comment</string>
+    <string name="send_button">Send</string>
+
+    <string name="rate_student_title">Rate Student</string>
 </resources>

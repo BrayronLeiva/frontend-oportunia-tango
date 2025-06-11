@@ -20,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationBarStudent
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
@@ -37,6 +38,7 @@ class StudentActivity : ComponentActivity() {
     private val internshipViewModel: InternshipViewModel by viewModels()
     private val requestViewModel: RequestViewModel by viewModels()
     private val ratingCompanyStudentViewModel: RatingCompanyStudentViewModel by viewModels()
+    private val companyViewModel: CompanyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,7 @@ class StudentActivity : ComponentActivity() {
                 MainStudentScreen(
                     locationCompanyViewModel,
                     studentViewModel,
+                    companyViewModel,
                     internshipLocationViewModel,
                     internshipViewModel,
                     requestViewModel,
@@ -63,6 +66,7 @@ class StudentActivity : ComponentActivity() {
 fun MainStudentScreen(
     locationCompanyViewModel: LocationCompanyViewModel,
     studentViewModel: StudentViewModel,
+    companyViewModel: CompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
     internshipViewModel: InternshipViewModel,
     requestViewModel: RequestViewModel,
@@ -101,6 +105,7 @@ fun MainStudentScreen(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
             studentViewModel = studentViewModel,
+            companyViewModel,
             internshipLocationViewModel = internshipLocationViewModel,
             internshipViewModel = internshipViewModel,
             paddingValues = paddingValues,
