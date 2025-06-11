@@ -71,9 +71,9 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
         }
     }
 
-    override suspend fun findRecommendedInternshipLocations(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>> {
+    override suspend fun findRecommendedInternshipLocations(): Result<List<InternshipLocationRecommendedDto>> {
         return try {
-            remoteDataSource.getRecommended(locationRequestDto)
+            remoteDataSource.getRecommended()
 
         } catch (e: UnknownHostException) {
             Result.failure(Exception("Network error: Please check your connection."))
@@ -82,9 +82,9 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
         }
     }
 
-    override suspend fun findRecommendedInternshipLocationsAvailable(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>> {
+    override suspend fun findRecommendedInternshipLocationsAvailable(): Result<List<InternshipLocationRecommendedDto>> {
         return try {
-            remoteDataSource.getRecommendedAvailable(locationRequestDto)
+            remoteDataSource.getRecommendedAvailable()
 
         } catch (e: UnknownHostException) {
             Result.failure(Exception("Network error: Please check your connection."))
@@ -93,9 +93,9 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
         }
     }
 
-    override suspend fun findRecommendedInternshipLocationsFlag(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedFlagDto>> {
+    override suspend fun findRecommendedInternshipLocationsFlag(): Result<List<InternshipLocationRecommendedFlagDto>> {
         return try {
-            remoteDataSource.getFlagRecommended(locationRequestDto)
+            remoteDataSource.getFlagRecommended()
 
         } catch (e: UnknownHostException) {
             Result.failure(Exception("Network error: Please check your connection."))

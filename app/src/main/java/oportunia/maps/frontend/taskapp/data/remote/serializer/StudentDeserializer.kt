@@ -33,6 +33,9 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
         val personalInfo = jsonObject.get("personalInfo").asString
         val experience = jsonObject.get("experience").asString
         val rating = jsonObject.get("ratingStudent").asDouble
+        val imageProfile = jsonObject.get("imageProfile").asString
+        val homeLatitude = jsonObject.get("homeLatitude").asDouble
+        val homeLongitude = jsonObject.get("homeLongitude").asDouble
 
 
         // Deserialize user information
@@ -65,7 +68,7 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
         // Return the StudentDto object
         val student = StudentDto(
             studentId, studentName, identification, personalInfo,
-            experience, rating, userDto
+            experience, rating, userDto, imageProfile, homeLatitude, homeLongitude
         )
         Log.d("StudentDeserializer", "JSON en Student DTO: $student")
         return student

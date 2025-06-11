@@ -20,7 +20,10 @@ data class StudentDto(
     val personalInfo: String,
     val experience: String,
     val rating: Double,
-    val user: UserDto
+    val user: UserDto,
+    val imageProfile: String,
+    val homeLatitude: Double,
+    val homeLongitude: Double
 
 )
 

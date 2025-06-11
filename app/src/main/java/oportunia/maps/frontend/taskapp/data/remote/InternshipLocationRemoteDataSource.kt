@@ -82,8 +82,8 @@ class InternshipLocationRemoteDataSource @Inject constructor(
      * @return [Result] containing a list of [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun getRecommended(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>> = safeApiCall {
-        internshipLocationService.getRecommendedInternshipsLocations(locationRequestDto.latitude, locationRequestDto.longitude)
+    suspend fun getRecommended(): Result<List<InternshipLocationRecommendedDto>> = safeApiCall {
+        internshipLocationService.getRecommendedInternshipsLocations()
     }
 
     /**
@@ -92,8 +92,8 @@ class InternshipLocationRemoteDataSource @Inject constructor(
      * @return [Result] containing a list of [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun getRecommendedAvailable(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>> = safeApiCall {
-        internshipLocationService.getRecommendedInternshipsLocationsAvailable(locationRequestDto.latitude, locationRequestDto.longitude)
+    suspend fun getRecommendedAvailable(): Result<List<InternshipLocationRecommendedDto>> = safeApiCall {
+        internshipLocationService.getRecommendedInternshipsLocationsAvailable()
     }
 
     /**
@@ -102,8 +102,8 @@ class InternshipLocationRemoteDataSource @Inject constructor(
      * @return [Result] containing a list of [LocationCompanyDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun getFlagRecommended(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedFlagDto>> = safeApiCall {
-        internshipLocationService.getRecommendedInternshipsLocationsFlag(locationRequestDto.latitude, locationRequestDto.longitude)
+    suspend fun getFlagRecommended(): Result<List<InternshipLocationRecommendedFlagDto>> = safeApiCall {
+        internshipLocationService.getRecommendedInternshipsLocationsFlag()
     }
 
     /**

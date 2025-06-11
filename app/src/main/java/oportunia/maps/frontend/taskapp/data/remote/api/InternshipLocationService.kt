@@ -87,24 +87,18 @@ interface InternshipLocationService {
         Comments
      */
     @GET("/v1/internship-locations/recommendations")
-    suspend fun getRecommendedInternshipsLocations(
-        @Query("lat") lat: Double,
-        @Query("lng") lng: Double
-    ): Response<List<InternshipLocationRecommendedDto>>
+    suspend fun getRecommendedInternshipsLocations(): Response<List<InternshipLocationRecommendedDto>>
 
     /**
     Comments
      */
     @GET("/v1/internship-locations/recommendations/available")
-    suspend fun getRecommendedInternshipsLocationsAvailable(
-        @Query("lat") lat: Double,
-        @Query("lng") lng: Double
-    ): Response<List<InternshipLocationRecommendedDto>>
+    suspend fun getRecommendedInternshipsLocationsAvailable(): Response<List<InternshipLocationRecommendedDto>>
+    /**
+    Comments
+     */
 
     @GET("/v1/internship-locations/recommendations/flag")
-    suspend fun getRecommendedInternshipsLocationsFlag(
-        @Query("lat") lat: Double,
-        @Query("lng") lng: Double
-    ): Response<List<InternshipLocationRecommendedFlagDto>>
+    suspend fun getRecommendedInternshipsLocationsFlag(): Response<List<InternshipLocationRecommendedFlagDto>>
 
 }

@@ -17,11 +17,11 @@ interface InternshipLocationRepository {
     suspend fun saveInternshipLocation(internshipLocation: InternshipLocation): Result<Unit>
     suspend fun deleteInternshipLocation(id: Long): Result<Unit>
     suspend fun updateInternshipLocation(internshipLocation: InternshipLocation): Result<Unit>
-    suspend fun findRecommendedInternshipLocations(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>>
+    suspend fun findRecommendedInternshipLocations(): Result<List<InternshipLocationRecommendedDto>>
     suspend fun findInternshipLocationsByLocationId(locationId: Long): Result<List<InternshipLocation>>
     suspend fun findInternshipLocationsFlagByLocationId(locationId: Long): Result<List<InternshipLocationFlagDto>>
     suspend fun findAllFlagInternshipLocations(): Result<List<InternshipLocationFlagDto>>
-    suspend fun findRecommendedInternshipLocationsFlag(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedFlagDto>>
+    suspend fun findRecommendedInternshipLocationsFlag(): Result<List<InternshipLocationRecommendedFlagDto>>
     suspend fun findAllInternshipLocationsAvailable(): Result<List<InternshipLocation>>
-    suspend fun findRecommendedInternshipLocationsAvailable(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>>
+    suspend fun findRecommendedInternshipLocationsAvailable(): Result<List<InternshipLocationRecommendedDto>>
 }

@@ -39,6 +39,9 @@ class QualificationDeserializer : JsonDeserializer<QualificationDto> {
         val personalInfo = jsonObject.get("personalInfo").asString
         val experience = jsonObject.get("experience").asString
         val rating = jsonObject.get("rating").asDouble
+        val imageProfile = jsonObject.get("imageProfile").asString
+        val homeLatitude = jsonObject.get("homeLatitude").asDouble
+        val homeLongitude = jsonObject.get("homeLongitude").asDouble
 
 
         // Deserialize user information
@@ -63,7 +66,7 @@ class QualificationDeserializer : JsonDeserializer<QualificationDto> {
 
         val studentDto = StudentDto(
             studentId, studentName, identification, personalInfo,
-            experience, rating, userDto
+            experience, rating, userDto, imageProfile, homeLatitude, homeLongitude
         )
 
         // Return the LocationCompanyDto object
