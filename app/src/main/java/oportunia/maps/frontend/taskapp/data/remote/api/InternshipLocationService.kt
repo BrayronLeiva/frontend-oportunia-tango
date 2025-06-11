@@ -92,7 +92,7 @@ interface InternshipLocationService {
     /**
     Comments
      */
-    @GET("/v1/internship-locations/recommendations/available")
+    @GET("/v1/internship-locations/available/recommendations")
     suspend fun getRecommendedInternshipsLocationsAvailable(): Response<List<InternshipLocationRecommendedDto>>
     /**
     Comments
