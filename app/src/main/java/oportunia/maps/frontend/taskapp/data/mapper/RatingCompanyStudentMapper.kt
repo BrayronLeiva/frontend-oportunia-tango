@@ -1,13 +1,15 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.RatingCompanyStudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RatingCompanyStudentRequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 import oportunia.maps.frontend.taskapp.domain.model.RatingCompanyStudent
+import javax.inject.Inject
 
 /**
  * Mapper class for converting between RatingCompanyStudent domain entities and RatingCompanyStudentDto data objects
  */
-class RatingCompanyStudentMapper(
+class RatingCompanyStudentMapper @Inject constructor(
     private val studentMapper: StudentMapper,
     private val companyMapper: CompanyMapper
 ) {
@@ -33,11 +35,20 @@ class RatingCompanyStudentMapper(
      */
     fun mapToDto(domain: RatingCompanyStudent): RatingCompanyStudentDto =
         RatingCompanyStudentDto(
-            id = domain.id,
+            id = domain.id!!,
             rating = domain.rating,
             type = domain.type.name,
             comment = domain.comment,
             student = studentMapper.mapToDto(domain.student),
             company = companyMapper.mapToDto(domain.company)
+        )
+
+    fun mapToRequestDto(domain: RatingCompanyStudent): RatingCompanyStudentRequestDto =
+        RatingCompanyStudentRequestDto(
+            rating = domain.rating,
+            type = domain.type.name,
+            comment = domain.comment,
+            studentId = domain.student.id,
+            companyId = domain.company.id
         )
 }

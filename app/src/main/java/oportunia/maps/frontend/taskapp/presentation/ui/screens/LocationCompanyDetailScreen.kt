@@ -92,12 +92,46 @@ fun LocationCompanyDetailScreen(
                 onClick = { navController.popBackStack() },
                 modifier = Modifier.weight(1f)
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            CustomButton(
-                text = stringResource(id = R.string.internships_button),
-                onClick = {
-                    navController.navigate(
-                        NavRoutes.InternshipListStudent.createRoute(locationCompanyId)
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentAlignment = Alignment.Center
+        ) {
+            locationCompany?.let {
+                LocationCompanyCard(locationCompany = it, navController = navController)
+            } ?: Text(
+                text = stringResource(id = R.string.location_details_unavailable),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentAlignment = Alignment.BottomStart
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    CustomButton(
+                        text = stringResource(id = R.string.back_button),
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier.weight(0.5f)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    CustomButton(
+                        text = stringResource(id = R.string.internships_button),
+                        onClick = {
+                            navController.navigate(
+                                NavRoutes.InternshipListStudent.createRoute(
+                                    locationCompanyId
+                                )
+                            )
+                        },
+                        modifier = Modifier.weight(0.5f)
                     )
                 },
                 modifier = Modifier.weight(1f)

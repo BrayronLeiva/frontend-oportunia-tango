@@ -24,6 +24,9 @@ class CompanyViewModel @Inject constructor(
     private val companyRepository: CompanyRepository
 ) : ViewModel() {
 
+    private val _selectedCompany = MutableStateFlow<Company?>(null)
+    val selectedCompany: StateFlow<Company?> = _selectedCompany
+
     private val _companyState = MutableStateFlow<CompanyState>(CompanyState.Empty)
     val companyState: StateFlow<CompanyState> = _companyState
 
@@ -38,6 +41,23 @@ class CompanyViewModel @Inject constructor(
                 onSuccess = {
                     _loggedCompany.value = it
                     _companyState.value = CompanyState.Success(it)
+                },
+                onFailure = { e ->
+                    Log.e("CompanyViewModel", "Failed to load company: ${e.message}")
+                    _companyState.value = CompanyState.Error(e.message ?: "Unknown error")
+                }
+            )
+        }
+    }
+
+    fun findCompanyById(companyId: Long) {
+        viewModelScope.launch {
+            _companyState.value = CompanyState.Loading
+            val result = companyRepository.findCompanyById(companyId)
+            result.fold(
+                onSuccess = {
+                    _companyState.value = CompanyState.Success(it)
+                    _selectedCompany.value = it
                 },
                 onFailure = { e ->
                     Log.e("CompanyViewModel", "Failed to load company: ${e.message}")

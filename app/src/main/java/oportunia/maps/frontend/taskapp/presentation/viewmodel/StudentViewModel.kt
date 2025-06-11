@@ -147,6 +147,22 @@ class StudentViewModel @Inject constructor(
         }
     }
 
+    fun findStudentById(studentId: Long){
+        _studentState.value = StudentState.Loading
+        viewModelScope.launch {
+            repository.findStudentById(studentId)
+                .onSuccess { student ->
+                    _selectedStudent.value = student
+                    _studentState.value = StudentState.Success(student)
+                }
+                .onFailure { exception ->
+                    Log.e("StudentViewModel", "User $studentId")
+                    Log.e("StudentViewModel", "Error fetching student by ID: ${exception.message}")
+                    _studentState.value = StudentState.Error(exception.toString())
+                }
+        }
+    }
+
     /**
      * Retrieves all available tasks and updates the [studentList] state.
      * Should be called when the ViewModel is initialized or when a refresh is needed.

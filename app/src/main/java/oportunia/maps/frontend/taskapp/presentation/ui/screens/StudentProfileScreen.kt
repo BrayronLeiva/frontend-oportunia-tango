@@ -3,9 +3,19 @@ package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,6 +35,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.LanguageSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ProfileInfoCard
@@ -35,6 +46,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 @Composable
 fun StudentProfileScreen(
     studentViewModel: StudentViewModel,
+    navController: NavController,
     onLogOut: () -> Unit
 ) {
     LaunchedEffect(Unit) {
@@ -59,6 +71,7 @@ fun StudentProfileScreen(
         ) {
             LanguageSelector()
         }
+
         when (val state = studentImageState) {
             is StudentImageState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -97,23 +110,25 @@ fun StudentProfileScreen(
 
                 state.student.let {
                     Text(
-                        text = it.name,
+                        text = student.name,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
-                }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                Text(
-                    text = stringResource(R.string.rating_format, state.student.rating ?: 0),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = Color(0xFFFFA500)
-                )
+                    Text(
+                        text = stringResource(R.string.rating_format, selectedStudent!!.rating),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Color(0xFFFFA500),
+                        modifier = Modifier.clickable {
+                            navController.navigate(NavRoutes.StudentRatings.createRoute(student.id))
+                        }
+                    )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
                 ProfileInfoCard(
                     title = stringResource(R.string.identification),
@@ -122,23 +137,23 @@ fun StudentProfileScreen(
                 state.student.let {
                     ProfileInfoCard(
                         title = stringResource(R.string.personal_info),
-                        value = it.personalInfo
+                        value = student.personalInfo
                     )
                     ProfileInfoCard(
                         title = stringResource(R.string.experience),
-                        value = it.experience
+                        value = student.experience
+                    )
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    CustomButton(
+                        onClick = { onLogOut() },
+                        text = stringResource(R.string.logout_button),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
                     )
                 }
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                CustomButton(
-                    onClick = { onLogOut() },
-                    text = stringResource(R.string.logout_button),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                )
             }
 
             is StudentImageState.Error -> {
