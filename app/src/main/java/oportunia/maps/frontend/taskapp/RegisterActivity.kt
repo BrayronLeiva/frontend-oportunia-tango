@@ -21,11 +21,14 @@ import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
 
 @AndroidEntryPoint
 class RegisterActivity : ComponentActivity() {
 
     private val userRoleViewModel: UserRoleViewModel by viewModels()
+
+    private val userViewModel: UserViewModel by viewModels()
 
     private val studentViewModel: StudentViewModel by viewModels()
 
@@ -37,6 +40,7 @@ class RegisterActivity : ComponentActivity() {
         setContent {
             TaskAppTheme {
                 MainRegisterScreen(
+                    userViewModel,
                     userRoleViewModel,
                     studentViewModel,
                     qualificationViewModel
@@ -49,6 +53,7 @@ class RegisterActivity : ComponentActivity() {
 @Composable
 fun MainRegisterScreen(
 
+    userViewModel: UserViewModel,
     userRoleViewModel: UserRoleViewModel,
     studentViewModel: StudentViewModel,
     qualificationViewModel: QualificationViewModel
@@ -71,10 +76,8 @@ fun MainRegisterScreen(
     // Obtenemos el contexto
     val context = LocalContext.current
     val activity = context as? Activity
-    val onRegisterSuccess: (Int) -> Unit = { userId ->
-        val intent = Intent(context, StudentActivity::class.java).apply {
-            putExtra("userId", userId)
-        }
+    val onRegisterSuccess: () -> Unit = {
+        val intent = Intent(context, LoginActivity::class.java)
         context.startActivity(intent)
         activity?.finish()
     }
@@ -82,6 +85,7 @@ fun MainRegisterScreen(
     Scaffold { paddingValues ->
         NavGraph(
             navController = navController,
+            userViewModel = userViewModel,
             userRoleViewModel = userRoleViewModel,
             studentViewModel = studentViewModel,
             qualificationViewModel = qualificationViewModel,

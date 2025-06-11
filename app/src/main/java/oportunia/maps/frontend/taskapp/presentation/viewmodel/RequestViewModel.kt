@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestUpdateDto
 import oportunia.maps.frontend.taskapp.domain.model.Internship
@@ -186,11 +187,36 @@ class RequestViewModel @Inject constructor(
         }
     }
 
-    fun deleteRequestByInternshipLocationIdAndStudent(internshipLocation: InternshipLocationFlagDto) {
-
+    fun createRequestOfInternshipLocationFlag(internshipLocation: InternshipLocationRecommendedFlagDto) {
+        Log.d("RequestViewModel", "Request: $internshipLocation.id ")
+        val requestCreate = RequestCreateDto(internshipLocation.id!!)
+        //val updatedRequest = internshipLocation.copy(requested = !internshipLocation.requested)
 
         viewModelScope.launch {
-            requestRepository.deleteRequestByInternshipLocationId (internshipLocation.id!!)
+            requestRepository.saveRequest (requestCreate)
+                .onSuccess { request ->
+                    // Puedes actualizar el estado si es necesario
+                    Log.d("RequestViewModel", "Request created: $request")
+                    _requestCreateState.value = RequestCreateState.Success(request)
+
+                }
+                .onFailure { exception ->
+                    Log.e("RequestViewModel", "Error creating request: ${exception.message}")
+                    val errorMsg = if (exception.message?.contains("409") == true || exception.message?.contains("Conflict") == true) {
+                        "You have already made a request to this internship."
+                    } else {
+                        "An unexpected error occurred. Please try again."
+                    }
+                    _requestCreateState.value = RequestCreateState.Error(errorMsg)
+                }
+        }
+    }
+
+    fun deleteRequestByInternshipLocationIdAndStudent(internshipLocationId: Long) {
+
+        _requesDeleteState.value = RequestDeleteState.Loading
+        viewModelScope.launch {
+            requestRepository.deleteRequestByInternshipLocationId (internshipLocationId)
                 .onSuccess { request ->
                     // Puedes actualizar el estado si es necesario
                     Log.d("RequestViewModel", "Request deleted: $request")
@@ -204,6 +230,23 @@ class RequestViewModel @Inject constructor(
         }
     }
 
+    fun deleteRequestById(requestId: Long) {
+
+        _requesDeleteState.value = RequestDeleteState.Loading
+        viewModelScope.launch {
+            requestRepository.deleteRequest(requestId)
+                .onSuccess { request ->
+                    // Puedes actualizar el estado si es necesario
+                    Log.d("RequestViewModel", "Request deleted: $request")
+                    _requesDeleteState.value = RequestDeleteState.Success(request)
+                }
+                .onFailure { exception ->
+                    Log.e("RequestViewModel", "Error deleting request: ${exception.message}")
+                    val errorMsg = "Error deleting request"
+                    _requesDeleteState.value = RequestDeleteState.Error(errorMsg)
+                }
+        }
+    }
 
 
 

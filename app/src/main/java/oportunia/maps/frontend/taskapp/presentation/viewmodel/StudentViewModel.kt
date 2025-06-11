@@ -8,11 +8,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.domain.model.User
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
 import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -47,6 +50,37 @@ sealed class StudentListState {
     data class Error(val message: String) : StudentListState()
 }
 
+sealed class StudentImageState {
+    /** Indicates an ongoing task operation */
+    data object Loading : StudentImageState()
+
+    /** Contains the successfully retrieved task */
+    data class Success(val student: StudentImageDto) : StudentImageState()
+
+    /** Indicates no task is available */
+    data object Empty : StudentImageState()
+
+    /** Contains an error message if the task operation fails */
+    data class Error(val message: String) : StudentImageState()
+
+}
+
+
+sealed class StudentImageUploadState {
+    /** Indicates an ongoing task operation */
+    data object Loading : StudentImageUploadState()
+
+    /** Contains the successfully retrieved task */
+    data class Success(val imageUrl: String) : StudentImageUploadState()
+
+    /** Indicates no task is available */
+    data object Empty : StudentImageUploadState()
+
+    /** Contains an error message if the task operation fails */
+    data class Error(val message: String) : StudentImageUploadState()
+
+}
+
 /**
  * ViewModel responsible for managing task-related UI state and business logic.
  *
@@ -72,29 +106,15 @@ class StudentViewModel @Inject constructor(
     private val _studentRecommendedList = MutableStateFlow<List<StudentRecommendedDto>>(emptyList())
     val studentRecommendedList: StateFlow<List<StudentRecommendedDto>> = _studentRecommendedList
 
-    private val _registeredStudent = MutableStateFlow<Student?>(null)
-    val registeredStudent: StateFlow<Student?> = _registeredStudent
+    private val _studentImageState = MutableStateFlow<StudentImageState>(StudentImageState.Empty)
+    val studentImageState: StateFlow<StudentImageState> = _studentImageState
 
-    private val _studentDraft = MutableStateFlow(
-        Student(
-            id = 0L,
-            name = "",
-            identification = "",
-            personalInfo = "",
-            experience = "",
-            rating = 0.0,
-            user = User(
-                0L, "", "",
-                lastName = "",
-                enabled = false,
-                tokenExpired = false,
-                createDate = "",
-                roles = emptyList(),
-                password = ""
-            )
-        )
-    )
-    val studentDraft: StateFlow<Student> = _studentDraft
+    private val _studentImageUploadState = MutableStateFlow<StudentImageUploadState>(StudentImageUploadState.Empty)
+    val studentImageUploadState: StateFlow<StudentImageUploadState> = _studentImageUploadState
+
+    private val _isProcessing = MutableStateFlow(false)
+    val isProcessing: StateFlow<Boolean> = _isProcessing
+
 
     fun selectStudentById(studentId: Long) {
         _studentState.value = StudentState.Loading
@@ -113,16 +133,16 @@ class StudentViewModel @Inject constructor(
     }
 
     fun getLoggedStudent() {
-        _studentState.value = StudentState.Loading
+        _studentImageState.value = StudentImageState.Loading
         viewModelScope.launch {
             repository.findLoggedStudent()
                 .onSuccess { student ->
-                    _selectedStudent.value = student
-                    _studentState.value = StudentState.Success(student)
+                    Log.e("StudentViewModel", "Student got $student")
+                    _studentImageState.value = StudentImageState.Success(student)
                 }
                 .onFailure { exception ->
                     Log.e("StudentViewModel", "Error fetching student by ID: ${exception.message}")
-                    _studentState.value = StudentState.Error(exception.toString())
+                    _studentImageState.value = StudentImageState.Error(exception.toString())
                 }
         }
     }
@@ -213,55 +233,99 @@ class StudentViewModel @Inject constructor(
     }
 
 
-
-
-
-
-
-
-
-
-
-
     fun saveStudent() {
         viewModelScope.launch {
             val student = _studentDraft.value
+            _studentState.value = StudentState.Loading
+            Log.e("StudentViewModel", "Trying to save student: $student")
             repository.saveStudent(student)
                 .onSuccess { savedStudent ->
-                    _registeredStudent.value = savedStudent
+
                     _studentState.value = StudentState.Success(savedStudent)
-                    cleanStudentDraft()
+                    //cleanStudentDraft()
                     Log.e("StudentViewModel", "Saved succesfully student: ${savedStudent.id}")
                 }
                 .onFailure { exception ->
-                    Log.e("StudentViewModel", "Error saving student" + exception.message)
+                    _studentState.value = StudentState.Error("Error")
+                    Log.e("StudentViewModel", "Error saving student" + exception.printStackTrace())
                 }
         }
     }
 
+    fun uploadImage(studentId: Long, file: File) {
 
-    private fun cleanStudentDraft(){
-        _studentDraft.value = Student(
-            id = 0L,
-            name = "",
+        _studentImageUploadState.value = StudentImageUploadState.Loading
+        viewModelScope.launch {
+            repository.uploadProfileImage(studentId, file)
+                .onSuccess { responseMap ->
+                    val responseText = responseMap.toString()
+                    val regex = Regex("imageUrl=([^}]+)")
+                    val match = regex.find(responseText)
+                    val imageUrl1 = match?.groupValues?.get(1) ?: ""
+                    Log.e("StudentViewModel", "Image 1: $imageUrl1")
+
+                    val imageUrl2 = responseMap["imageUrl"]?.toString() ?: ""
+                    Log.e("StudentViewModel", "Image 2: $imageUrl2")
+
+                    _studentImageUploadState.value = StudentImageUploadState.Success(imageUrl2)
+                }
+                .onFailure { exception ->
+                    Log.e("StudentViewModel", "Error uploading image")
+                    _studentImageUploadState.value = StudentImageUploadState.Error(exception.toString())
+                }
+        }
+    }
+
+    fun startRegistrationFlow() {
+        _isProcessing.value = true
+    }
+
+    fun stopRegistrationFlow() {
+        _isProcessing.value = false
+    }
+
+
+
+    private val _studentDraft = MutableStateFlow(
+        StudentCreateDto(
+            nameStudent = "",
             identification = "",
             personalInfo = "",
             experience = "",
-            rating = 0.0,
-            user = User(
-                0L, "", "",
-                lastName = "",
-                enabled = false,
-                tokenExpired = false,
-                createDate = "",
-                roles = emptyList(),
-                password = ""
-            )
+            ratingStudent = 0.0,
+            userId = 0,
+            imageProfile = "",
+            homeLatitude = 0.0,
+            homeLongitude = 0.0
+        )
+    )
+    val studentDraft: StateFlow<StudentCreateDto> = _studentDraft
+
+
+    private fun cleanStudentDraft(){
+        _studentDraft.value = StudentCreateDto(
+            nameStudent = "",
+            identification = "",
+            personalInfo = "",
+            experience = "",
+            ratingStudent = 0.0,
+            userId = 0,
+            imageProfile = "",
+            homeLatitude = 0.0,
+            homeLongitude = 0.0
         )
     }
 
+    fun updateLatitude(latitude: Double) {
+        _studentDraft.value = _studentDraft.value.copy(homeLatitude = latitude)
+    }
+
+    fun updateLongitude(longitude: Double) {
+        _studentDraft.value = _studentDraft.value.copy(homeLongitude = longitude)
+    }
+
     fun updateName(name: String) {
-        _studentDraft.value = _studentDraft.value.copy(name = name)
+        _studentDraft.value = _studentDraft.value.copy(nameStudent = name)
     }
 
     fun updateIdentification(id: String) {
@@ -277,12 +341,11 @@ class StudentViewModel @Inject constructor(
     }
 
     fun updateRating(rating: Double) {
-        _studentDraft.value = _studentDraft.value.copy(rating = rating)
+        _studentDraft.value = _studentDraft.value.copy(ratingStudent = rating)
     }
 
-    fun updateUser(email: String, password: String) {
-        val updatedUser = _studentDraft.value.user.copy(email = email, password = password)
-        _studentDraft.value = _studentDraft.value.copy(user = updatedUser)
+    fun updateUser(userId: Long) {
+        _studentDraft.value = _studentDraft.value.copy(userId = userId)
     }
 
 }

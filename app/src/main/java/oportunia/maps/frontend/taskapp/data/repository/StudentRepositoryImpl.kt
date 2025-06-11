@@ -1,14 +1,20 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import oportunia.maps.frontend.taskapp.data.mapper.QualificationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.StudentMapper
 import oportunia.maps.frontend.taskapp.data.remote.QualificationRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.StudentRemoteDataSource
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Qualification
 import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
 import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
+import java.io.File
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -63,8 +69,14 @@ class StudentRepositoryImpl @Inject constructor(
 
 
 
-    override suspend fun saveStudent(student: Student): Result<Student> {
-        return dataSource.create(studentMapper.mapToDto(student)).map {
+    //override suspend fun saveStudent(student: Student): Result<Student> {
+        //return dataSource.create(studentMapper.mapToDto(student)).map {
+            //studentMapper.mapToDomain(it)
+        //}
+    //}
+
+    override suspend fun saveStudent(student: StudentCreateDto): Result<Student> {
+        return dataSource.create(student).map {
             studentMapper.mapToDomain(it)
         }
     }
@@ -82,10 +94,8 @@ class StudentRepositoryImpl @Inject constructor(
     /**
      * Retrieves a student by its ID.
      */
-    override suspend fun findLoggedStudent(): Result<Student> {
-        return dataSource.getByLoggedStudent().map {
-            studentMapper.mapToDomain(it)
-        }
+    override suspend fun findLoggedStudent(): Result<StudentImageDto> {
+        return dataSource.getByLoggedStudent()
     }
 
     override suspend fun findRecommendedStudents(): Result<List<StudentRecommendedDto>> {
@@ -108,6 +118,10 @@ class StudentRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Result.failure(Exception("Error fetching location companies: ${e.message}"))
         }
+    }
+
+    override suspend fun uploadProfileImage(studentId: Long, file: File): Result<Map<String, String>> {
+        return dataSource.uploadProfileImage(studentId, file)
     }
 
 

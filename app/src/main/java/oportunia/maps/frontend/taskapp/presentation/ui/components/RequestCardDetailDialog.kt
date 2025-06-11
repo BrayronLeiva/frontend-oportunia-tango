@@ -17,13 +17,16 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.model.Request
 
@@ -31,46 +34,79 @@ import oportunia.maps.frontend.taskapp.domain.model.Request
 @Composable
 fun RequestCardDetailDialog(
     request: Request,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onRequestClick: (Request) -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = request.internshipLocation.location.company.name, fontWeight = FontWeight.Bold,fontSize = 20.sp)
+            Text(
+                text = request.internshipLocation.location.company.name,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
         },
         text = {
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                // Ícono que representa el estado
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Ícono del estado
                 Icon(
                     imageVector = if (request.state) Icons.Default.CheckCircle else Icons.Default.Error,
-                    contentDescription = if (request.state) stringResource(id = R.string.approved) else stringResource(id = R.string.denied),
-                    tint = if (request.state) Color(0xFF4CAF50) else Color(0xFFF44336), // verde o rojo
+                    contentDescription = null,
+                    tint = if (request.state) Color(0xFF4CAF50) else Color(0xFFF44336),
                     modifier = Modifier.size(48.dp)
                 )
-                InfoSection(label = stringResource(id = R.string.state), value = request.state.toString())
-                Spacer(modifier = Modifier.height(12.dp))
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = if (request.state) "Accepted" else "Rejected",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
                 Text(
                     text = stringResource(id = R.string.internship_details),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
+
                 Text(
                     text = request.internshipLocation.internship.details,
                     fontSize = 14.sp,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier
+                        .padding(top = 4.dp)
+                        .fillMaxWidth(0.9f),
+                    textAlign = TextAlign.Center
                 )
             }
         },
         confirmButton = {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 CustomButton(
                     text = stringResource(id = R.string.back_button),
                     onClick = onDismiss,
                     width = 140.dp
+                )
+                CustomButton(
+                    text = stringResource(id = R.string.cancel_request),
+                    onClick = { onRequestClick(request) },
+                    width = 140.dp,
+                    backgroundColor = Color.Red,
+                    textColor = Color.White
                 )
             }
         }

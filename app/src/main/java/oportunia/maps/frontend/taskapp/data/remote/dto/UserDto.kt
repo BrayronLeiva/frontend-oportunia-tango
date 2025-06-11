@@ -18,3 +18,11 @@ data class UserDto(
     val roleList: List<RoleDto>
 )
 
+data class UserCreateDto(
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val password: String,
+    val enabled: Boolean,
+    val tokenExpired: Boolean
+)

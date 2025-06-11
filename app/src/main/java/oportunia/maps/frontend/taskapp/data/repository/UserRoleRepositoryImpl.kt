@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.data.repository
 import oportunia.maps.frontend.taskapp.data.mapper.UserMapper
 import oportunia.maps.frontend.taskapp.data.mapper.UserRoleMapper
 import oportunia.maps.frontend.taskapp.data.remote.UserRoleRemoteDataSource
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleCreateDto
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
 import oportunia.maps.frontend.taskapp.domain.repository.UserRoleRepository
 import java.net.UnknownHostException
@@ -36,8 +37,8 @@ class UserRoleRepositoryImpl @Inject constructor(
 
 
 
-    override suspend fun saveUserRole(userRole: UserRole): Result<Unit> {
-        return dataSource.create(userRoleMapper.mapToDto(userRole)).map {
+    override suspend fun saveUserRole(userRole: UserRoleCreateDto): Result<UserRole> {
+        return dataSource.create(userRole).map {
             userRoleMapper.mapToDomain(it)
         }
     }

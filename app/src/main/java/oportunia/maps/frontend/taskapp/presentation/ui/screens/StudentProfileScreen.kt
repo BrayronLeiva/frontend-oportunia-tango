@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,11 +32,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.LanguageSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ProfileInfoCard
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentImageState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
@@ -49,8 +53,8 @@ fun StudentProfileScreen(
         studentViewModel.getLoggedStudent()
     }
 
-    val selectedStudent by studentViewModel.selectedStudent.collectAsState()
-    val studentState by studentViewModel.studentState.collectAsState()
+    //val selectedStudent by studentViewModel.selectedStudent.collectAsState()
+    val studentImageState by studentViewModel.studentImageState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -68,14 +72,14 @@ fun StudentProfileScreen(
             LanguageSelector()
         }
 
-        when (val state = studentState) {
-            is StudentState.Loading -> {
+        when (val state = studentImageState) {
+            is StudentImageState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
 
-            is StudentState.Empty -> {
+            is StudentImageState.Empty -> {
                 Text(
                     text = stringResource(R.string.no_student_info_available),
                     style = MaterialTheme.typography.bodyMedium,
@@ -83,20 +87,28 @@ fun StudentProfileScreen(
                 )
             }
 
-            is StudentState.Success -> {
+            is StudentImageState.Success -> {
                 Spacer(modifier = Modifier.height(24.dp))
 
-                Image(
-                    painter = painterResource(id = R.drawable.oportunia_maps),
+                val imageUrl = state.student.imageProfile
+
+                //Text(state.student.imageProfile)
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(imageUrl)
+                        .crossfade(true)
+                        .error(R.drawable.default_profile_icon)
+                        .fallback(R.drawable.default_profile_icon)
+                        .build(),
                     contentDescription = stringResource(R.string.profile_picture_content_description),
                     modifier = Modifier
-                        .size(120.dp)
+                        .size(140.dp)
                         .clip(CircleShape)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                selectedStudent?.let { student ->
+                state.student.let {
                     Text(
                         text = student.name,
                         fontSize = 24.sp,
@@ -118,10 +130,11 @@ fun StudentProfileScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    ProfileInfoCard(
-                        title = stringResource(R.string.identification),
-                        value = student.identification
-                    )
+                ProfileInfoCard(
+                    title = stringResource(R.string.identification),
+                    value = state.student.identification.toString()
+                )
+                state.student.let {
                     ProfileInfoCard(
                         title = stringResource(R.string.personal_info),
                         value = student.personalInfo
@@ -143,13 +156,14 @@ fun StudentProfileScreen(
                 }
             }
 
-            is StudentState.Error -> {
+            is StudentImageState.Error -> {
                 Text(
                     text = stringResource(R.string.error_message, state.message),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )
             }
+
         }
     }
 }

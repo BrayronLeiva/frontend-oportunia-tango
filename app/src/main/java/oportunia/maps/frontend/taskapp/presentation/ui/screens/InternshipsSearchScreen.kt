@@ -43,18 +43,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.ui.components.AiToggleButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipDetailDialog
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipItem
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipRecommendedCard
+import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipRecommendedFlagDetailDialog
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RatingFilterSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationFlagState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestDeleteState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 
 
@@ -73,16 +79,19 @@ fun InternshipSearch(
     // Obtener las pasantías con las empresas y sus calificaciones
     val internships = internshipLocationViewModel.internshipsLocationList.collectAsState().value
     val recommendedinternships = internshipLocationViewModel.internshipsLocationRecommendedList.collectAsState().value
+    //val recommendedFlagInternships = internshipLocationViewModel.internshipsLocationRecommendedFlagList.collectAsState().value
 
     val internshipLocationState = internshipLocationViewModel.internshipLocationState.collectAsState().value
+    //val internshipLocationFlagState = internshipLocationViewModel.internshipLocationStateFlag.collectAsState().value
+
+    val requestCreateState by requestViewModel.requestCreateState.collectAsState()
 
 
     LaunchedEffect(Unit) {
-        internshipLocationViewModel.findAllInternShipsLocations()
+        internshipLocationViewModel.findAllInternShipsAvailableLocations()
     }
 
     val context = LocalContext.current
-    val requestCreateState by requestViewModel.requestCreateState.collectAsState()
 
     LaunchedEffect(requestCreateState) {
         when (requestCreateState) {
@@ -92,12 +101,16 @@ fun InternshipSearch(
             }
             is RequestCreateState.Success -> {
                 Toast.makeText(context, "Request sent successfully", Toast.LENGTH_SHORT).show()
+                internshipLocationViewModel.findAllInternShipsAvailableLocations()
             }
             else -> Unit
         }
     }
 
     var selectedInternshipLocation by remember { mutableStateOf<InternshipLocation?>(null) }
+    var selectedRecommendedInternshipLocation by remember { mutableStateOf<InternshipLocationRecommendedDto?>(null) }
+    //var selectedFlagInternshipLocation by remember { mutableStateOf<InternshipLocationFlagDto?>(null) }
+    //var selectedFlagRecommendedInternshipLocation by remember { mutableStateOf<InternshipLocationRecommendedFlagDto?>(null) }
     var showDialog by remember { mutableStateOf(false) }
 
     var expanded by remember { mutableStateOf(false) }
@@ -123,9 +136,9 @@ fun InternshipSearch(
                 onToggle = {
                     useAi = !useAi
                     if (useAi) {
-                        internshipLocationViewModel.loadInternShipsLocationsRecommended()
+                        internshipLocationViewModel.loadInternShipsLocationsAvailableRecommended()
                     }else{
-                        internshipLocationViewModel.findAllInternShipsLocations()
+                        internshipLocationViewModel.findAllInternShipsAvailableLocations()
                     }
                 }
             )
@@ -178,74 +191,78 @@ fun InternshipSearch(
         Spacer(modifier = Modifier.height(32.dp))
 
 
-        // Filtrar las pasantías por nombre de compañía y calificación
-        val filteredInternships = internships.filter {
-            val companyName = it.location.company.name
-            val rating = it.location.company.rating
-            val matchesText = when (selectedCriteria) {
-                stringResource(id = R.string.company_name) -> companyName.contains(searchQuery, ignoreCase = true)
-                stringResource(id = R.string.internship_details) -> it.internship.details.contains(searchQuery, ignoreCase = true)
-                else -> true
+
+
+        if (internshipLocationState is InternshipLocationState.Loading || requestCreateState is RequestCreateState.Loading) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
             }
-            val matchesRating = selectedRating == null || rating >= selectedRating!!
-            matchesText && matchesRating
-        }
+        } else {
+            // Handle the different internship states
+            when (val state = internshipLocationState) {
 
-        // Filtrar las pasantías por nombre de compañía y calificación
-        val filteredRecommendedInternships = recommendedinternships.filter {
-            val companyName = it.locationCompany.company.nameCompany
-            val rating = it.locationCompany.company.ratingCompany
-            val matchesText = when (selectedCriteria) {
-                stringResource(id = R.string.company_name) -> companyName.contains(searchQuery, ignoreCase = true)
-                stringResource(id = R.string.internship_details) -> it.internship.details.contains(searchQuery, ignoreCase = true)
-                else -> true
-            }
-            val matchesRating = selectedRating == null || rating >= selectedRating!!
-            matchesText && matchesRating
-        }
-
-
-        // Handle the different internship states
-        when (val state = internshipLocationState) {
-            is InternshipLocationState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
+                is InternshipLocationState.Empty -> {
+                    androidx.compose.material3.Text(
+                        text = stringResource(id = R.string.no_internships_available),
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(16.dp)
+                    )
                 }
-            }
-            is InternshipLocationState.Empty -> {
-                androidx.compose.material3.Text(
-                    text = stringResource(id = R.string.no_internships_available),
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
-            is InternshipLocationState.Success -> {
-                if(useAi) {
-                    LazyColumn {
-                        items(filteredRecommendedInternships) { internshipLocation ->
-                            InternshipRecommendedCard(internshipLocation, onClick = {
-                                //selectedInternshipLocation = it
-                                showDialog = true
-                            })
+
+                is InternshipLocationState.Success -> {
+                    if (useAi) {
+                        val filteredRecommendedInternships = recommendedinternships.filter {
+                            val companyName = it.locationCompany.company.nameCompany
+                            val rating = it.locationCompany.company.ratingCompany
+                            val matchesText = when (selectedCriteria) {
+                                stringResource(id = R.string.company_name) -> companyName.contains(searchQuery, ignoreCase = true)
+                                stringResource(id = R.string.internship_details) -> it.internship.details.contains(searchQuery, ignoreCase = true)
+                                else -> true
+                            }
+                            val matchesRating = selectedRating == null || rating >= selectedRating!!
+                            matchesText && matchesRating
+                        }
+
+                        LazyColumn {
+                            items(filteredRecommendedInternships) { internshipLocation ->
+                                InternshipRecommendedCard(internshipLocation, onClick = {
+                                    selectedRecommendedInternshipLocation = it
+                                    showDialog = true
+                                })
+                            }
+                        }
+                    } else {
+                        val filteredInternships = internships.filter {
+                            val companyName = it.location.company.name
+                            val rating = it.location.company.rating
+                            val matchesText = when (selectedCriteria) {
+                                stringResource(id = R.string.company_name) -> companyName.contains(searchQuery, ignoreCase = true)
+                                stringResource(id = R.string.internship_details) -> it.internship.details.contains(searchQuery, ignoreCase = true)
+                                else -> true
+                            }
+                            val matchesRating = selectedRating == null || rating >= selectedRating!!
+                            matchesText && matchesRating
+                        }
+                        LazyColumn {
+                            items(filteredInternships) { internshipLocation ->
+                                InternshipItem(internshipLocation, onClick = {
+                                    selectedInternshipLocation = it
+                                    showDialog = true
+                                })
+                            }
                         }
                     }
-                }else {
-                    LazyColumn {
-                        items(filteredInternships) { internshipLocation ->
-                            InternshipItem(internshipLocation, onClick = {
-                                selectedInternshipLocation = it
-                                showDialog = true
-                            })
-                        }
-                    }
                 }
-            }
-            is InternshipLocationState.Error -> {
-                androidx.compose.material3.Text(
-                    text = stringResource(id = R.string.error_message, state.message),
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(16.dp)
-                )
+
+                is InternshipLocationState.Error -> {
+                    androidx.compose.material3.Text(
+                        text = stringResource(id = R.string.error_message, state.message),
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+
+                else -> {}
             }
         }
 
@@ -256,6 +273,18 @@ fun InternshipSearch(
                 onDismiss = { showDialog = false },
                 onRequestClick = {
                     requestViewModel.createRequest(selectedInternshipLocation!!)
+                    showDialog = false
+                }
+            )
+        }
+
+        // Mostrar dialog con detalle si showDialog es true
+        if (showDialog && selectedRecommendedInternshipLocation != null) {
+            InternshipRecommendedFlagDetailDialog(
+                internshipLocation = selectedRecommendedInternshipLocation!!,
+                onDismiss = { showDialog = false },
+                onRequestClick = {
+
                     showDialog = false
                 }
             )

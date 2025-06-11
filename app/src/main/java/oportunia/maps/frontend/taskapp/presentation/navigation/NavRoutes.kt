@@ -18,6 +18,14 @@ sealed class NavRoutes {
         const val ROUTE = "registerStudentSecond"
     }
 
+    data object RegisterStudentThird : NavRoutes(){
+        const val ROUTE = "registerStudentThird"
+    }
+
+    data object RegisterStudentFinal : NavRoutes(){
+        const val ROUTE = "registerStudentFinal"
+    }
+
     data object Home : NavRoutes() {
         const val ROUTE = "home"
     }

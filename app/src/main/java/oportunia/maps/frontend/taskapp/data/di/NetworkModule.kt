@@ -24,10 +24,12 @@ import oportunia.maps.frontend.taskapp.data.remote.api.UserService
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import oportunia.maps.frontend.taskapp.data.remote.interceptor.AuthInterceptor
@@ -35,10 +37,12 @@ import oportunia.maps.frontend.taskapp.data.remote.interceptor.ResponseIntercept
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationFlagDeserializer
+import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationRecommendedFlagDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationRecommendedSerializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.QualificationDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.RequestDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.StudentDeserializer
+import oportunia.maps.frontend.taskapp.data.remote.serializer.StudentImageDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.StudentRecommendedDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.UserRoleDeserializer
 import retrofit2.Retrofit
@@ -75,11 +79,13 @@ object NetworkModule {
         .registerTypeAdapter(InternshipLocationFlagDto::class.java, InternshipLocationFlagDeserializer())
         .registerTypeAdapter(RequestDto::class.java, RequestDeserializer())
         .registerTypeAdapter(InternshipDto::class.java, InternshipDeserializer())
+        .registerTypeAdapter(InternshipLocationRecommendedFlagDto::class.java, InternshipLocationRecommendedFlagDeserializer())
         .registerTypeAdapter(InternshipLocationRecommendedDto::class.java, InternshipLocationRecommendedSerializer())
         .registerTypeAdapter(InternshipLocationDto::class.java, InternshipLocationDeserializer())
         .registerTypeAdapter(LocationCompanyDto::class.java, LocationCompanyDeserializer())
         .registerTypeAdapter(QualificationDto::class.java, QualificationDeserializer())
         .registerTypeAdapter(StudentRecommendedDto::class.java, StudentRecommendedDeserializer())
+        .registerTypeAdapter(StudentImageDto::class.java, StudentImageDeserializer())
         .registerTypeAdapter(StudentDto::class.java, StudentDeserializer())
         .registerTypeAdapter(UserRoleDto::class.java, UserRoleDeserializer())
         .setDateFormat(DATE_FORMAT)

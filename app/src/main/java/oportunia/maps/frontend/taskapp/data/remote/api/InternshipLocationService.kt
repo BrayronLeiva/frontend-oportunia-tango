@@ -3,6 +3,7 @@ package oportunia.maps.frontend.taskapp.data.remote.api
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import retrofit2.Response
@@ -23,6 +24,15 @@ interface InternshipLocationService {
      */
     @GET("/v1/internship-locations")
     suspend fun getAllInternshipsLocations(): Response<List<InternshipLocationDto>>
+
+
+    /**
+     * Retrieves all location-company entries from the remote API.
+     *
+     * @return [Response] containing a list of [LocationCompanyDto] objects if successful
+     */
+    @GET("/v1/internship-locations/available")
+    suspend fun getAllInternshipsLocationsAvailable(): Response<List<InternshipLocationDto>>
 
     /**
      * Retrieves a specific location-company by its unique identifier.
@@ -70,6 +80,9 @@ interface InternshipLocationService {
     @GET("/v1/internship-locations/location/flag-byStudent/{locationId}")
     suspend fun getInternshipsLocationsFlagByLocationId(@Path("locationId") locationId: Long): Response<List<InternshipLocationFlagDto>>
 
+    @GET("/v1/internship-locations/flag/student")
+    suspend fun getInternshipsLocationsFlag(): Response<List<InternshipLocationFlagDto>>
+
     /**
         Comments
      */
@@ -79,5 +92,19 @@ interface InternshipLocationService {
         @Query("lng") lng: Double
     ): Response<List<InternshipLocationRecommendedDto>>
 
+    /**
+    Comments
+     */
+    @GET("/v1/internship-locations/recommendations/available")
+    suspend fun getRecommendedInternshipsLocationsAvailable(
+        @Query("lat") lat: Double,
+        @Query("lng") lng: Double
+    ): Response<List<InternshipLocationRecommendedDto>>
+
+    @GET("/v1/internship-locations/recommendations/flag")
+    suspend fun getRecommendedInternshipsLocationsFlag(
+        @Query("lat") lat: Double,
+        @Query("lng") lng: Double
+    ): Response<List<InternshipLocationRecommendedFlagDto>>
 
 }

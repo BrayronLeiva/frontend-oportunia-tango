@@ -9,6 +9,11 @@ import oportunia.maps.frontend.taskapp.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserCreateDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
+import oportunia.maps.frontend.taskapp.domain.model.Role
+import oportunia.maps.frontend.taskapp.domain.model.Student
+import oportunia.maps.frontend.taskapp.domain.model.UserRole
 import oportunia.maps.frontend.taskapp.domain.repository.AuthRepository
 import javax.inject.Inject
 
@@ -20,6 +25,20 @@ sealed class UserState {
     data class Error(val message: String) : UserState()
 }
 
+sealed class UserCreateState {
+    /** Indicates an ongoing task operation */
+    data object Loading : UserCreateState()
+
+    /** Contains the successfully retrieved task */
+    data class Success(val user: User) : UserCreateState()
+
+    /** Indicates no task is available */
+    data object Empty : UserCreateState()
+
+    /** Contains an error message if the task operation fails */
+    data class Error(val message: String) : UserCreateState()
+}
+
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val authRepository: AuthRepository,
@@ -28,6 +47,9 @@ class UserViewModel @Inject constructor(
 
     private val _userState = MutableStateFlow<UserState>(UserState.Empty)
     val userState: StateFlow<UserState> = _userState
+
+    private val _userCreateState = MutableStateFlow<UserCreateState>(UserCreateState.Empty)
+    val userCreateState: StateFlow<UserCreateState> = _userCreateState
 
     private val _loggedInUser = MutableStateFlow<User?>(null)
     val loggedInUser: StateFlow<User?> = _loggedInUser
@@ -87,4 +109,52 @@ class UserViewModel @Inject constructor(
                 }
         }
     }
+
+    fun saveUser2() {
+        viewModelScope.launch {
+            val user = _userDraft.value
+            _userCreateState.value = UserCreateState.Loading
+            userRepository.saveUser(user)
+                .onSuccess { savedUser ->
+                    // _registeredStudent.value = student
+                    //cleanDraft()
+                    _userCreateState.value = UserCreateState.Success(savedUser)
+                    Log.e("UserViewModel", "Saved succesfully user role")
+                }
+                .onFailure { exception ->
+                    _userCreateState.value = UserCreateState.Error("Error")
+                    Log.e("UserViewModel", "Error saving user role")
+                }
+        }
+    }
+
+
+
+    //Structures to save the user
+    private val _userDraft = MutableStateFlow(
+        UserCreateDto(
+            firstName = "",
+            lastName = "",
+            email = "",
+            password = "",
+            enabled = true,
+            tokenExpired = false
+        )
+    )
+    val userDraft: StateFlow<UserCreateDto> = _userDraft
+
+    fun updateEmail(email: String) {
+        _userDraft.value = _userDraft.value.copy(email = email)
+    }
+    fun updatePassword(password: String) {
+        _userDraft.value = _userDraft.value.copy(password = password)
+    }
+    fun updateFirstName(firstName: String) {
+        _userDraft.value = _userDraft.value.copy(firstName = firstName)
+    }
+    fun updateLastName(lastName: String) {
+        _userDraft.value = _userDraft.value.copy(lastName = lastName)
+    }
+
+
 }

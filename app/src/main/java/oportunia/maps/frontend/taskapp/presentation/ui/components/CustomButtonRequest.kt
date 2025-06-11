@@ -11,18 +11,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 
 @Composable
-fun CustomButton(
-    text: String,
+fun CustomButtonRequest(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    width: Dp = 350.dp,
-    enabled: Boolean = true
+    internshipLocationFlag: InternshipLocationFlagDto,
+    width: Dp = 350.dp
 ) {
     Spacer(modifier = Modifier.height(16.dp))
     Button(
@@ -31,24 +35,24 @@ fun CustomButton(
             .width(width)
             .padding(horizontal = 16.dp, vertical = 8.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = DarkCyan,
+            containerColor = if (internshipLocationFlag.requested) Color.Red else DarkCyan,
             contentColor = Black
-        ),
-        enabled = enabled
+
+        )
     ) {
-        Text(text = text, color = Color.DarkGray)
+        Text(
+            text = if (internshipLocationFlag.requested) "Dismiss" else stringResource(id = R.string.apply),
+            color = Color.DarkGray
+        )
     }
 }
 
-
 @Composable
-fun CustomButton(
-    text: String,
+fun CustomButtonRequest(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    width: Dp = 350.dp,
-    backgroundColor: Color,
-    textColor: Color
+    internshipLocationFlag: InternshipLocationRecommendedFlagDto,
+    width: Dp = 350.dp
 ) {
     Spacer(modifier = Modifier.height(16.dp))
     Button(
@@ -57,10 +61,14 @@ fun CustomButton(
             .width(width)
             .padding(horizontal = 16.dp, vertical = 8.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor,
-            contentColor = textColor
+            containerColor = if (internshipLocationFlag.requested) Color.Red else DarkCyan,
+            contentColor = Black
+
         )
     ) {
-        Text(text = text, color = textColor)
+        Text(
+            text = if (internshipLocationFlag.requested) "Dismiss" else stringResource(id = R.string.apply),
+            color = Color.DarkGray
+        )
     }
 }

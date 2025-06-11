@@ -32,3 +32,12 @@ data class InternshipLocationFlagDto (
     val internship: InternshipDto,
     val requested: Boolean
 )
+
+data class InternshipLocationRecommendedFlagDto (
+    val id: Long,
+    val locationCompany: LocationCompanyDto,
+    val internship: InternshipDto,
+    val score: Double,
+    val reason: String,
+    val requested: Boolean
+)

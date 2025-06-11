@@ -4,24 +4,19 @@ import android.util.Log
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RoleDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
 import java.lang.reflect.Type
 
 
-/**
- * Custom JSON deserializer for [QualificationDto] objects.
- *
- * Handles nested LatLng and Qualification deserialization.
- */
-class StudentDeserializer : JsonDeserializer<StudentDto> {
+class StudentImageDeserializer : JsonDeserializer<StudentImageDto> {
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type,
         context: JsonDeserializationContext
-    ): StudentDto {
+    ): StudentImageDto {
         val jsonObject = json.asJsonObject
         Log.d("StudentDeserializer", "JSON recibido: $json")
 
@@ -34,6 +29,12 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
         val experience = jsonObject.get("experience").asString
         val rating = jsonObject.get("ratingStudent").asDouble
 
+        val imageProfile = try {
+            jsonObject.get("imageProfile").asString ?: "empty"
+        } catch (e: Exception) {
+            Log.e("StudentDeserializer", "Error al obtener 'tokenExpired': ${e.message}")
+            "empty"
+        }
 
         // Deserialize user information
         val userObject = jsonObject.getAsJsonObject("user")
@@ -63,9 +64,9 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
         val userDto = UserDto(userId, emailUser, firstName, lastName, enable, tokenExpired, createDate, roleList)
 
         // Return the StudentDto object
-        val student = StudentDto(
+        val student = StudentImageDto(
             studentId, studentName, identification, personalInfo,
-            experience, rating, userDto
+            experience, rating, userDto, imageProfile
         )
         Log.d("StudentDeserializer", "JSON en Student DTO: $student")
         return student

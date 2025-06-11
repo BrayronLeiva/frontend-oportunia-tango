@@ -54,7 +54,6 @@ fun InternshipListStudentScreen(
 ) {
     val context = LocalContext.current
     val requestCreateState by requestViewModel.requestCreateState.collectAsState()
-    val requestDeleteState by requestViewModel.requesDeleteState.collectAsState()
     // Fetch the location company details and internships
 
     LaunchedEffect(locationCompanyId) {
@@ -70,31 +69,7 @@ fun InternshipListStudentScreen(
             }
             is RequestCreateState.Success -> {
                 Toast.makeText(context, R.string.request_success_message.toString(), Toast.LENGTH_SHORT).show()
-            }
-            else -> Unit
-        }
-    }
-
-    LaunchedEffect(requestDeleteState) {
-        when (requestDeleteState) {
-            is RequestDeleteState.Error -> {
-                val message = (requestDeleteState as RequestDeleteState.Error).message
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            }
-            is RequestDeleteState.Success -> {
-                Toast.makeText(context, R.string.request_delete_message.toString(), Toast.LENGTH_SHORT).show()
-            }
-            else -> Unit
-        }
-    }
-    LaunchedEffect(requestCreateState) {
-        when (requestCreateState) {
-            is RequestCreateState.Error -> {
-                val message = (requestCreateState as RequestCreateState.Error).message
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            }
-            is RequestCreateState.Success -> {
-                Toast.makeText(context, R.string.request_success_message.toString(), Toast.LENGTH_SHORT).show()
+                internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
             }
             else -> Unit
         }
@@ -125,58 +100,60 @@ fun InternshipListStudentScreen(
                     modifier = Modifier.padding(16.dp)
                 )
 
-                // Handle the different internship states
-                when (val state = internshipLocationFlagState) {
-                    is InternshipLocationFlagState.Loading -> {
-                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            CircularProgressIndicator()
-                        }
+
+                // Mostrar loading general si se está haciendo una operación de update/delete
+                if (internshipLocationFlagState is InternshipLocationFlagState.Loading ||
+                    requestCreateState is RequestCreateState.Loading) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
                     }
-                    is InternshipLocationFlagState.Empty -> {
-                        Text(
-                            text = stringResource(id = R.string.no_internships_available),
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(16.dp)
-                        )
-                    }
-                    is InternshipLocationFlagState.Success -> {
-                        if (state.internshipLocationsFlag.isNotEmpty()) {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxWidth().padding(16.dp)
-                            ) {
-                                items(state.internshipLocationsFlag) { internshipLocation ->
-                                    InternshipCard(
-                                        internshipFlag = internshipLocation,
-                                        onRequestClick = { internshipLocationRequest ->
-                                            // Aquí llamás al ViewModel para crear la solicitud
-                                            if (internshipLocationRequest.requested){
-                                                requestViewModel.deleteRequestByInternshipLocationIdAndStudent(internshipLocationRequest)
-                                                internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
-                                            }else{
-                                                requestViewModel.createRequestOfInternshipLocationFlag(internshipLocationRequest)
-                                                internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
-                                            }
-                                            //internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
-                                        }
-                                    )
-                                }
-                            }
-                        } else {
+                } else {
+                    when (val state = internshipLocationFlagState) {
+                        is InternshipLocationFlagState.Empty -> {
                             Text(
                                 text = stringResource(id = R.string.no_internships_available),
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.padding(16.dp)
                             )
                         }
-                    }
-                    is InternshipLocationFlagState.Error -> {
-                        Text(
-                            text = stringResource(id = R.string.error_message, state.message),
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(16.dp)
-                        )
+
+                        is InternshipLocationFlagState.Success -> {
+                            if (state.internshipLocationsFlag.isNotEmpty()) {
+                                LazyColumn(
+                                    modifier = Modifier.fillMaxWidth().padding(16.dp)
+                                ) {
+                                    items(state.internshipLocationsFlag) { internshipLocation ->
+                                        InternshipCard(
+                                            internshipFlag = internshipLocation,
+                                            onRequestClick = { internshipLocationRequest ->
+                                                requestViewModel.createRequestOfInternshipLocationFlag(internshipLocationRequest)
+                                            }
+                                        )
+                                    }
+                                }
+                            } else {
+                                Text(
+                                    text = stringResource(id = R.string.no_internships_available),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier.padding(16.dp)
+                                )
+                            }
+                        }
+
+                        is InternshipLocationFlagState.Error -> {
+                            Text(
+                                text = stringResource(id = R.string.error_message, state.message),
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
+
+                        else -> {}
                     }
                 }
+
+
+
             }
 
             Box(

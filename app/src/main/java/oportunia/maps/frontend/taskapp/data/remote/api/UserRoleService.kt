@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -17,7 +18,7 @@ interface UserRoleService {
      *
      * @return [Response] containing a list of [UserRoleDto] objects if successful
      */
-    @GET("userRole")
+    @GET("/v1/unsecure/user-roles")
     suspend fun getAlluserRoles(): Response<List<UserRoleDto>>
 
     /**
@@ -26,7 +27,7 @@ interface UserRoleService {
      * @param id The unique identifier of the location to retrieve
      * @return [Response] containing the requested [UserRoleDto] if successful
      */
-    @GET("userRole/{id}")
+    @GET("/v1/unsecure/user-roles/{id}")
     suspend fun getUserRoleById(@Path("id") id: Long): Response<UserRoleDto>
 
     /**
@@ -35,8 +36,8 @@ interface UserRoleService {
      * @param userRole The [UserRoleDto] object containing the data to create
      * @return [Response] containing the created [UserRoleDto] with server-assigned ID if successful
      */
-    @POST("userRole")
-    suspend fun createUserRole(@Body userRole: UserRoleDto): Response<UserRoleDto>
+    @POST("/v1/unsecure/user-roles")
+    suspend fun createUserRole(@Body userRole: UserRoleCreateDto): Response<UserRoleDto>
 
     /**
      * Updates an existing user-role entry in the remote API.
@@ -45,7 +46,7 @@ interface UserRoleService {
      * @param userRole The [UserRoleDto] object containing the updated data
      * @return [Response] containing the updated [UserRoleDto] if successful
      */
-    @PUT("userRole/{id}")
+    @PUT("/v1/unsecure/user-roles/{id}")
     suspend fun updateUserRole(
         @Path("id") id: Long,
         @Body userRole: UserRoleDto
@@ -57,6 +58,6 @@ interface UserRoleService {
      * @param id The unique identifier of the location to delete
      * @return [Response] indicating the success of the operation
      */
-    @DELETE("userRole/{id}")
+    @DELETE("/v1/unsecure/user-roles/{id}")
     suspend fun deleteUserRole(@Path("id") id: Long): Response<Unit>
 }

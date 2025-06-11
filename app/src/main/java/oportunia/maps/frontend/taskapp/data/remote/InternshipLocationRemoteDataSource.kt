@@ -7,6 +7,7 @@ import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
@@ -86,6 +87,26 @@ class InternshipLocationRemoteDataSource @Inject constructor(
     }
 
     /**
+     * Retrieves all location companies from the remote API.
+     *
+     * @return [Result] containing a list of [LocationCompanyDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getRecommendedAvailable(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedDto>> = safeApiCall {
+        internshipLocationService.getRecommendedInternshipsLocationsAvailable(locationRequestDto.latitude, locationRequestDto.longitude)
+    }
+
+    /**
+     * Retrieves all location companies from the remote API.
+     *
+     * @return [Result] containing a list of [LocationCompanyDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getFlagRecommended(locationRequestDto: LocationRequestDto): Result<List<InternshipLocationRecommendedFlagDto>> = safeApiCall {
+        internshipLocationService.getRecommendedInternshipsLocationsFlag(locationRequestDto.latitude, locationRequestDto.longitude)
+    }
+
+    /**
      * Helper function to handle API calls safely.
      *
      * @param apiCall The suspending function making the API call
@@ -110,6 +131,20 @@ class InternshipLocationRemoteDataSource @Inject constructor(
      */
     suspend fun getInternshipsLocationsFlagByLocationId(locationId: Long): Result<List<InternshipLocationFlagDto>> = safeApiCall {
         internshipLocationService.getInternshipsLocationsFlagByLocationId(locationId)
+    }
+
+    suspend fun getInternshipsLocationsFlag(): Result<List<InternshipLocationFlagDto>> = safeApiCall {
+        internshipLocationService.getInternshipsLocationsFlag()
+    }
+
+    /**
+     * Retrieves all location companies from the remote API.
+     *
+     * @return [Result] containing a list of [LocationCompanyDto] if successful,
+     * or an exception if the operation failed
+     */
+    suspend fun getAllAvailable(): Result<List<InternshipLocationDto>> = safeApiCall {
+        internshipLocationService.getAllInternshipsLocationsAvailable()
     }
 
     private suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Result<T> = try {
