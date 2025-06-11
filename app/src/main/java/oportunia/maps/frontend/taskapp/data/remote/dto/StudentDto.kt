@@ -24,6 +24,19 @@ data class StudentDto(
 
 )
 
+data class StudentImageDto(
+    val id: Long,
+    val name: String,
+    val identification: String,
+    val personalInfo: String,
+    val experience: String,
+    val rating: Double,
+    val user: UserDto,
+    val imageProfile: String
+
+)
+
+
 data class StudentRecommendedDto(
     val id: Long,
     val name: String,
@@ -44,6 +57,9 @@ data class StudentCreateDto(
     val personalInfo: String,
     val experience: String,
     val ratingStudent: Double,
-    val userId: Long
+    val userId: Long,
+    val imageProfile: String,
+    val homeLatitude: Double,
+    val homeLongitude: Double
 
 )

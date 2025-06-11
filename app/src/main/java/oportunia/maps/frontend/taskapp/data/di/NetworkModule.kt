@@ -28,6 +28,7 @@ import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleDto
 import oportunia.maps.frontend.taskapp.data.remote.interceptor.AuthInterceptor
@@ -40,6 +41,7 @@ import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocation
 import oportunia.maps.frontend.taskapp.data.remote.serializer.QualificationDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.RequestDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.StudentDeserializer
+import oportunia.maps.frontend.taskapp.data.remote.serializer.StudentImageDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.StudentRecommendedDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.UserRoleDeserializer
 import retrofit2.Retrofit
@@ -82,6 +84,7 @@ object NetworkModule {
         .registerTypeAdapter(LocationCompanyDto::class.java, LocationCompanyDeserializer())
         .registerTypeAdapter(QualificationDto::class.java, QualificationDeserializer())
         .registerTypeAdapter(StudentRecommendedDto::class.java, StudentRecommendedDeserializer())
+        .registerTypeAdapter(StudentImageDto::class.java, StudentImageDeserializer())
         .registerTypeAdapter(StudentDto::class.java, StudentDeserializer())
         .registerTypeAdapter(UserRoleDto::class.java, UserRoleDeserializer())
         .setDateFormat(DATE_FORMAT)

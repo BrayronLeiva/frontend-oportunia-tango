@@ -1,7 +1,12 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,9 +30,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterTextField
@@ -35,12 +43,14 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentImageState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserCreateState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
+import java.io.File
 
 
 @Composable
@@ -131,7 +141,7 @@ fun RegisterStudentSecond(
 
         studentViewModel.updateRating(0.0)
         // Observamos el estado del estudiante
-        if (studentState is StudentState.Loading || userCreateState is UserCreateState.Loading) {
+        if (studentState is StudentState.Loading || userCreateState is UserCreateState.Loading || userRoleState is UserRoleState.Loading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
@@ -139,10 +149,12 @@ fun RegisterStudentSecond(
             when (studentState) {
 
                 is StudentState.Success -> {
-                    val loggedInStudent = (studentState as StudentState.Success).student
-                    LaunchedEffect(loggedInStudent.id) {
-                        onRegisterSuccess(loggedInStudent.id.toInt())
-                    }
+                    ImageUploader((studentState as StudentState.Success).student.id, studentViewModel)
+
+                    //val loggedInStudent = (studentState as StudentState.Success).student
+                    //LaunchedEffect(loggedInStudent.id) {
+                        //onRegisterSuccess(loggedInStudent.id.toInt())
+                    //}
                 }
 
                 is StudentState.Error -> {
@@ -169,3 +181,42 @@ fun RegisterStudentSecond(
         }
     }
 }
+
+
+@Composable
+fun ImageUploader(studentId: Long, viewModel: StudentViewModel) {
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let {
+            val file = uriToFile(uri, context)
+            if (file != null) {
+                viewModel.uploadImage(studentId, file)
+            }
+        }
+    }
+
+    Button(onClick = { launcher.launch("image/*") }) {
+        Text("Cargar imagen")
+    }
+
+    when (val state = viewModel.studentImageState.collectAsState().value) {
+        is StudentImageState.ImageUploadSuccess -> {
+            Text("Imagen subida con éxito")
+            AsyncImage(model = state.imageUrl, contentDescription = null)
+        }
+        is StudentImageState.Error -> Text("Error: ${state.message}", color = Color.Red)
+        StudentImageState.Loading -> CircularProgressIndicator()
+        else -> {}
+    }
+}
+
+fun uriToFile(uri: Uri, context: Context): File? {
+    val inputStream = context.contentResolver.openInputStream(uri) ?: return null
+    val tempFile = File.createTempFile("upload", ".jpg", context.cacheDir)
+    tempFile.outputStream().use { fileOut ->
+        inputStream.copyTo(fileOut)
+    }
+    return tempFile
+}
+
+

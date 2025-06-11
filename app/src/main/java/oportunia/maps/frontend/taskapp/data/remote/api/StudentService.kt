@@ -1,16 +1,20 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
+import okhttp3.MultipartBody
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 
@@ -39,8 +43,8 @@ interface StudentService {
      * @param student The [StudentDto] object containing the data to create
      * @return [Response] containing the created [StudentDto] with server-assigned ID if successful
      */
-    @POST("/v1/students")
-    suspend fun createStudent(@Body student: StudentDto): Response<StudentDto>
+    //@POST("/v1/students")
+    //suspend fun createStudent(@Body student: StudentDto): Response<StudentDto>
 
 
     /**
@@ -80,7 +84,7 @@ interface StudentService {
      * @return [Response] containing the requested [StudentDto] if successful
      */
     @GET("/v1/students/me")
-    suspend fun getStudentByLoggedStudent(): Response<StudentDto>
+    suspend fun getStudentByLoggedStudent(): Response<StudentImageDto>
 
 
 
@@ -99,6 +103,14 @@ interface StudentService {
      */
     @GET("/v1/students/company/logged")
     suspend fun getStudentsRequestingMyCompany(): Response<List<StudentDto>>
+
+    @Multipart
+    @POST("/v1/students/{id}/upload-image")
+    suspend fun uploadProfileImage(
+        @Path("id") id: Long,
+        @Part file: MultipartBody.Part
+    ): Response<Map<String, String>>
+
 
 
 }

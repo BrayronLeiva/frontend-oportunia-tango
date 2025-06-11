@@ -113,4 +113,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.datastore.preferences.core)
     implementation(libs.androidx.material.icons.extended)
+
+    //para manejo de archivos
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }

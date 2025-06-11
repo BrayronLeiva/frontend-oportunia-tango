@@ -1,12 +1,17 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import retrofit2.Response
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -46,9 +51,9 @@ class StudentRemoteDataSource @Inject constructor(
      * @return [Result] containing the created [StudentDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun create(dto: StudentDto): Result<StudentDto> = safeApiCall {
-        studentService.createStudent(dto)
-    }
+    //suspend fun create(dto: StudentDto): Result<StudentDto> = safeApiCall {
+        //studentService.createStudent(dto)
+    //}
 
 
     /**
@@ -99,7 +104,7 @@ class StudentRemoteDataSource @Inject constructor(
      * @return [Result] containing the [StudentDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun getByLoggedStudent(): Result<StudentDto> = safeApiCall {
+    suspend fun getByLoggedStudent(): Result<StudentImageDto> = safeApiCall {
         studentService.getStudentByLoggedStudent()
     }
 
@@ -124,6 +129,14 @@ class StudentRemoteDataSource @Inject constructor(
     suspend fun getStudentsRequestingMyCompany(): Result<List<StudentDto>> = safeApiCall {
         studentService.getStudentsRequestingMyCompany()
     }
+
+    suspend fun uploadProfileImage(studentId: Long, file: File): Result<Map<String, String>> = safeApiCall {
+        val requestFile = file
+            .asRequestBody("image/*".toMediaTypeOrNull()) // puedes ajustar MIME si es JPEG, PNG, etc.
+        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+        studentService.uploadProfileImage(studentId, body)
+    }
+
 
 
     private suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Result<T> = try {

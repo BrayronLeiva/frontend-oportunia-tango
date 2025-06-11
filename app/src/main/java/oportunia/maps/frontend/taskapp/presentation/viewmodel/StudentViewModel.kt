@@ -9,11 +9,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Student
 import oportunia.maps.frontend.taskapp.domain.model.User
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
 import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -48,6 +50,22 @@ sealed class StudentListState {
     data class Error(val message: String) : StudentListState()
 }
 
+sealed class StudentImageState {
+    /** Indicates an ongoing task operation */
+    data object Loading : StudentImageState()
+
+    /** Contains the successfully retrieved task */
+    data class Success(val student: StudentImageDto) : StudentImageState()
+
+    /** Indicates no task is available */
+    data object Empty : StudentImageState()
+
+    /** Contains an error message if the task operation fails */
+    data class Error(val message: String) : StudentImageState()
+
+    data class ImageUploadSuccess(val imageUrl: String): StudentImageState()
+}
+
 /**
  * ViewModel responsible for managing task-related UI state and business logic.
  *
@@ -73,8 +91,8 @@ class StudentViewModel @Inject constructor(
     private val _studentRecommendedList = MutableStateFlow<List<StudentRecommendedDto>>(emptyList())
     val studentRecommendedList: StateFlow<List<StudentRecommendedDto>> = _studentRecommendedList
 
-    //private val _registeredStudent = MutableStateFlow<Student?>(null)
-    //val registeredStudent: StateFlow<Student?> = _registeredStudent
+    private val _studentImageState = MutableStateFlow<StudentImageState>(StudentImageState.Empty)
+    val studentImageState: StateFlow<StudentImageState> = _studentImageState
 
 
 
@@ -95,16 +113,16 @@ class StudentViewModel @Inject constructor(
     }
 
     fun getLoggedStudent() {
-        _studentState.value = StudentState.Loading
+        _studentImageState.value = StudentImageState.Loading
         viewModelScope.launch {
             repository.findLoggedStudent()
                 .onSuccess { student ->
-                    _selectedStudent.value = student
-                    _studentState.value = StudentState.Success(student)
+                    Log.e("StudentViewModel", "Student got $student")
+                    _studentImageState.value = StudentImageState.Success(student)
                 }
                 .onFailure { exception ->
                     Log.e("StudentViewModel", "Error fetching student by ID: ${exception.message}")
-                    _studentState.value = StudentState.Error(exception.toString())
+                    _studentImageState.value = StudentImageState.Error(exception.toString())
                 }
         }
     }
@@ -198,7 +216,20 @@ class StudentViewModel @Inject constructor(
         }
     }
 
+    fun uploadImage(studentId: Long, file: File) {
 
+        _studentImageState.value = StudentImageState.Loading
+        viewModelScope.launch {
+            repository.uploadProfileImage(studentId, file)
+                .onSuccess { responseMap ->
+                    val imageUrl = responseMap["message"] ?: ""
+                    _studentImageState.value = StudentImageState.ImageUploadSuccess(imageUrl)
+                }
+                .onFailure { exception ->
+                    _studentImageState.value = StudentImageState.Error(exception.toString())
+                }
+        }
+    }
 
 
 
@@ -209,7 +240,10 @@ class StudentViewModel @Inject constructor(
             personalInfo = "",
             experience = "",
             ratingStudent = 0.0,
-            userId = 0
+            userId = 0,
+            imageProfile = "",
+            homeLatitude = 0.0,
+            homeLongitude = 0.0
         )
     )
     val studentDraft: StateFlow<StudentCreateDto> = _studentDraft
@@ -222,7 +256,10 @@ class StudentViewModel @Inject constructor(
             personalInfo = "",
             experience = "",
             ratingStudent = 0.0,
-            userId = 0
+            userId = 0,
+            imageProfile = "",
+            homeLatitude = 0.0,
+            homeLongitude = 0.0
         )
     }
 
