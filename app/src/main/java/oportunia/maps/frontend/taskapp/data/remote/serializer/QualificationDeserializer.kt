@@ -57,13 +57,16 @@ class QualificationDeserializer : JsonDeserializer<QualificationDto> {
 
             RoleDto(id = idrole, name = namerole)
         }
+        val homeLatitude = jsonObject.get("homeLatitude").asDouble
+        val homeLongitude = jsonObject.get("homeLongitude").asDouble
+        val imageProfile = jsonObject.get("imageProfile").asString
 
         // Create UserDto and CompanyDto
         val userDto = UserDto(userId, emailUser, firstName, lastName, enable, tokenExpired, createDate, roleList)
 
         val studentDto = StudentDto(
             studentId, studentName, identification, personalInfo,
-            experience, rating, userDto
+            experience, rating, homeLatitude, homeLongitude, imageProfile, userDto
         )
 
         // Return the LocationCompanyDto object

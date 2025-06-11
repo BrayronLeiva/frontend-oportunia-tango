@@ -53,8 +53,7 @@ fun StudentProfileScreen(
         studentViewModel.getLoggedStudent()
     }
 
-    //val selectedStudent by studentViewModel.selectedStudent.collectAsState()
-    val studentImageState by studentViewModel.studentImageState.collectAsState()
+    val studentState by studentViewModel.studentState.collectAsState()
 
     Column(
         modifier = Modifier
@@ -72,14 +71,14 @@ fun StudentProfileScreen(
             LanguageSelector()
         }
 
-        when (val state = studentImageState) {
-            is StudentImageState.Loading -> {
+        when (val state = studentState) {
+            is StudentState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
 
-            is StudentImageState.Empty -> {
+            is StudentState.Empty -> {
                 Text(
                     text = stringResource(R.string.no_student_info_available),
                     style = MaterialTheme.typography.bodyMedium,
@@ -87,15 +86,14 @@ fun StudentProfileScreen(
                 )
             }
 
-            is StudentImageState.Success -> {
+            is StudentState.Success -> {
+                val student = state.student
+
                 Spacer(modifier = Modifier.height(24.dp))
 
-                val imageUrl = state.student.imageProfile
-
-                //Text(state.student.imageProfile)
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(imageUrl)
+                        .data(student.imageProfile)
                         .crossfade(true)
                         .error(R.drawable.default_profile_icon)
                         .fallback(R.drawable.default_profile_icon)
@@ -108,62 +106,60 @@ fun StudentProfileScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                state.student.let {
-                    Text(
-                        text = student.name,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    )
+                Text(
+                    text = student.name,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                    Text(
-                        text = stringResource(R.string.rating_format, selectedStudent!!.rating),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color(0xFFFFA500),
-                        modifier = Modifier.clickable {
-                            navController.navigate(NavRoutes.StudentRatings.createRoute(student.id))
-                        }
-                    )
+                Text(
+                    text = stringResource(R.string.rating_format, student.rating),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color(0xFFFFA500),
+                    modifier = Modifier.clickable {
+                        navController.navigate(NavRoutes.StudentRatings.createRoute(student.id))
+                    }
+                )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
                 ProfileInfoCard(
                     title = stringResource(R.string.identification),
-                    value = state.student.identification.toString()
+                    value = student.identification.toString()
                 )
-                state.student.let {
-                    ProfileInfoCard(
-                        title = stringResource(R.string.personal_info),
-                        value = student.personalInfo
-                    )
-                    ProfileInfoCard(
-                        title = stringResource(R.string.experience),
-                        value = student.experience
-                    )
 
-                    Spacer(modifier = Modifier.height(32.dp))
+                ProfileInfoCard(
+                    title = stringResource(R.string.personal_info),
+                    value = student.personalInfo
+                )
 
-                    CustomButton(
-                        onClick = { onLogOut() },
-                        text = stringResource(R.string.logout_button),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
-                    )
-                }
+                ProfileInfoCard(
+                    title = stringResource(R.string.experience),
+                    value = student.experience
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                CustomButton(
+                    onClick = { onLogOut() },
+                    text = stringResource(R.string.logout_button),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                )
             }
 
-            is StudentImageState.Error -> {
+            is StudentState.Error -> {
                 Text(
                     text = stringResource(R.string.error_message, state.message),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )
             }
-
         }
     }
 }

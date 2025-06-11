@@ -45,7 +45,6 @@ fun LocationCompanyDetailScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Icono grande de ubicación o empresa
         Icon(
             imageVector = Icons.Default.LocationOn,
             contentDescription = "Company Location Icon",
@@ -64,9 +63,7 @@ fun LocationCompanyDetailScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         locationCompany?.let {
-            // Card con info
-            LocationCompanyCard(locationCompany = it)
-
+            LocationCompanyCard(locationCompany = it, navController = navController)
             // Aquí puedes preparar para Cloudify: reemplazar por una imagen
             // Image(
             //     painter = rememberAsyncImagePainter(it.imageUrl), // o Cloudify URL
@@ -85,53 +82,19 @@ fun LocationCompanyDetailScreen(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.Start
         ) {
             CustomButton(
                 text = stringResource(id = R.string.back_button),
                 onClick = { navController.popBackStack() },
                 modifier = Modifier.weight(1f)
             )
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
-        ) {
-            locationCompany?.let {
-                LocationCompanyCard(locationCompany = it, navController = navController)
-            } ?: Text(
-                text = stringResource(id = R.string.location_details_unavailable),
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                contentAlignment = Alignment.BottomStart
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    CustomButton(
-                        text = stringResource(id = R.string.back_button),
-                        onClick = { navController.popBackStack() },
-                        modifier = Modifier.weight(0.5f)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    CustomButton(
-                        text = stringResource(id = R.string.internships_button),
-                        onClick = {
-                            navController.navigate(
-                                NavRoutes.InternshipListStudent.createRoute(
-                                    locationCompanyId
-                                )
-                            )
-                        },
-                        modifier = Modifier.weight(0.5f)
+            Spacer(modifier = Modifier.width(8.dp))
+            CustomButton(
+                text = stringResource(id = R.string.internships_button),
+                onClick = {
+                    navController.navigate(
+                        NavRoutes.InternshipListStudent.createRoute(locationCompanyId)
                     )
                 },
                 modifier = Modifier.weight(1f)

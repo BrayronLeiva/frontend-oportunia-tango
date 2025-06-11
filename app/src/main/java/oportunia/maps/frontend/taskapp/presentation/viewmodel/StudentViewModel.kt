@@ -138,11 +138,12 @@ class StudentViewModel @Inject constructor(
             repository.findLoggedStudent()
                 .onSuccess { student ->
                     Log.e("StudentViewModel", "Student got $student")
-                    _studentImageState.value = StudentImageState.Success(student)
+                    _selectedStudent.value = student
+                    _studentState.value = StudentState.Success(student)
                 }
                 .onFailure { exception ->
                     Log.e("StudentViewModel", "Error fetching student by ID: ${exception.message}")
-                    _studentImageState.value = StudentImageState.Error(exception.toString())
+                    _studentState.value = StudentState.Error(exception.toString())
                 }
         }
     }

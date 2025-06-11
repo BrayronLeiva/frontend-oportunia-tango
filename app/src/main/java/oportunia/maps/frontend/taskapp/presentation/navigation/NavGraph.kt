@@ -20,6 +20,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipSearch
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.LocationCompanyDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RateCompanyScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RateStudentScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFinal
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
@@ -218,7 +219,7 @@ fun NavGraph(
 
 
         composable(NavRoutes.StudentsSearch.ROUTE) {
-            StudentSearchScreen(studentViewModel, requestViewModel, paddingValues, { selectStudent -> })
+            StudentSearchScreen(navController, studentViewModel, requestViewModel, paddingValues, { selectStudent -> })
         }
 
 
@@ -288,6 +289,23 @@ fun NavGraph(
                 companyId = companyId,
                 ratingViewModel = ratingCompanyStudentViewModel,
                 paddingValues = paddingValues
+            )
+        }
+
+        composable(
+            route = NavRoutes.RateStudent.ROUTE,
+            arguments = listOf(navArgument(NavRoutes.RateStudent.ARG_STUDENT_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val studentId = backStackEntry.arguments?.getLong(NavRoutes.RateStudent.ARG_STUDENT_ID) ?: 0L
+
+            RateStudentScreen(
+                navController = navController,
+                ratingCompanyStudentViewModel = ratingCompanyStudentViewModel,
+                companyViewModel = companyViewModel,
+                studentViewModel = studentViewModel,
+                studentId = studentId
             )
         }
     }

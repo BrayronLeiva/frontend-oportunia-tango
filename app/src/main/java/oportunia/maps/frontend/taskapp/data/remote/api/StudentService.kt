@@ -84,7 +84,7 @@ interface StudentService {
      * @return [Response] containing the requested [StudentDto] if successful
      */
     @GET("/v1/students/me")
-    suspend fun getStudentByLoggedStudent(): Response<StudentImageDto>
+    suspend fun getStudentByLoggedStudent(): Response<StudentDto>
 
 
 

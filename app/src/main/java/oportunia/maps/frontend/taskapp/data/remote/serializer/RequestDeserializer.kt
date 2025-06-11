@@ -25,6 +25,9 @@ class RequestDeserializer : JsonDeserializer<RequestDto> {
         val personalInfo = studentJson.get("personalInfo").asString
         val experience = studentJson.get("experience").asString
         val ratingStudent = studentJson.get("ratingStudent").asDouble
+        val imageProfile = studentJson.get("imageProfile").asString
+        val homeLatitude = studentJson.get("homeLatitude").asDouble
+        val homeLongitude = studentJson.get("homeLongitude").asDouble
 
         // Deserialize User inside Student
         val userJson = studentJson.getAsJsonObject("user")
@@ -37,6 +40,9 @@ class RequestDeserializer : JsonDeserializer<RequestDto> {
             personalInfo,
             experience,
             ratingStudent,
+            homeLatitude,
+            homeLongitude,
+            imageProfile,
             userDto
         )
 

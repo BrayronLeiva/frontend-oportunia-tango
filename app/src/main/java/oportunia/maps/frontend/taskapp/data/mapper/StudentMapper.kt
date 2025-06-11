@@ -21,6 +21,9 @@ class StudentMapper @Inject constructor(private val userMapper: UserMapper) {
         personalInfo = dto.personalInfo,
         experience = dto.experience,
         rating = dto.rating,
+        homeLatitude = dto.homeLatitude,
+        homeLongitude = dto.homeLongitude,
+        imageProfile = dto.imageProfile,
         user = userMapper.mapToDomain(dto.user)
     )
 
@@ -37,6 +40,9 @@ class StudentMapper @Inject constructor(private val userMapper: UserMapper) {
             personalInfo = domain.personalInfo,
             experience = domain.experience,
             rating = domain.rating,
+            homeLatitude = domain.homeLatitude,
+            homeLongitude = domain.homeLongitude,
+            imageProfile = domain.imageProfile,
             user = userMapper.mapToDto(domain.user)
         )
 }

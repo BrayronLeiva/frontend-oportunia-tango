@@ -47,7 +47,7 @@ fun RateStudentScreen(
     }
 
     val selectedStudent by studentViewModel.selectedStudent.collectAsState()
-    val selectedCompany by companyViewModel.selectedCompany.collectAsState()
+    val selectedCompany by companyViewModel.loggedCompany.collectAsState()
 
     Box(
         modifier = Modifier
@@ -56,10 +56,9 @@ fun RateStudentScreen(
         contentAlignment = Alignment.Center
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth(0.9f)
         ) {
             Text(
                 stringResource(R.string.rate_student_title),
