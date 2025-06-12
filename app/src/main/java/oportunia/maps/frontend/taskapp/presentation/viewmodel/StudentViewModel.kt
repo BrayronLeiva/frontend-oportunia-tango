@@ -241,7 +241,6 @@ class StudentViewModel @Inject constructor(
             Log.e("StudentViewModel", "Trying to save student: $student")
             repository.saveStudent(student)
                 .onSuccess { savedStudent ->
-
                     _studentState.value = StudentState.Success(savedStudent)
                     //cleanStudentDraft()
                     Log.e("StudentViewModel", "Saved succesfully student: ${savedStudent.id}")

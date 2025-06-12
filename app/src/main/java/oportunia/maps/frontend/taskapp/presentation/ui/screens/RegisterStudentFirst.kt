@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +46,7 @@ fun RegisterStudentFirst(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(paddingValues),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -82,8 +85,7 @@ fun RegisterStudentFirst(
                 userviewModel.updateLastName(lastName)
 
                 studentViewModel.updateName(name)
-                val idCardInt = idCard.toIntOrNull() ?: 0
-                studentViewModel.updateIdentification(idCardInt.toString())
+                studentViewModel.updateIdentification(idCard)
                 studentViewModel.updatePersonalInfo(personalInfo)
                 navController.navigate(NavRoutes.RegisterStudentSecond.ROUTE)
             },
