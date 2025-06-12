@@ -20,27 +20,25 @@ import dagger.hilt.android.AndroidEntryPoint
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationBarStudent
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RatingCompanyStudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 
 @AndroidEntryPoint
 class StudentActivity : ComponentActivity() {
 
     private val studentViewModel: StudentViewModel by viewModels()
-
-    private val qualificationViewModel: QualificationViewModel by viewModels()
-
     private val locationCompanyViewModel: LocationCompanyViewModel by viewModels()
-
     private val internshipLocationViewModel: InternshipLocationViewModel by viewModels()
-
     private val internshipViewModel: InternshipViewModel by viewModels()
-
     private val requestViewModel: RequestViewModel by viewModels()
+    private val ratingCompanyStudentViewModel: RatingCompanyStudentViewModel by viewModels()
+    private val companyViewModel: CompanyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +49,13 @@ class StudentActivity : ComponentActivity() {
         setContent {
             TaskAppTheme {
                 MainStudentScreen(
-                    qualificationViewModel,
                     locationCompanyViewModel,
                     studentViewModel,
+                    companyViewModel,
                     internshipLocationViewModel,
                     internshipViewModel,
                     requestViewModel,
-                    userId
+                    ratingCompanyStudentViewModel,
                 )
             }
         }
@@ -66,13 +64,13 @@ class StudentActivity : ComponentActivity() {
 
 @Composable
 fun MainStudentScreen(
-    qualificationViewModel: QualificationViewModel,
     locationCompanyViewModel: LocationCompanyViewModel,
     studentViewModel: StudentViewModel,
+    companyViewModel: CompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
     internshipViewModel: InternshipViewModel,
     requestViewModel: RequestViewModel,
-    userId: Long
+    ratingCompanyStudentViewModel: RatingCompanyStudentViewModel,
 ) {
     val navController = rememberNavController()
 
@@ -107,11 +105,12 @@ fun MainStudentScreen(
             navController = navController,
             locationCompanyViewModel = locationCompanyViewModel,
             studentViewModel = studentViewModel,
+            companyViewModel,
             internshipLocationViewModel = internshipLocationViewModel,
             internshipViewModel = internshipViewModel,
             paddingValues = paddingValues,
             requestViewModel = requestViewModel,
-            userId = userId,
+            ratingCompanyStudentViewModel = ratingCompanyStudentViewModel,
             onLogOut = onLogOut
         )
     }

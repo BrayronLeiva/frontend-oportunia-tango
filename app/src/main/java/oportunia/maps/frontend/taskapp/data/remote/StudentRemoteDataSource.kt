@@ -104,7 +104,7 @@ class StudentRemoteDataSource @Inject constructor(
      * @return [Result] containing the [StudentDto] if successful,
      * or an exception if the operation failed
      */
-    suspend fun getByLoggedStudent(): Result<StudentImageDto> = safeApiCall {
+    suspend fun getByLoggedStudent(): Result<StudentDto> = safeApiCall {
         studentService.getStudentByLoggedStudent()
     }
 

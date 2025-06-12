@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote.serializer
 
+import android.util.Log
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -59,6 +60,14 @@ class QualificationDeserializer : JsonDeserializer<QualificationDto> {
             val namerole = roleObject.get("name").asString
 
             RoleDto(id = idrole, name = namerole)
+        }
+        val homeLatitude = jsonObject.get("homeLatitude").asDouble
+        val homeLongitude = jsonObject.get("homeLongitude").asDouble
+        val imageProfile = try {
+            jsonObject.get("imageProfile")?.asString ?: "empty"
+        } catch (e: Exception) {
+            Log.e("QualificationDeserializer", "Error al obtener 'imageProfile': ${e.message}")
+            "empty"
         }
 
         // Create UserDto and CompanyDto

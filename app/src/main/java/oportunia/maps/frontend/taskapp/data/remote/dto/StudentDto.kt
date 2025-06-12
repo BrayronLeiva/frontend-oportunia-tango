@@ -24,7 +24,6 @@ data class StudentDto(
     val imageProfile: String,
     val homeLatitude: Double,
     val homeLongitude: Double
-
 )
 
 data class StudentImageDto(

@@ -18,7 +18,7 @@ import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.InternshipTyp
  */
 
 data class Company(
-    val id: Long,
+    val id: Long? = null,
     val name: String,
     val description: String,
     val history: String,
@@ -28,5 +28,6 @@ data class Company(
     val contact: Int,
     val rating: Double,
     val internshipType: InternshipType,
+    val imageProfile: String,
     val user: User
 )

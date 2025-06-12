@@ -12,12 +12,16 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.AddInternshipScre
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentProfileScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.CompanyMapScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.CompanyProfileScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.CompanyRatingsScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.HomeScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListCompanyScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListStudentScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipSearch
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.LocationCompanyDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RateCompanyScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RateStudentScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterCompanyScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFinal
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
@@ -25,11 +29,13 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentTh
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RequestDetailScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentSearchScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentMapScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentRatingsScreen
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RatingCompanyStudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
@@ -55,11 +61,12 @@ fun NavGraph(
     navController: NavHostController,
     locationCompanyViewModel: LocationCompanyViewModel,
     studentViewModel: StudentViewModel,
+    companyViewModel: CompanyViewModel,
     internshipLocationViewModel: InternshipLocationViewModel,
     internshipViewModel: InternshipViewModel,
     requestViewModel: RequestViewModel,
     paddingValues: PaddingValues,
-    userId: Long,
+    ratingCompanyStudentViewModel: RatingCompanyStudentViewModel,
     onLogOut: () -> Unit
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.StudentMap.ROUTE) {
@@ -73,6 +80,7 @@ fun NavGraph(
         composable(NavRoutes.StudentProfile.ROUTE) {
             StudentProfileScreen(
                 studentViewModel,
+                navController,
                 onLogOut
             )
         }
@@ -80,6 +88,7 @@ fun NavGraph(
         composable(NavRoutes.RequestList.ROUTE) {
             StudentProfileScreen(
                 studentViewModel,
+                navController,
                 onLogOut
             )
         }
@@ -130,9 +139,37 @@ fun NavGraph(
                 paddingValues = paddingValues
             )
         }
+        composable(
+            route = "${NavRoutes.StudentRatings.ROUTE}/{${NavRoutes.StudentRatings.ARG_STUDENT_ID}}",
+            arguments = listOf(navArgument(NavRoutes.StudentRatings.ARG_STUDENT_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val studentId = backStackEntry.arguments?.getLong(NavRoutes.StudentRatings.ARG_STUDENT_ID) ?: 0L
+            StudentRatingsScreen(
+                navController = navController,
+                studentId = studentId,
+                ratingViewModel = ratingCompanyStudentViewModel,
+                paddingValues = paddingValues
+            )
+        }
 
+        composable(
+            route = NavRoutes.RateCompany.ROUTE,
+            arguments = listOf(navArgument(NavRoutes.RateCompany.ARG_COMPANY_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val companyId = backStackEntry.arguments?.getLong(NavRoutes.RateCompany.ARG_COMPANY_ID) ?: 0L
 
-
+            RateCompanyScreen(
+                navController = navController,
+                ratingCompanyStudentViewModel = ratingCompanyStudentViewModel,
+                companyViewModel = companyViewModel,
+                studentViewModel = studentViewModel,
+                companyId = companyId
+            )
+        }
     }
 
 }
@@ -145,6 +182,7 @@ fun NavGraph(
     studentViewModel: StudentViewModel,
     requestViewModel: RequestViewModel,
     companyViewModel: CompanyViewModel,
+    ratingCompanyStudentViewModel: RatingCompanyStudentViewModel,
     paddingValues: PaddingValues,
     onLogOut: () -> Unit
 ) {
@@ -182,7 +220,7 @@ fun NavGraph(
 
 
         composable(NavRoutes.StudentsSearch.ROUTE) {
-            StudentSearchScreen(studentViewModel, requestViewModel, paddingValues, { selectStudent -> })
+            StudentSearchScreen(navController, studentViewModel, requestViewModel, paddingValues, { selectStudent -> })
         }
 
 
@@ -235,7 +273,40 @@ fun NavGraph(
         composable(NavRoutes.CompanyProfile.ROUTE) {
             CompanyProfileScreen (
                 companyViewModel,
+                navController,
                 onLogOut
+            )
+        }
+
+        composable(
+            route = "${NavRoutes.CompanyRatings.ROUTE}/{${NavRoutes.CompanyRatings.ARG_COMPANY_ID}}",
+            arguments = listOf(navArgument(NavRoutes.CompanyRatings.ARG_COMPANY_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val companyId = backStackEntry.arguments?.getLong(NavRoutes.CompanyRatings.ARG_COMPANY_ID) ?: 0L
+            CompanyRatingsScreen(
+                navController = navController,
+                companyId = companyId,
+                ratingViewModel = ratingCompanyStudentViewModel,
+                paddingValues = paddingValues
+            )
+        }
+
+        composable(
+            route = NavRoutes.RateStudent.ROUTE,
+            arguments = listOf(navArgument(NavRoutes.RateStudent.ARG_STUDENT_ID) {
+                type = NavType.LongType
+            })
+        ) { backStackEntry ->
+            val studentId = backStackEntry.arguments?.getLong(NavRoutes.RateStudent.ARG_STUDENT_ID) ?: 0L
+
+            RateStudentScreen(
+                navController = navController,
+                ratingCompanyStudentViewModel = ratingCompanyStudentViewModel,
+                companyViewModel = companyViewModel,
+                studentViewModel = studentViewModel,
+                studentId = studentId
             )
         }
     }
@@ -247,6 +318,7 @@ fun NavGraph(
     userViewModel: UserViewModel,
     userRoleViewModel: UserRoleViewModel,
     studentViewModel: StudentViewModel,
+    companyViewModel: CompanyViewModel,
     qualificationViewModel: QualificationViewModel,
     paddingValues: PaddingValues,
     onRegisterSuccess: () -> Unit
@@ -273,7 +345,9 @@ fun NavGraph(
             RegisterStudentFinal(navController, qualificationViewModel, userViewModel, userRoleViewModel, studentViewModel, paddingValues, onRegisterSuccess)
         }
 
-
+        composable(NavRoutes.RegisterCompany.ROUTE) {
+            RegisterCompanyScreen(userViewModel, companyViewModel, userRoleViewModel, onRegisterSuccess)
+        }
     }
 
 }

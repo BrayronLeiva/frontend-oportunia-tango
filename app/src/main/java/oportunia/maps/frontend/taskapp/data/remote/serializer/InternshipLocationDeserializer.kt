@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote.serializer
 
+import android.util.Log
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -48,6 +49,12 @@ class InternshipLocationDeserializer : JsonDeserializer<InternshipLocationDto> {
         val corporateCultur = companyJson.get("corporateCultur").asString
         val contactCompany = companyJson.get("contactCompany").asInt
         val ratingCompany = companyJson.get("ratingCompany").asDouble
+        val imageProfile = try {
+            companyJson.get("imageProfile")?.asString ?: "empty"
+        } catch (e: Exception) {
+            Log.e("InternshipLocationDeserializer", "Error al obtener 'imageProfile': ${e.message}")
+            "empty"
+        }
 
         var internshipType = companyJson.get("internshipType").asString
         if (internshipType != "REM" && internshipType != "INP" && internshipType != "MIX") {
@@ -95,6 +102,7 @@ class InternshipLocationDeserializer : JsonDeserializer<InternshipLocationDto> {
             contactCompany,
             ratingCompany,
             internshipType,
+            imageProfile,
             userDto
         )
 

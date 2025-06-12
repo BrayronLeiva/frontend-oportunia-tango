@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
@@ -25,14 +26,11 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
 
 @AndroidEntryPoint
 class RegisterActivity : ComponentActivity() {
-
     private val userRoleViewModel: UserRoleViewModel by viewModels()
-
     private val userViewModel: UserViewModel by viewModels()
-
     private val studentViewModel: StudentViewModel by viewModels()
-
     private val qualificationViewModel: QualificationViewModel by viewModels()
+    private val companyViewModel: CompanyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +41,7 @@ class RegisterActivity : ComponentActivity() {
                     userViewModel,
                     userRoleViewModel,
                     studentViewModel,
+                    companyViewModel,
                     qualificationViewModel
                 )
             }
@@ -52,10 +51,10 @@ class RegisterActivity : ComponentActivity() {
 
 @Composable
 fun MainRegisterScreen(
-
     userViewModel: UserViewModel,
     userRoleViewModel: UserRoleViewModel,
     studentViewModel: StudentViewModel,
+    companyViewModel: CompanyViewModel,
     qualificationViewModel: QualificationViewModel
 ) {
     val navController = rememberNavController()
@@ -88,6 +87,7 @@ fun MainRegisterScreen(
             userViewModel = userViewModel,
             userRoleViewModel = userRoleViewModel,
             studentViewModel = studentViewModel,
+            companyViewModel = companyViewModel,
             qualificationViewModel = qualificationViewModel,
             paddingValues = paddingValues,
             onRegisterSuccess = onRegisterSuccess

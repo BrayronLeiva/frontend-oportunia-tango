@@ -12,12 +12,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
+import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 
 @Composable
-fun LocationCompanyCard(locationCompany: LocationCompany) {
+fun LocationCompanyCard(locationCompany: LocationCompany, navController: NavController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -46,6 +48,14 @@ fun LocationCompanyCard(locationCompany: LocationCompany) {
             InfoText(label = stringResource(id = R.string.mission), value = locationCompany.company.mision)
             InfoText(label = stringResource(id = R.string.vision), value = locationCompany.company.vision)
             InfoText(label = stringResource(id = R.string.contact), value = locationCompany.contact.toString())
+            CustomButton(
+                text = stringResource(id = R.string.rate_button),
+                onClick = {
+                    navController.navigate(
+                        NavRoutes.RateCompany.createRoute(locationCompany.company.id!!)
+                    )
+                }
+            )
         }
     }
 }

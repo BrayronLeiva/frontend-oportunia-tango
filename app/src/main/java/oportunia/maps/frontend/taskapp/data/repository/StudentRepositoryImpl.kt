@@ -94,8 +94,10 @@ class StudentRepositoryImpl @Inject constructor(
     /**
      * Retrieves a student by its ID.
      */
-    override suspend fun findLoggedStudent(): Result<StudentImageDto> {
-        return dataSource.getByLoggedStudent()
+    override suspend fun findLoggedStudent(): Result<Student> {
+        return dataSource.getByLoggedStudent().map {
+            studentMapper.mapToDomain(it)
+        }
     }
 
     override suspend fun findRecommendedStudents(): Result<List<StudentRecommendedDto>> {

@@ -30,9 +30,9 @@ class StudentImageDeserializer : JsonDeserializer<StudentImageDto> {
         val rating = jsonObject.get("ratingStudent").asDouble
 
         val imageProfile = try {
-            jsonObject.get("imageProfile").asString ?: "empty"
+            jsonObject.get("imageProfile")?.asString ?: "empty"
         } catch (e: Exception) {
-            Log.e("StudentDeserializer", "Error al obtener 'tokenExpired': ${e.message}")
+            Log.e("StudentDeserializer", "Error al obtener 'imageProfile': ${e.message}")
             "empty"
         }
 

@@ -2,6 +2,7 @@ package oportunia.maps.frontend.taskapp.data.remote
 
 import oportunia.maps.frontend.taskapp.data.remote.api.CompanyService
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyRequestDto
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -26,7 +27,7 @@ class CompanyRemoteDataSource @Inject constructor(
     /**
      * Creates a new company.
      */
-    suspend fun create(dto: CompanyDto): Result<CompanyDto> = safeApiCall {
+    suspend fun create(dto: CompanyRequestDto): Result<CompanyDto> = safeApiCall {
         companyService.createCompany(dto)
     }
 

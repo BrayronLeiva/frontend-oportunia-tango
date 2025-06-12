@@ -37,13 +37,13 @@ class CompanyRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveCompany(company: Company): Result<Unit> {
-        return remoteDataSource.create(mapper.mapToDto(company)).map {
+        return remoteDataSource.create(mapper.mapToRequestDto(company)).map {
             mapper.mapToDomain(it)
         }
     }
 
     override suspend fun updateCompany(company: Company): Result<Unit> {
-        return remoteDataSource.update(company.id, mapper.mapToDto(company)).map {
+        return remoteDataSource.update(company.id!!, mapper.mapToDto(company)).map {
             mapper.mapToDomain(it)
         }
     }

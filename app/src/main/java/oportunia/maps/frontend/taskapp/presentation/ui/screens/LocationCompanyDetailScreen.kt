@@ -45,7 +45,6 @@ fun LocationCompanyDetailScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Icono grande de ubicación o empresa
         Icon(
             imageVector = Icons.Default.LocationOn,
             contentDescription = "Company Location Icon",
@@ -64,9 +63,7 @@ fun LocationCompanyDetailScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         locationCompany?.let {
-            // Card con info
-            LocationCompanyCard(locationCompany = it)
-
+            LocationCompanyCard(locationCompany = it, navController = navController)
             // Aquí puedes preparar para Cloudify: reemplazar por una imagen
             // Image(
             //     painter = rememberAsyncImagePainter(it.imageUrl), // o Cloudify URL
@@ -85,7 +82,7 @@ fun LocationCompanyDetailScreen(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.Start
         ) {
             CustomButton(
                 text = stringResource(id = R.string.back_button),

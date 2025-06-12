@@ -22,14 +22,12 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.launch
+import androidx.navigation.NavController
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Student
@@ -50,9 +48,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentCard
 import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentDetailDialog
 import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentDetailRecommendedDialog
 import oportunia.maps.frontend.taskapp.presentation.ui.components.StudentRecommenedCard
-import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestUpdateState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentListState
@@ -60,6 +56,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
 @Composable
 fun StudentSearchScreen(
+    navController: NavController,
     studentViewModel: StudentViewModel,
     requestViewModel: RequestViewModel,
     paddingValues: PaddingValues,
@@ -265,6 +262,7 @@ fun StudentSearchScreen(
             //requestViewModel.findAllRequest()
             requestViewModel.findRequestsbyStudentAndCompany(selectedStudent!!.id)
             StudentDetailDialog(
+                navController = navController,
                 student = selectedStudent!!,
                 requestList = requestList.value,
                 onDismiss = { showDialog = false },

@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote.serializer
 
+import android.util.Log
 import com.google.gson.*
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
@@ -40,6 +41,12 @@ class LocationCompanyDeserializer : JsonDeserializer<LocationCompanyDto> {
         val companyCorporateCultur = companyObject.get("corporateCultur").asString
         val companyContact = companyObject.get("contactCompany").asInt
         val companyRating = companyObject.get("ratingCompany").asDouble
+        val companyImageProfile = try {
+            companyObject.get("imageProfile")?.asString ?: "empty"
+        } catch (e: Exception) {
+            Log.e("LocationCompanyDeserializer", "Error al obtener 'imageProfile': ${e.message}")
+            "empty"
+        }
         var companyInternshipType = companyObject.get("internshipType").asString
 
         if (companyInternshipType != "REM" && companyInternshipType != "INP" && companyInternshipType != "MIX") {
@@ -68,7 +75,7 @@ class LocationCompanyDeserializer : JsonDeserializer<LocationCompanyDto> {
         val companyDto = CompanyDto(
             companyId, companyName, companyDescription, companyHistory,
             companyMision, companyVision, companyCorporateCultur, companyContact,
-            companyRating, companyInternshipType, userDto
+            companyRating, companyInternshipType, companyImageProfile, userDto
         )
 
         return LocationCompanyDto(id, email, latitude, longitude, contact, companyDto)
