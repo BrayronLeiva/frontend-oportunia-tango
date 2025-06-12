@@ -103,7 +103,7 @@ fun StudentSearchScreen(
     var expanded by remember { mutableStateOf(false) }
     var selectedRating by remember { mutableStateOf<Double?>(null) }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp).verticalScroll(rememberScrollState())) {
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         // Título
         Spacer(modifier = Modifier.height(32.dp))
 
