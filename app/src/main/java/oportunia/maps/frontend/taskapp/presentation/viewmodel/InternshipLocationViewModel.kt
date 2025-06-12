@@ -142,7 +142,7 @@ class InternshipLocationViewModel @Inject constructor(
             try {
                 Log.d("InternshipLocationViewModel", "Search By AI")
                 //By the moment
-                internshipLocationRepository.findRecommendedInternshipLocations(LocationRequestDto(9.940,-84.100))
+                internshipLocationRepository.findRecommendedInternshipLocations()
                     .onSuccess { interLocations ->
                         if (interLocations.isEmpty()){
                             _internshipLocationState.value = InternshipLocationState.Empty
@@ -195,7 +195,7 @@ class InternshipLocationViewModel @Inject constructor(
             try {
                 Log.d("InternshipLocationViewModel", "Search By AI")
                 //By the moment
-                internshipLocationRepository.findRecommendedInternshipLocationsAvailable(LocationRequestDto(9.940,-84.100))
+                internshipLocationRepository.findRecommendedInternshipLocationsAvailable()
                     .onSuccess { interLocations ->
                         if (interLocations.isEmpty()){
                             _internshipLocationState.value = InternshipLocationState.Empty

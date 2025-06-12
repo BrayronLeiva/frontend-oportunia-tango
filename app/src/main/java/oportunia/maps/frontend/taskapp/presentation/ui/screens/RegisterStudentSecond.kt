@@ -102,7 +102,6 @@ fun RegisterStudentSecond(
 
                 RegisterTextField(value = experience, onValueChange = { experience = it }, label = stringResource(id = R.string.experience_field), false, 94.dp)
 
-                SelectionTagInput(habilidades)
 
             }
 

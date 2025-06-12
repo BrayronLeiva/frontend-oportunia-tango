@@ -73,7 +73,7 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
         // Return the StudentDto object
         val student = StudentDto(
             studentId, studentName, identification, personalInfo,
-            experience, rating, homeLatitude, homeLongitude, imageProfile ,userDto
+            experience, rating, userDto, imageProfile, homeLatitude, homeLongitude
         )
         Log.d("StudentDeserializer", "JSON en Student DTO: $student")
         return student

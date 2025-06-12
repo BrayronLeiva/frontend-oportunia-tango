@@ -20,9 +20,9 @@ data class Student(
     val personalInfo: String,
     val experience: String,
     val rating: Double,
-    val homeLatitude: Double,
-    val homeLongitude: Double,
+    val user: User,
     val imageProfile: String,
-    val user: User
+    val homeLatitude: Double,
+    val homeLongitude: Double
 
 )

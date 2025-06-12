@@ -27,7 +27,7 @@ class RequestDeserializer : JsonDeserializer<RequestDto> {
         val experience = studentJson.get("experience").asString
         val ratingStudent = studentJson.get("ratingStudent").asDouble
         val imageProfile = try {
-            jsonObject.get("imageProfile").asString ?: "empty"
+            studentJson.get("imageProfile").asString ?: "empty"
         } catch (e: Exception) {
             Log.e("StudentDeserializer", "Error al obtener 'tokenExpired': ${e.message}")
             "empty"
@@ -46,10 +46,10 @@ class RequestDeserializer : JsonDeserializer<RequestDto> {
             personalInfo,
             experience,
             ratingStudent,
-            homeLatitude,
-            homeLongitude,
+            userDto,
             imageProfile,
-            userDto
+            homeLatitude,
+            homeLongitude
         )
 
         // Deserialize InternshipLocation
