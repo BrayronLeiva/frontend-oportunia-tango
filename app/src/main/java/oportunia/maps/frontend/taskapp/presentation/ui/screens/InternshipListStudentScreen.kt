@@ -65,10 +65,10 @@ fun InternshipListStudentScreen(
         when (requestCreateState) {
             is RequestCreateState.Error -> {
                 val message = (requestCreateState as RequestCreateState.Error).message
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
             is RequestCreateState.Success -> {
-                Toast.makeText(context, R.string.request_success_message.toString(), Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, R.string.request_success_message.toString(), Toast.LENGTH_SHORT).show()
                 internshipLocationViewModel.loadInternshipsLocationsFlagByLocationId(locationCompanyId)
             }
             else -> Unit

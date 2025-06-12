@@ -3,20 +3,25 @@ package oportunia.maps.frontend.taskapp.presentation.ui.screens
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
@@ -45,13 +50,6 @@ fun LocationCompanyDetailScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Icon(
-            imageVector = Icons.Default.LocationOn,
-            contentDescription = "Company Location Icon",
-            modifier = Modifier.size(96.dp),
-            tint = DarkCyan
-        )
-
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
@@ -63,16 +61,20 @@ fun LocationCompanyDetailScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         locationCompany?.let {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(it.company.imageProfile)
+                    .crossfade(true)
+                    .error(R.drawable.default_profile_company)
+                    .fallback(R.drawable.default_profile_company)
+                    .build(),
+                contentDescription = stringResource(R.string.profile_picture_content_description),
+                modifier = Modifier
+                    .size(140.dp)
+                    .clip(CircleShape)
+            )
             LocationCompanyCard(locationCompany = it, navController = navController)
-            // Aquí puedes preparar para Cloudify: reemplazar por una imagen
-            // Image(
-            //     painter = rememberAsyncImagePainter(it.imageUrl), // o Cloudify URL
-            //     contentDescription = null,
-            //     modifier = Modifier
-            //         .fillMaxWidth()
-            //         .height(200.dp)
-            //         .clip(RoundedCornerShape(8.dp))
-            // )
+
         } ?: Text(
             text = stringResource(id = R.string.location_details_unavailable),
             style = MaterialTheme.typography.bodyMedium

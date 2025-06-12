@@ -106,6 +106,7 @@ fun AddInternshipScreen(
                             internshipLocationViewModel.saveInternshipWithLocation(internship, it)
                         }
                     }
+                    navController.popBackStack()
                 },
                 modifier = Modifier.weight(1f)
             )

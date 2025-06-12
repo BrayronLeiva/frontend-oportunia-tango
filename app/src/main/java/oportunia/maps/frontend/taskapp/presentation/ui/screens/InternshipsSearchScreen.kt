@@ -97,10 +97,10 @@ fun InternshipSearch(
         when (requestCreateState) {
             is RequestCreateState.Error -> {
                 val message = (requestCreateState as RequestCreateState.Error).message
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
             is RequestCreateState.Success -> {
-                Toast.makeText(context, "Request sent successfully", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "Request sent successfully", Toast.LENGTH_SHORT).show()
                 internshipLocationViewModel.findAllInternShipsAvailableLocations()
             }
             else -> Unit

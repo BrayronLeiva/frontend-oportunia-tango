@@ -69,10 +69,10 @@ fun RequestDetailScreen(
         when (requestDeleteState) {
             is RequestDeleteState.Error -> {
                 val message = (requestDeleteState as RequestDeleteState.Error).message
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
             is RequestDeleteState.Success -> {
-                Toast.makeText(context, R.string.request_success_message.toString(), Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, R.string.request_success_message.toString(), Toast.LENGTH_SHORT).show()
                 requestViewModel.findAllRequest()
             }
             else -> Unit

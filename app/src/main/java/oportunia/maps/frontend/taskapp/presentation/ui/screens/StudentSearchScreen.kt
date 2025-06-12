@@ -87,10 +87,10 @@ fun StudentSearchScreen(
         when (requestUpdateState.value) {
             is RequestUpdateState.Error -> {
                 val message = (requestUpdateState as RequestUpdateState.Error).message
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             }
             is RequestUpdateState.Success -> {
-                Toast.makeText(context, "Request update successfully", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "Request update successfully", Toast.LENGTH_SHORT).show()
             }
             else -> Unit
         }
