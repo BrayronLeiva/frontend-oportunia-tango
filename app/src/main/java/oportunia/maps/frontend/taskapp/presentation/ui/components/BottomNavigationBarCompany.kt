@@ -33,12 +33,6 @@ fun BottomNavigationBarCompany(navController: NavHostController) {
         )
         BottomNavigationItem(
             selected = false,
-            onClick = { //navController.navigate(NavRoutes.RequestDetail.ROUTE)
-                 },
-            icon = { Icon(Icons.Default.QuestionMark, contentDescription = "Requests") }
-        )
-        BottomNavigationItem(
-            selected = false,
             onClick = { navController.navigate(NavRoutes.CompanyProfile.ROUTE) },
             icon = { Icon(Icons.Default.Person, contentDescription = "Profile") }
         )
