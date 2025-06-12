@@ -90,29 +90,25 @@ fun MainRegister(
                     visualTransformation = PasswordVisualTransformation()
                 )
 
-                // Radio selection
-                Text("Seleccione el tipo de usuario:")
+                Text(stringResource(id = R.string.select_user_type))
+
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(
                             selected = selectedRole == "student",
                             onClick = { selectedRole = "student" }
                         )
-                        Text("Estudiante")
+                        Text(stringResource(id = R.string.role_student))
                     }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         RadioButton(
                             selected = selectedRole == "company",
                             onClick = { selectedRole = "company" }
                         )
-                        Text("Empresa")
+                        Text(stringResource(id = R.string.role_company))
                     }
                 }
 
@@ -127,10 +123,9 @@ fun MainRegister(
                     onClick = {
                         userViewModel.updateEmail(email)
                         userViewModel.updatePassword(password)
-
                         when (selectedRole) {
                             "student" -> navController.navigate(NavRoutes.RegisterStudentFirst.ROUTE)
-                            "company" -> { navController.navigate(NavRoutes.RegisterCompany.ROUTE) }
+                            "company" -> navController.navigate(NavRoutes.RegisterCompany.ROUTE)
                         }
                     },
                     modifier = Modifier.width(350.dp),

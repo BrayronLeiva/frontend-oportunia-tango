@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -37,6 +39,7 @@ import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
+import oportunia.maps.frontend.taskapp.presentation.ui.components.LanguageSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ProfileInfoCard
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
@@ -58,10 +61,20 @@ fun CompanyProfileScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            contentAlignment = Alignment.TopEnd
+        ) {
+            LanguageSelector()
+        }
+
         when (val state = companyState) {
             is CompanyState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -144,6 +157,7 @@ fun CompanyProfileScreen(
                         .fillMaxWidth()
                         .height(48.dp)
                 )
+                Spacer(modifier = Modifier.height(80.dp))
             }
 
             is CompanyState.Error -> {

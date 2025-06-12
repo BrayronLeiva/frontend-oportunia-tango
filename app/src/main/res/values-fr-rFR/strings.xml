@@ -117,4 +117,24 @@
     <string name="send_button">Envoyer</string>
 
     <string name="rate_student_title">Évaluer l étudiant</string>
+
+    <string name="register_button">Registre</string>
+
+    <string name="student_image_upload_success">Image de l étudiant téléchargée avec succès</string>
+
+    <string name="select_user_type">Sélectionnez le type d utilisateur:</string>
+    <string name="role_student">Étudiant</string>
+    <string name="role_company">Entreprise</string>
+
+    <string name="student_requests_title">Demandes de l étudiant</string>
+    <string name="pending">En attente</string>
+    <string name="state_format">État : %1$s</string>
+    <string name="close">Fermer</string>
+
+    <string name="accepted">Accepté</string>
+    <string name="rejected">Rejeté</string>
+
+    <string name="deactivate">Désactiver</string>
+
+    <string name="load_image">Charger l image</string>
 </resources>

@@ -94,7 +94,7 @@ fun RegisterStudentFinal(
 
                     is StudentImageUploadState.Success -> {
                         Text(
-                            "Imagen subida con éxito",
+                            stringResource(id = R.string.student_image_upload_success),
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 16.sp,
                             modifier = Modifier.padding(8.dp)
@@ -118,7 +118,7 @@ fun RegisterStudentFinal(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         CustomButton(
-                            text = "Finalizar registro",
+                            text = stringResource(id = R.string.register_button),
                             onClick = { onRegisterSuccess() },
                             modifier = Modifier
                                 .fillMaxWidth(0.85f)
@@ -128,7 +128,7 @@ fun RegisterStudentFinal(
 
                     is StudentImageUploadState.Error -> {
                         androidx.compose.material3.Text(
-                            text = "Error: ${state.message}",
+                            text = stringResource(id = R.string.error_message, state.message),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(16.dp)
                         )

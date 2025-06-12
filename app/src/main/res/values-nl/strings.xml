@@ -116,4 +116,24 @@
     <string name="send_button">Verzenden</string>
 
     <string name="rate_student_title">Student beoordelen</string>
+
+    <string name="register_button">Registreren</string>
+
+    <string name="student_image_upload_success">Studentafbeelding succesvol geüpload</string>
+
+    <string name="select_user_type">Selecteer het type gebruiker:</string>
+    <string name="role_student">Student</string>
+    <string name="role_company">Bedrijf</string>
+
+    <string name="student_requests_title">Aanvragen van student</string>
+    <string name="pending">In afwachting</string>
+    <string name="state_format">Status: %1$s</string>
+    <string name="close">Sluiten</string>
+
+    <string name="accepted">Goedgekeurd</string>
+    <string name="rejected">Afgewezen</string>
+
+    <string name="deactivate">Deaktiveren</string>
+
+    <string name="load_image">Afbeelding laden</string>
 </resources>

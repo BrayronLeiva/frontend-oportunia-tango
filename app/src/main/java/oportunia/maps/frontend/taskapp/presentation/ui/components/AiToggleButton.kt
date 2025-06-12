@@ -9,8 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
+import oportunia.maps.frontend.taskapp.R
 
 @Composable
 fun AiToggleButton(
@@ -22,7 +24,7 @@ fun AiToggleButton(
         label = "backgroundColor"
     )
     //val icon = if (isAiEnabled) Icons.Filled.Lightbulb else Icons.Filled.LightbulbOutline
-    val text = if (isAiEnabled) "Desactivar" else "AI Recs"
+    val text = if (isAiEnabled) stringResource(id = R.string.deactivate) else "AI"
 
     Button(
         onClick = onToggle,

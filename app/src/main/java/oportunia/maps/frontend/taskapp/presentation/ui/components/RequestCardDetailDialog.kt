@@ -55,7 +55,7 @@ fun RequestCardDetailDialog(
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Ícono del estado
+                // Status icon
                 Icon(
                     imageVector = if (request.state) Icons.Default.CheckCircle else Icons.Default.Error,
                     contentDescription = null,
@@ -66,7 +66,9 @@ fun RequestCardDetailDialog(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = if (request.state) "Accepted" else "Rejected",
+                    text = stringResource(
+                        if (request.state) R.string.accepted else R.string.rejected
+                    ),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.SemiBold
                 )

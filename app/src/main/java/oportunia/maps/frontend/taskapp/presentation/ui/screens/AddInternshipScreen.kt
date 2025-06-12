@@ -33,83 +33,92 @@ fun AddInternshipScreen(
 
 
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+        contentAlignment = Alignment.Center
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Ícono grande de "práctica"
-        Icon(
-            imageVector = Icons.Default.WorkOutline,
-            contentDescription = "Internship Icon",
-            modifier = Modifier.size(96.dp),
-            tint = Color.DarkGray
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = stringResource(id = R.string.add_internship_title),
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Preparación para imagen (Cloudify)
-        // locationCompany?.imageUrl?.let { imageUrl ->
-        //     Image(
-        //         painter = rememberAsyncImagePainter(imageUrl),
-        //         contentDescription = null,
-        //         modifier = Modifier
-        //             .fillMaxWidth()
-        //             .height(200.dp)
-        //             .clip(RoundedCornerShape(8.dp))
-        //     )
-        //     Spacer(modifier = Modifier.height(16.dp))
-        // }
-
-        OutlinedTextField(
-            value = internshipName,
-            onValueChange = { internshipName = it },
-            label = { Text(stringResource(id = R.string.internship)) },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth().
-            navigationBarsPadding(),
-
-            horizontalArrangement = Arrangement.SpaceEvenly
+        Column(
+            modifier = Modifier
+                .wrapContentSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CustomButton(
-                text = stringResource(id = R.string.back_button),
-                onClick = { navController.popBackStack() },
-                modifier = Modifier.weight(1f)
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Ícono grande de "práctica"
+            Icon(
+                imageVector = Icons.Default.WorkOutline,
+                contentDescription = "Internship Icon",
+                modifier = Modifier.size(96.dp),
+                tint = Color.DarkGray
             )
-            Spacer(modifier = Modifier.width(16.dp))
-            CustomButton(
-                text = stringResource(id = R.string.add_button),
-                onClick = {
-                    if (internshipName.isNotBlank()) {
-                        val internship = Internship(
-                            id = null,
-                            details = internshipName
-                        )
-                        locationCompany?.let {
-                            internshipLocationViewModel.saveInternshipWithLocation(internship, it)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = stringResource(id = R.string.add_internship_title),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Preparación para imagen (Cloudify)
+            // locationCompany?.imageUrl?.let { imageUrl ->
+            //     Image(
+            //         painter = rememberAsyncImagePainter(imageUrl),
+            //         contentDescription = null,
+            //         modifier = Modifier
+            //             .fillMaxWidth()
+            //             .height(200.dp)
+            //             .clip(RoundedCornerShape(8.dp))
+            //     )
+            //     Spacer(modifier = Modifier.height(16.dp))
+            // }
+
+            OutlinedTextField(
+                value = internshipName,
+                onValueChange = { internshipName = it },
+                label = { Text(stringResource(id = R.string.internship)) },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth().navigationBarsPadding(),
+
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                CustomButton(
+                    text = stringResource(id = R.string.back_button),
+                    onClick = { navController.popBackStack() },
+                    modifier = Modifier.weight(1f)
+                )
+                Spacer(modifier = Modifier.width(16.dp))
+                CustomButton(
+                    text = stringResource(id = R.string.add_button),
+                    onClick = {
+                        if (internshipName.isNotBlank()) {
+                            val internship = Internship(
+                                id = null,
+                                details = internshipName
+                            )
+                            locationCompany?.let {
+                                internshipLocationViewModel.saveInternshipWithLocation(
+                                    internship,
+                                    it
+                                )
+                            }
                         }
-                    }
-                    navController.popBackStack()
-                },
-                modifier = Modifier.weight(1f)
-            )
+                        navController.popBackStack()
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
     }
 }

@@ -71,15 +71,15 @@ fun StudentDetailDialog(
         },
         text = {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                InfoSection(label = "Nombre", value = student.name)
-                InfoSection(label = "Indentificacion", value = student.identification)
-                InfoSection(label = "Informacion Personal", value = student.personalInfo)
-                InfoSection(label = "Rating", value = "${student.rating} ★")
+                InfoSection(label = stringResource(R.string.name), value = student.name)
+                InfoSection(label = stringResource(R.string.identification), value = student.identification)
+                InfoSection(label = stringResource(R.string.personal_info), value = student.personalInfo)
+                InfoSection(label = stringResource(R.string.rating_format), value =  student.rating.toString())
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Solicitudes del estudiante",
+                    text = stringResource(R.string.student_requests_title),
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
@@ -96,18 +96,21 @@ fun StudentDetailDialog(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp) // espacio interno general
+                                .padding(16.dp)
                         ) {
                             Text(
                                 text = request.internshipLocation.internship.details,
-                                modifier = Modifier.padding(bottom = 12.dp) // separación del texto superior
+                                modifier = Modifier.padding(bottom = 12.dp)
                             )
 
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = "Estado: ${if (request.state) "Aceptado" else "Pendiente"}",
+                                    text = stringResource(
+                                        R.string.state_format,
+                                        stringResource(if (request.state) R.string.approved else R.string.pending)
+                                    ),
                                     fontWeight = FontWeight.Medium,
                                     fontSize = 14.sp
                                 )
@@ -116,7 +119,9 @@ fun StudentDetailDialog(
 
                                 Icon(
                                     imageVector = if (request.state) Icons.Default.CheckCircle else Icons.Default.Error,
-                                    contentDescription = if (request.state) "Aprobado" else "Rechazado",
+                                    contentDescription = stringResource(
+                                        if (request.state) R.string.approved else R.string.denied
+                                    ),
                                     tint = if (request.state) Color(0xFF4CAF50) else Color(0xFFF44336),
                                     modifier = Modifier.size(15.dp)
                                 )
@@ -137,7 +142,9 @@ fun StudentDetailDialog(
                                     modifier = Modifier.width(150.dp)
                                 ) {
                                     Text(
-                                        text = if (request.state) "Cancelar" else "Aceptar",
+                                        text = stringResource(
+                                            if (request.state) R.string.cancel_request else R.string.apply
+                                        ),
                                         fontWeight = FontWeight.Bold
                                     )
                                 }
@@ -153,7 +160,7 @@ fun StudentDetailDialog(
                 horizontalArrangement = Arrangement.Center
             ) {
                 CustomButton(
-                    text = "Cerrar",
+                    text = stringResource(R.string.close),
                     onClick = onDismiss,
                     width = 140.dp
                 )

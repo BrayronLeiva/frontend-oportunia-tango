@@ -14,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
@@ -49,7 +51,7 @@ fun ImageUploader(studentId: Long, viewModel: StudentViewModel) {
 
     ) {
         Text(
-            text = "Cargar imagen",
+            text = stringResource(id = R.string.load_image),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.DarkGray

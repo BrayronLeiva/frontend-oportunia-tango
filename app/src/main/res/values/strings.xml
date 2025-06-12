@@ -120,4 +120,24 @@
     <string name="send_button">Send</string>
 
     <string name="rate_student_title">Rate Student</string>
+
+    <string name="register_button">Register</string>
+
+    <string name="student_image_upload_success">Student image upload success</string>
+
+    <string name="select_user_type">Select user type:</string>
+    <string name="role_student">Student</string>
+    <string name="role_company">Company</string>
+
+    <string name="student_requests_title">Student Requests</string>
+    <string name="pending">Pending</string>
+    <string name="state_format">State: %1$s</string>
+    <string name="close">Close</string>
+
+    <string name="accepted">Accepted</string>
+    <string name="rejected">Rejected</string>
+
+    <string name="deactivate">Deactivate</string>
+
+    <string name="load_image">Load Image</string>
 </resources>

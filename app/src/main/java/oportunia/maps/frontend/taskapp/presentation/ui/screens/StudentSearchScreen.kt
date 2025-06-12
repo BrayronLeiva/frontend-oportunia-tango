@@ -66,7 +66,7 @@ fun StudentSearchScreen(
 ) {
     var searchQuery by remember { mutableStateOf("") }
     val ratings = listOf(1.0, 2.0, 3.0, 4.0, 5.0)
-    val searchCriteriaOptions = listOf("Name", "Identification")
+    val searchCriteriaOptions = listOf(stringResource(id = R.string.name), stringResource(id = R.string.identification))
     var selectedCriteria by remember { mutableStateOf(searchCriteriaOptions[0]) }
 
     var useAi by remember { mutableStateOf(false) }
@@ -140,9 +140,9 @@ fun StudentSearchScreen(
             label = {
                 Text(
                     when (selectedCriteria) {
-                        "Name" -> "Buscar por nombre de compañía"
-                        "Identification" -> "Buscar por detalles de la pasantía"
-                        else -> "Search"
+                        stringResource(id = R.string.name) -> stringResource(id = R.string.search_by_company_name)
+                        stringResource(id = R.string.internship) -> stringResource(id = R.string.search_by_internship_details)
+                        else -> stringResource(id = R.string.search_label)
                     }
                 )
             },
@@ -168,7 +168,7 @@ fun StudentSearchScreen(
                 IconButton(onClick = { expanded = true }) {
                     Icon(
                         imageVector = Icons.Filled.Star,
-                        contentDescription = "Seleccionar mínimo de estrellas",
+                        contentDescription = stringResource(id = R.string.filter_rating_label),
                         tint = if (selectedRating != null) Color(0xFFFFD700) else DarkCyan
                     )
                 }
@@ -185,8 +185,8 @@ fun StudentSearchScreen(
             val identification = it.identification
 
             val matchesText = when (selectedCriteria) {
-                "Name" -> name.contains(searchQuery, ignoreCase = true)
-                "Identification" -> identification.contains(searchQuery, ignoreCase = true)
+                stringResource(id = R.string.name) -> name.contains(searchQuery, ignoreCase = true)
+                stringResource(id = R.string.identification) -> identification.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
 
@@ -203,8 +203,8 @@ fun StudentSearchScreen(
             val identification = it.identification
 
             val matchesText = when (selectedCriteria) {
-                "Name" -> name.contains(searchQuery, ignoreCase = true)
-                "Identification" -> identification.contains(searchQuery, ignoreCase = true)
+                stringResource(id = R.string.name) -> name.contains(searchQuery, ignoreCase = true)
+                stringResource(id = R.string.identification) -> identification.contains(searchQuery, ignoreCase = true)
                 else -> true
             }
 
@@ -222,7 +222,7 @@ fun StudentSearchScreen(
             }
             is StudentListState.Empty -> {
                 androidx.compose.material3.Text(
-                    text = "No students available.",
+                    text = stringResource(id = R.string.no_student_info_available),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )
@@ -252,7 +252,7 @@ fun StudentSearchScreen(
             }
             is StudentListState.Error -> {
                 androidx.compose.material3.Text(
-                    text = "Error: ${state.message}",
+                    text = stringResource(id = R.string.error_message, state.message),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(16.dp)
                 )
