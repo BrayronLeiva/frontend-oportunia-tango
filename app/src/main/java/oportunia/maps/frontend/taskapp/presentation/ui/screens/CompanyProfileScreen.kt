@@ -104,7 +104,7 @@ fun CompanyProfileScreen(
                     fontWeight = FontWeight.Medium,
                     color = Color(0xFFFFA500),
                     modifier = Modifier.clickable {
-                        navController.navigate(NavRoutes.CompanyRatings.createRoute(company.id))
+                        navController.navigate(NavRoutes.CompanyRatings.createRoute(company.id!!))
                     }
                 )
 
@@ -116,7 +116,7 @@ fun CompanyProfileScreen(
                 )
                 ProfileInfoCard(
                     title = stringResource(R.string.vision),
-                    value = company.mision
+                    value = company.vision
                 )
                 ProfileInfoCard(
                     title = stringResource(R.string.corporate_culture),

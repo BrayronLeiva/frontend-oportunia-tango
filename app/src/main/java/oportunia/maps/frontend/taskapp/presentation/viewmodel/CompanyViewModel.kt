@@ -9,6 +9,8 @@ import oportunia.maps.frontend.taskapp.domain.repository.CompanyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserCreateDto
+import oportunia.maps.frontend.taskapp.domain.model.User
 import javax.inject.Inject
 
 sealed class CompanyState {
@@ -58,6 +60,23 @@ class CompanyViewModel @Inject constructor(
                 onSuccess = {
                     _companyState.value = CompanyState.Success(it)
                     _selectedCompany.value = it
+                },
+                onFailure = { e ->
+                    Log.e("CompanyViewModel", "Failed to load company: ${e.message}")
+                    _companyState.value = CompanyState.Error(e.message ?: "Unknown error")
+                }
+            )
+        }
+    }
+
+    fun registerCompany(company: Company){
+        viewModelScope.launch {
+            _companyState.value = CompanyState.Loading
+            val result = companyRepository.saveCompany(company)
+            result.fold(
+                onSuccess = {
+                    //_companyState.value = CompanyState.Success(it)
+                    Log.e("CompanyViewModel", "Company registered successfully")
                 },
                 onFailure = { e ->
                     Log.e("CompanyViewModel", "Failed to load company: ${e.message}")

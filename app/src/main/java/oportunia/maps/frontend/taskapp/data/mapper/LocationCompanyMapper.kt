@@ -47,7 +47,7 @@ class LocationCompanyMapper @Inject constructor(private val companyMapper: Compa
             longitude = domain.location.longitude,
             email = domain.email,
             contactLocation = domain.contact,
-            companyId = domain.company.id
+            companyId = domain.company.id!!
         )
     /*
     fun LocationCompanyFlatDto.toDomain(): LocationCompany {

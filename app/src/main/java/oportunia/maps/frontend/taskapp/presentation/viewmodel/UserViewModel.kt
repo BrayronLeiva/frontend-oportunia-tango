@@ -54,6 +54,9 @@ class UserViewModel @Inject constructor(
     private val _loggedInUser = MutableStateFlow<User?>(null)
     val loggedInUser: StateFlow<User?> = _loggedInUser
 
+    private val _savedUser = MutableStateFlow<User?>(null)
+    val savedUser: StateFlow<User?> = _savedUser
+
     fun loginUser(email: String, password: String) {
         viewModelScope.launch {
             _userState.value = UserState.Loading
@@ -118,8 +121,9 @@ class UserViewModel @Inject constructor(
                 .onSuccess { savedUser ->
                     // _registeredStudent.value = student
                     //cleanDraft()
+                    _savedUser.value = savedUser
                     _userCreateState.value = UserCreateState.Success(savedUser)
-                    Log.e("UserViewModel", "Saved succesfully user role")
+                    Log.e("UserViewModel", "Saved user successfully")
                 }
                 .onFailure { exception ->
                     _userCreateState.value = UserCreateState.Error("Error")

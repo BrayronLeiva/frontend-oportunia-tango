@@ -21,6 +21,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.LocationCompanyDe
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.MainRegister
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RateCompanyScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RateStudentScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterCompanyScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFinal
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFirst
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
@@ -317,6 +318,7 @@ fun NavGraph(
     userViewModel: UserViewModel,
     userRoleViewModel: UserRoleViewModel,
     studentViewModel: StudentViewModel,
+    companyViewModel: CompanyViewModel,
     qualificationViewModel: QualificationViewModel,
     paddingValues: PaddingValues,
     onRegisterSuccess: () -> Unit
@@ -343,7 +345,9 @@ fun NavGraph(
             RegisterStudentFinal(navController, qualificationViewModel, userViewModel, userRoleViewModel, studentViewModel, paddingValues, onRegisterSuccess)
         }
 
-
+        composable(NavRoutes.RegisterCompany.ROUTE) {
+            RegisterCompanyScreen(userViewModel, companyViewModel, userRoleViewModel, onRegisterSuccess)
+        }
     }
 
 }

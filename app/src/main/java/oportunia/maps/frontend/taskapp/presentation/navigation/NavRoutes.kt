@@ -117,4 +117,8 @@ sealed class NavRoutes {
         const val ARG_STUDENT_ID = "studentId"
         fun createRoute(studentId: Long) = "rateStudent/$studentId"
     }
+
+    data object RegisterCompany : NavRoutes(){
+        const val ROUTE = "registerCompany"
+    }
 }

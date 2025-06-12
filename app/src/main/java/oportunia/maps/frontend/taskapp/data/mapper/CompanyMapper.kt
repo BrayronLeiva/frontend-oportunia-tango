@@ -2,6 +2,7 @@ package oportunia.maps.frontend.taskapp.data.mapper
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.InternshipType
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyRequestDto
 import oportunia.maps.frontend.taskapp.domain.model.Company
 import javax.inject.Inject
 
@@ -28,6 +29,7 @@ class CompanyMapper @Inject constructor(
         contact = dto.contactCompany,
         rating = dto.ratingCompany,
         internshipType = InternshipType.valueOf(dto.internshipType),  // Converts String to Enum
+        imageProfile = dto.imageProfile!!,
         user = userMapper.mapToDomain(dto.user)
     )
 
@@ -38,7 +40,7 @@ class CompanyMapper @Inject constructor(
      */
     fun mapToDto(domain: Company): CompanyDto =
         CompanyDto(
-            idCompany = domain.id,
+            idCompany = domain.id!!,
             nameCompany = domain.name,
             description = domain.description,
             history = domain.history,
@@ -48,8 +50,25 @@ class CompanyMapper @Inject constructor(
             contactCompany = domain.contact,
             ratingCompany = domain.rating,
             internshipType = domain.internshipType.name,  // Converts Enum to String
+            imageProfile = domain.imageProfile,
             user = userMapper.mapToDto(domain.user)
         )
+
+    fun mapToRequestDto(domain: Company): CompanyRequestDto =
+        CompanyRequestDto(
+            nameCompany = domain.name,
+            description = domain.description,
+            history = domain.history,
+            mision = domain.mision,
+            vision = domain.vision,
+            ratingCompany = domain.rating,
+            corporateCultur = domain.corporateCultur,
+            contactCompany = domain.contact,
+            internshipType = domain.internshipType.name,
+            imageProfile = domain.imageProfile,
+            userId = domain.user.id
+        )
+
     /*
     fun toDomainFromFlat(flat: LocationCompanyFlatDto): Company {
         return Company(

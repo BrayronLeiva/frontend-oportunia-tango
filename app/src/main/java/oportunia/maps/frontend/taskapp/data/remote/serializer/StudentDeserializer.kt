@@ -35,7 +35,12 @@ class StudentDeserializer : JsonDeserializer<StudentDto> {
         val rating = jsonObject.get("ratingStudent").asDouble
         val homeLatitude = jsonObject.get("homeLatitude").asDouble
         val homeLongitude = jsonObject.get("homeLongitude").asDouble
-        val imageProfile = jsonObject.get("imageProfile").asString
+        val imageProfile = try {
+            jsonObject.get("imageProfile")?.asString ?: "empty"
+        } catch (e: Exception) {
+            Log.e("StudentDeserializer", "Error al obtener 'imageProfile': ${e.message}")
+            "empty"
+        }
 
 
         // Deserialize user information

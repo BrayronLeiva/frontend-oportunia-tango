@@ -52,7 +52,7 @@ fun LocationCompanyCard(locationCompany: LocationCompany, navController: NavCont
                 text = stringResource(id = R.string.rate_button),
                 onClick = {
                     navController.navigate(
-                        NavRoutes.RateCompany.createRoute(locationCompany.company.id)
+                        NavRoutes.RateCompany.createRoute(locationCompany.company.id!!)
                     )
                 }
             )

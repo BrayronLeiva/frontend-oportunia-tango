@@ -26,5 +26,20 @@ data class CompanyDto(
     val contactCompany: Int,
     val ratingCompany: Double,
     val internshipType: String,
+    val imageProfile: String,
     val user: UserDto
+)
+
+data class CompanyRequestDto(
+    val nameCompany: String,
+    val description: String,
+    val history: String,
+    val mision: String,
+    val vision: String,
+    val corporateCultur: String,
+    val contactCompany: Int,
+    val ratingCompany: Double,
+    val internshipType: String,
+    val imageProfile: String,
+    val userId: Long
 )

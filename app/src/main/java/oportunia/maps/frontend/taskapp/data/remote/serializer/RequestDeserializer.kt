@@ -2,6 +2,7 @@ package oportunia.maps.frontend.taskapp.data.remote.serializer
 
 
 
+import android.util.Log
 import com.google.gson.*
 import oportunia.maps.frontend.taskapp.data.remote.dto.*
 import java.lang.reflect.Type
@@ -25,7 +26,12 @@ class RequestDeserializer : JsonDeserializer<RequestDto> {
         val personalInfo = studentJson.get("personalInfo").asString
         val experience = studentJson.get("experience").asString
         val ratingStudent = studentJson.get("ratingStudent").asDouble
-        val imageProfile = studentJson.get("imageProfile").asString
+        val imageProfile = try {
+            jsonObject.get("imageProfile").asString ?: "empty"
+        } catch (e: Exception) {
+            Log.e("StudentDeserializer", "Error al obtener 'tokenExpired': ${e.message}")
+            "empty"
+        }
         val homeLatitude = studentJson.get("homeLatitude").asDouble
         val homeLongitude = studentJson.get("homeLongitude").asDouble
 
@@ -69,6 +75,13 @@ class RequestDeserializer : JsonDeserializer<RequestDto> {
         val corporateCultur = companyJson.get("corporateCultur").asString
         val contactCompany = companyJson.get("contactCompany").asInt
         val ratingCompany = companyJson.get("ratingCompany").asDouble
+        val companyImageProfile = try {
+            companyJson.get("imageProfile")?.asString ?: "empty"
+        } catch (e: Exception) {
+            Log.e("RequestDeserializer", "Error al obtener 'imageProfile': ${e.message}")
+            "empty"
+        }
+
 
         var internshipType = companyJson.get("internshipType").asString
         if (internshipType !in listOf("REM", "INP", "MIX")) {
@@ -90,6 +103,7 @@ class RequestDeserializer : JsonDeserializer<RequestDto> {
             contactCompany,
             ratingCompany,
             internshipType,
+            companyImageProfile,
             userCompanyDto
         )
 

@@ -54,7 +54,7 @@ class UserRoleViewModel @Inject constructor(
 
     fun saveUserRoleStudent(userId: Long) {
         viewModelScope.launch {
-            val userRoleStudent = UserRoleCreateDto(1,userId)
+            val userRoleStudent = UserRoleCreateDto(1, userId)
             _userRoleState.value = UserRoleState.Loading
             Log.d("saveUserRoleStudent", "Creando UserRoleCreateDto con roleId=1 y userId=$userId")
             userRoleRepository.saveUserRole(userRoleStudent)
@@ -64,10 +64,29 @@ class UserRoleViewModel @Inject constructor(
                     Log.e("UserRoleViewModel", "Saved succesfully user role")
                 }
                 .onFailure { exception ->
-                    _userRoleState.value = UserRoleState.Error(exception.printStackTrace().toString())
+                    _userRoleState.value =
+                        UserRoleState.Error(exception.printStackTrace().toString())
                     Log.e("UserRoleViewModel", "error$exception")
                 }
         }
     }
 
+
+    fun saveUserRoleCompany(userId: Long) {
+        viewModelScope.launch {
+            val userRoleCompany = UserRoleCreateDto(2, userId)
+            _userRoleState.value = UserRoleState.Loading
+            userRoleRepository.saveUserRole(userRoleCompany)
+                .onSuccess { savedUserRole ->
+                    _userRoleState.value = UserRoleState.Success(savedUserRole)
+                    Log.e("UserRoleViewModel", "Saved succesfully user role")
+
+                }
+                .onFailure { exception ->
+                    _userRoleState.value =
+                        UserRoleState.Error(exception.printStackTrace().toString())
+                    Log.e("UserRoleViewModel", "error$exception")
+                }
+        }
+    }
 }

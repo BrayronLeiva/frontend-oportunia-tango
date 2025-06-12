@@ -1,6 +1,7 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyRequestDto
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -30,7 +31,7 @@ interface CompanyService {
      * @return [Response] containing the created [CompanyDto] with server-assigned ID if successful
      */
     @POST("/v1/companies")
-    suspend fun createCompany(@Body company: CompanyDto): Response<CompanyDto>
+    suspend fun createCompany(@Body company: CompanyRequestDto): Response<CompanyDto>
 
     /**
      * Updates an existing company entry in the remote API.

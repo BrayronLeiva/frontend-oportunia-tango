@@ -49,6 +49,6 @@ class RatingCompanyStudentMapper @Inject constructor(
             type = domain.type.name,
             comment = domain.comment,
             studentId = domain.student.id,
-            companyId = domain.company.id
+            companyId = domain.company.id!!
         )
 }
