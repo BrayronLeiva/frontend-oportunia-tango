@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserCreateDto
 import oportunia.maps.frontend.taskapp.domain.model.User
+import java.io.File
 import javax.inject.Inject
 
 sealed class CompanyState {
@@ -19,6 +20,14 @@ sealed class CompanyState {
     object Empty : CompanyState()
     object Failure : CompanyState()
     data class Error(val message: String) : CompanyState()
+}
+
+sealed class CompanyImageState {
+    object Loading : CompanyImageState()
+    data class Success(val imageUrl: String) : CompanyImageState()
+    object Empty : CompanyImageState()
+    object Failure : CompanyImageState()
+    data class Error(val message: String) : CompanyImageState()
 }
 
 @HiltViewModel
@@ -34,6 +43,9 @@ class CompanyViewModel @Inject constructor(
 
     private val _loggedCompany = MutableStateFlow<Company?>(null)
     val loggedCompany: StateFlow<Company?> = _loggedCompany
+
+    private val _companyImageState = MutableStateFlow<CompanyImageState>(CompanyImageState.Empty)
+    val companyImageState: StateFlow<CompanyImageState> = _companyImageState
 
     fun getLoggedCompany() {
         viewModelScope.launch {
@@ -75,7 +87,7 @@ class CompanyViewModel @Inject constructor(
             val result = companyRepository.saveCompany(company)
             result.fold(
                 onSuccess = {
-                    //_companyState.value = CompanyState.Success(it)
+                    _companyState.value = CompanyState.Success(it)
                     Log.e("CompanyViewModel", "Company registered successfully")
                 },
                 onFailure = { e ->
@@ -83,6 +95,29 @@ class CompanyViewModel @Inject constructor(
                     _companyState.value = CompanyState.Error(e.message ?: "Unknown error")
                 }
             )
+        }
+    }
+
+    fun uploadImage(companyId: Long, file: File) {
+        _companyImageState.value = CompanyImageState.Loading
+        viewModelScope.launch {
+            companyRepository.uploadProfileImage(companyId, file)
+                .onSuccess { responseMap ->
+                    val responseText = responseMap.toString()
+                    val regex = Regex("imageUrl=([^}]+)")
+                    val match = regex.find(responseText)
+                    val imageUrl1 = match?.groupValues?.get(1) ?: ""
+                    Log.e("CompanyViewModel", "Image 1: $imageUrl1")
+
+                    val imageUrl2 = responseMap["imageUrl"]?.toString() ?: ""
+                    Log.e("CompanyViewModel", "Image 2: $imageUrl2")
+
+                    _companyImageState.value = CompanyImageState.Success(imageUrl2)
+                }
+                .onFailure { exception ->
+                    Log.e("CompanyViewModel", "Error uploading image")
+                    _companyImageState.value = CompanyImageState.Error(exception.toString())
+                }
         }
     }
 }

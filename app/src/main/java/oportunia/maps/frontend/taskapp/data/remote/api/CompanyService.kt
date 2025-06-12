@@ -1,5 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
+import okhttp3.MultipartBody
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyRequestDto
 import retrofit2.Response
@@ -57,4 +58,11 @@ interface CompanyService {
 
     @GET("/v1/companies/me")
     suspend fun loggedCompany(): Response<CompanyDto>
+
+    @Multipart
+    @POST("/v1/companies/{id}/upload-image")
+    suspend fun uploadProfileImage(
+        @Path("id") id: Long,
+        @Part file: MultipartBody.Part
+    ): Response<Map<String, String>>
 }

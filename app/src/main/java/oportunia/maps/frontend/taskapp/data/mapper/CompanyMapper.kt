@@ -28,8 +28,8 @@ class CompanyMapper @Inject constructor(
         corporateCultur = dto.corporateCultur,
         contact = dto.contactCompany,
         rating = dto.ratingCompany,
-        internshipType = InternshipType.valueOf(dto.internshipType),  // Converts String to Enum
-        imageProfile = dto.imageProfile!!,
+        internshipType = InternshipType.valueOf(dto.internshipType),
+        imageProfile = dto.imageProfile,
         user = userMapper.mapToDomain(dto.user)
     )
 
@@ -49,7 +49,7 @@ class CompanyMapper @Inject constructor(
             corporateCultur = domain.corporateCultur,
             contactCompany = domain.contact,
             ratingCompany = domain.rating,
-            internshipType = domain.internshipType.name,  // Converts Enum to String
+            internshipType = domain.internshipType.name,
             imageProfile = domain.imageProfile,
             user = userMapper.mapToDto(domain.user)
         )

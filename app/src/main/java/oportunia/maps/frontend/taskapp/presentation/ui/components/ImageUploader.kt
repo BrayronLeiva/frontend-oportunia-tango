@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import java.io.File
 
@@ -55,7 +56,6 @@ fun ImageUploader(studentId: Long, viewModel: StudentViewModel) {
         )
     }
 }
-
 
 fun uriToFile(uri: Uri, context: Context): File? {
     val inputStream = context.contentResolver.openInputStream(uri) ?: return null

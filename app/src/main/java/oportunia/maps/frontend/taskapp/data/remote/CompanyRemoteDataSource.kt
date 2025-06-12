@@ -1,9 +1,13 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import oportunia.maps.frontend.taskapp.data.remote.api.CompanyService
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyRequestDto
 import retrofit2.Response
+import java.io.File
 import javax.inject.Inject
 
 class CompanyRemoteDataSource @Inject constructor(
@@ -47,6 +51,13 @@ class CompanyRemoteDataSource @Inject constructor(
 
     suspend fun loggedCompany(): Result<CompanyDto> = safeApiCall {
         companyService.loggedCompany()
+    }
+
+    suspend fun uploadProfileImage(companyId: Long, file: File): Result<Map<String, String>> = safeApiCall {
+        val requestFile = file
+            .asRequestBody("image/*".toMediaTypeOrNull()) // puedes ajustar MIME si es JPEG, PNG, etc.
+        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+        companyService.uploadProfileImage(companyId, body)
     }
 
     /**

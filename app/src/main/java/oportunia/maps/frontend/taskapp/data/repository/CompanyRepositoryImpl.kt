@@ -4,6 +4,7 @@ import oportunia.maps.frontend.taskapp.data.mapper.CompanyMapper
 import oportunia.maps.frontend.taskapp.data.remote.CompanyRemoteDataSource
 import oportunia.maps.frontend.taskapp.domain.model.Company
 import oportunia.maps.frontend.taskapp.domain.repository.CompanyRepository
+import java.io.File
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -36,7 +37,7 @@ class CompanyRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveCompany(company: Company): Result<Unit> {
+    override suspend fun saveCompany(company: Company): Result<Company> {
         return remoteDataSource.create(mapper.mapToRequestDto(company)).map {
             mapper.mapToDomain(it)
         }
@@ -56,5 +57,9 @@ class CompanyRepositoryImpl @Inject constructor(
         return remoteDataSource.loggedCompany().map {
             mapper.mapToDomain(it)
         }
+    }
+
+    override suspend fun uploadProfileImage(companyId: Long, file: File): Result<Map<String, String>> {
+        return remoteDataSource.uploadProfileImage(companyId, file)
     }
 }

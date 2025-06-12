@@ -1,12 +1,17 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -22,12 +27,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.InternshipType
 import oportunia.maps.frontend.taskapp.domain.model.Company
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
+import oportunia.maps.frontend.taskapp.presentation.ui.components.ImageUploader
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterTextField
+import oportunia.maps.frontend.taskapp.presentation.ui.components.uriToFile
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
@@ -52,6 +68,8 @@ fun RegisterCompanyScreen(
     var internshipType by remember { mutableStateOf<InternshipType?>(null) }
     var imageProfile by remember { mutableStateOf("") }
 
+    val companyState by companyViewModel.companyState.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,15 +78,31 @@ fun RegisterCompanyScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Image selection
+        val context = LocalContext.current
+        var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+        val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            imageUri = uri
+            imageProfile = uri?.toString() ?: ""
+        }
+
         Text("Seleccione una imagen de perfil:")
-        Button(onClick = {
-            imageProfile = "path/to/image.jpg"
-        }) {
+        Button(onClick = { launcher.launch("image/*") }) {
             Text("Seleccionar imagen")
         }
-        if (imageProfile.isNotEmpty()) {
-            Text("Imagen seleccionada: $imageProfile", style = MaterialTheme.typography.bodySmall)
+        if (imageUri != null) {
+            AsyncImage(
+                model = ImageRequest.Builder(context)
+                    .data(imageUri)
+                    .crossfade(true)
+                    .error(R.drawable.default_profile_icon)
+                    .fallback(R.drawable.default_profile_icon)
+                    .build(),
+                contentDescription = stringResource(R.string.profile_picture_content_description),
+                modifier = Modifier
+                    .size(160.dp)
+                    .clip(CircleShape)
+            )
         }
 
         // Section: Representante
@@ -155,7 +189,26 @@ fun RegisterCompanyScreen(
                 userRoleViewModel.saveUserRoleCompany(savedUser!!.id)
                 companyViewModel.registerCompany(company)
                 companyRegistered = true
-                onRegisterSuccess()
+            }
+        }
+
+        var imageProfileUploaded by remember { mutableStateOf(false) }
+
+        LaunchedEffect(companyState) {
+            when (val state = companyState) {
+                is CompanyState.Success -> {
+                    if (!imageProfileUploaded && imageUri != null) {
+                        val file = withContext(Dispatchers.IO) {
+                            uriToFile(imageUri!!, context)
+                        }
+                        if (file != null) {
+                            companyViewModel.uploadImage(state.company.id!!, file)
+                            imageProfileUploaded = true
+                            onRegisterSuccess()
+                        }
+                    }
+                }
+                else -> Unit
             }
         }
     }

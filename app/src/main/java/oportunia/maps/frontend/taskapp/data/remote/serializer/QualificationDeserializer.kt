@@ -40,9 +40,14 @@ class QualificationDeserializer : JsonDeserializer<QualificationDto> {
         val personalInfo = jsonObject.get("personalInfo").asString
         val experience = jsonObject.get("experience").asString
         val rating = jsonObject.get("rating").asDouble
-        val imageProfile = jsonObject.get("imageProfile").asString
         val homeLatitude = jsonObject.get("homeLatitude").asDouble
         val homeLongitude = jsonObject.get("homeLongitude").asDouble
+        val imageProfile = try {
+            jsonObject.get("imageProfile")?.asString ?: "empty"
+        } catch (e: Exception) {
+            Log.e("QualificationDeserializer", "Error al obtener 'imageProfile': ${e.message}")
+            "empty"
+        }
 
 
         // Deserialize user information
@@ -60,14 +65,6 @@ class QualificationDeserializer : JsonDeserializer<QualificationDto> {
             val namerole = roleObject.get("name").asString
 
             RoleDto(id = idrole, name = namerole)
-        }
-        val homeLatitude = jsonObject.get("homeLatitude").asDouble
-        val homeLongitude = jsonObject.get("homeLongitude").asDouble
-        val imageProfile = try {
-            jsonObject.get("imageProfile")?.asString ?: "empty"
-        } catch (e: Exception) {
-            Log.e("QualificationDeserializer", "Error al obtener 'imageProfile': ${e.message}")
-            "empty"
         }
 
         // Create UserDto and CompanyDto
