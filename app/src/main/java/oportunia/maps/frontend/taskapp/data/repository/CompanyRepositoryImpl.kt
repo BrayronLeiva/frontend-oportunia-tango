@@ -58,8 +58,4 @@ class CompanyRepositoryImpl @Inject constructor(
             mapper.mapToDomain(it)
         }
     }
-
-    override suspend fun uploadProfileImage(companyId: Long, file: File): Result<Map<String, String>> {
-        return remoteDataSource.uploadProfileImage(companyId, file)
-    }
 }

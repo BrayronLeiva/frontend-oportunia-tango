@@ -22,18 +22,19 @@ import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RegisterViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import java.io.File
 
 
 @Composable
-fun ImageUploader(studentId: Long, viewModel: StudentViewModel) {
+fun ImageUploader(studentId: Long, viewModel: RegisterViewModel) {
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let {
             val file = uriToFile(uri, context)
             if (file != null) {
-                viewModel.uploadImage(studentId, file)
+                viewModel.uploadStudentImage(studentId, file)
             }
         }
     }

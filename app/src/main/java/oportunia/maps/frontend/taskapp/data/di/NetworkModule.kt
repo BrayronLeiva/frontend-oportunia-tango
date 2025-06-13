@@ -16,6 +16,7 @@ import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipService
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.RatingCompanyStudentService
+import oportunia.maps.frontend.taskapp.data.remote.api.RegisterService
 import oportunia.maps.frontend.taskapp.data.remote.api.RequestService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
@@ -244,5 +245,9 @@ object NetworkModule {
         return retrofit.create(RatingCompanyStudentService::class.java)
     }
 
-
+    @Provides
+    @Singleton
+    fun provideRegisterService(retrofit: Retrofit): RegisterService {
+        return retrofit.create(RegisterService::class.java)
+    }
 }

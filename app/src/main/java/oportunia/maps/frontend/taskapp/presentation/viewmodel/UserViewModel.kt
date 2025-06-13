@@ -127,7 +127,7 @@ class UserViewModel @Inject constructor(
                 }
                 .onFailure { exception ->
                     _userCreateState.value = UserCreateState.Error("Error")
-                    Log.e("UserViewModel", "Error saving user role")
+                    Log.e("UserViewModel", "Error saving user")
                 }
         }
     }

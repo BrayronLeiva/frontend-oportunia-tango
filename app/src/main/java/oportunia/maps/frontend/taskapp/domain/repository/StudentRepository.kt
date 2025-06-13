@@ -18,6 +18,5 @@ interface StudentRepository {
     suspend fun findRecommendedStudents(): Result<List<StudentRecommendedDto>>
     suspend fun findStudentsRequestingMyCompany(): Result<List<Student>>
     suspend fun saveStudent(student: StudentCreateDto): Result<Student>
-    suspend fun uploadProfileImage(studentId: Long, file: File): Result<Map<String, String>>
 }
 

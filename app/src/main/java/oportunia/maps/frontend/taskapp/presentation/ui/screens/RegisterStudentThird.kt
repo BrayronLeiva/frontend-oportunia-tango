@@ -2,7 +2,6 @@ package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,26 +24,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import oportunia.maps.frontend.taskapp.R
-import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
-import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterTextField
-import oportunia.maps.frontend.taskapp.presentation.ui.components.SelectionTagInput
-import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserCreateState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import oportunia.maps.frontend.taskapp.R
+import oportunia.maps.frontend.taskapp.data.remote.dto.RegisterStudentCreateDto
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavRoutes
+import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
+import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RegisterState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RegisterViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserCreateState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
 
 @Composable
 fun RegisterStudentThird(
@@ -54,6 +52,7 @@ fun RegisterStudentThird(
     userViewModel: UserViewModel,
     userRoleViewModel: UserRoleViewModel,
     studentViewModel: StudentViewModel,
+    registerViewModel: RegisterViewModel,
     paddingValues: PaddingValues
 ) {
 
@@ -64,42 +63,15 @@ fun RegisterStudentThird(
 
     var markerPosition by remember { mutableStateOf<LatLng?>(null) }
 
-
     val userDraft = userViewModel.userDraft.collectAsState().value
     val studentDraft = studentViewModel.studentDraft.collectAsState().value
 
-
-    val studentState by studentViewModel.studentState.collectAsState()
-    val userCreateState by userViewModel.userCreateState.collectAsState()
-    val userRoleState by userRoleViewModel.userRoleState.collectAsState()
-    val isProcessing by studentViewModel.isProcessing.collectAsState()
+    val registerStudentState by registerViewModel.registerStudentState.collectAsState()
 
     LaunchedEffect(Unit) {
         qualificationViewModel.findAllQualifications()
+        studentViewModel.updateRating(0.0)
     }
-
-    // Lógica de reacción al estado del usuario
-    LaunchedEffect(userCreateState) {
-        if (userCreateState is UserCreateState.Success) {
-            val userid = (userCreateState as UserCreateState.Success).user.id
-            Log.e("Saving", (userid.toString()))
-            userRoleViewModel.saveUserRoleStudent(userid)
-        }
-    }
-
-    LaunchedEffect(userRoleState) {
-        if (userRoleState is UserRoleState.Success) {
-            val userid = (userCreateState as UserCreateState.Success).user.id
-            Log.e("Saving", (userid.toString()))
-            studentViewModel.updateUser(userid)
-
-            Log.e("Saving", studentDraft.toString())
-            studentViewModel.saveStudent()
-        }
-        studentViewModel.stopRegistrationFlow()
-    }
-
-
 
     Column(
         modifier = Modifier
@@ -107,12 +79,13 @@ fun RegisterStudentThird(
             .padding(paddingValues),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         TitleSection(stringResource(id = R.string.preparing_text))
 
-        Box(modifier = Modifier
-            .weight(1f)
-            .fillMaxWidth()) {
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+        ) {
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
                 cameraPositionState = cameraPositionState,
@@ -120,7 +93,7 @@ fun RegisterStudentThird(
                     markerPosition = latLng
                     studentViewModel.updateLatitude(latLng.latitude)
                     studentViewModel.updateLongitude(latLng.longitude)
-                    Log.e("Selectec", "$latLng.latitude  $latLng.longitude")
+                    Log.e("Selected", "$latLng.latitude  $latLng.longitude")
                 }
             ) {
                 markerPosition?.let {
@@ -132,45 +105,66 @@ fun RegisterStudentThird(
             }
 
             Text(
-                text = markerPosition?.let { "Lat: ${it.latitude}, Lng: ${it.longitude}" } ?: "Toca el mapa para seleccionar ubicación",
+                text = markerPosition?.let { "Lat: ${it.latitude}, Lng: ${it.longitude}" }
+                    ?: "Toca el mapa para seleccionar ubicación",
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .padding(16.dp)
                     .background(Color.White)
                     .padding(horizontal = 12.dp, vertical = 6.dp)
             )
-
-
         }
 
-        studentViewModel.updateRating(0.0)
-
-        if (isProcessing) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+        when (registerStudentState) {
+            is RegisterState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
             }
-        } else {
-            when (studentState) {
-                is StudentState.Success -> {
+
+            is RegisterState.Success -> {
+                LaunchedEffect((registerStudentState as RegisterState.Success).data.user.id) {
+                    val idUser = (registerStudentState as RegisterState.Success).data.user.id
+                    userRoleViewModel.saveUserRoleStudent(idUser)
                     navController.navigate(NavRoutes.RegisterStudentFinal.ROUTE)
                 }
-                is StudentState.Error -> {
-                    val errorMessage = (studentState as StudentState.Error).message
-                    Text(text = errorMessage, color = Color.Red)
-                }
+            }
 
-                else -> {
-                    CustomButton(
-                        text = stringResource(id = R.string.next_button),
-                        onClick = {
-                            Log.e("Saving", userDraft.toString())
-                            studentViewModel.startRegistrationFlow()
-                            userViewModel.saveUser2()
-                        },
-                        modifier = Modifier.width(350.dp),
-                        enabled = markerPosition != null
-                    )
-                }
+            is RegisterState.Error -> {
+                val errorMessage = (registerStudentState as RegisterState.Error).message
+                Text(text = "Error: $errorMessage", color = Color.Red)
+            }
+
+            else -> {
+                CustomButton(
+                    text = stringResource(id = R.string.next_button),
+                    onClick = {
+                        markerPosition?.let { latLng ->
+                            val registerDto = RegisterStudentCreateDto(
+                                firstName = userDraft.firstName,
+                                lastName = userDraft.lastName,
+                                email = userDraft.email,
+                                password = userDraft.password,
+                                enabled = userDraft.enabled,
+                                tokenExpired = userDraft.tokenExpired,
+                                nameStudent = studentDraft.nameStudent,
+                                identification = studentDraft.identification,
+                                personalInfo = studentDraft.personalInfo,
+                                experience = studentDraft.experience,
+                                ratingStudent = 0.0,
+                                userId = 0L, // Replace with real ID if needed
+                                homeLatitude = latLng.latitude,
+                                homeLongitude = latLng.longitude,
+                                imageProfile = studentDraft.imageProfile
+                            )
+
+                            Log.e("RegisterDTO", registerDto.toString())
+                            registerViewModel.registerStudent(registerDto)
+                        }
+                    },
+                    modifier = Modifier.width(350.dp),
+                    enabled = markerPosition != null
+                )
             }
         }
     }

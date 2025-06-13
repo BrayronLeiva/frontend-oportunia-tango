@@ -122,9 +122,5 @@ class StudentRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun uploadProfileImage(studentId: Long, file: File): Result<Map<String, String>> {
-        return dataSource.uploadProfileImage(studentId, file)
-    }
-
 
 }

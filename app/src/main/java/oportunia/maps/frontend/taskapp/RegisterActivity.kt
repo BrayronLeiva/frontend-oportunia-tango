@@ -20,6 +20,7 @@ import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RegisterViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
@@ -31,6 +32,7 @@ class RegisterActivity : ComponentActivity() {
     private val studentViewModel: StudentViewModel by viewModels()
     private val qualificationViewModel: QualificationViewModel by viewModels()
     private val companyViewModel: CompanyViewModel by viewModels()
+    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +44,8 @@ class RegisterActivity : ComponentActivity() {
                     userRoleViewModel,
                     studentViewModel,
                     companyViewModel,
-                    qualificationViewModel
+                    qualificationViewModel,
+                    registerViewModel
                 )
             }
         }
@@ -55,7 +58,8 @@ fun MainRegisterScreen(
     userRoleViewModel: UserRoleViewModel,
     studentViewModel: StudentViewModel,
     companyViewModel: CompanyViewModel,
-    qualificationViewModel: QualificationViewModel
+    qualificationViewModel: QualificationViewModel,
+    registerViewModel: RegisterViewModel
 ) {
     val navController = rememberNavController()
 
@@ -87,6 +91,7 @@ fun MainRegisterScreen(
             userViewModel = userViewModel,
             userRoleViewModel = userRoleViewModel,
             studentViewModel = studentViewModel,
+            registerViewModel = registerViewModel,
             companyViewModel = companyViewModel,
             qualificationViewModel = qualificationViewModel,
             paddingValues = paddingValues,

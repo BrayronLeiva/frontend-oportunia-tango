@@ -13,5 +13,4 @@ interface CompanyRepository {
     suspend fun updateCompany(company: Company): Result<Unit>
     suspend fun deleteCompany(id: Long): Result<Unit>
     suspend fun loggedCompany(): Result<Company>
-    suspend fun uploadProfileImage(companyId: Long, file: File): Result<Map<String, String>>
 }

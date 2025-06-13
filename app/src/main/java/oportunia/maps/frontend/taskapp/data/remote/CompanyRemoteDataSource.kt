@@ -53,13 +53,6 @@ class CompanyRemoteDataSource @Inject constructor(
         companyService.loggedCompany()
     }
 
-    suspend fun uploadProfileImage(companyId: Long, file: File): Result<Map<String, String>> = safeApiCall {
-        val requestFile = file
-            .asRequestBody("image/*".toMediaTypeOrNull()) // puedes ajustar MIME si es JPEG, PNG, etc.
-        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        companyService.uploadProfileImage(companyId, body)
-    }
-
     /**
      * Helper function to handle API calls safely.
      */

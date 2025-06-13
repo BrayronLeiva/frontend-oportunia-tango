@@ -88,7 +88,7 @@ sealed class StudentImageUploadState {
  */
 @HiltViewModel
 class StudentViewModel @Inject constructor(
-    private val repository: StudentRepository
+    private val repository: StudentRepository,
 ) : ViewModel() {
 
     private val _studentListState = MutableStateFlow<StudentListState>(StudentListState.Empty)
@@ -251,7 +251,7 @@ class StudentViewModel @Inject constructor(
                 }
         }
     }
-
+    /*
     fun uploadImage(studentId: Long, file: File) {
 
         _studentImageUploadState.value = StudentImageUploadState.Loading
@@ -274,7 +274,7 @@ class StudentViewModel @Inject constructor(
                     _studentImageUploadState.value = StudentImageUploadState.Error(exception.toString())
                 }
         }
-    }
+    }*/
 
     fun startRegistrationFlow() {
         _isProcessing.value = true

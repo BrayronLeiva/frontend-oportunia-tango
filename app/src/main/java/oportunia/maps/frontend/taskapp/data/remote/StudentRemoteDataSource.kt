@@ -130,15 +130,6 @@ class StudentRemoteDataSource @Inject constructor(
         studentService.getStudentsRequestingMyCompany()
     }
 
-    suspend fun uploadProfileImage(studentId: Long, file: File): Result<Map<String, String>> = safeApiCall {
-        val requestFile = file
-            .asRequestBody("image/*".toMediaTypeOrNull()) // puedes ajustar MIME si es JPEG, PNG, etc.
-        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
-        studentService.uploadProfileImage(studentId, body)
-    }
-
-
-
     private suspend fun <T> safeApiCall(apiCall: suspend () -> Response<T>): Result<T> = try {
         val response = apiCall()
         if (response.isSuccessful) {

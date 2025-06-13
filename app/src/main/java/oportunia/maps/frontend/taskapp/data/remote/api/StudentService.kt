@@ -103,14 +103,4 @@ interface StudentService {
      */
     @GET("/v1/students/company/logged")
     suspend fun getStudentsRequestingMyCompany(): Response<List<StudentDto>>
-
-    @Multipart
-    @POST("/v1/students/{id}/upload-image")
-    suspend fun uploadProfileImage(
-        @Path("id") id: Long,
-        @Part file: MultipartBody.Part
-    ): Response<Map<String, String>>
-
-
-
 }

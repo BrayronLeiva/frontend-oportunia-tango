@@ -36,6 +36,7 @@ import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewMode
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RatingCompanyStudentViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RegisterViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
@@ -320,6 +321,7 @@ fun NavGraph(
     studentViewModel: StudentViewModel,
     companyViewModel: CompanyViewModel,
     qualificationViewModel: QualificationViewModel,
+    registerViewModel: RegisterViewModel,
     paddingValues: PaddingValues,
     onRegisterSuccess: () -> Unit
 ) {
@@ -338,15 +340,15 @@ fun NavGraph(
         }
 
         composable(NavRoutes.RegisterStudentThird.ROUTE) {
-            RegisterStudentThird(navController, qualificationViewModel, userViewModel, userRoleViewModel, studentViewModel, paddingValues)
+            RegisterStudentThird(navController, qualificationViewModel, userViewModel, userRoleViewModel, studentViewModel, registerViewModel, paddingValues)
         }
 
         composable(NavRoutes.RegisterStudentFinal.ROUTE) {
-            RegisterStudentFinal(navController, qualificationViewModel, userViewModel, userRoleViewModel, studentViewModel, paddingValues, onRegisterSuccess)
+            RegisterStudentFinal(registerViewModel, paddingValues, onRegisterSuccess)
         }
 
         composable(NavRoutes.RegisterCompany.ROUTE) {
-            RegisterCompanyScreen(userViewModel, companyViewModel, userRoleViewModel, onRegisterSuccess)
+            RegisterCompanyScreen(userRoleViewModel, userViewModel, registerViewModel, onRegisterSuccess)
         }
     }
 

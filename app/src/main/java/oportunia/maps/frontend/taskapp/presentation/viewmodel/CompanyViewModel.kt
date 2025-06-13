@@ -32,7 +32,7 @@ sealed class CompanyImageState {
 
 @HiltViewModel
 class CompanyViewModel @Inject constructor(
-    private val companyRepository: CompanyRepository
+    private val companyRepository: CompanyRepository,
 ) : ViewModel() {
 
     private val _selectedCompany = MutableStateFlow<Company?>(null)
@@ -97,7 +97,7 @@ class CompanyViewModel @Inject constructor(
             )
         }
     }
-
+    /*
     fun uploadImage(companyId: Long, file: File) {
         _companyImageState.value = CompanyImageState.Loading
         viewModelScope.launch {
@@ -119,5 +119,5 @@ class CompanyViewModel @Inject constructor(
                     _companyImageState.value = CompanyImageState.Error(exception.toString())
                 }
         }
-    }
+    }*/
 }

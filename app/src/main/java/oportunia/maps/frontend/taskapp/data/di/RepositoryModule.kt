@@ -10,6 +10,7 @@ import oportunia.maps.frontend.taskapp.data.repository.InternshipRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.LocationCompanyRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.QualificationRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.RatingCompanyStudentRepositoryImpl
+import oportunia.maps.frontend.taskapp.data.repository.RegisterRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.RequestRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.StudentRepositoryImpl
 import oportunia.maps.frontend.taskapp.data.repository.UserRepositoryImpl
@@ -20,6 +21,7 @@ import oportunia.maps.frontend.taskapp.domain.repository.InternshipRepository
 import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
 import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
 import oportunia.maps.frontend.taskapp.domain.repository.RatingCompanyStudentRepository
+import oportunia.maps.frontend.taskapp.domain.repository.RegisterRepository
 import oportunia.maps.frontend.taskapp.domain.repository.RequestRepository
 import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
 import oportunia.maps.frontend.taskapp.domain.repository.UserRepository
@@ -151,4 +153,10 @@ abstract class RepositoryModule {
     abstract fun bindRatingCompanyStudentRepository(
         ratingCompanyStudentRepositoryImpl: RatingCompanyStudentRepositoryImpl
     ): RatingCompanyStudentRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRegisterRepository(
+        registerRepositoryImpl: RegisterRepositoryImpl
+    ): RegisterRepository
 }
