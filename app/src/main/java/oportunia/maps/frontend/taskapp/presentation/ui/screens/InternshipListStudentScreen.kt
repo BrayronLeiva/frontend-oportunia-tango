@@ -1,7 +1,6 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,22 +23,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import oportunia.maps.frontend.taskapp.R
 import oportunia.maps.frontend.taskapp.presentation.ui.components.CustomButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipCard
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationFlagState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import oportunia.maps.frontend.taskapp.R
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationFlagState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestDeleteState
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 
 
 @Composable

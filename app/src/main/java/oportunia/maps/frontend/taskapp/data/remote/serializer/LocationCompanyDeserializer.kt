@@ -1,7 +1,9 @@
 package oportunia.maps.frontend.taskapp.data.remote.serializer
 
 import android.util.Log
-import com.google.gson.*
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RoleDto

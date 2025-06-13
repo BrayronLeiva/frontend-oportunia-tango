@@ -4,7 +4,6 @@ import oportunia.maps.frontend.taskapp.data.mapper.CompanyMapper
 import oportunia.maps.frontend.taskapp.data.remote.CompanyRemoteDataSource
 import oportunia.maps.frontend.taskapp.domain.model.Company
 import oportunia.maps.frontend.taskapp.domain.repository.CompanyRepository
-import java.io.File
 import java.net.UnknownHostException
 import javax.inject.Inject
 

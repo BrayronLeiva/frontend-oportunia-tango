@@ -5,7 +5,6 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import oportunia.maps.frontend.taskapp.data.remote.dto.RoleDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
 import java.lang.reflect.Type

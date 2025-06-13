@@ -1,7 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.RoleDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 import oportunia.maps.frontend.taskapp.domain.model.Role
 import javax.inject.Inject
 

@@ -11,7 +11,6 @@ import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestUpdateDto
-import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.model.Request
 import oportunia.maps.frontend.taskapp.domain.repository.RequestRepository
@@ -189,7 +188,7 @@ class RequestViewModel @Inject constructor(
 
     fun createRequestOfInternshipLocationFlag(internshipLocation: InternshipLocationRecommendedFlagDto) {
         Log.d("RequestViewModel", "Request: $internshipLocation.id ")
-        val requestCreate = RequestCreateDto(internshipLocation.id!!)
+        val requestCreate = RequestCreateDto(internshipLocation.id)
         //val updatedRequest = internshipLocation.copy(requested = !internshipLocation.requested)
 
         viewModelScope.launch {

@@ -136,4 +136,24 @@
     <string name="deactivate">Deaktiveren</string>
 
     <string name="load_image">Afbeelding laden</string>
+
+    <string name="select_profile_image">Selecteer een profielfoto:</string>
+    <string name="select_image">Afbeelding selecteren</string>
+    <string name="representative_info">Gegevens van vertegenwoordiger</string>
+    <string name="label_first_name">Voornaam</string>
+    <string name="label_last_name">Achternaam</string>
+    <string name="company_info">Bedrijfsinformatie</string>
+    <string name="label_company_name">Bedrijfsnaam</string>
+    <string name="label_description">Beschrijving</string>
+    <string name="label_history">Geschiedenis</string>
+    <string name="label_mission">Missie</string>
+    <string name="label_vision">Visie</string>
+    <string name="label_corporate_culture">Bedrijfscultuur</string>
+    <string name="label_contact">Contact</string>
+    <string name="internship_type_title">Stagevorm:</string>
+    <string name="internship_type_inp">Vast</string>
+    <string name="internship_type_mix">Hybride</string>
+    <string name="internship_type_rem">Op afstand</string>
+    <string name="last_name_field">Voer je achternaam in</string>
+    <string name="register_company_button">Bedrijf Registreren</string>
 </resources>

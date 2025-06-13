@@ -7,13 +7,10 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.AddInternshipScreen
-import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentProfileScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.CompanyMapScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.CompanyProfileScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.CompanyRatingsScreen
-import oportunia.maps.frontend.taskapp.presentation.ui.screens.HomeScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListCompanyScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipListStudentScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.InternshipSearch
@@ -27,9 +24,10 @@ import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentFi
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentSecond
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RegisterStudentThird
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.RequestDetailScreen
-import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentSearchScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentMapScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentProfileScreen
 import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentRatingsScreen
+import oportunia.maps.frontend.taskapp.presentation.ui.screens.StudentSearchScreen
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel

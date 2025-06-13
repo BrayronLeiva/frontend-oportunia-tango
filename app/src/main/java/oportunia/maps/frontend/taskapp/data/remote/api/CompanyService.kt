@@ -1,10 +1,14 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
-import okhttp3.MultipartBody
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyRequestDto
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface CompanyService {
 

@@ -1,10 +1,10 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
 import oportunia.maps.frontend.taskapp.data.mapper.UserMapper
-import oportunia.maps.frontend.taskapp.domain.model.User
-import oportunia.maps.frontend.taskapp.domain.repository.UserRepository
 import oportunia.maps.frontend.taskapp.data.remote.UserRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserCreateDto
+import oportunia.maps.frontend.taskapp.domain.model.User
+import oportunia.maps.frontend.taskapp.domain.repository.UserRepository
 import java.net.UnknownHostException
 import javax.inject.Inject
 

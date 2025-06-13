@@ -22,12 +22,11 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigati
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.LocationCompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RatingCompanyStudentViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
+import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
 @AndroidEntryPoint
 class StudentActivity : ComponentActivity() {

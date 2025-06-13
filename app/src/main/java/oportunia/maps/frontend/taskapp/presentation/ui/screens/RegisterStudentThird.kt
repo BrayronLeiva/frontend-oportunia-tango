@@ -38,10 +38,7 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.QualificationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RegisterState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RegisterViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserCreateState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
 

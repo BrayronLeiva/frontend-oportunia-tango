@@ -1,16 +1,12 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
-import android.util.Log
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
-import oportunia.maps.frontend.taskapp.data.remote.api.LocationCompanyService
-import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
 import retrofit2.Response
 import javax.inject.Inject
 

@@ -1,6 +1,5 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,7 +38,6 @@ import oportunia.maps.frontend.taskapp.domain.model.Request
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSelector
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RequestCard
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RequestCardDetailDialog
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestDeleteState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel

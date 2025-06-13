@@ -19,7 +19,6 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import oportunia.maps.frontend.taskapp.presentation.navigation.NavGraph
 import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationBarCompany
-import oportunia.maps.frontend.taskapp.presentation.ui.components.BottomNavigationBarStudent
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.TaskAppTheme
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.CompanyViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel

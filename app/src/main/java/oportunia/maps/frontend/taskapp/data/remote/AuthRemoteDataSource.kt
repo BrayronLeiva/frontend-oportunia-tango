@@ -1,12 +1,12 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import oportunia.maps.frontend.taskapp.data.mapper.AuthMapper
 import oportunia.maps.frontend.taskapp.data.remote.api.AuthService
 import oportunia.maps.frontend.taskapp.domain.model.AuthResult
 import oportunia.maps.frontend.taskapp.domain.model.Credentials
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject
 

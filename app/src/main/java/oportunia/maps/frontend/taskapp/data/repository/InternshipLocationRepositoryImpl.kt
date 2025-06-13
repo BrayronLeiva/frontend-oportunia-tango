@@ -1,17 +1,13 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
-import android.util.Log
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipLocationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
 import oportunia.maps.frontend.taskapp.data.remote.InternshipLocationRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
-import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
-import retrofit2.http.Body
 import java.net.UnknownHostException
 import javax.inject.Inject
 
@@ -59,7 +55,7 @@ class InternshipLocationRepositoryImpl  @Inject constructor(
      */
     override suspend fun saveInternshipLocation(internshipLocation: InternshipLocation): Result<Unit> {
         val requestDto = internshipLocationMapper.mapToRequestDto(internshipLocation)
-        return remoteDataSource.create(requestDto).map { Unit }
+        return remoteDataSource.create(requestDto).map { }
     }
 
     /**

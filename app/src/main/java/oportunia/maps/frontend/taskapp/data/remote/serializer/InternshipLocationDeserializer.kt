@@ -10,7 +10,6 @@ import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RoleDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
-import oportunia.maps.frontend.taskapp.domain.model.Internship
 import java.lang.reflect.Type
 
 

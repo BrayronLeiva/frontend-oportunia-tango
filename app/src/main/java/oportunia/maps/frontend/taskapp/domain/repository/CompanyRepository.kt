@@ -1,7 +1,6 @@
 package oportunia.maps.frontend.taskapp.domain.repository
 
 import oportunia.maps.frontend.taskapp.domain.model.Company
-import java.io.File
 
 /**
  * This interface represents the CompanyRepository.

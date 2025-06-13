@@ -1,11 +1,8 @@
 package oportunia.maps.frontend.taskapp.domain.repository
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
-import oportunia.maps.frontend.taskapp.domain.model.Qualification
 import oportunia.maps.frontend.taskapp.domain.model.Student
-import java.io.File
 
 interface StudentRepository {
 

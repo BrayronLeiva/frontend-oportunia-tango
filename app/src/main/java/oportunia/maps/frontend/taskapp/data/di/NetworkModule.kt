@@ -1,7 +1,5 @@
 package oportunia.maps.frontend.taskapp.data.di
 
-import oportunia.maps.frontend.taskapp.data.remote.serializer.LocationCompanyDeserializer
-import oportunia.maps.frontend.taskapp.data.remote.api.LocationCompanyService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -10,18 +8,20 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import oportunia.maps.frontend.taskapp.data.di.NetworkModule.BASE_URL
 import oportunia.maps.frontend.taskapp.data.remote.api.AuthService
 import oportunia.maps.frontend.taskapp.data.remote.api.CompanyService
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipLocationService
 import oportunia.maps.frontend.taskapp.data.remote.api.InternshipService
+import oportunia.maps.frontend.taskapp.data.remote.api.LocationCompanyService
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
 import oportunia.maps.frontend.taskapp.data.remote.api.RatingCompanyStudentService
 import oportunia.maps.frontend.taskapp.data.remote.api.RegisterService
 import oportunia.maps.frontend.taskapp.data.remote.api.RequestService
 import oportunia.maps.frontend.taskapp.data.remote.api.StudentService
 import oportunia.maps.frontend.taskapp.data.remote.api.UserRoleService
-import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
 import oportunia.maps.frontend.taskapp.data.remote.api.UserService
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
@@ -40,6 +40,7 @@ import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocation
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationFlagDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationRecommendedFlagDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.InternshipLocationRecommendedSerializer
+import oportunia.maps.frontend.taskapp.data.remote.serializer.LocationCompanyDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.QualificationDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.RequestDeserializer
 import oportunia.maps.frontend.taskapp.data.remote.serializer.StudentDeserializer

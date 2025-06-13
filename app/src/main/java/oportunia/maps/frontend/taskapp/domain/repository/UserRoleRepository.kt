@@ -1,7 +1,6 @@
 package oportunia.maps.frontend.taskapp.domain.repository
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleCreateDto
-import oportunia.maps.frontend.taskapp.domain.model.User
 import oportunia.maps.frontend.taskapp.domain.model.UserRole
 
 interface UserRoleRepository {

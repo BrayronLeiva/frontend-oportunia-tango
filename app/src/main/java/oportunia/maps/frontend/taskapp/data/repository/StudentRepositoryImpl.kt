@@ -1,20 +1,11 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import oportunia.maps.frontend.taskapp.data.mapper.QualificationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.StudentMapper
-import oportunia.maps.frontend.taskapp.data.remote.QualificationRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.StudentRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentCreateDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.StudentImageDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.StudentRecommendedDto
-import oportunia.maps.frontend.taskapp.domain.model.Qualification
 import oportunia.maps.frontend.taskapp.domain.model.Student
-import oportunia.maps.frontend.taskapp.domain.repository.QualificationRepository
 import oportunia.maps.frontend.taskapp.domain.repository.StudentRepository
-import java.io.File
 import java.net.UnknownHostException
 import javax.inject.Inject
 

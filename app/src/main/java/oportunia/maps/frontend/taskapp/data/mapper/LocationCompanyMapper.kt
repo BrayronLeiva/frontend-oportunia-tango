@@ -1,10 +1,8 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
 import com.google.android.gms.maps.model.LatLng
-import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyRequestDto
-import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
 import javax.inject.Inject
 

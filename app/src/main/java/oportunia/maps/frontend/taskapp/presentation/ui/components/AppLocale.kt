@@ -20,7 +20,7 @@ fun updateLocale(context: Context, locale: Locale) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         val localeListCompat = LocaleListCompat.create(locale)
         val localesArray = localeListCompat.toLanguageTags().split(",").map { Locale.forLanguageTag(it) }.toTypedArray()
-        val frameworkLocaleList = android.os.LocaleList(*localesArray)
+        val frameworkLocaleList = LocaleList(*localesArray)
         config.setLocales(frameworkLocaleList)
     } else {
         @Suppress("DEPRECATION")

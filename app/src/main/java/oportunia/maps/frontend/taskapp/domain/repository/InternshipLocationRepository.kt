@@ -3,8 +3,6 @@ package oportunia.maps.frontend.taskapp.domain.repository
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
-import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 
 /**

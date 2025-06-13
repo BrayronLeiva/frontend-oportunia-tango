@@ -35,9 +35,6 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.ImageUploader
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RegisterState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RegisterViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentImageUploadState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
 
 @Composable
 fun RegisterStudentFinal(

@@ -1,8 +1,8 @@
 package oportunia.maps.frontend.taskapp.data.mapper
 
-import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.InternshipType
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyRequestDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.InternshipType
 import oportunia.maps.frontend.taskapp.domain.model.Company
 import javax.inject.Inject
 

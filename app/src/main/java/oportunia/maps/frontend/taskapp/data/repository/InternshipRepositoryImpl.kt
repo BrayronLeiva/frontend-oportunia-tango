@@ -1,13 +1,8 @@
 package oportunia.maps.frontend.taskapp.data.repository
 
-import oportunia.maps.frontend.taskapp.data.mapper.InternshipLocationMapper
 import oportunia.maps.frontend.taskapp.data.mapper.InternshipMapper
-import oportunia.maps.frontend.taskapp.data.remote.InternshipLocationRemoteDataSource
 import oportunia.maps.frontend.taskapp.data.remote.InternshipRemoteDataSource
-import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
 import oportunia.maps.frontend.taskapp.domain.model.Internship
-import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
-import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipRepository
 import java.net.UnknownHostException
 import javax.inject.Inject

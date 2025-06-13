@@ -2,7 +2,6 @@ package oportunia.maps.frontend.taskapp.data.mapper
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.RatingCompanyStudentDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RatingCompanyStudentRequestDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
 import oportunia.maps.frontend.taskapp.domain.model.RatingCompanyStudent
 import javax.inject.Inject
 

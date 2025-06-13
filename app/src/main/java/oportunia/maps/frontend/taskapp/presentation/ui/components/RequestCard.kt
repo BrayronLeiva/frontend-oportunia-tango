@@ -30,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import oportunia.maps.frontend.taskapp.R
-import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.domain.model.Request
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
 

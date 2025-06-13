@@ -4,28 +4,13 @@ import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -92,9 +77,9 @@ fun RegisterCompanyScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Image Picker
-        Text("Seleccione una imagen de perfil:")
+        Text(stringResource(R.string.select_profile_image))
         Button(onClick = { launcher.launch("image/*") }) {
-            Text("Seleccionar imagen")
+            Text(stringResource(R.string.select_image))
         }
         imageUri?.let {
             AsyncImage(
@@ -110,40 +95,32 @@ fun RegisterCompanyScreen(
         }
 
         // Representative Info
-        Text("Información del Representante", style = MaterialTheme.typography.titleMedium)
-        RegisterTextField(value = firstName, onValueChange = { firstName = it }, label = "Nombre")
-        RegisterTextField(value = lastName, onValueChange = { lastName = it }, label = "Apellido")
+        Text(stringResource(R.string.representative_info), style = MaterialTheme.typography.titleMedium)
+        RegisterTextField(value = firstName, onValueChange = { firstName = it }, label = stringResource(R.string.label_first_name))
+        RegisterTextField(value = lastName, onValueChange = { lastName = it }, label = stringResource(R.string.label_last_name))
 
         // Company Info
-        Text("Información de la Compañía", style = MaterialTheme.typography.titleMedium)
-        RegisterTextField(value = name, onValueChange = { name = it }, label = "Nombre Empresa")
-        RegisterTextField(
-            value = description,
-            onValueChange = { description = it },
-            label = "Descripción"
-        )
-        RegisterTextField(value = history, onValueChange = { history = it }, label = "Historia")
-        RegisterTextField(value = mision, onValueChange = { mision = it }, label = "Misión")
-        RegisterTextField(value = vision, onValueChange = { vision = it }, label = "Visión")
-        RegisterTextField(
-            value = corporateCulture,
-            onValueChange = { corporateCulture = it },
-            label = "Cultura Corporativa"
-        )
+        Text(stringResource(R.string.company_info), style = MaterialTheme.typography.titleMedium)
+        RegisterTextField(value = name, onValueChange = { name = it }, label = stringResource(R.string.label_company_name))
+        RegisterTextField(value = description, onValueChange = { description = it }, label = stringResource(R.string.label_description))
+        RegisterTextField(value = history, onValueChange = { history = it }, label = stringResource(R.string.label_history))
+        RegisterTextField(value = mision, onValueChange = { mision = it }, label = stringResource(R.string.label_mission))
+        RegisterTextField(value = vision, onValueChange = { vision = it }, label = stringResource(R.string.label_vision))
+        RegisterTextField(value = corporateCulture, onValueChange = { corporateCulture = it }, label = stringResource(R.string.label_corporate_culture))
         RegisterTextField(
             value = contact,
             onValueChange = { contact = it.filter { c -> c.isDigit() } },
-            label = "Contacto",
+            label = stringResource(R.string.label_contact),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
         // Internship Type
-        Text("Modalidad de pasantía:")
+        Text(stringResource(R.string.internship_type_title))
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             listOf(
-                "Presencial" to InternshipType.INP,
-                "Mixta" to InternshipType.MIX,
-                "Remota" to InternshipType.REM
+                stringResource(R.string.internship_type_inp) to InternshipType.INP,
+                stringResource(R.string.internship_type_mix) to InternshipType.MIX,
+                stringResource(R.string.internship_type_rem) to InternshipType.REM
             ).forEach { (label, type) ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(
@@ -162,7 +139,7 @@ fun RegisterCompanyScreen(
         ).all { it.isNotBlank() } && internshipType != null
 
         CustomButton(
-            text = "Registrar Empresa",
+            text = stringResource(R.string.register_company_button),
             onClick = {
                 val dto = RegisterCompanyCreateDto(
                     firstName = firstName,
@@ -199,10 +176,8 @@ fun RegisterCompanyScreen(
                     val company = registerCompanyDto.company
                     val user = registerCompanyDto.user
 
-                    val userId = user?.id
-                    if (userId != null) {
-                        userRoleViewModel.saveUserRoleCompany(userId)
-                    }
+                    val userId = user.id
+                    userRoleViewModel.saveUserRoleCompany(userId)
 
                     if (imageUri != null) {
                         val file = withContext(Dispatchers.IO) {

@@ -27,7 +27,6 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterLineTe
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RegisterTextField
 import oportunia.maps.frontend.taskapp.presentation.ui.components.TitleSection
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.StudentViewModel
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserRoleViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.UserViewModel
 
 

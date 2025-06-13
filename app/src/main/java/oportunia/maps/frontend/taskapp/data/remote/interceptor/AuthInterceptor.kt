@@ -1,9 +1,9 @@
 package oportunia.maps.frontend.taskapp.data.remote.interceptor
 
-import oportunia.maps.frontend.taskapp.data.local.AuthPreferences
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
+import oportunia.maps.frontend.taskapp.data.local.AuthPreferences
 import javax.inject.Inject
 import javax.inject.Singleton
 

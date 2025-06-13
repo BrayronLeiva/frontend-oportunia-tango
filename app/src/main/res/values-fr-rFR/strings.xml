@@ -137,4 +137,24 @@
     <string name="deactivate">Désactiver</string>
 
     <string name="load_image">Charger l image</string>
+
+    <string name="select_profile_image">Sélectionnez une image de profil:</string>
+    <string name="select_image">Sélectionner l image</string>
+    <string name="representative_info">Informations du représentant</string>
+    <string name="label_first_name">Prénom</string>
+    <string name="label_last_name">Nom de famille</string>
+    <string name="company_info">Informations sur l entreprise</string>
+    <string name="label_company_name">Nom de l entreprise</string>
+    <string name="label_description">Description</string>
+    <string name="label_history">Historique</string>
+    <string name="label_mission">Mission</string>
+    <string name="label_vision">Vision</string>
+    <string name="label_corporate_culture">Culture d entreprise</string>
+    <string name="label_contact">Contact</string>
+    <string name="internship_type_title">Type de stage:</string>
+    <string name="internship_type_inp">Présentiel</string>
+    <string name="internship_type_mix">Hybride</string>
+    <string name="internship_type_rem">À distance</string>
+    <string name="last_name_field">Entrez votre nom de famille</string>
+    <string name="register_company_button">Enregistrer l entreprise</string>
 </resources>

@@ -7,11 +7,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import oportunia.maps.frontend.taskapp.domain.repository.RegisterRepository
 import oportunia.maps.frontend.taskapp.data.remote.dto.RegisterCompanyCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RegisterCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RegisterStudentCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RegisterStudentDto
+import oportunia.maps.frontend.taskapp.domain.repository.RegisterRepository
 import java.io.File
 import javax.inject.Inject
 

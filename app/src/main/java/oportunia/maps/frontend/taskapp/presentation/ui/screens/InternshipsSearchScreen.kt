@@ -1,6 +1,5 @@
 package oportunia.maps.frontend.taskapp.presentation.ui.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,12 +18,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -43,9 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import oportunia.maps.frontend.taskapp.R
-import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
 import oportunia.maps.frontend.taskapp.presentation.ui.components.AiToggleButton
 import oportunia.maps.frontend.taskapp.presentation.ui.components.ChipCriteriaSelector
@@ -54,13 +47,10 @@ import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipItem
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipRecommendedCard
 import oportunia.maps.frontend.taskapp.presentation.ui.components.InternshipRecommendedFlagDetailDialog
 import oportunia.maps.frontend.taskapp.presentation.ui.components.RatingFilterSelector
-import oportunia.maps.frontend.taskapp.presentation.ui.theme.Black
 import oportunia.maps.frontend.taskapp.presentation.ui.theme.DarkCyan
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationFlagState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.InternshipLocationViewModel
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestCreateState
-import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestDeleteState
 import oportunia.maps.frontend.taskapp.presentation.viewmodel.RequestViewModel
 
 

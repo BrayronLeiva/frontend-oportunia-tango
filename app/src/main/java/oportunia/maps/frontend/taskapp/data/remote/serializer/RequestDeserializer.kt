@@ -3,8 +3,16 @@ package oportunia.maps.frontend.taskapp.data.remote.serializer
 
 
 import android.util.Log
-import com.google.gson.*
-import oportunia.maps.frontend.taskapp.data.remote.dto.*
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import oportunia.maps.frontend.taskapp.data.remote.dto.CompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.StudentDto
+import oportunia.maps.frontend.taskapp.data.remote.dto.UserDto
 import java.lang.reflect.Type
 
 class RequestDeserializer : JsonDeserializer<RequestDto> {

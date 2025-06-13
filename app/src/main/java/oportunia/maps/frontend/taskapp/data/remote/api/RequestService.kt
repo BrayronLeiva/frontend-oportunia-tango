@@ -1,7 +1,6 @@
 package oportunia.maps.frontend.taskapp.data.remote.api
 
 import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestCreateDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.RequestUpdateDto

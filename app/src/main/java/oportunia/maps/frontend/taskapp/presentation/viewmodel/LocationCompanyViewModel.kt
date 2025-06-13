@@ -5,16 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
-import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
-import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.domain.model.Company
+import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
+import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
 import javax.inject.Inject
 
-/**
+    /**
  * Sealed class representing the various states of a location operation.
  */
 sealed class LocationState {

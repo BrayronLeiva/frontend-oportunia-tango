@@ -4,20 +4,18 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import oportunia.maps.frontend.taskapp.domain.model.Internship
-import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
-import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
-import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationFlagDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.InternshipLocationRecommendedFlagDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.LocationRequestDto
+import oportunia.maps.frontend.taskapp.domain.model.Internship
 import oportunia.maps.frontend.taskapp.domain.model.InternshipLocation
+import oportunia.maps.frontend.taskapp.domain.model.LocationCompany
+import oportunia.maps.frontend.taskapp.domain.repository.InternshipLocationRepository
 import oportunia.maps.frontend.taskapp.domain.repository.InternshipRepository
+import oportunia.maps.frontend.taskapp.domain.repository.LocationCompanyRepository
 import javax.inject.Inject
 
 /**

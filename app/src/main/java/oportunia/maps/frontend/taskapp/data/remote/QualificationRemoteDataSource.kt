@@ -1,12 +1,9 @@
 package oportunia.maps.frontend.taskapp.data.remote
 
-import oportunia.maps.frontend.taskapp.data.remote.api.LocationCompanyService
 import oportunia.maps.frontend.taskapp.data.remote.api.QualificationService
-import oportunia.maps.frontend.taskapp.data.remote.dto.LocationCompanyDto
 import oportunia.maps.frontend.taskapp.data.remote.dto.QualificationDto
 import retrofit2.Response
 import javax.inject.Inject
-
 
 
 /**

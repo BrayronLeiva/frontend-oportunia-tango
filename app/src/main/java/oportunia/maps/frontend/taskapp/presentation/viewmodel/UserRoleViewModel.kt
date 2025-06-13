@@ -4,15 +4,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import oportunia.maps.frontend.taskapp.domain.model.UserRole
-import oportunia.maps.frontend.taskapp.domain.repository.UserRoleRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import oportunia.maps.frontend.taskapp.data.remote.dto.UserRoleCreateDto
-import oportunia.maps.frontend.taskapp.data.remote.dto.enumClasses.TypeUser
-import oportunia.maps.frontend.taskapp.domain.model.Role
-import oportunia.maps.frontend.taskapp.domain.model.User
+import oportunia.maps.frontend.taskapp.domain.model.UserRole
+import oportunia.maps.frontend.taskapp.domain.repository.UserRoleRepository
 import javax.inject.Inject
 
 /**

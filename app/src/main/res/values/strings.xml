@@ -15,7 +15,7 @@
 
     <string name="preparing_text">¡Preparing everything!</string>
     <string name="name_field">Introduce your name</string>
-    <string name="last_name_field" translatable="false">Introduce your last name</string>
+    <string name="last_name_field">Introduce your last name</string>
     <string name="id_field">Introduce your id card</string>
     <string name="personal_info_field">Tell about yourself</string>
     <string name="experience_field">Describe your experience</string>
@@ -140,4 +140,22 @@
     <string name="deactivate">Deactivate</string>
 
     <string name="load_image">Load Image</string>
+    <string name="select_profile_image">Select a profile image:</string>
+    <string name="select_image">Select image</string>
+    <string name="representative_info">Representative Information</string>
+    <string name="label_first_name">First name</string>
+    <string name="label_last_name">Last name</string>
+    <string name="company_info">Company Information</string>
+    <string name="label_company_name">Company name</string>
+    <string name="label_description">Description</string>
+    <string name="label_history">History</string>
+    <string name="label_mission">Mission</string>
+    <string name="label_vision">Vision</string>
+    <string name="label_corporate_culture">Corporate culture</string>
+    <string name="label_contact">Contact</string>
+    <string name="internship_type_title">Internship type:</string>
+    <string name="internship_type_inp">In-person</string>
+    <string name="internship_type_mix">Hybrid</string>
+    <string name="internship_type_rem">Remote</string>
+    <string name="register_company_button">Register Company</string>
 </resources>

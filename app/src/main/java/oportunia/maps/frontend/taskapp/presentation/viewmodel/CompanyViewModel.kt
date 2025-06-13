@@ -4,14 +4,11 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import oportunia.maps.frontend.taskapp.domain.model.Company
-import oportunia.maps.frontend.taskapp.domain.repository.CompanyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import oportunia.maps.frontend.taskapp.data.remote.dto.UserCreateDto
-import oportunia.maps.frontend.taskapp.domain.model.User
-import java.io.File
+import oportunia.maps.frontend.taskapp.domain.model.Company
+import oportunia.maps.frontend.taskapp.domain.repository.CompanyRepository
 import javax.inject.Inject
 
 sealed class CompanyState {
