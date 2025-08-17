@@ -1,74 +1,64 @@
-# TaskApp - Android CLEAN Architecture Example
+# OportuniaApp - Android CLEAN Architecture
 
 ## Overview
 
-TaskApp is a demonstration project for computer science students to learn CLEAN Architecture in
-Android development. This project implements a task management application using modern Android
-development practices.
+OportuniaApp is a demonstration project for computer science students to learn CLEAN Architecture in
+Android development.
+Mobile application connecting students with internship opportunities and companies with emerging talent, implementing Clean Architecture and modern Android best practices.
 
-## Architecture
+# Skills
 
-The project follows CLEAN architecture principles with three main layers:
+![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)
+![Clean Architecture](https://img.shields.io/badge/Architecture-Clean-0175C2?style=for-the-badge&logo=jetpack-compose)
+![Hilt](https://img.shields.io/badge/DI-Hilt-430098?style=for-the-badge)
 
-### Domain Layer
 
-- Contains business models (`Task`, `Status`, `Priority`)
-- Defines repository interfaces (`TaskRepository`)
-- Implements domain-specific error handling (`DomainError`)
+## 🚀 Key Features
 
-### Data Layer
+### 👨🎓 For Students
+- Customizable profile with skills and experience
+- Advanced search with filters (location, industry, etc.)
+- Integrated application system
+- Real-time notifications
 
-- Implements repositories (`TaskRepositoryImpl`)
-- Uses data sources (`TaskDataSource`) for data access
-- Contains mappers for DTO to domain model conversion
-- Handles exceptions with appropriate error mapping
+### � For Companies
+- Job post creation and management
+- Candidate dashboard
+- Integrated evaluation system
 
-### Presentation Layer
+## 🏗️ Technical Architecture
 
-- Uses ViewModel pattern (`TaskViewModel`)
-- Manages UI state
-- Handles user interactions
+### Layer Diagram
+Presentation (UI) → Domain ← Data
+↑ ↑
+ViewModels Use Cases
+↑ ↑
+Composable Repositories
 
-## Key Features
+text
 
-- Task creation, retrieval, updating, and deletion
-- Error handling with domain-specific error types
-- Asynchronous operations with coroutines
-- Flow-based reactive data handling
-- Comprehensive test coverage
+### Technology Stack
+| Layer            | Technologies                                                                 |
+|------------------|-----------------------------------------------------------------------------|
+| **Presentation** | Jetpack Compose, ViewModel, Navigation Component, Material 3               |
+| **Domain**       | Use Cases, Domain Models, Coroutines                                       |
+| **Data**         | Retrofit, Room, DataStore, Hilt, Gson                                      |
 
-## Tech Stack
+## ⚙️ Configuration
 
-- Kotlin
-- Jetpack Compose UI
-- Coroutines for asynchronous programming
-- Flow for reactive streams
-- Mockk for test mocking
-- Gradle build system
-
-## Learning Objectives
-
-- Understanding separation of concerns in mobile applications
-- Implementing repository pattern
-- Error handling across architectural layers
-- Unit testing ViewModels and repositories
-- Managing state in Android applications
-
-## Getting Started
-
-1. Clone the repository
-2. Open in Android Studio
-3. Build and run the application
-
-## Testing
-
-The project includes comprehensive tests demonstrating:
-
-- ViewModel test patterns with coroutines
-- Repository testing with mocked data sources
+### Requirements
+- Android Studio Flamingo (2022.2.1)+
+- SDK Android API 26+
+- Kotlin 1.8.20+
 - Error handling verification
 
 ## Best Practices Demonstrated
+
+- Single Responsibility Principle
+- Interface segregation
+- Result-based error handling
+- Coroutine test practices with `TestDispatcher`
 
 - Single Responsibility Principle
 - Interface segregation
